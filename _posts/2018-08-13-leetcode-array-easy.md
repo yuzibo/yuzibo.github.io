@@ -1,10 +1,91 @@
 ---
-title: leetcode　array题目
+title: leetcode array easy 题目
 category: leetcode
 layout: post
 ---
 * content
 {:toc}
+# 66 Plus One
+Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
+
+The digits are stored such that the most significant digit is at the head of the list, and each element in the array contain a single digit.
+
+You may assume the integer does not contain any leading zero, except the number 0 itself.
+Example 1:
+
+```c
+Input: [1,2,3]
+Output: [1,2,4]
+```
+Explanation: The array represents the integer 123.
+通过这道题目，自己对c语言的动态内存分配的理解更加清晰一点了。
+首先一点就是，将这样数目大的数组使用整型数组的方式表示，这样对int的使用范围提升了一大截。
+
+```c
+for(i = digitsSize-1; i >= 0; i--){
+    //printf("in func num is %d and i is %d\t", digits[i],i);
+    if(++digits[i] < 10)
+      return digits;
+    digits[i] %= 10;
+  }
+
+```
+这样就在int \*a里面完成了最后一位的加1操作。
+
+接下来的一个操作就是**realloc**的使用，在c中，我们使用malloc的场合是比较多的啦，那么，怎么使用realloc方法呢？或者说，没什么使用这一个函数?
+假设[9,9,9,9],最后一位加1， 不就是变成了[1，0，0，0，0]吗，我们非常清楚的看见这个数组（尤其注意的一点是，realloc/malloc/calloc函数的产生作用的指针只能是指针，任何数组类型的都会导致出错）的的位数明显加1，这个应该怎么处理？
+
+```c
+  digits = realloc(digits, sizeof(int) * ++(*returnSize));
+  digits[*returnSize - 1]= 0;
+  digits[0] = 1;
+```
+其中，以上面的例子为说明，\*returnSize的大小在之前已经赋予了4，经过自加1之后，我们看到，**realloc**实际上是申请的最终的大小（5），也即你最终使用指针的那个大小。最终的代码为:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+int* plusOne(int* digits, int digitsSize, int* returnSize){
+  int i;
+  if(!digits)
+    return NULL;
+  *returnSize = digitsSize;
+  for(i = digitsSize-1; i >= 0; i--){
+    //printf("in func num is %d and i is %d\t", digits[i],i);
+    if(++digits[i] < 10)
+      return digits;
+    digits[i] %= 10;
+  }
+
+  digits = realloc(digits, sizeof(int) * ++(*returnSize));
+  digits[*returnSize - 1]= 0;
+  digits[0] = 1;
+  //*returnSize += 1;
+
+  return digits;
+
+}
+
+int main()
+{
+  //int a[4] = {9,9,9,9};
+  int *b =(int *)malloc(sizeof(int));
+  int c;
+  int *a = (int *)malloc(sizeof(int) * 10);
+  *a = 9, *(a + 1) = 9, *(a + 2) = 9, *(a + 3) = 9;
+  b = plusOne(a, 4, &c);
+  int i;
+  printf("the returnSize is %d\n",c);
+  for(i = 0; i < c; i++)
+    
+    printf("%d\t", b[i]);
+  free(b);
+}
+```
+这里将主函数写在这里，会更加清楚realloc的使用范围。
+[realloc-old-size](https://stackoverflow.com/questions/24579698/realloc-invalid-old-size)
 
 # 27 Remove Element
 Example 1:

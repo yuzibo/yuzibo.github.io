@@ -1,5 +1,5 @@
 ---
-title: "leetcode-344 字符反转"
+title: "leetcode 字符串操作"
 layout: post
 category: leetcode
 ---
@@ -118,4 +118,53 @@ char *str = (char *)malloc(strlen(s) + 1); // 给'\0'留给空
 
 这里的s是参数，可以作为返回值。那么，为什么要有第一个式子呢？str的指针指向了
 最后，如果不把指针回送到字符串首部，那样只会给s一个空的字符。str的加减操作就是移动的指针。
+
+# leetcode-58:
+Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.  If the last word does not exist, return 0.  Note: A word is defined as a character sequence consists of non-space characters only.
+Example:  Input: "Hello World" Output: 5
+
+这道题目自己思考了很久也没有一个比较好的办法，后来知道，从后往前数的效果好啊。
+
+```c
+/*
+ *     File Name: leetcode-58.c
+ *     Author: Bo Yu
+ *     Mail: tsu.yubo@gmail.com
+ *     Created Time: 2202年08月23日 星期一 08时04分21秒
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+/*  统计一行英文有多少单词
+	for(; *p != 0 && *p != 13 && *p != 10; p++){
+		if(*p == ' ' && tag == 0)
+			tag = 1;
+		if(*p != ' ' && tag == 1)
+		{
+			n++;
+			tag = 0;
+		}
+	}
+	*/
+int lengthOfLastWord(char *s){
+    int tag = 1;	
+	int num = 0;
+    int i;
+    for(i = strlen(s); i>= 0; i--){
+    	   
+        if(s[i] != 32 && s[i] != '\0'){
+            num++;
+           
+            tag = 1;
+        }
+        else if(s[i] == 32 && tag == 1 && s[i-1] == 32){
+            return num;
+        }
+    }
+	return num;
+}
+
+
+```
 
