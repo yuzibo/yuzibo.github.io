@@ -6,7 +6,7 @@ auto: true
 
 #规定了博客的URL地址
 permalink: /:title.html
-url: http://yuzibo.github.io/blog
+url: http://yuzibo.github.io
 author: damit
 email: yuzibode@126.com
 
