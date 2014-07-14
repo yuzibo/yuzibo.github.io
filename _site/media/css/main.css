@@ -1,0 +1,100 @@
+@font-face {
+  font-family: Inconsolata;
+  src:url("/media/fonts/Inconsolata.woff") format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body{margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-family:inherit;vertical-align:baseline;line-height:1;color:#090909;background:#f0f0f0;font-family:'Inconsolata',WenQy,'Microsoft YaHei',SimHei;Arial,}
+*{margin:0;padding:0;border:0;font-size:1em;vertical-align:baseline;}
+
+h1{font-size:1.6em;padding-top:1.2em;padding-bottom:.2em;margin-bottom:.3em; border-bottom:1px solid;width: 28em;}
+h2{font-size:1.4em;padding-top:1em;padding-bottom:.4em;}
+h3{font-size:1.2em;padding-top:.6em;padding-bottom:.3em;}
+h4{font-size:1em;padding-top:.4em;padding-bottom:.2em;}
+a{color:#255038;text-decoration:none;}
+a:hover{
+    color: rgba(250,250,250,1.0) !important; 
+    -webkit-border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.45);
+    text-shadow: rgba(0,0,0,0.6) 0px -1px 0px;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(110,110,110,1.0)), to(rgba(100,100,100,1.0)));
+    -webkit-box-shadow: rgba(0,0,0,1.0) 0px 0px 2px,rgba(255,255,255,0.15) 0px 1px 1px inset;
+    text-decoration: none;
+}
+hr{margin:.7em 0;border-top:1px dashed #d0d0d0;border-bottom:1px dashed #f9f9f9;clear:both;}
+p{padding:.4em 0 .2em;line-height:115%;text-indent:2em;font-size:1.2em;}
+li{padding:.2em 0;list-style-type:none;}
+ol,ul{list-style-position:inside;}
+ol ul, ul ol, ul ul, ol ol {margin-left:2em;}
+
+pre,code{font-family:'Inconsolata';font-size:1em;overflow:visible;background-color:#e9e9e9;}
+pre code{margin:.5em 0 1em 2.7em;padding:.2em 0;line-height:1.4;display:block;}
+blockquote{display:block;text-align:justify;border-left:4px solid #eeeeee;margin:1em 0em;padding-left:1.5em;}
+embed,object,iframe{display:block;margin:4px auto;}
+#article-main img{width:41em;margin:0 auto;display:block;margin:4px auto;-webkit-box-shadow:#999 1px 1px 4px;-moz-box-shadow:#999 1px 1px 4px;box-shadow:#999 1px 1px 4px;}
+
+
+#header,#frame-main{width:50em;margin:0 auto;clear:both;}
+
+/*顶部的设定*/
+#frame-top{
+    clear:both;
+    height:8em;
+    margin-bottom:3em;
+    background-image:-webkit-gradient(linear,0% 0%,0% 100%,color-stop(0%,#c4d4cb),color-stop(100%,#f0f0f0));
+    background-image:-moz-linear-gradient(top,#c4d4cb 0%,#f0f0f0 100%);
+    background-image:linear-gradient(top,#c4d4cb 0%,#f0f0f0 100%);
+}
+#maintitle{font-size:2em;font-weight:bold;margin:1.5em auto 0 1em;float:left;clear:both;}
+#nav{clear:both;float:right;font-size:1.5em;margin-top:1em;}
+#nav span{margin-left:.1em;}
+
+
+/*主要部分的设定*/
+#frame-main{clear:both;}
+    /*中部的设定,包含各个模板*/
+#index-main{min-height:20em;font-size:1.2em;}
+.listing-subfield{margin-left:6em;margin-top:.5em;font-size:1.4em;}
+.listing-item{margin-left:6em;margin-top:.1em;color:#999}
+#index-turn-page{margin:1em auto 2em 6.5em;}
+#class-listing{font-size:1.2em;min-height:27em;}
+#class-tag-cloud{padding-left:10em;margin-bottom:1.5em;font-size:1.1em;text-align:right;}
+#article-main{}
+#article-footer{display:block;float:right;text-align:right;margin:3em auto .5em;font-size:1.2em;}
+#article-nav{margin:.5em auto;text-align:center;font-weight:bold;}
+#short-main{width:40em;clear:both;margin:0 auto;}
+#short-main h6{text-align: right;font-size:1.4em;margin-top:1.8em;margin-bottom:2.4em;}
+#page-main{padding-left:6em;min-height:29em;}
+
+    /*尾部的设定*/
+#footer p{
+    clear:both;
+    display:inline;
+    border-top: 1px dashed #CCC;
+    float:right;
+    text-align:right;
+}
+#footer small{font-size:.7em;color:#999;}
+
+#goTopBtn{
+  position: fixed;
+  bottom: 5em;
+  margin-left:51em;
+  width: 3em;
+  height: 3.3em;
+  display: block;
+  background: #ddd url(/media/icon/bg-up-arrow.png) no-repeat center center;
+  background-color: #aaa;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  transition: 1s;
+}
+#goTopBtn:hover{
+    background-color: #777;
+}
+
+

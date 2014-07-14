@@ -1,0 +1,14 @@
+---
+layout: frame
+---
+<!--本文件是另外一种article模板，用来展示about、links等页面-->
+<div id="page-main">
+{{ content }}
+</div>
+
+{% if page.comments %}
+    {% include ds_comments.html %}
+{% endif %}
+
+
+

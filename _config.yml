@@ -1,0 +1,22 @@
+#采用什么模板编写博客
+markdown: rdiscount
+
+#是否有文件更新就需要更新站点
+auto: true
+
+#规定了博客的URL地址
+permalink: /:title.html
+url: http://yuzibo.github.io/blog
+author: damit
+email: yuzibode@126.com
+
+#禁用自定义插件
+safe: true
+
+#分页数量
+paginate: 20
+
+#代码高亮
+pygments: true
+comments:
+    provider:duoshuo

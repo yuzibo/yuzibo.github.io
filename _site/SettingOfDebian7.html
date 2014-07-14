@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="damit" />
+    <title>Debian7设置 | damit</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/media/css/main.css">
+    <link rel="stylesheet" href="/media/css/highlight.css">
+</head>
+<body>
+<!--顶部-->
+<div id="frame-top">
+    <div id="header">
+        <div id="maintitle">Debian7设置</div>
+        <div id="nav">
+                    <span><a title="Home Page" href="/">HOME</a></span>
+            <span><a title="Class of Article" href="/class.html">CLASS</a></span>
+	
+            <span><a title="Links" href="/links.html">LINKS</a></span>
+            <span><a title="About Me" href="/about.html">ABOUT</a></span>
+            <span><a title="Setting Files" href="https://github.com/bitsly/setting" target="_blank">SETTING</a></span>
+
+        </div>
+    </div>
+</div><!--frame-top-end-->
+<!--顶部结束-->
+
+<!--主要部分，即居中显示的部分-->
+<div id="frame-main">
+
+    <!--中部开始-->
+    <!--本文件是文件内容的模板-->
+
+<!--载入_post文件夹下的文件-->
+<div id="article-main">
+    <p>本配置适用于debian7，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。
+其中$、#是提示符，表示当前终端账户是普通还是root,并不需要输入。</p>
+
+<p>以下所有操作均使用<code>root</code>权限。
+在终端下输入并回车</p>
+
+<pre><code>$ su root
+</code></pre>
+
+<p>然后输入root的密码（安装debian时设定的，区别于普通用户密码）</p>
+
+<h2>设定更新源</h2>
+
+<p>编辑使用图形界面下的文本编辑器如xfce下的mousepad.如果使用其他的，则将mousepad换成别的即可。</p>
+
+<pre><code># mousepad /etc/apt/sources.list
+</code></pre>
+
+<p>在文件最前面添加以下条目</p>
+
+<pre><code>#######主要，开源，闭源
+deb http://mirrors.163.com/debian wheezy main non-free contrib
+deb-src http://mirrors.163.com/debian wheezy main non-free contrib
+
+#######wheezy-proposed-updates建议更新
+deb http://mirrors.163.com/debian wheezy-proposed-updates main contrib non-free
+deb-src http://mirrors.163.com/debian wheezy-proposed-updates main contrib non-free
+
+#######wheezy-updates推荐更新
+deb http://mirrors.163.com/debian wheezy-updates main contrib non-free
+deb-src http://mirrors.163.com/debian wheezy-updates main contrib non-free
+
+#######wheezy/updates安全更新
+deb http://mirrors.163.com/debian-security wheezy/updates main contrib non-free 
+deb-src http://mirrors.163.com/debian-security wheezy/updates main contrib non-free 
+deb http://http.us.debian.org/debian wheezy main contrib non-free
+deb http://security.debian.org wheezy/updates main contrib non-free
+</code></pre>
+
+<p>关闭文本编辑器，然后在终端中输入</p>
+
+<pre><code># apt-get update
+</code></pre>
+
+<h2>安装中文字体</h2>
+
+<p>安装文泉宋体</p>
+
+<pre><code># apt-get install xfonts-wqy ttf-wqy-zenhei ttf-wqy-microhei
+</code></pre>
+
+<p>安装uming宋体</p>
+
+<pre><code># aptitude install fonts-arphic-uming ttf-arphic-uming
+</code></pre>
+
+<p>安装外来字体</p>
+
+<p>把字体文件（比如simsun.ttc）直接cp 到 ~/.fonts下，即可。</p>
+
+<h2>中文编码</h2>
+
+<p>要支持区域设置，首先要安装locales软件包：</p>
+
+<pre><code># apt-get install locales
+</code></pre>
+
+<p>然后配置locales软件包：</p>
+
+<pre><code># dpkg-reconfigure locales
+</code></pre>
+
+<p>在界面中钩选上 <code>zh_CN.UTF-8</code> ,确定，在接下来的选项中也选择 <code>zh_CN.UTF-8</code>
+然后重启，到这里应该就可以显示中文了</p>
+
+<h2>为普通用户安装sudo</h2>
+
+<p>sudo可以让非root用户具有管理员的权限，安装好的Debian后还不能使用sudo,需要使用root用户登陆后安装sudo命令。</p>
+
+<pre><code># apt-get install sudo
+</code></pre>
+
+<p>安装后，就可以给你的帐号设置管理员权限了</p>
+
+<pre><code># mousepda /etc/sudoers
+</code></pre>
+
+<p>在 root ALL=(ALL:ALL) ALL 的下一行，添加一行</p>
+
+<pre><code>username ALL=(ALL:ALL) ALL
+</code></pre>
+
+<p>这里的username就是你要给予一定权限的用户
+然后保存，退出root，然后使用username用户登陆。应该就有sudo权限了。</p>
+
+<h2>安装NVIDIA显卡</h2>
+
+<p>确定电脑是使用的NVDIA卡再装,因为NVDIA的驱动之前一直是闭源的,近期才向开源社区提供,所以不能保证百分百的支持所有显卡.如果安装完后无法进入桌面的话就说明不支持你的显卡,还是重装使用默认的驱动好了.</p>
+
+<pre><code># apt-get install nvidia-glx nvidia-kernel-dkms nvidia-xconfig nvidia-settings
+
+# nvidia-xconfig
+</code></pre>
+
+<h2>解决笔记本无法调节亮度</h2>
+
+<pre><code># mousepad /etc/X11/xorg.conf
+</code></pre>
+
+<p>找到这一段。</p>
+
+<pre><code>Section "Screen"
+Identifier "Screen0"
+Device "Device0"
+……
+Option "RegistryDwords" "EnableBrightnessControl=1"
+EndSection
+</code></pre>
+
+<p>即在EndSection前添加<code>“Option "RegistryDwords" "EnableBrightnessControl=1"”</code>这一行，最好加在指定行！！！不然可能无效
+然后保存，退出，重启之后，你就会发现可以调节屏幕背光亮度了。</p>
+
+<h2>解决触摸板无法点击</h2>
+
+<pre><code># mousepad /usr/share/X11/xorg.conf.d/10-evdev.conf
+</code></pre>
+
+<p>修改这里（里面的配置很像、主要Identifier部分来辨别到底改哪的部分）</p>
+
+<pre><code>Section "InputClass"
+Identifier "evdev touchpad catchall"
+MatchIsTouchpad "on"
+MatchDevicePath "/dev/input/event*"
+Driver "synaptics"
+Option "TapButton1" "1"
+Option "TapButton2" "2"
+Option "TapButton2" "3"
+EndSection
+</code></pre>
+
+<h2>解决硬盘load/load问题</h2>
+
+<p>安装laptop-mode-tools</p>
+
+<pre><code># apt-get install laptop-mode-tools
+</code></pre>
+
+<p>编辑配置</p>
+
+<pre><code># mousepad /etc/hdparm.conf
+</code></pre>
+
+<p>将后面的配置修改为下面配置</p>
+
+<pre><code>/dev/hda {
+mult_sect_io = 16
+write_cache = off
+dma = on
+apm = 255
+apm_battery = 127
+}
+</code></pre>
+
+<h2>安装中文输入法</h2>
+
+<p>安装fcitx</p>
+
+<pre><code># apt-get install fcitx fcitx fcitx-googlepinyin
+</code></pre>
+
+<p>安装im-switch</p>
+
+<pre><code># apt-get install im-switch
+</code></pre>
+
+<h2>安装源码工具：</h2>
+
+<pre><code># apt-get install  build-essential linux-headers-$(uname -r)
+</code></pre>
+
+<h2>安装Chrome（两种方法任选一）</h2>
+
+<h3>A.deb包安装法：</h3>
+
+<p>1.切换到deb包目录下</p>
+
+<pre><code># dpkg -i google-chrome-stable_amd64.deb
+</code></pre>
+
+<p>这时会提示错误，依赖关系没有满足，无法安装。</p>
+
+<p>2.接下来，我们解决依赖关系。</p>
+
+<pre><code># apt-get -f install
+</code></pre>
+
+<p>这样，就会先自动安装依赖的软件包，然后自动安装好deb包.</p>
+
+<p>3.如果想卸载deb安装的包，先要确定安装的名字，如Chrome就是在终端中可以执行的名字</p>
+
+<pre><code># dpkg -r chrmoe
+</code></pre>
+
+<h3>B.apt-get安装法：</h3>
+
+<pre><code># apt-get install chromium-browser chromium-browser-l10n
+</code></pre>
+
+<h2>安装iceweasel中文包</h2>
+
+<pre><code># apt-get install iceweasel-l10n-zh-cn
+</code></pre>
+
+<p>运行浏览器，然后点击
+浏览器菜单 ===> 编辑 ===> 首选项 ===> 内容
+设置浏览器字体</p>
+
+<h2>安装Flash插件</h2>
+
+<pre><code># apt-get install gnash browser-plugin-gnash
+</code></pre>
+
+<h2>安装解压缩软件</h2>
+
+<pre><code># apt-get install unrar unzip p7zip-full
+</code></pre>
+
+<h2>安装版本控制软件</h2>
+
+<pre><code># apt-get install git bzr mercurial
+</code></pre>
+
+<h2>安装读写ntfs分区</h2>
+
+<p>对ntfs分区有危险，常常让ntfs分区的文件损坏.慎重使用。</p>
+
+<pre><code># apt-get install ntfs-3g
+</code></pre>
+
+<h2>启用i386，使64位系统兼容32位软件</h2>
+
+<pre><code># dpkg --add-architecture i386
+</code></pre>
+
+<p>安装后 apt 会把 i386 的软件包一起 cache 起来，执行：</p>
+
+<pre><code># apt-get update
+</code></pre>
+
+<p>完成后就可以安装 ia32-libs 了：</p>
+
+<pre><code># apt-get install ia32-libs ia32-libs-gtk
+</code></pre>
+
+<p>安装后只要依赖关系满足，32 位的程序就能正常运行了。</p>
+
+<p>如果以后不想要 i386 支持了，只要运行：</p>
+
+<pre><code># dpkg --remove-architecture i386
+</code></pre>
+
+<h2>安装FoxitReader</h2>
+
+<p>在http://www.foxitsoftware.cn/downloads/中->福昕阅读器 -> Desktop Linux  -> bz2
+下载 FoxitReader-1.1.0.tar.bz2
+解压到 /usr/local 中</p>
+
+<pre><code># tar -jxvf FoxitReader-1.1.0.tar.bz2 -C /usr/local
+</code></pre>
+
+<p>重命名文件夹</p>
+
+<pre><code># mv /usr/local/1.1-release /usr/local/FoxitReader
+</code></pre>
+
+<p>在 /usr/local/bin 中添加访问路径</p>
+
+<pre><code># ln -s /usr/local/bin /usr/local/FoxitReader/FoxitReader
+</code></pre>
+
+<h2>笔记本外接显示器：</h2>
+
+<p>外接显示器在右侧拓展:</p>
+
+<pre><code># xrandr --output LVDS-0 --auto --left-of VGA-0
+</code></pre>
+
+<p>外接显示器在左侧拓展:</p>
+
+<pre><code># xrandr --output VGA-0 --auto --left-of LVDS-0
+</code></pre>
+
+<p>也可以使用arandr通过图形界面来配置双屏幕</p>
+
+<pre><code># apt-get install arandr
+</code></pre>
+
+<h2>安装音频软件</h2>
+
+<p>这里使用audacious软件</p>
+
+<pre><code># apt-get install audacious
+</code></pre>
+
+<h2>安装截屏软件</h2>
+
+<p>这里使用shutter软件</p>
+
+<pre><code># apt-get install shutter
+</code></pre>
+
+</div>
+
+<!--载入文件的尾部设置-->
+<!--本文件是文章的尾部-->
+<div id="article-footer">
+ 
+      <!--作者＆时间-->
+      <span>
+        Write by <a href="http://yuzibo.github.io/blogabout.html">damit</a><br>
+      </span>
+
+      <span>
+        <time datetime="2014-03-25">2014-03-25</time><br>
+      </span>
+
+      <!--分类＆标签-->
+      
+      <span>
+        Class: 
+        
+        &nbsp;<a href="http://yuzibo.github.io/blogclass.html#tools" title="tools">tools</a><br>
+        
+      </span>
+      
+
+      
+      <span>
+        Tags: 
+        
+        &nbsp;<a href="http://yuzibo.github.io/blogtags.html#setting" title="setting">setting</a><br>
+        
+        &nbsp;<a href="http://yuzibo.github.io/blogtags.html#linux" title="linux">linux</a><br>
+        
+      </span>
+      
+
+      <!--版权声明-->
+      <span>
+        Published under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">(CC) BY-NC-SA 3.0</a><br>
+      </span>
+
+</div>
+
+    <hr>
+  
+<div id="article-nav">  
+    <!--前一篇＆后一篇-->
+    <span>
+        <a  href="http://yuzibo.github.io/blog/CaiPekingUniversity%27sInauguralAddress.html"  >< 前一篇</a>&nbsp;&nbsp;
+         <a href="http://yuzibo.github.io/blog#">目录</a>
+         &nbsp;&nbsp;
+        <a  href="http://yuzibo.github.io/blog/FixGithub%27CDN%27ProblemBecauseOf%27GFW%27.html"  >下一篇 ></a>
+    </span>
+</div>
+
+
+<!--载入多说的评论设置-->
+<!-- Duoshuo Comment BEGIN -->
+
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"damit"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+<!-- Duoshuo Comment END -->
+
+
+    <!--中部结束-->
+
+    <!--尾部-->
+    <div id="footer">
+            <p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000315543'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1000315543%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> <small> | Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="http://pages.github.com" target="_blank">GitHub</a> | Copyright 2013 - 2014 by <a href="/about.html">damit</a> | 2014-07-14</small></p>
+
+    </div>
+    <!--尾部结束-->
+    <script type="text/javascript">
+function goTopEx() {
+    var obj = document.getElementById("goTopBtn");
+    obj.style.display = "none";
+    function getScrollTop() {
+        return document.documentElement.scrollTop + document.body.scrollTop;
+    }
+    function setScrollTop(value) {
+        if (document.documentElement.scrollTop) {
+            document.documentElement.scrollTop = value;
+        } else {
+            document.body.scrollTop = value;
+        }
+    }
+    obj.onclick = function() {
+        var goTop = setInterval(scrollMove, 10);
+        function scrollMove() {
+            setScrollTop(getScrollTop() / 1.1);
+            if (getScrollTop() < 1) clearInterval(goTop);
+        }
+    }
+    window.onscroll = function() {
+        getScrollTop() > 0 ? obj.style.display = "block": obj.style.display = "none";
+    }
+
+}
+</script>
+
+<div id="goTopBtn"><a></a></div>  
+<script type="text/javascript">goTopEx();</script>
+
+ 
+
+
+
+
+</div><!--main-frame-end-->
+<!--居中显示部分的结束-->
+</body>
+</html>
+
+
+
+
+
+
+
