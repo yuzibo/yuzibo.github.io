@@ -39,55 +39,65 @@
 <p>很经典的dp，状态转移方程Opt[i]=max{1，Opt[j]+1};{A[j]&lt;=A[i],1&lt;=j&lt;i}
 我的问题是自己能隐隐约约体会到其中一点的转移，但是在代码实现上就麻烦了，自己始终不能流畅的写出来。
 最后想了想，其实上面的状态转移方程还是不太容易理解，网上有个是这么说的maxlen[i]=(max(maxlen[k],1,2,3..k..i-1&amp;&amp;str[k]&lt;str[i])+1)
-下面代码中m可以堪看成临时变量temp，它的作用就是搜索maxlen[i]前面最大的dp[i],想明白了这道，hdu 1087也就1y了
+a下面代码中m可以堪看成临时变量temp，它的作用就是搜索maxlen[i]前面最大的dp[i],想明白了这道，hdu 1087也就1y了
 下面的代码时间复杂度是O（n<sup>2</sup>）,并且n&lt;=12000,并不是最优的。</p>
 
-<div class="highlight"><pre><code class="c++"><span class="cp">#include&lt;cstring&gt;</span>
-<span class="cp">#include&lt;cstdio&gt;</span>
-<span class="cp">#include&lt;iostream&gt;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1001</span><span class="p">];</span><span class="c1">//less than 12000</span>
-<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">1001</span><span class="p">];</span>
-<span class="kt">int</span> <span class="nf">LIS</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="c1">//m是临时变量;</span>
-    <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="c1">//?</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">--</span><span class="p">)</span>
-            <span class="k">if</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;</span><span class="n">m</span><span class="p">))</span>
-                <span class="n">m</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-            <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">ans</span><span class="p">)</span>
-                <span class="n">ans</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+<h2>hdu 1087</h2>
 
-<span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">freopen</span><span class="p">(</span><span class="s">&quot;in.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<pre><code class="c++">
+ #include&lt;cstring&gt;
+ #include&lt;cstdio&gt;
+ #include&lt;iostream&gt;
+using namespace std;
+int dp[1001];//less than 12000
+int a[1001];
+int LIS(int* a,int n)
+{
+    int ans=1,m//m是临时变量;
+    dp[1]=1;
+    for(int i=2;i&lt;=n;i++)
+    {
+        m=dp[i];//?
+        for(int j=i-1;j&gt;=1;j--)
+            if((a[j]&lt;a[i])&amp;&amp;(dp[j]&gt;m))
+                m=dp[j];
+            dp[i]=m+1;
+            if(dp[i]&gt;ans)
+                ans=dp[i];
+    }
+    return ans;
 
-    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span><span class="c1">//数据组数</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">k</span><span class="o">--</span><span class="p">){</span>
-        <span class="n">memset</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
-        <span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">dp</span><span class="p">));</span>
-        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span><span class="c1">//每组数列的个数</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">LIS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+}
+int main()
+{
+    freopen("in.txt","r",stdin);
+    int k;
+    int n;
 
-
-
-    <span class="p">}</span>
-</code></pre></div>
+    scanf("%d",&amp;k);//数据组数
+    while(k--){
+        memset(a,0,sizeof(a));
+        memset(dp,0,sizeof(dp));
+        scanf("%d",&amp;n);//每组数列的个数
+        for(int i=1;i&lt;=n;i++)
+            scanf("%d",&amp;a[i]);
+        int k=LIS(a,n);
+        printf("%d\n",k);
 
 
-<h2>LCS</h2>
+
+    }
+</code></pre>
+
+<h1>LCS</h1>
+
+<h1>01背包</h1>
+
+<blockquote><p>假设有一个背包，体积是volume，有n个物体，编号为0,1,2,...n-1,对应的体积（cost）和价值（weight）分别为cost[i]和weight[i],假定认为我们的最终目的是是背包的重量最重
+这一块怎么想也想不明白，看看dd，Matrix67,刘末鹏，xuyao，做有挑战性的事情才有精彩的人生，而这才是自己想要的生活
+正好，动态规划的题目先放一放，隔天再考虑hdu 2602也没有做正确</p>
+
+<h1>未完待续</h1></blockquote>
 
 </div>
 
@@ -166,7 +176,7 @@ var duoshuoQuery = {short_name:"damit"};
 
     <!--尾部-->
     <div id="footer">
-            <p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000315543'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1000315543%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> <small> | Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="http://pages.github.com" target="_blank">GitHub</a> | Copyright 2013 - 2014 by <a href="/about.html">damit</a> | 2014-07-16</small></p>
+            <p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000315543'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1000315543%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> <small> | Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="http://pages.github.com" target="_blank">GitHub</a> | Copyright 2013 - 2014 by <a href="/about.html">damit</a> | 2014-07-19</small></p>
 
     </div>
     <!--尾部结束-->

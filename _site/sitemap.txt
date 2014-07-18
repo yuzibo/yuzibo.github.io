@@ -17,6 +17,8 @@
 
   /mood.html
 
+  /hdu1159.html
+
   /MyFristBlog.html
 
   /IDontRegret.html
