@@ -13,7 +13,9 @@
 
 
 
-  /hdu1159.html
+  /dpblog.html
+
+  /mood.html
 
   /MyFristBlog.html
 
