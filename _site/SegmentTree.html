@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="damit" />
+    <title>Segmenttree | damit</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/media/css/main.css">
+    <link rel="stylesheet" href="/media/css/highlight.css">
+</head>
+<body>
+<!--顶部-->
+<div id="frame-top">
+    <div id="header">
+        <div id="maintitle">Segmenttree</div>
+        <div id="nav">
+                    <span><a title="Home Page" href="/">HOME</a></span>
+            <span><a title="Class of Article" href="/class.html">CLASS</a></span>
+	
+            <span><a title="Links" href="/links.html">LINKS</a></span>
+            <span><a title="About Me" href="/about.html">ABOUT</a></span>
+            <span><a title="Setting Files" href="https://github.com/bitsly/setting" target="_blank">SETTING</a></span>
+
+        </div>
+    </div>
+</div><!--frame-top-end-->
+<!--顶部结束-->
+
+<!--主要部分，即居中显示的部分-->
+<div id="frame-main">
+
+    <!--中部开始-->
+    <!--本文件是文件内容的模板-->
+
+<!--载入_post文件夹下的文件-->
+<div id="article-main">
+    <h1>暂时不熟悉的用法</h1>
+
+<h2>宏定义：</h2>
+
+<h3>define L(x) (x&lt;&lt;1)//将x乘以2</h3>
+
+<h3>define R(x) (x&lt;&lt;1|1)//将x乘以2加1，注意后面|1就是加1,其他的不一定正确</h3>
+
+<p>线段树的深度为log2(b-a+1)
+线段数组基本知识：
+1.通常我们用lowbit(x)表示x对应的2<sup>k</sup>;
+2.lowbit(x)=x&amp;(-x);
+3.lowbit(x)实际上就是x的二进制表示形式留下最右边的1，其他位都变成0
+数组a对应的线段数组应该是C[i]=a[i-lowbit(i)+1]+...+a[i]</p>
+
+<h1>hdu 1166我居然挂了20多次</h1>
+
+<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=1166">hdu 1166</a>
+虽然是一个人的战场，但你永远不会独行！you nerver go alone!
+线段树的简单使用可以用以下模板，高级还需自己慢慢领会</p>
+
+<ol>
+<li>下面是基于线段树结构的代码</li>
+</ol>
+
+
+<div class="highlight"><pre><code class="c++"><span class="cm">/*</span>
+
+<span class="cm">     File Name: hdu1166-4.cpp</span>
+<span class="cm">     Author: damit</span>
+<span class="cm">     Mail: yuzibode@126.com </span>
+<span class="cm">     Created Time: 2014年07月18日 星期五 19时55分04秒</span>
+<span class="cm">     学习重点:</span>
+
+<span class="cm">*/</span>
+
+<span class="cp">#include&lt;cstring&gt;</span>
+<span class="cp">#include&lt;cstdio&gt;</span>
+<span class="cp">#include&lt;iostream&gt;</span>
+<span class="cp">#define lson t&lt;&lt;1,l,m</span>
+<span class="cp">#define rson t&lt;&lt;1|1,m+1,r</span>
+<span class="cp">#define MID(x,y) (x+y)&gt;&gt;1</span>
+<span class="cp">#define N 50010</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">];</span>
+<span class="kt">void</span> <span class="nf">PushUp</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">build</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+    <span class="n">build</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+    <span class="n">build</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+    <span class="n">PushUp</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">display</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d-&gt;&quot;</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="c1">//p is where of update,add is value,**</span>
+<span class="c1">//i don&#39;t understand clearly</span>
+<span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">add</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//找准一个条件即可，如此递归下去就成了</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">){</span>
+        <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">+=</span><span class="n">add</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">add</span><span class="p">,</span><span class="n">lson</span><span class="p">);</span>
+    <span class="k">else</span>
+        <span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">add</span><span class="p">,</span><span class="n">rson</span><span class="p">);</span>
+    <span class="n">PushUp</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="c1">//more argument more clearly,L and R is Query from to  </span>
+<span class="kt">int</span> <span class="nf">getSum</span><span class="p">(</span><span class="kt">int</span> <span class="n">L</span><span class="p">,</span><span class="kt">int</span> <span class="n">R</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span><span class="c1">//区间在最左侧或最右侧/不理解,还有，每个结点的ret要清0，由分支再求和</span>
+    <span class="c1">//求和的函数确实难以理解</span>
+    <span class="c1">//For example,get sum(1,3),肯定要分支才行，下面用笔画画</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">l</span> <span class="o">&amp;&amp;</span> <span class="n">r</span><span class="o">&lt;=</span><span class="n">R</span><span class="p">)</span>
+    <span class="p">{</span>
+
+    <span class="k">return</span> <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">+=</span><span class="n">getSum</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">lson</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">R</span><span class="o">&gt;</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">+=</span><span class="n">getSum</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">rson</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span> 
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">freopen</span><span class="p">(</span><span class="s">&quot;in.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">j</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">n</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+                <span class="n">build</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+            <span class="c1">// display(1,1,n);</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Case %d:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="n">str</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="sc">&#39;E&#39;</span><span class="p">){</span>
+                <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+                <span class="k">switch</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]){</span>
+                    <span class="k">case</span> <span class="sc">&#39;Q&#39;</span>:
+                        <span class="p">{</span>
+    <span class="c1">//                     printf(&quot;Query %d %d\n&quot;,p,q);</span>
+                            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">getSum</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">));</span>            
+                        <span class="p">}</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="sc">&#39;S&#39;</span>:
+                        <span class="p">{</span>
+    <span class="c1">//                     printf(&quot;Sub %d %d\n&quot;,p,q);</span>
+                            <span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="o">-</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+    <span class="c1">//                     display(1,1,n);</span>
+                        <span class="p">}</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="sc">&#39;A&#39;</span>:
+                        <span class="p">{</span>
+    <span class="c1">//                     printf(&quot;Add %d %d \n&quot;,p,q);</span>
+                            <span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+    <span class="c1">//                     display(1,1,n);</span>
+                        <span class="p">}</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>这是树状数组的做法，参考了</p>
+
+<p><a href="http://blog.csdn.net/lulipeng_cpp/article/details/7816527">树状数组</a>;</p>
+
+<div class="highlight"><pre><code class="c++"><span class="cm">/*</span>
+<span class="cm">     File Name: hdu1166array.cpp</span>
+<span class="cm">     Author: damit</span>
+<span class="cm">     Mail: yuzibode@126.com </span>
+<span class="cm">     Created Time: 2014年07月19日 星期六 06时27分29秒</span>
+<span class="cm">     学习重点:</span>
+<span class="cm">*/</span>
+<span class="c1">//还要仔细推敲</span>
+<span class="cp">#include&lt;cstring&gt;</span>
+<span class="cp">#include&lt;cstdio&gt;</span>
+<span class="cp">#include&lt;iostream&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">st</span><span class="p">[</span><span class="mi">50005</span><span class="p">];</span>
+<span class="c1">//2^k==lowbit(x)</span>
+<span class="kt">int</span> <span class="nf">lowbit</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">&amp;</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">val</span><span class="p">,</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span><span class="o">&lt;=</span><span class="n">N</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">+=</span><span class="n">val</span><span class="p">;</span><span class="c1">//主要是向后衍生使用的</span>
+        <span class="n">p</span><span class="o">+=</span><span class="n">lowbit</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">getsum</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">res</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span><span class="p">){</span>
+        <span class="n">res</span><span class="o">+=</span><span class="n">st</span><span class="p">[</span><span class="n">p</span><span class="p">];</span>
+        <span class="n">p</span><span class="o">-=</span><span class="n">lowbit</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">display</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d &quot;</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">freopen</span><span class="p">(</span><span class="s">&quot;in.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">x</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">st</span><span class="p">));</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Case %d:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">x</span><span class="p">);</span>
+            <span class="n">update</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+        <span class="p">}</span>
+
+    <span class="c1">// display(n);</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="n">str</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="sc">&#39;E&#39;</span><span class="p">){</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;A&#39;</span><span class="p">){</span>
+
+            <span class="c1">// printf(&quot;Add %d %d\n&quot;,p,q);</span>
+                <span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+
+        <span class="c1">//display(n);</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;S&#39;</span><span class="p">){</span>
+        <span class="c1">//     printf(&quot;Sub %d %d\n&quot;,p,q);</span>
+                <span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="o">-</span><span class="n">q</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+        <span class="c1">//display(n);</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;Q&#39;</span><span class="p">){</span>
+        <span class="c1">//     printf(&quot;Query %d %d\n&quot;,p,q);</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">getsum</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">-</span><span class="n">getsum</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+
+<div class="highlight"><pre><code class="c++"><span class="kt">int</span> <span class="nf">lowbit</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">&amp;</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>一直不理解那个lowbit到底是干什么，上面的文章说可以向后衍生（更新结点）和向前（求和）
+向后主要是为了找到目前节点的父节点，比如要将C[4]+1，那么4+(4&amp;(-4))=8，C[8]+1，8+(8&amp;(-8))=16，</p>
+
+<p>C[16]+1。</p>
+
+<p>向前主要是为了求前缀和，比如要求A[1]+...+A[12]。那么，C[12]=A[9]+...+A[12]；然后12-12&amp;(-12)=8，</p>
+
+<p>C[8]=A[1]+...+A[8]。</p>
+
+<h2>hdu 1754</h2>
+
+<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=1754">hdu 1754</a>
+奇了怪了，我的代码与下面的一模一样，我的错，他的对，到底哪里不一样啊
+而且还有一件事情，就是在传递参数的时候，t&lt;&lt;1放在参数列表的最后一个位置比放置在其他
+位置时间更快一些，为什么啊</p>
+
+<div class="highlight"><pre><code class="c++"><span class="cm">/*************************************************************************</span>
+<span class="cm">     File Name: hdu1754-5.cpp</span>
+<span class="cm">     Author: damit</span>
+<span class="cm">     Mail: yuzibode@126.com </span>
+<span class="cm">     Created Time: 2014年07月20日 星期日 18时06分35秒</span>
+<span class="cm">     学习重点:</span>
+<span class="cm"> ************************************************************************/</span>
+
+<span class="cp">#include&lt;cstring&gt;</span>
+<span class="cp">#include&lt;cstdio&gt;</span>
+<span class="cp">#include&lt;iostream&gt;</span>
+<span class="cp">#include&lt;algorithm&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="cp">#define lson l,m,t&lt;&lt;1</span>
+<span class="cp">#define rson m+1,r,t&lt;&lt;1|1</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mi">222222</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">];</span>
+<span class="kt">void</span> <span class="nf">UpPush</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">){</span>
+    <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">],</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">build</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">){</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">build</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+    <span class="n">build</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+    <span class="n">UpPush</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">Update</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">add</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">add</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">Update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">add</span><span class="p">,</span><span class="n">lson</span><span class="p">);</span>
+    <span class="k">else</span> 
+        <span class="n">Update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">add</span><span class="p">,</span><span class="n">rson</span><span class="p">);</span>
+    <span class="n">UpPush</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">Query</span><span class="p">(</span><span class="kt">int</span> <span class="n">L</span><span class="p">,</span><span class="kt">int</span> <span class="n">R</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">l</span><span class="o">&amp;&amp;</span><span class="n">R</span><span class="o">&gt;=</span><span class="n">r</span><span class="p">){</span>
+        <span class="k">return</span> <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span><span class="n">Query</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">lson</span><span class="p">));</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">R</span><span class="o">&gt;</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span><span class="n">Query</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">rson</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">display</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d-&gt;&quot;</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">freopen</span><span class="p">(</span><span class="s">&quot;1754.in&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="o">&amp;</span><span class="n">m</span><span class="p">)</span><span class="o">!=</span><span class="n">EOF</span><span class="p">){</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">st</span><span class="p">));</span>
+        <span class="n">build</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c1">// display(1,n,1);</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">m</span><span class="o">--</span><span class="p">){</span>
+            <span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">;</span>
+            <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%s%d%d&quot;</span><span class="p">,</span><span class="n">str</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;U&#39;</span><span class="p">){</span>
+    <span class="c1">//         printf(&quot;Update %d %d\n&quot;,p,q);</span>
+                <span class="n">Update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c1">//         display(1,n,1);</span>
+            <span class="p">}</span>
+            <span class="k">else</span><span class="p">{</span>
+    <span class="c1">//         printf(&quot;Query %d %d\n&quot;,p,q);</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Query</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>update()函数中p+=lowbit(p)是推算p在后面的有关的st的位置，至于为什么那真的就是数学证明了
+<a href="http://acm.hdu.edu.cn/showproblem.php?pid=2795">hdu 2795</a></p>
+
+<p>/*************************************************************************
+     File Name: hdu2795.cpp
+     Author: damit
+     Mail: yuzibode@126.com
+     Created Time: 2014年07月21日 星期一 21时15分10秒
+     学习重点:
+     原来线段树还可以这样用啊，自己真是长见识了，以后我也要尝试着去写些这类有价值的东西来，</p>
+
+<p>少制造垃圾.
+      题意：面板是h<em>w,而纸条为1</em>w，从左上角依次填充，若可以则输出最小的行数。利用线段树，右区间为min(n,h),
+为什么呢，我们试想想，h<em>w，我们只需h层（最安全），
+如3</em>5，我们</p>
+
+<p>如果贴2张纸条 ，
+则只需建一个【1，2】的线段树，够使用的就可以的。然后每个节点被赋值w（宽度），build(l,r,t)先赋值，判断退     出，然后左右子树分别建立。
+     查询时，将每个宽度的值传递过来，到叶子节点时去掉宽度值，并返回l，即层数
+     然后更新父节点，取自左右子树的最大值，以便下次使用。
+     还有，一开始就判断MAX[1],为什么？
+ ************************************************************************/</p>
+
+<div class="highlight"><pre><code class="c++"><span class="cp">#include&lt;cstring&gt;</span>
+<span class="cp">#include&lt;cstdio&gt;</span>
+<span class="cp">#include&lt;iostream&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="cp">#define lson l,m,t&lt;&lt;1</span>
+<span class="cp">#define rson m+1,r,t&lt;&lt;1|1</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span><span class="o">=</span><span class="mi">222222</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">MAX</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span><span class="c1">//gloabl val</span>
+<span class="kt">int</span> <span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">UpPush</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">],</span><span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">build</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">w</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">build</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+    <span class="n">build</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="c1">//发现很多的使用都是在这里更改</span>
+<span class="c1">//</span>
+<span class="kt">int</span> <span class="nf">Query</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">-=</span><span class="n">p</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ret</span><span class="o">=</span><span class="p">((</span><span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">p</span><span class="p">)</span> <span class="o">?</span> <span class="n">Query</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">lson</span><span class="p">)</span> <span class="o">:</span> <span class="n">Query</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">rson</span><span class="p">));</span>
+    <span class="n">UpPush</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">display</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d-&gt;&quot;</span><span class="p">,</span><span class="n">MAX</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">freopen</span><span class="p">(</span><span class="s">&quot;2795.in&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+    <span class="c1">//int h,w;</span>
+    <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d%d%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="o">&amp;</span><span class="n">w</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">)</span><span class="o">!=</span><span class="n">EOF</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">h</span><span class="o">&gt;</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">h</span><span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        <span class="n">build</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="c1">//     display(1,h,1);</span>
+<span class="c1">//     printf(&quot;\n&quot;);</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">n</span><span class="o">--</span><span class="p">){</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">MAX</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">b</span><span class="p">)</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;-1</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+            <span class="k">else</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Query</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+</div>
+
+<!--载入文件的尾部设置-->
+<!--本文件是文章的尾部-->
+<div id="article-footer">
+ 
+      <!--作者＆时间-->
+      <span>
+        Write by <a href="http://yuzibo.github.ioabout.html">damit</a><br>
+      </span>
+
+      <span>
+        <time datetime="2014-07-20">2014-07-20</time><br>
+      </span>
+
+      <!--分类＆标签-->
+      
+      <span>
+        Class: 
+        
+        &nbsp;<a href="http://yuzibo.github.ioclass.html#ds" title="ds">ds</a><br>
+        
+      </span>
+      
+
+      
+      <span>
+        Tags: 
+        
+      </span>
+      
+
+      <!--版权声明-->
+      <span>
+        Published under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">(CC) BY-NC-SA 3.0</a><br>
+      </span>
+
+</div>
+
+    <hr>
+  
+<div id="article-nav">  
+    <!--前一篇＆后一篇-->
+    <span>
+        <a  href="http://yuzibo.github.io/dpblog.html"  >< 前一篇</a>&nbsp;&nbsp;
+         <a href="http://yuzibo.github.io#">目录</a>
+         &nbsp;&nbsp;
+        <a    >下一篇 ></a>
+    </span>
+</div>
+
+
+<!--载入多说的评论设置-->
+<!-- Duoshuo Comment BEGIN -->
+
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"damit"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+
+<!-- Duoshuo Comment END -->
+
+
+    <!--中部结束-->
+
+    <!--尾部-->
+    <div id="footer">
+            <p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000315543'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1000315543%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> <small> | Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="http://pages.github.com" target="_blank">GitHub</a> | Copyright 2013 - 2014 by <a href="/about.html">damit</a> | 2014-07-22</small></p>
+
+    </div>
+    <!--尾部结束-->
+    <script type="text/javascript">
+function goTopEx() {
+    var obj = document.getElementById("goTopBtn");
+    obj.style.display = "none";
+    function getScrollTop() {
+        return document.documentElement.scrollTop + document.body.scrollTop;
+    }
+    function setScrollTop(value) {
+        if (document.documentElement.scrollTop) {
+            document.documentElement.scrollTop = value;
+        } else {
+            document.body.scrollTop = value;
+        }
+    }
+    obj.onclick = function() {
+        var goTop = setInterval(scrollMove, 10);
+        function scrollMove() {
+            setScrollTop(getScrollTop() / 1.1);
+            if (getScrollTop() < 1) clearInterval(goTop);
+        }
+    }
+    window.onscroll = function() {
+        getScrollTop() > 0 ? obj.style.display = "block": obj.style.display = "none";
+    }
+
+}
+</script>
+
+<div id="goTopBtn"><a></a></div>  
+<script type="text/javascript">goTopEx();</script>
+
+ 
+
+
+
+
+</div><!--main-frame-end-->
+<!--居中显示部分的结束-->
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+

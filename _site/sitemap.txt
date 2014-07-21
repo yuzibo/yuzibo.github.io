@@ -13,6 +13,8 @@
 
 
 
+  /SegmentTree.html
+
   /dpblog.html
 
   /mood.html

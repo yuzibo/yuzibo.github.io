@@ -44,50 +44,55 @@ a下面代码中m可以堪看成临时变量temp，它的作用就是搜索maxle
 
 <h2>hdu 1087</h2>
 
-<pre><code class="c++">
- #include&lt;cstring&gt;
- #include&lt;cstdio&gt;
- #include&lt;iostream&gt;
-using namespace std;
-int dp[1001];//less than 12000
-int a[1001];
-int LIS(int* a,int n)
-{
-    int ans=1,m//m是临时变量;
-    dp[1]=1;
-    for(int i=2;i&lt;=n;i++)
-    {
-        m=dp[i];//?
-        for(int j=i-1;j&gt;=1;j--)
-            if((a[j]&lt;a[i])&amp;&amp;(dp[j]&gt;m))
-                m=dp[j];
-            dp[i]=m+1;
-            if(dp[i]&gt;ans)
-                ans=dp[i];
-    }
-    return ans;
+<div class="highlight"><pre><code class="c++"><span class="cp">#include&lt;cstring&gt;</span>
+<span class="cp">#include&lt;cstdio&gt;</span>
+<span class="cp">#include&lt;iostream&gt;</span>
 
-}
-int main()
-{
-    freopen("in.txt","r",stdin);
-    int k;
-    int n;
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1001</span><span class="p">];</span><span class="c1">//less than 12000</span>
+<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">1001</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">LIS</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="c1">//m是临时变量;</span>
+    <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">m</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="c1">//?</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">--</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;</span><span class="n">m</span><span class="p">))</span>
+                <span class="n">m</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">ans</span><span class="p">)</span>
+                <span class="n">ans</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
 
-    scanf("%d",&amp;k);//数据组数
-    while(k--){
-        memset(a,0,sizeof(a));
-        memset(dp,0,sizeof(dp));
-        scanf("%d",&amp;n);//每组数列的个数
-        for(int i=1;i&lt;=n;i++)
-            scanf("%d",&amp;a[i]);
-        int k=LIS(a,n);
-        printf("%d\n",k);
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">freopen</span><span class="p">(</span><span class="s">&quot;in.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span><span class="c1">//数据组数</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">k</span><span class="o">--</span><span class="p">){</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+        <span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">dp</span><span class="p">));</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span><span class="c1">//每组数列的个数</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">LIS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
 
 
 
-    }
-</code></pre>
+    <span class="p">}</span>
+
+
+
+<span class="p">}</span>
+</code></pre></div>
+
 
 <h1>LCS</h1>
 
@@ -119,7 +124,7 @@ int main()
       <span>
         Class: 
         
-        &nbsp;<a href="http://yuzibo.github.ioclass.html#dp-lis" title="dp-lis">dp-lis</a><br>
+        &nbsp;<a href="http://yuzibo.github.ioclass.html#dp" title="dp">dp</a><br>
         
       </span>
       
@@ -148,7 +153,7 @@ int main()
         <a  href="http://yuzibo.github.io/mood.html"  >< 前一篇</a>&nbsp;&nbsp;
          <a href="http://yuzibo.github.io#">目录</a>
          &nbsp;&nbsp;
-        <a    >下一篇 ></a>
+        <a  href="http://yuzibo.github.io/SegmentTree.html"  >下一篇 ></a>
     </span>
 </div>
 
@@ -176,7 +181,7 @@ var duoshuoQuery = {short_name:"damit"};
 
     <!--尾部-->
     <div id="footer">
-            <p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000315543'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1000315543%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> <small> | Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="http://pages.github.com" target="_blank">GitHub</a> | Copyright 2013 - 2014 by <a href="/about.html">damit</a> | 2014-07-19</small></p>
+            <p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000315543'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1000315543%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> <small> | Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="http://pages.github.com" target="_blank">GitHub</a> | Copyright 2013 - 2014 by <a href="/about.html">damit</a> | 2014-07-22</small></p>
 
     </div>
     <!--尾部结束-->
