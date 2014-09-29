@@ -8,11 +8,7 @@ layout: page
 
 GITHUB： [https://github.com/yuzibo](https://github.com/yuzibo)
 
-BITBUCKET: [https://bitbucket.org/bitsly](https://bitbucket.org/bitsly)
 
-百度网盘分享： [http://pan.baidu.com/](http://pan.baidu.com/share/home?uk=2586608402)
-
-豆列： [http://www.douban.com/people/bitsly/doulists/](http://www.douban.com/people/bitsly/doulists/)
 
 ----
 
@@ -21,7 +17,7 @@ BITBUCKET: [https://bitbucket.org/bitsly](https://bitbucket.org/bitsly)
 
 
 
-我的CSDN博客： [http://blog.csdn.net/bitsly](http://blog.csdn.net/bitsly)
+我的CSDN博客： [http://blog.csdn.net/yuzibo747](http://blog.csdn.net/yuzibo747)
 
 
 
@@ -30,7 +26,6 @@ BITBUCKET: [https://bitbucket.org/bitsly](https://bitbucket.org/bitsly)
 
 ## COLLECTION
 
-果壳： [http://www.guokr.com](http://www.guokr.com)
 
 知乎： [http://www.zhihu.com/](http://www.zhihu.com/)
 
