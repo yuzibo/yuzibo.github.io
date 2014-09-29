@@ -6,7 +6,7 @@ layout: page
 
 ## SHARE
 
-GITHUB： [https://github.com/bitsly](https://github.com/bitsly)
+GITHUB： [https://github.com/yuzibo](https://github.com/yuzibo)
 
 BITBUCKET: [https://bitbucket.org/bitsly](https://bitbucket.org/bitsly)
 
