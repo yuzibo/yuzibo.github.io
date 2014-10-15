@@ -1,7 +1,7 @@
 ---
 layout: article
 category: DS 
-tage: [DS]
+tags: [DS]
 ---
 #暂时不熟悉的用法
 ##宏定义：
