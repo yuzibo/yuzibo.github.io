@@ -7,22 +7,29 @@ tags: FreeDos
 
 最近在看于渊编写的<<自己动手写操作系统>>，里面编写基于 IA32的保护模式下 COM文件，于是乎下载FreeDos iso并在 VirtualBox 安装，其[详细手册请参阅](http://www.freedos.org/wiki/index.php/Main_Page) 
 
-*使用网络*
+__使用网络__
+
 在活动界面下，键入 auto 打开	AUTOEXEC.BAT
 找到REM LH PCNTPK INT=0X60,将REM去掉，只剩下后面的其他
 
-*配置 FTP服务*
+__配置 FTP服务__
+
 `copy C:\FDOS\DOC\MTCP\SAMPLE.CFG C:\FDOS\MTCP.CFG
 edit C:\fdos\mtcp.cfg`
+
 激活以下选项
+
 `MTU 1472
 ftpsrv_password_file c:\fdos\ftppass.txt
 ftpsrv_log_file c:\fdos\ftpsrv.log
 FTPSRV_FILEBUFFER_SIZE 16
 FTPSRV_TCPBUFFER_SIZE 16
 FTPSRV_PACKETS_PER_POLL 2`
+
  然后创建FTP服务器的密码
+
  `edit C:\fdos\ftppass.txt`
+
  编写这个文件时应该按照以下格式
  user  password [none] [any] all
  我的就是
@@ -38,12 +45,16 @@ FTPSRV_PACKETS_PER_POLL 2`
 CMCC-EDU的环境下开启的，后来我在实验室连接路由器可以，是不是和
 这个有关呢？
 
-3. 开始DHCP客户端
+__开始DHCP客户端__
+
 	1.用auto打开
 	2.去除"DHCP"前的REM。
 	一般的ip地址就在 C:\fdos\mtcp.cfg中
-4.	开始FTP服务
+
+__开始FTP服务__
+
 	ftpsrv
 	然后在 宿主机 上就可以使用 ftp软件进行文件传输了。
-5. 本着够用即可的原则，就 freedos的文件交换先介绍到这。
+
+本着够用即可的原则，就 freedos的文件交换先介绍到这。
 
