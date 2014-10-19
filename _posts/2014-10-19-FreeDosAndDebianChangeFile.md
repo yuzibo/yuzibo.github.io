@@ -4,25 +4,25 @@ title: "在虚拟机中解决 FreeDos与宿主机文件交换的问题"
 category: tools 
 tags: FreeDos
 ---
-#问题描述
+
 最近在看于渊编写的<<自己动手写操作系统>>，里面编写基于 IA32的保护模式下 COM文件，于是乎下载FreeDos iso并在 VirtualBox 安装，其[详细手册请参阅](http://www.freedos.org/wiki/index.php/Main_Page) 
 
-1. 使用网络
+*使用网络*
 在活动界面下，键入 auto 打开	AUTOEXEC.BAT
 找到REM LH PCNTPK INT=0X60,将REM去掉，只剩下后面的其他
 
-2. 配置 FTP服务
-copy C:\FDOS\DOC\MTCP\SAMPLE.CFG C:\FDOS\MTCP.CFG
-edit C:\fdos\mtcp.cfg
+*配置 FTP服务*
+`copy C:\FDOS\DOC\MTCP\SAMPLE.CFG C:\FDOS\MTCP.CFG
+edit C:\fdos\mtcp.cfg`
 激活以下选项
-MTU 1472
+`MTU 1472
 ftpsrv_password_file c:\fdos\ftppass.txt
 ftpsrv_log_file c:\fdos\ftpsrv.log
 FTPSRV_FILEBUFFER_SIZE 16
 FTPSRV_TCPBUFFER_SIZE 16
-FTPSRV_PACKETS_PER_POLL 2
+FTPSRV_PACKETS_PER_POLL 2`
  然后创建FTP服务器的密码
- edit C:\fdos\ftppass.txt
+ `edit C:\fdos\ftppass.txt`
  编写这个文件时应该按照以下格式
  user  password [none] [any] all
  我的就是
