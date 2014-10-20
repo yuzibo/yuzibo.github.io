@@ -15,15 +15,21 @@ __使用网络__
 __配置 FTP服务__
 
 `copy C:\FDOS\DOC\MTCP\SAMPLE.CFG C:\FDOS\MTCP.CFG
+
 edit C:\fdos\mtcp.cfg`
 
 激活以下选项
 
 `MTU 1472
+
 ftpsrv_password_file c:\fdos\ftppass.txt
+
 ftpsrv_log_file c:\fdos\ftpsrv.log
+
 FTPSRV_FILEBUFFER_SIZE 16
+
 FTPSRV_TCPBUFFER_SIZE 16
+
 FTPSRV_PACKETS_PER_POLL 2`
 
  然后创建FTP服务器的密码
@@ -47,8 +53,8 @@ CMCC-EDU的环境下开启的，后来我在实验室连接路由器可以，是
 
 __开始DHCP客户端__
 
-	1.用auto打开
-	2.去除"DHCP"前的REM。
+	首先用auto打开
+	然后去除"DHCP"前的REM。
 	一般的ip地址就在 C:\fdos\mtcp.cfg中
 
 __开始FTP服务__
