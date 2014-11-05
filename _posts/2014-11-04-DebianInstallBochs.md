@@ -13,7 +13,8 @@ tags:
 
 1.首先到bochs.sourceforge.net下载bochs源代码包并解压缩。
 2.然后要安装五个软件，否则make，make install时会失败。
-apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev xserver-xorg-dev
+
+*apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev xserver-xorg-dev*
 3.进入所在目录，开始配置
 
 	./configure --enable-debugger --enable-disasm
