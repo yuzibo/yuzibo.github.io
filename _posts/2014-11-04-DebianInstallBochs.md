@@ -3,6 +3,7 @@ layout: article
 title:"Debian 安装配置Bochs"
 category:Linux
 ---
+
 #问题阐述
 最近安装了很多的软件，总是为了折腾linux而为的，今天晚上不小心把Bochs安装完毕，在此发文纪念一下了。
 
