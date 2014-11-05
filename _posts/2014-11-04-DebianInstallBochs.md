@@ -26,7 +26,7 @@ __apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev
 网上有教程说配置liunx0.11内核，关键是我不知道这有什么作用，下面是linux0.11网址
 [linux 0.11](http://www.oldlinux.org/Linux.old/images/bootimage-0.11-20040305)
 6.配置bochs启动文件
-*
+
 megs: 32
 
 romimage: file=/home/yubo/bochs/bios/BIOS-bochs-latest
@@ -45,7 +45,7 @@ log: bochsout.txt
 
 mouse: enabled=0
 
-*
+
 #Over
 
 
