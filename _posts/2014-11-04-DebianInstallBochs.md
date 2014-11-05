@@ -33,6 +33,7 @@ __./configure --enable-debugger --enable-disasm__
 ##tips
 网上有教程说配置liunx0.11内核，关键是我不知道这有什么作用，下面是linux0.11网址
 [linux 0.11](http://www.oldlinux.org/Linux.old/images/bootimage-0.11-20040305)
+
 6.配置bochs启动文件
 
 megs: 32
