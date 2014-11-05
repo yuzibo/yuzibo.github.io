@@ -1,7 +1,8 @@
 ---
 layout: article
-title:"Debian 安装配置Bochs"
-category:Linux
+title: "Debian安装Bochs"
+category: tools
+tags:
 ---
 
 #问题阐述
