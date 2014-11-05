@@ -22,6 +22,7 @@ __apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev
 __./configure --enable-debugger --enable-disasm__
 
 两个enable分别表示启用bochs调试和反汇编。
+
 4.__make__
 
 5.__make install__
