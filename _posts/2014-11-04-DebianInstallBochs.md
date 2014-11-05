@@ -9,15 +9,16 @@ category:Linux
 
 由于安装这个这个bochs中间因为网站的问题而搁置了好几天，但在linux系统下安装bochs总不能少了那几个软件包的支持，具体是哪几个我忘了。
 #步骤
+
 1.首先到bochs.sourceforge.net下载bochs源代码包并解压缩。
 2.然后要安装五个软件，否则make，make install时会失败。
-__apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev xserver-xorg-dev__
+apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev xserver-xorg-dev
 3.进入所在目录，开始配置
 
-	__./configure --enable-debugger --enable-disasm__
+	./configure --enable-debugger --enable-disasm
 	两个enable分别表示启用bochs调试和反汇编。
-4.	__make__
-5.  __make install__
+4.	make
+5.  make install
 
 这只是把软件安装上了，最重要的一步还没做：配置bochs的文件。
 由于我把bochs文件解压到用户目录下，所以该配置文件.bochsrc就可以放在用户目录下
