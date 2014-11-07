@@ -1,6 +1,6 @@
 ---
 layout: article
-title: "模块编程（1）Hello,World"
+title: "模块编程(1)Hello,World"
 category:Programming
 ---
 #前戏
