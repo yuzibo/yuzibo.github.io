@@ -65,9 +65,9 @@ endif
 
 __make__
 我们会看到如下信息：
-[!](http://yuzibo.qiniudn.com/2014-11-06-makeafter.png)
+[!图片](http://yuzibo.qiniudn.com/2014-11-06-makeafter.png)
 紧接着执行 __insmod module.ko__,我们打开另一个终端，执行命令__tail -f /var/log/message__,我们回到原来的窗口再执行__rmmod module.ko__,这两条命令执行后在另一个窗口我们会看到如下信息：
-[!](http://yuzibo.qiniudn.com/2014-11-06-modulesofresult.png)
+[!图片](http://yuzibo.qiniudn.com/2014-11-06-modulesofresult.png)
 回到原来的窗口，我们执行 __make clean__,就只剩下了原来的文件。
 
 
