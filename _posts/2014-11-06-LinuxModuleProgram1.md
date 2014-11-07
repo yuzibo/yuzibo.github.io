@@ -65,11 +65,45 @@ endif
 好，我们将所有的准备工作做好后，执行一下,(sudo 模式)
 
 __make__
+
 我们会看到如下信息：
 ![图片](http://yuzibo.qiniudn.com/2014-11-06-makeafter.png)
-紧接着执行 __insmod module.ko__,我们打开另一个终端，执行命令__tail -f /var/log/message__,我们回到原来的窗口再执行__rmmod module.ko__,这两条命令执行后在另一个窗口我们会看到如下信息：
+紧接着执行 
+
+__insmod module.ko__
+
+,我们打开另一个终端，执行命令
+
+__tail -f /var/log/message__
+
+我们回到原来的窗口再执行
+
+__rmmod module.ko__
+
+这两条命令执行后在另一个窗口我们会看到如下信息：
 ![图片](http://yuzibo.qiniudn.com/2014-11-06-modulesofresult.png)
 回到原来的窗口，我们执行 __make clean__,就只剩下了原来的文件。
 
+#模块的操作
+Linux为用户提供了modutils工具，用来操作模块，包括以下命令
 
+##insmod
+这个命令是加载模块，使用 <strong>insmod module.ko</strong>可以加载module.ko模块，执行该命令后如果终端没有消息，则可以使用命令 demsg | tail 命令查看文件的最后几行.
 
+##rmmod
+rmmod module.ko就是将module.ko模块卸载。
+
+##modprobe
+比较高级的加载和卸载模块的命令，可以解决模块之间的依赖性。
+
+##modinfo
+用于查询模块的相关信息，如作者、版权等。
+
+#模块加载后文件系统的变化
+
+##在/proc/modules中会增加相关的模块信息,如下，
+![图片](http://yuzibo.qiniudn.com/2014-11-06-proc-module.png)
+
+##/proc/devices没有变化
+##在/sys/modules会增加一个module目录，我们用 __tree -a module__,会发现如下信息：
+![图片](http://yuzibo.qiniudn.com/2014-11-06-treeforsysmodule.png)
