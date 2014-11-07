@@ -30,7 +30,7 @@ static void __exit hello_exit(void)
 module_init(hello_init);
 /*退出时使用*/
 module_exit(hello_exit);
-{% endlighligth %}
+{% endlighlight %}
 
 简单解释一下，一个模块源程序的
 1.头文件(必有)
