@@ -23,7 +23,7 @@ __cd linux-XX__
 
 先进入目录，我们如使用默认配置的话，
 
-__cp /boot/config-`uanme -r` .config__,如果我们自己一定要配置，我建议使用__make menuconfig__
+__"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我建议使用__make menuconfig__
 
 ##编译内核
 __make-kpkg clean__,稍微等一会，我们接着使用__fakeroot make-kpkg --append-to-version=.141111 linux-image__命令
@@ -40,7 +40,10 @@ __mkinitramfs -o /boot/initrd.img-3.2.64.141111 3.2.64.141111__
 
 直观上我们可以理解生成目标文件initrd.img-3.2.64.141111,我们做的所有工作你最后在/boot目录下会发现的。
 
-##跟新grub
+##更新grub
 __grub-update__
 
-赶快重启吧，不过以后的grub需要自己手写。
+赶快重启吧，你就会发现在grub的引导菜单上有自己版本的内核了。
+
+##感谢
+首先感谢我女友春春的理解和支持，有她在背后，我感觉很幸福;这篇文章我重点参考了[The blog](http://www.blog.csdn.mylxiaoyi/article/details/1499397)
