@@ -177,6 +177,16 @@ But how i start to code?
 	
 P234
 11-14
+##two handware devices to help with time keeping
+###the real-time clock
+The real-time clock(RTC) continuous to keep track of time even the system is off,on PC architecture the RTC and CMOS are integrated.
+	On boot,the Kernel reads the RTC and uses it to initialize the wall time,which is stored in the __xtime__variable.
+###The timer interrupt is broken into two pieces,an architecture-dependent and architecture-independent,but both at least perform the following working.
+	1.obtain the __xtime_lock__lock,which protects access to __jiffies_64__and wall time value--xtime.
+	2.reset the system timers as required
+	3.Periodically save the updated wall time to the RTC
+	4.Call the architecture-independent the timer routin__tick_periodic()__,后面这个函数是个重点。
+
 ======================================================
 overhaul:检修；改造:rectified:矫正 to a fault:fellowship(团契)::latency::at-odds::
 http://v.163.com/movie/2014/9/5/8/MA44SCUPU_MA47GQ658.html
