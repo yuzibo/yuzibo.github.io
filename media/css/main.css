@@ -1,5 +1,5 @@
 @font-face {
-  font-family: Monaco;
+  font-family: Monaco,Consolas,Lucida,Console,monospace;
   src:url("/media/fonts/Inconsolata.woff") format('woff');
   font-weight: normal;
   font-style: normal;
