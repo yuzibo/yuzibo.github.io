@@ -38,13 +38,13 @@ __M=$PWD__
 ##建立分离文件
 	最简单的例子：
 
-	__obj-m := <module_name>.o__
+__obj-m := <module_name>.o__
 
 这kbuild系统将会根据<module_name>.c文件建立<module_name>.o，经过链接后，将后生成<module_name>.ko
 	
 如果模块是由多个文件构建而来，则是一下格式
 	
-	__<module_name>-y := <src1>.o <src2>.o
+__<module_name>-y := <src1>.o <src2>.o
 
 
 
