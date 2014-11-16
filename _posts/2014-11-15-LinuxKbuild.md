@@ -67,3 +67,19 @@ __M=$PWD__
 
 
 {% endhighlight	%}
+##Makefile样本
+经过本人亲自测试，下面的Makefile文件真实有效，其来源与LDD（Linux Decives Drives）
+{% highlight bash %}
+	ifneq ($(KERNELRELEASE),)
+		obj-m := __task_pid_nr_ns.o
+	else
+		PWD := $(shell pwd)
+		KVER := $(shell uname -r)
+		KDIR := /lib/modules/$(KVER)/build 
+	default:
+		$(MAKE) -C $(KDIR) M=$(PWD)	modules
+	endif
+{% endhighlight %}
+
+我们的源文件取名为__task_pid_nr_ns.c，一会我会把代码写上来，看来linux编程真的是博大精深啊。
+
