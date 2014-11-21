@@ -55,7 +55,7 @@ float *p1 = (float*)p;
 
 姑且这么理解，自己在网上看到一个比较的例子：
 
-{% highliaght c %}
+{% highlight c %}
 int a = 8;
 int *q;//指针(q)的类型是int *,指针指向的类型是int
 q = &a;//给q赋值，但这里两者可以合写*q = &a,仔细想想概念细节;
@@ -67,7 +67,7 @@ printf("%d\n",q);
 {% endhighlight %}
 ##再看下面补充的：
 
-{% highliaght c %}
+{% highlight c %}
 float = 12.3;
 float *fptr = &f;
 int *p;
@@ -81,7 +81,7 @@ p = (int *)&f;
 
 那么我们可不可以把一个整数当作指针的值直接赋给指针呢？就像下面的语句：
 
-{% highliaght c %}
+{% highlight c %}
 	unsigned int a;
 	TYPE *ptr;//TYPE可以是int，char或结构体等类型
 	...
@@ -100,14 +100,14 @@ p = (int *)&f;
 	str = (char *)b;//把这个整数的值当作一个地址赋给指针str
 {% endhighlight %}
 ###1.指针类型强制转换
-{% highliaght c %}
+{% highlight c %}
 int m;
 int *pm = &m;
 char *cp = (char *)&m;
 {% endhighlight %}
 pm指向一个整型，cp指向整型的第一个字节。
 ###2.结构体之间的强制转换
-{% highliaght c %}
+{% highlight c %}
 struct str1 a;
 struct str2 b;
 a = (struct) b; //This is wrong
@@ -119,7 +119,7 @@ a = *((struct str1*)&b); //This is corrent
 一个结构体定义type，这个结构体中某个成员变量的名字member以及它的地址ptr
 ##输出：
 包含此成员变量的结构体的地址
-{% highliaght c %}
+{% highlight c %}
 struct father_t {
 
 	int a;
@@ -151,7 +151,7 @@ __#define offset(TYPE,MEMBER)((size_t) & ((TYPE *)0)->member)__
 2.((TYPE *)0)->MEMBER 访问结构中的数据成员;
 3.&(((TYPE *)0)->MEMBER) 取出数据成员的地址，即想对于0的偏移量，求的就是它。
 4.(size_t)(&((TYPE *)0)->MEMBER) 结果强制转换，size_t应该最终为 unsigned int 类型。
-{% highliaght c %}
+{% highlight c %}
 #include<stdio.h>
 #define offset(TYPE,MEMBER)((int)(&((TYPE *)0)->MEMBER))
 struct _test_{
