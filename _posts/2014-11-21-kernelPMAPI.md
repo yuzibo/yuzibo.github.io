@@ -106,7 +106,7 @@ module_exit(__task_pid_nr_ns_exit);
 
 __make__
 
-然后，键入 __insmod __task_pid_nr_ns.ko__,这时一般终端就会有消息产出，如果没有可以接着使用 __dmesg -c__命令
+然后，键入 __insmod\ __task_pid_nr_ns.ko__,这时一般终端就会有消息产出，如果没有可以接着使用 __dmesg -c__命令
 ##终端信息
 <pre>
 Message from syslogd@debian at Nov 21 15:28:12 ...
