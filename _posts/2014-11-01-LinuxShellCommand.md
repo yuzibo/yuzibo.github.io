@@ -1,20 +1,23 @@
 ---
 layout: article
+title: "linux基本命令"
 category: linux
 ---
+##注，代码中的数字是注释
 ##bc
 {% highlight bash %}
-1.\##十进制转换成二进制
+1.##十进制转换成二进制
 no=100
 echo "obase=2;$no" | bc
-2.\##()B==>()10
+2.##()B==>()10
 no=1100100
 echo "obase=10;ibase=2;$no" | bc
-3\##direct to
+3##direct to
 echo "sqrt(100)" | bc
 echo "10^10" | bc
 {% endhighlight %}
------------------cat-----------
+##cat
+{% highlight bash %}
 1.##remove blank cols
 cat 1.txt | tr -s '\n'
 2.## display tab
@@ -23,7 +26,10 @@ cat -T xx.txt
 cat -n filename
 4.## cat > file1
 向文件中写入内容
-----------------comm---------------
+{% endhighlight %}
+##comm
+
+{% highlight bash %}
 1.##comm must use sorted file as input
 sort A.txt -o A.txt ;
 sort B.txt -o B.txt
@@ -40,24 +46,34 @@ comm A.txt B.txt -3 | sed 's/^\t//'
 ##利用这个命令产生差集
 comm A.txt B.txt -1 -3  ##is B's
 
---------------------cut-------------------
-1.## 在cut的术语中，每列都是一个字段
-cut -f 2,3 filename
-2.##    打印除第三列之外所有的列，
-cut -f3 --complement filename
-3.##    要指定字段的定界符，使用-d选项
-cut -f2 -d";" filename
----------------------less--more---------------
-1.## 使显示更加人性化
+{% endhighlight %}
+##cut
 
----------------------mkdir----------------
+{% highlight bash %}
+##1. 在cut的术语中，每列都是一个字段
+cut -f 2,3 filename
+##2.    打印除第三列之外所有的列，
+cut -f3 --complement filename
+##    要指定字段的定界符，使用-d选项
+cut -f2 -d";" filename
+{% endhighlight %}
+##less--more
+
+{% highlight bash %}
+
+##mkdir
+
+{% highlight bash %}
 1.##
 if [ -e /home/yubo ]; then
 #mkdir
 fi
 2.## 创建多级目录
 mkdir -p /home/yubo/xx
----------------------chmod-----------------
+{% endhighlight %}
+##chmod
+
+{% highlight bash %}
 1. ##
 u=用户权限
 g=用户组权限
@@ -68,7 +84,10 @@ chmod a(all)+x filename
 ##删除权限
 chmod a-x filename
 ##r--=4,-w-=2,--x=1,依次类推
-----------------------chown-----------------
+{% endhighlight %}
+##chown
+
+{% highlight bash %}
 1.## 更改所有权
 chown user.group filename
 2.##
@@ -78,19 +97,29 @@ chown [OPTION]... --reference=RFILE FILE...
 chown -R redhat ./test
 4.#### 将test目录及其子目录中的文件的其他用户权限设置为没有任何权限
 chmod -R o=--- ./test
-------------------------------------cp--------------------
+{% endhighlight %}
+##cp
+
+{% highlight bash %}
 1.## -r copy directories recursively
 cp -r /ect/pam.d ./test
 
-----------------------chattr----------------
+{% endhighlight %}
+##chattr
+
+{% highlight bash %}
 1.## 使文件不可修改
 chattr +i file
 2.##删除这个属性
 chattr -i file
-------------echo------
+##echo
+
+{% highlight bash %}
 1.##print color text
 echo -e "[e1;42m This is color txet \e[0m"#其中数字不同颜色不同
--------------------find-------------------
+{% endhighlight %}
+##find
+{% highlight bash %}
 1.## find and print
 find . -print   ## . stand for current directory,".." father
 2.## -iname(ignore lower or upper leteer)
@@ -118,16 +147,21 @@ find . -type f -name "*.php" ! -perm 644 -print
 13.## exec???
 find . -type f -name "*.txt" -exec chown yubo {} \
 14.## jump special dir????
----------------------whereis------locate--------------
+{% endhighlight %}
+##whereis------locate
+{% highlight bash %}
 1.##同样可以实现
----------------script and scirptreplay----
+script and scirptreplay----
 1.##commandS
 script -t 2> xx.log -a xx.session
 ...
 exit
 ##replay
 scriptreplay xx.log xx.session
-----------------------tr------------------------
+{% endhighlight %}
+##tr
+
+{% highlight bash %}
 1.##'\0' is replaced by '\n'
 cat /proc/$PID/environ | tr '\0' '\n'
 ##format form output
@@ -139,7 +173,10 @@ echo 12345 | tr '0-9' '9876543210'
 echo 87654 | tr '9876543210' '0-9'
 4.## del special
 echo "hello 123 world 456" | tr -d '0-9'
-----------宣告变量----$PATH and $VAR-------------------
+{% endhighlight %}
+##宣告变量----$PATH and $VAR
+
+{% highlight bash %}
 1.##add path:
 export PATH="$PATH:/home/user/bin"
 2,##obtain length of var:
@@ -148,7 +185,10 @@ length=${#var}
 echo $0
 4.##root UID
 echo $UID(0 is root)
------------------declare----typeset---------------
+{% endhighlight %}
+##declare----typeset
+
+{% highlight bash %}
 1.## declare [-aixr] variable
 Options:
 -a: 将后面的variable定义为数组(array)类型
@@ -156,10 +196,16 @@ Options:
 -x: 用法与export一样，就是将后面的variable定义为环境变量
 -r: 将变量设定为readonly类型，不能更改也不能unset.
 
------------------------------md5sum---------------
+{% endhighlight %}
+##md5sum
+
+{% highlight bash %}
 1.##???
 md5sum filename
-------------------------------date---------------
+{% endhighlight %}
+##date
+
+{% highlight bash %}
 1.## display second
 date +%s
 2##conver/?? time for s from exterm
@@ -170,22 +216,34 @@ date +%s
 4.## details for man date
 5.## wanted form
 date "+%d %B %Y"
------------------file----------------
+{% endhighlight %}
+##file
+
+{% highlight bash %}
 1.##打印文件类型（print file type）
 file /etc/passwd
 2.##(print file type and not include filename)
 file -b /etc/passwd
-------------------------eject-------------------
+{% endhighlight %}
+##eject
+
+{% highlight bash %}
 1.##干出cd托盘
 eject
------------------------diff&patch-------------
+{% endhighlight %}
+##diff&patch
+
+{% highlight bash %}
 1.## all output
 diff -u 1.txt 2.txt > version.patch
 patch -p1 1.txt < version
 ## 此时 1.txt与2.txt一样了
 ## 若撤销patch
 patch -p1 1.txt < version.patch
------------------------------tar--------------------------------
+{% endhighlight %}
+##tar
+
+{% highlight bash %}
 1.    ## gzip [-cdtv] file,可以被WinRAR解压缩
 gzip -v file  ##显示压缩比
 zcat file ##可以将压缩的.gz内容读出来
@@ -211,14 +269,20 @@ tar -jtv -f 2.tar.bz2 | grep 'name'
 5.使用 --exclude!!!!!!
 tar -jcv -f /../xx.bz2 --exclude=/root/etc* --exclude=/root/xx.bz2 /etc/ /root
 
------------------------head && tail-------------
+{% endhighlight %}
+##head && tail
+
+{% highlight bash %}
 1.## print ahead 10 lines
 head file
 cat text | head
 head -n 4 file
 2. ## print behand 10 lines
 tail -n 5 file
-------------------------grep---------------------
+{% endhighlight %}
+##grep
+
+{% highlight bash %}
 #1. ^        ^tux
 #2, $        tux$
 #3. .        hack.(任意单个字符)
@@ -277,8 +341,10 @@ grep -B 3 "word" file (打印当前行及后三行)
 grep -C 2 "word" file(打印前2行和后2行)
 9.## grep那么该如何定位呢
 
-------------------------pushd && popd------------
+{% endhighlight %}
+##pushd && popd
 1.## ingore cd
+{% highlight bash %}
 pushd /var/www
 pushd /usr/src
 dirs
@@ -287,17 +353,29 @@ pushd +1
 2.## popd 同样的内容但是推出，原理同上
 3.## 若只在两个目录间切换，可以尝试  cd -
 
-------------------------print dir----------------
+{% endhighlight %}
+##print dir
+
+{% highlight bash %}
 1.## print dir
 ls -d */
 ls -F | grep "/s" ##
 ls -l | grep "^d"
---------------------------cp----------------------
+{% endhighlight %}
+##cp
+
+{% highlight bash %}
 1.##  连同子目录一起复制
 cp -r source_file destion_file
----------------------------du-----df-------------
+{% endhighlight %}
+##du-----df
+
+{% highlight bash %}
 1.##du显示当前目录所占的磁盘空间    df目前磁盘的所剩空间
-------------------------sort--uniq---------------
+{% endhighlight %}
+##sort--uniq
+
+{% highlight bash %}
 1.## sort
 sort 1.txt 2.txt >/-o sorted.txt
 2.## sort by num
@@ -323,8 +401,10 @@ sort unsorted.txt | uniq
 9.## 统计次数
 sort unsorted.txt | uniq -c
 
-------------------stdin==0--stdout==1---stderr==2---------
+{% endhighlight %}
+##stdin==0--stdout==1---stderr==2
 
+{% highlight bash %}
 1.##> and >>
 2,##< and <<
 3.ls + 2> out.txt
@@ -348,7 +428,10 @@ echo append line >&4  ##!!!,这样就将新内容写入了out.txt,  cat 一下
 newline
 append line
 ##  ok!
-----------termial-tput and stty---
+{% endhighlight %}
+##termial-tput and stty
+
+{% highlight bash %}
 1.##cols and lines
 tput cols;lines
 2.##set backgroundcolor
@@ -358,8 +441,9 @@ tput bold
 4.##del all to end
 tput ed
 
-------------shell debug-------
-------------function()-----------
+{% endhighlight %}
+##function()
+{% highlight bash %}
 1.##methon
 fname(){
 echo $1,$2;
@@ -371,7 +455,10 @@ fname 1 2 3 4
 
 2.## export
 export -f fname ##subprocess can use fanme
-----------------------read-重点是对于变量起作用------------
+{% endhighlight %}
+##read-重点是对于变量起作用
+
+{% highlight bash %}
 1.##read and can't use Enter(no-echoed)
 read -n 2 var
 2.## display
@@ -380,10 +467,16 @@ read -p "enter input" var
 read -t 2 var
 4.##define symbol
 read -d ":" var
-----------------------------paste-----------------
+{% endhighlight %}
+##paste
+
+{% highlight bash %}
 1.## 按列合并文本,中间以：为定界符
 paste 1.txt 2.txt -d ":"
-----------------------------ulimit----------------
+{% endhighlight %}
+##ulimit
+
+{% highlight bash %}
 1.## 文件系统及程序的限制关系
 ulimit [-SHacdfltu] [配额]
 -H :hard limit,不能超过这个设定的数值
@@ -391,7 +484,10 @@ ulimit [-SHacdfltu] [配额]
 -a :all ，后面不接任何选项，列出所有的限制额度
 ---
 
-----------------------------sed-------------------
+{% endhighlight %}
+##sed
+
+{% highlight bash %}
 1.## replace
 sed 's/pattern/replace_string' file <==>
 cat 1.txt | sed 's/pattern/replace_string'
@@ -419,7 +515,10 @@ echo hello world | sed "s/$text/HELLO/"
 10.## 匹配三位数字
 cat 1.txt | sed 's/\b[0-9]\{3\}\b/number/g'
 11.## sed [-e] 'instruction' file  ## -e:输入多条命令必需品
---------------------------------awk-----------------------------------
+{% endhighlight %}
+##awk
+
+{% highlight bash %}
 1.## construct,这三部分都是可选的
 awk ' BEGIN{ print "start" } pattern { command } end{ print "end" }'
 file
@@ -459,14 +558,23 @@ file
 awk -F, '/pattern/ { print $1 }' file
 15.## -f 脚本文件；-v var=value follows
 
-----------------------------tac-----------------------
+{% endhighlight %}
+##tac
+
+{% highlight bash %}
 1.## 逆序输出,同时可以使用-s 分割符选项指定分割符
 seq 5 | tac
------------------IFS???----------
+##IFS
 ##Internal Field Separator IFS
---------------------------who---w-----ku--------
+{% endhighlight %}
+##who---w-----ku
+
+{% highlight bash %}
 1.##这三个指令差不多，只不过ku是检查整个网络上的用户
------------------------wc--------------------
+{% endhighlight %}
+##wc
+
+{% highlight bash %}
 1.## count lines
 wc -l file
 2.## count words
@@ -476,7 +584,9 @@ echo -n 1234 | wc -c
 4. ## print longest length
 wc file -L
 
----------------------xargs--------
+{% endhighlight %}
+##xargs
+{% highlight bash %}
 1.## special form output
 cat 1.txt | xargs
 2.## same
@@ -485,7 +595,9 @@ cat 1.txt | xargs -n 3
 echo "hghjkh:hgfjh:hf" | xargs -d :
 or
 echo "jhhgjg:hjfh:bv" | xargs -d : -n 2
-===========================8/13=========================
+{% endhighlight %}
+
+{% highlight bash %}
 1.##根据扩展名且分文件名 %：提取文件名
 file_jpg="sample.jpg"
 name=${file_jpg%.*}
@@ -494,3 +606,4 @@ echo file name is: $name
 2，##提取扩展名：#，匹配规则是从左向右的。
 exten=${file_jpg#*.}
 
+{% endhighlight %}
