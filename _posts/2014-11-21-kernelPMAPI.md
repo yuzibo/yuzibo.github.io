@@ -1,8 +1,10 @@
 ---
 layout: article
-title: "kernel进程管理API-__task_pid_nr_ns()"
+title: "kernel进程管理API"
 category: kernel API
 ---
+#函数
+__task_pid_nr_ns(struct task_struct \*task,enum pid_type type,struct pid_namespace *ns)
 #文件包含
 \#include<linux/sched.h>
 #函数定义
@@ -36,6 +38,46 @@ EXPORT_SYSBOL(__task_pid_nr_ns);
 
 #参数补充(未写)
 
+{% highlight c %}
+/*linux/pid.h*/
+enum pid_type
+{
+	PIDTYPE_PID, //进程的进程号
+	PIDTYPE_PGID, //process group' leader process ID
+	PIDTYPE_SID,  //session' leader process ID
+	PIDTYPE_MAX
+};
+/*
+ *linux/pid_namespace.h
+ */
+struct pidmap {
+	atomic_t nr_free;
+	void *page;
+}
+struct pid_namespace {
+	/*kerf is reference count,代表此命名空间在多少进程中被使用*/
+	struct kref kref;
+	/*current system PID */
+	struct pidmap pidmap[PIDMAP_ENTRIES];
+	/*上一次分配给进程的PID的值*/
+	int last_pid;
+	/*保存指向该进程的struct_task的指针*/
+	struct task_struct *child_reaper;
+	/*指向该进程在cache中的分配空间*/
+	struct kmem_cache *pid_cachep;
+	/*初始化为0,从level内核可知进程关联多少ID*/
+	unsigned int level;
+	struct pid_namespace *parent;
+#ifdef CONFIG_PROC_FS
+	struct vfsmount *proc_mnt;
+#endif
+#ifdef CONFIG_BSD_PROCESS_ACCT
+	struct bsd_acct_struct *bacct;
+#endif
+};
+extern struct pid_namespace init_pid_ns;
+
+{% endhighlight %}
 #举例
 
 
@@ -137,4 +179,33 @@ dmesg -c
 dmesg: klogctl failed: 不允许的操作
 yubo@debian:~/linux/process$ 
 </pre>
+#find_get_pid()
+定义:struct pid *find_get_pid(int nr)
+##功能
+此函数根据提供的进程号获取对应的进程描述符，并使进程描述符的count的值加1即此进程的用户数加1
 
+##参数说明
+nr即为进程号
+##返回参数
+返回与参数提供的进程号对应的进程描述符，进程描述符定义如下：
+{% highlight c %}
+struct pid {
+	/*此进程的任务数*/
+	atomic_t count;
+	/*level对应成员number[]的下标，一般取值为0*/
+	unsigned int level;
+	/*此进程的任务列表*/
+	struct hlist_head tasks[PIDTYPE_MAX];
+	struct rcu_head rcu;
+	/*struct upid类型的数组*/
+	struct upid numbers[1];
+};
+struct uoid {
+	int nr;
+	struct pid_namespace *ns;
+	struct hlist_node pid_chain;
+};
+extern struct pid init_struct_pid;
+{% endhighlight %}
+{% highlight c %}
+{% endhighlight %}
