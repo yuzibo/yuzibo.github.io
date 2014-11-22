@@ -84,10 +84,15 @@ static int __init __task_pid_nr_ns_init(void)
 	 */
 	printk("<0> the pid of the find_get_pid is :%d\n",kpid->numbers[kpid -> level].nr);
 	/*
-	 *显示函数的返回值
+	 *显示函数find_get_pid()返回值的进程描述符
 	 */
 	printk("<0> the result of __task_pid_nr_ns is :%d\n",result1);
+	/*
+	*显示函数kernel_thread()的返回值
+	*/
 	printk("<0> the result of kernel_thread is :%d\n",result);
+	/*显示当前进程号
+	   */
 	printk("<0> the pid of current thread is :%d\n",current->pid);
 	printk("<0> out __task_pid_nr_ns_init.\n");
 	return 0;
