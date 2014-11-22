@@ -35,26 +35,89 @@ __./configure --enable-debugger --enable-disasm__
 [linux 0.11](http://www.oldlinux.org/Linux.old/images/bootimage-0.11-20040305)
 
 6.配置bochs启动文件
-
+{% highlight bash %}
+#how much memory the emulated will have
 megs: 32
-
+#filename of ROM images 
 romimage: file=/home/yubo/bochs/bios/BIOS-bochs-latest
 
 vgaromimage: file=/home/yubo/bochs/bios/VGABIOS-lgpl-latest
 
-vga: extension=vbe
+#vga: extension=vbe
+#what disk image will be used
+floppya: 1_44=/home/yubo/a.img,status=inserted  #注意路径一定要写全,我这里把镜像文件放在了用户目录下的中，下同
 
-floppya: 1_44=/home/yubo/bochs/bootimage-0.11-20040305,status=inserted  #注意路径一定要写全,我这里把镜像文件放在了用户目录下的bochs中，下同
-
-floppyb: 1_44=/home/yubo/bochs/linux0.11/rootimage-0.11-20040305,status=inserted  #注意路径一定要写全
-
-boot: a
+#floppyb: 1_44=/home/yubo/bochs/linux0.11/rootimage-0.11-20040305,status=inserted  #注意路径一定要写全
+#choose the boot disk
+boot: floppy
 
 log: bochsout.txt
-
+#disable mouse 
 mouse: enabled=0
 
 
-#Over
+{% endhighlight %}
+看到没，我们对Bochs的控制全在这里，包括映像文件的路径和启动顺序，至于a.img是在怎么来的，请看下面的东东，我们将配置文件写好以后，使用命令
 
+__bochs__
 
+会出来选项，直接回车(就是选择6),然后弹出一个窗口，在原来窗口的提示内键入
+
+__c__
+
+这时你再看模拟器窗口，啊，整个世界开朗了。
+#Bochs的使用
+其实在上面的安装过程中，我可能遗漏了很多组建，默认安装Bochs及其组件可以使用以下命令：
+
+sudo apt-get install vgabios bochs bochs-x bximage
+
+当然，首先推荐使用源码安装这样可以设置一些自己想要的功能，比如调试。
+
+“计算机”安装好了，我们接下来应该怎么办呢？对了，安装硬盘或者软盘，你总得让计算机启动吧，就是使用__bximage__命令。
+
+bximage：
+
+出现以下界面，
+<pre>
+yubo@debian:~$ bximage
+========================================================================
+                                bximage
+  Disk Image Creation / Conversion / Resize and Commit Tool for Bochs
+         $Id: bximage.cc 12364 2014-06-07 07:32:06Z vruppert $
+========================================================================
+
+1. Create new floppy or hard disk image
+2. Convert hard disk image to other format (mode)
+3. Resize hard disk image
+4. Commit 'undoable' redolog to base image
+5. Disk image info
+
+0. Quit
+
+Please choose one [0] 1
+Create image
+
+Do you want to create a floppy disk image or a hard disk image?
+Please type hd or fd. [hd] fd
+
+Choose the size of floppy disk image to create, in megabytes.
+Please type 160k, 180k, 320k, 360k, 720k, 1.2M, 1.44M, 1.68M, 1.72M, or 2.88M.
+ [1.44M] 
+
+What should be the name of the image?
+[a.img] 
+
+Creating floppy image 'a.img' with 2880 sectors
+
+The following line should appear in your bochsrc:
+  floppya: image="a.img", status=inserted
+</pre>
+这时在当前目录下产生了一个 a.img,这就是我们需要的软盘映像(自己想把img文件的格式学习一下，结果网上的资料不是很多)，书上说映像文件是按字节复制，记住，a
+.img只是一个软盘，没有任何东西，我们接下来要把编译的二进制文件(引导扇区)写进软盘里
+<pre>
+yubo@debian:~$ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
+记录了1+0 的读入
+记录了1+0 的写出
+512字节(512 B)已复制，9.3823e-05 秒，5.5 MB/秒
+</pre>
+注意路径问题就行
