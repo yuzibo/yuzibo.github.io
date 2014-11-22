@@ -120,4 +120,33 @@ yubo@debian:~$ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
 记录了1+0 的写出
 512字节(512 B)已复制，9.3823e-05 秒，5.5 MB/秒
 </pre>
+稍微解释一下这个命令，if是input file的缩写，of是out file的缩写，也就是目标文件，bs是文件的大小，count不是很清楚，conv=notrune是不要截断.
 注意路径问题就行
+##下面是boot.asm文件，我们使用命令
+
+__nasm boot.asm -o boot.bin__
+{% highlight c %}
+org 07c00h ;load first instructor notify compile 
+
+mov ax,cs
+mov ds,ax
+mov es,ax
+
+call DispStr ;call char functions
+
+jmp $; loop
+
+DispStr:
+	mov ax,BootMessage
+	mov bp,ax
+	mov cx,16
+	mov ax,01301h
+	mov bx,000ch
+	mov dl,0
+	int 10h
+	ret
+	BootMessage: db "hello,OS world!"
+	times 510-($-$$) db 0
+	dw 0xaa55
+{% endhighlight %}
+简单介绍下这个文件的意思，引导扇区，是从0面0磁道1扇区到0xAA55,之间应包含少于512字节的执行码，一旦BIOS发现了引导扇区，就会将这512字节的内容装载到内存地址0000:7c00处，然后跳转到0000:7c00处将控制权交给这段引导代码。
