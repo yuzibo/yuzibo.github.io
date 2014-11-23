@@ -9,11 +9,11 @@ category: Linux
 “kbuild” is build system used by the linux kernel.Modules must use kbuild to stay compatible with GCC. Modules programming is consist of in-tree and out-of-tree
 ##系统命令
 	$make -C <path_to_kerenl_src> M=$PWD
-	$make -C /lib/modules/'uname -r'/build M=$PWD (__这里的‘uname -r’的单引号是shell中执行命令的‘’也就是左上角的__)
+	$make -C /lib/modules/\'uname -r\'/build M=$PWD 
 
 __target__:
 __modules_install__
-	$make -C /lib/modules/'uname -r'/build modules_install
+	$make -C /lib/modules/\'uname -r\'/build modules_install
 ##选项
 	tips: $KDIR is short of path of the kernel source directory
 
