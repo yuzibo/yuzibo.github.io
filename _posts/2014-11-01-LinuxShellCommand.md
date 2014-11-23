@@ -71,6 +71,7 @@ fi
 2.## 创建多级目录
 mkdir -p /home/yubo/xx
 {% endhighlight %}
+
 ##chmod
 
 {% highlight bash %}
@@ -85,6 +86,7 @@ chmod a(all)+x filename
 chmod a-x filename
 ##r--=4,-w-=2,--x=1,依次类推
 {% endhighlight %}
+
 ##chown
 
 {% highlight bash %}
@@ -98,13 +100,14 @@ chown -R redhat ./test
 4.#### 将test目录及其子目录中的文件的其他用户权限设置为没有任何权限
 chmod -R o=--- ./test
 {% endhighlight %}
+
 ##cp
 
 {% highlight bash %}
 1.## -r copy directories recursively
 cp -r /ect/pam.d ./test
-
 {% endhighlight %}
+
 ##chattr
 
 {% highlight bash %}
@@ -113,12 +116,13 @@ chattr +i file
 2.##删除这个属性
 chattr -i file
 ##echo
-
 {% highlight bash %}
 1.##print color text
 echo -e "[e1;42m This is color txet \e[0m"#其中数字不同颜色不同
 {% endhighlight %}
+
 ##find
+
 {% highlight bash %}
 1.## find and print
 find . -print   ## . stand for current directory,".." father
@@ -159,6 +163,7 @@ exit
 ##replay
 scriptreplay xx.log xx.session
 {% endhighlight %}
+
 ##tr
 
 {% highlight bash %}
@@ -174,6 +179,7 @@ echo 87654 | tr '9876543210' '0-9'
 4.## del special
 echo "hello 123 world 456" | tr -d '0-9'
 {% endhighlight %}
+
 ##宣告变量----$PATH and $VAR
 
 {% highlight bash %}
@@ -186,6 +192,7 @@ echo $0
 4.##root UID
 echo $UID(0 is root)
 {% endhighlight %}
+
 ##declare----typeset
 
 {% highlight bash %}
@@ -197,12 +204,14 @@ Options:
 -r: 将变量设定为readonly类型，不能更改也不能unset.
 
 {% endhighlight %}
+
 ##md5sum
 
 {% highlight bash %}
 1.##???
 md5sum filename
 {% endhighlight %}
+
 ##date
 
 {% highlight bash %}
@@ -217,6 +226,7 @@ date +%s
 5.## wanted form
 date "+%d %B %Y"
 {% endhighlight %}
+
 ##file
 
 {% highlight bash %}
@@ -225,12 +235,14 @@ file /etc/passwd
 2.##(print file type and not include filename)
 file -b /etc/passwd
 {% endhighlight %}
+
 ##eject
 
 {% highlight bash %}
 1.##干出cd托盘
 eject
 {% endhighlight %}
+
 ##diff&patch
 
 {% highlight bash %}
@@ -241,6 +253,7 @@ patch -p1 1.txt < version
 ## 若撤销patch
 patch -p1 1.txt < version.patch
 {% endhighlight %}
+
 ##tar
 
 {% highlight bash %}
@@ -270,6 +283,7 @@ tar -jtv -f 2.tar.bz2 | grep 'name'
 tar -jcv -f /../xx.bz2 --exclude=/root/etc* --exclude=/root/xx.bz2 /etc/ /root
 
 {% endhighlight %}
+
 ##head && tail
 
 {% highlight bash %}
@@ -280,6 +294,7 @@ head -n 4 file
 2. ## print behand 10 lines
 tail -n 5 file
 {% endhighlight %}
+
 ##grep
 
 {% highlight bash %}
@@ -342,9 +357,11 @@ grep -C 2 "word" file(打印前2行和后2行)
 9.## grep那么该如何定位呢
 
 {% endhighlight %}
+
 ##pushd && popd
-1.## ingore cd
+
 {% highlight bash %}
+1.## ingore cd
 pushd /var/www
 pushd /usr/src
 dirs
@@ -352,8 +369,8 @@ dirs
 pushd +1
 2.## popd 同样的内容但是推出，原理同上
 3.## 若只在两个目录间切换，可以尝试  cd -
-
 {% endhighlight %}
+
 ##print dir
 
 {% highlight bash %}
@@ -362,6 +379,7 @@ ls -d */
 ls -F | grep "/s" ##
 ls -l | grep "^d"
 {% endhighlight %}
+
 ##cp
 
 {% highlight bash %}
@@ -369,10 +387,11 @@ ls -l | grep "^d"
 cp -r source_file destion_file
 {% endhighlight %}
 ##du-----df
-
 {% highlight bash %}
+
 1.##du显示当前目录所占的磁盘空间    df目前磁盘的所剩空间
 {% endhighlight %}
+
 ##sort--uniq
 
 {% highlight bash %}
@@ -400,8 +419,8 @@ sort -k 2 data.txt
 sort unsorted.txt | uniq
 9.## 统计次数
 sort unsorted.txt | uniq -c
-
 {% endhighlight %}
+
 ##stdin==0--stdout==1---stderr==2
 
 {% highlight bash %}
@@ -429,6 +448,7 @@ newline
 append line
 ##  ok!
 {% endhighlight %}
+
 ##termial-tput and stty
 
 {% highlight bash %}
@@ -440,9 +460,10 @@ tput set no(0~no~7)
 tput bold
 4.##del all to end
 tput ed
-
 {% endhighlight %}
+
 ##function()
+
 {% highlight bash %}
 1.##methon
 fname(){
@@ -456,6 +477,7 @@ fname 1 2 3 4
 2.## export
 export -f fname ##subprocess can use fanme
 {% endhighlight %}
+
 ##read-重点是对于变量起作用
 
 {% highlight bash %}
@@ -468,12 +490,14 @@ read -t 2 var
 4.##define symbol
 read -d ":" var
 {% endhighlight %}
+
 ##paste
 
 {% highlight bash %}
 1.## 按列合并文本,中间以：为定界符
 paste 1.txt 2.txt -d ":"
 {% endhighlight %}
+
 ##ulimit
 
 {% highlight bash %}
@@ -483,8 +507,8 @@ ulimit [-SHacdfltu] [配额]
 -S :soft limit,超过发出警告
 -a :all ，后面不接任何选项，列出所有的限制额度
 ---
-
 {% endhighlight %}
+
 ##sed
 
 {% highlight bash %}
@@ -516,6 +540,7 @@ echo hello world | sed "s/$text/HELLO/"
 cat 1.txt | sed 's/\b[0-9]\{3\}\b/number/g'
 11.## sed [-e] 'instruction' file  ## -e:输入多条命令必需品
 {% endhighlight %}
+
 ##awk
 
 {% highlight bash %}
@@ -559,7 +584,9 @@ awk -F, '/pattern/ { print $1 }' file
 15.## -f 脚本文件；-v var=value follows
 
 {% endhighlight %}
+
 ##tac
+
 
 {% highlight bash %}
 1.## 逆序输出,同时可以使用-s 分割符选项指定分割符
@@ -567,11 +594,13 @@ seq 5 | tac
 ##IFS
 ##Internal Field Separator IFS
 {% endhighlight %}
+
 ##who---w-----ku
 
 {% highlight bash %}
 1.##这三个指令差不多，只不过ku是检查整个网络上的用户
 {% endhighlight %}
+
 ##wc
 
 {% highlight bash %}
@@ -583,9 +612,10 @@ wc -w file
 echo -n 1234 | wc -c
 4. ## print longest length
 wc file -L
-
 {% endhighlight %}
+
 ##xargs
+
 {% highlight bash %}
 1.## special form output
 cat 1.txt | xargs
@@ -596,7 +626,7 @@ echo "hghjkh:hgfjh:hf" | xargs -d :
 or
 echo "jhhgjg:hjfh:bv" | xargs -d : -n 2
 {% endhighlight %}
-
+##12
 {% highlight bash %}
 1.##根据扩展名且分文件名 %：提取文件名
 file_jpg="sample.jpg"
