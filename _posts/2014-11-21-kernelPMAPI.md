@@ -212,5 +212,91 @@ struct uoid {
 };
 extern struct pid init_struct_pid;
 {% endhighlight %}
+##find_get_pid()应用举例
 {% highlight c %}
+
+#include <linux/module.h>
+#include <linux/sched.h>
+#include <linux/pid.h>
+MODULE_LICENSE("GPL");
+
+/*
+ * define subprocess
+ */
+int my_function(void *argc)
+{
+	printk("<0> in the kerenl thread function!\n");
+	return 0;
+}
+/*
+ * load module function
+ *
+ */
+static int __init find_get_pid_init(void)
+{
+	int result;
+	printk("<0> into the find_get_pid_init.\n");
+	/*
+	 * create a new process, the value of return is a int num,also called 
+	 * process id  
+	 */
+	result = kernel_thread(my_function,NULL,CLONE_KERNEL);
+	/*
+	 * According to process id,call zhe function,get the process descriptor
+	 * information, wait ...atomc_t？
+	 */
+	struct pid *kpid = find_get_pid(result);
+	/*
+	 * how many time use the function
+	 */
+	printk("<0> the count of the pid is :%d\n",kpid->count);
+	/*
+	 * level
+	 */
+	printk("<0> the level of the pid is :%d\n",kpid->level);
+
+	/*
+	 * display PID
+	 */
+	printk("<0> the pid of the find_get_pid is :%d\n",kpid->numbers[kpid->level].nr);
+	/*
+	 * display kernel_thread's return value
+	 */
+	printk("<0> the result of the kernel_thread is :%d\n",result);
+	printk("<0> out find_get_pid_init.\n");
+	return 0;	
+}
+/*
+ * quit module define
+ */
+static void __exit find_get_pid_exit(void)
+{
+	printk("<0> Goodbye find_get_pid");
+}
+module_init(find_get_pid_init);
+module_exit(find_get_pid_exit);
+
 {% endhighlight %}
+##输出结果
+<pre>
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689851]  into the find_get_pid_init.
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689863]  the count of the pid is :2
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689864]  the level of the pid is :0
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689866]  the pid of the find_get_pid is :3554
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689867]  the result of the kernel_thread is :3554
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689868]  out find_get_pid_init.
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.690635]  in the kerenl thread function!
+</pre>
