@@ -5,7 +5,7 @@ category: linux
 ---
 ##注，代码中的数字是注释
 ##bc
- 
+{% highlight bash %}
 1.##十进制转换成二进制
 no=100
 echo "obase=2;$no" | bc
@@ -15,9 +15,11 @@ echo "obase=10;ibase=2;$no" | bc
 3##direct to
 echo "sqrt(100)" | bc
 echo "10^10" | bc
+{% endhighlight %}
  
 ##cat
  
+{% highlight bash %}
 1.##remove blank cols
 cat 1.txt | tr -s '\n'
 2.## display tab
@@ -27,9 +29,10 @@ cat -n filename
 4.## cat > file1
 向文件中写入内容
  
+{% endhighlight %}
 ##comm
 
-<pre>
+{% highlight bash %}
  
 1.##comm must use sorted file as input
 sort A.txt -o A.txt ;
@@ -47,9 +50,11 @@ comm A.txt B.txt -3 | sed 's/^\t//'
 ##利用这个命令产生差集
 comm A.txt B.txt -1 -3  ##is B\'s
 
+{% endhighlight %}
  
 ##cut
-
+ 
+{% highlight bash %}
  
 ##1. 在cut的术语中，每列都是一个字段
 cut -f 2,3 filename
@@ -58,6 +63,7 @@ cut -f3 --complement filename
 ##    要指定字段的定界符，使用-d选项
 cut -f2 -d";" filename
  
+{% endhighlight %}
 ##less--more
 
  
