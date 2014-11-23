@@ -28,7 +28,6 @@ cat -T xx.txt
 cat -n filename
 4.## cat > file1
 向文件中写入内容
- 
 {% endhighlight %}
 ##comm
 
