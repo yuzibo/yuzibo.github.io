@@ -44,9 +44,10 @@ comm A.txt B.txt -1 -2
 comm A.txt B.txt -3 | sed 's/^\t//'
 ##这个命令会产生1，2列，用sed命令删除空白字段，s是替换，^是行首，
 ##利用这个命令产生差集
-comm A.txt B.txt -1 -3  ##is B's
+comm A.txt B.txt -1 -3  ##is B\'s
 
 {% endhighlight %}
+<pre>
 ##cut
 
 {% highlight bash %}
@@ -637,3 +638,4 @@ echo file name is: $name
 exten=${file_jpg#*.}
 
 {% endhighlight %}
+</pre>
