@@ -46,9 +46,9 @@ int a = 1;
 
 int *p = &a;
 
-float \*p1 = (float*)p;
+float \*p1 = (float\*)p;
 
-则p和p1的值都是&a，但是*p是将&a地址中的值按照int型变量进行解释，而*p1则是将&a地址中的值按照float型变量进行解释。
+则p和p1的值都是&a，但是\*p是将&a地址中的值按照int型变量进行解释，而\*p1则是将&a地址中的值按照float型变量进行解释。
 
  ANSI C规定，void指针可以复制给其他任意类型的指针，其他任意类型的指针也可以复制给void指针，他们之间复制不需要强制类型转换。当然任何地址也可以复制给void型指针。
 
@@ -59,7 +59,7 @@ float \*p1 = (float*)p;
 {% highlight c %}
 int a = 8;
 int *q;//指针(q)的类型是int *,指针指向的类型是int
-q = &a;//给q赋值，但这里两者可以合写*q = &a,仔细想想概念细节;
+q = &a;//给q赋值，但这里两者可以合写 *q = &a,仔细想想概念细节;
 /*即使int *q = &a,我们最好将事实上也就是把q的类型看成int *，这样才会与&a的事实联系起来*/
 printf("%d\n",*q);
 /*结果就是8*/
@@ -76,9 +76,9 @@ int *p;
 {% endhighlight %}
 假如我们想让指针p指向浮点数f，那么就是__p = &f__吗，错，因为两边的类型不同，不能直接赋值，需要强制转换。
 
-p = (int *)&f;
+p = (int \*)&f;
 
-如果有一个指针p，我们需要把它的类型和它所指向的类型改为TYPE *和TYPE,那么语法格式就是(TYPE *)p.
+如果有一个指针p，我们需要把它的类型和它所指向的类型改为TYPE \*和TYPE,那么语法格式就是(TYPE \*)p.
 
 那么我们可不可以把一个整数当作指针的值直接赋给指针呢？就像下面的语句：
 
@@ -145,13 +145,17 @@ char *ptr = &(f.b);
 </pre>
 通过以上分析我们不难得出，我们只需要把当前知道的成员变量的地址ptr，减去它在结构体当中的相对偏移量4就得到了结构体的地址（ptr-4）。在linux内核中，有一个很好的宏叫做container_of，
 
-__#define offset(TYPE,MEMBER)((size_t) & ((TYPE *)0)->member)__
+__#define offset(TYPE,MEMBER)((size_t) & ((TYPE \*)0)->member)__
 ##这个宏的功能就是获得一个结构体成员在此结构体的偏移量
 问题是，你能清楚的讲解上面语句的含义吗？我用了一天的时间去恶补基础，结果发现自己太菜了。
-1.((TYPE *)0) 将零强制转换为TYPE类型的指针;
-2.((TYPE *)0)->MEMBER 访问结构中的数据成员;
-3.&(((TYPE *)0)->MEMBER) 取出数据成员的地址，即想对于0的偏移量，求的就是它。
-4.(size_t)(&((TYPE *)0)->MEMBER) 结果强制转换，size_t应该最终为 unsigned int 类型。
+1.((TYPE \*)0) 将零强制转换为TYPE类型的指针;
+
+2.((TYPE \*)0)->MEMBER 访问结构中的数据成员;
+
+3.&(((TYPE \*)0)->MEMBER) 取出数据成员的地址，即想对于0的偏移量，求的就是它。
+
+4.(size_t)(&((TYPE \*)0)->MEMBER) 结果强制转换，size_t应该最终为 unsigned int 类型。
+
 {% highlight c %}
 #include<stdio.h>
 #define offset(TYPE,MEMBER)((int)(&((TYPE *)0)->MEMBER))
