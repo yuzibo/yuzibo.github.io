@@ -29,6 +29,7 @@ cat -n filename
 {% endhighlight %}
 ##comm
 
+<pre>
 {% highlight bash %}
 1.##comm must use sorted file as input
 sort A.txt -o A.txt ;
@@ -47,7 +48,6 @@ comm A.txt B.txt -3 | sed 's/^\t//'
 comm A.txt B.txt -1 -3  ##is B\'s
 
 {% endhighlight %}
-<pre>
 ##cut
 
 {% highlight bash %}
