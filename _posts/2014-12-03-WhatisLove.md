@@ -1,7 +1,8 @@
 ---
 layout: article
 title: "什么是爱情"
----　 	
+category: mood
+---
 #什麼是愛情
 
 
