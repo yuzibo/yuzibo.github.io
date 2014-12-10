@@ -5,14 +5,21 @@ category: book
 ---
 
 1.insmod 是系统调用 kernel/module.c，The function sys_init_module allocates kernel memory(how)=>（ The memory is allocated with vmalloc function）,系统调用函数把模块复制到内存区，通过内核符号表解决内核引用的问题，并且呼叫模块初始化函数使一切准备就绪。
+
 2.在内核源代码中，使用前缀sys_ 就是系统调用。
+
 3.modprobe 命令比insmod命令高级一点，它会自动解决模块引用不成功的问题。
+
 4.如果模块正在被使用，清楚模块的任务将会失败，或者这个模块已经被定义为不可清除
+
 5.lsmod 将会列出目前正在内核被加载的模块还有例如其他模块正在使用一个特殊的模块，他是通过读 /proc/modules虚拟文件实现的。当前加载的模块也可以在虚拟系统文件 /sys/module读取。
+
 6.在装载模块时，在链接的过程中会寻找一个目标文件 vermagic.o（不过，在debian中我没有找到这个文件）和当前的系统配置相对照，还有 vmlinux是做什么用的？
+
 7. 系统文件日志
 /var/log/messages,
 终于印证了我的设想，如果我想编译一个模块但不是现在源码树的内核，应该重新指定KERNELDIR，测试一下。
+
 8.当你写的驱动需要在不同版本的linux上运行时，你这时就需要充分利用macros和#ifdef结构体了，类似大量的定义在这个文件linux/veersion.h中，这个头文件自动包括linux/module.h
 
 UTS_RELEASE
@@ -104,10 +111,49 @@ name必须和你的number相对应，而且这个名字就在/proc/devices中显
 int alloc_chrdev_region(dev_t *dev, unsigned int firstminor,
 			unsigned int count, char *name)
 </pre>
-记住，申请完设备后一定要记得释放，
+记住，申请完设备后一定要记得释放，驱动程序应该始终使用alloc_chrdev_region.
 <pre>
 void unsigned_chrdev_region(dev_t first,unsigned int count)
 </pre>
 ##非重点(disgression)
 Major devices numbers 静态分配的多些，这些设备清单在内核的Documentayion/devices.txt,如果你的设备不工作，那么试试以下两种方法: 1.使用未使用的静态主设备号;2.使用动态分配的方法,in other word,我们应该更多的使用alloc_chrdev_region而不是register_chrdev_region.
-P65
+
+###主设备号
+是关于驱动程序的，例如 /dev/null,/dev/zero 的主设备号是1,虚拟控制台和串口终端是4,VCSL和VCSL设备是7.
+###次设备号
+由内核使用，用于正确确定设备文件所指的设备，可以通过设备号获得一个指向内核设备的直接指针。
+file_operations structure :
+	struct file_operations scull_fops = {
+		.owner = THIS_MODULE,
+		.llseek = scull_llseek,
+		.read = scull_read,
+		.write = scull_write,
+		.ioctl = scull_ioptl,
+		.open = scull_open,
+		.release = scull_release,
+
+
+	};
+hints:
+
+对于结构体
+	struct a {
+		int a;
+		int b;
+	}
+有以下几种初始化方式：
+	struct a a1 = {
+		.a = 1,
+		.b = 2,
+	};
+或者
+	struct a a2 = {
+		a:1,
+		b:2,
+	};
+or
+	struct a a3 = {
+		1,2
+	};
+
+内核喜欢用第一种方式，使用第一种和第二种方式，成员初始化的顺序可以改变。使代码更具有可移植性。
