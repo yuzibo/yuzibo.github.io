@@ -123,14 +123,15 @@ Major devices numbers 静态分配的多些，这些设备清单在内核的Docu
 ###次设备号
 由内核使用，用于正确确定设备文件所指的设备，可以通过设备号获得一个指向内核设备的直接指针。
 ###三个重要的数据结构
-file_operations structure :
+####file_operations structure :
 {% highlight c %}
 struct file_operations {
 	struct module *owner;//<linux/module.h> => THIS_MODULE
 	loff_t (*llseek) (struct file *, loff_t, int);//loff_t is long long							//via __kernel_loff_t;
 						//change current read/write						//position.
 	ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
-	/* ssize_t viaing  __kernel_ssize_t is defined long,通常这个函数返回从设备读来的字节数，如果是NULL,则会返回 -EINVAL("Invalid arguments")
+	/* ssize_t viaing  __kernel_ssize_t is defined long,通常这个函数返回从设备读来的字节数，
+	   如果是NULL,则会返回 -EINVAL("Invalid arguments")
 	 */
 	ssize_t (*aio_read)(struct kiocb *,char __user *, size_t, loff_t);
 		//异步读
@@ -142,10 +143,12 @@ struct file_operations {
 	int (*readdir) (struct file *, void *, filldir_t);
 	/*它是被用来读管道，并且仅仅用于文件系统，对于设备文件，仅仅使用NULL*/
 	unsigned int (*poll) (struct file *, struct poll_table_struct *);
-	/*这个方法被用于三个系统调用，poll,epoll,select,询问一个读或写的文件描述符是否堵塞，if a driver  leaves its poll method NULL,这个设备被认为可读可写
+	/*这个方法被用于三个系统调用，poll,epoll,select,询问一个读或写的文件描述符是否堵塞，if a driver  
+	  leaves its poll method NULL,这个设备被认为可读可写
 	 */
 	int (*ioctl) (struct inode *, struct file *, unsigned int, unsigned long);
-	/*这ioctl系统调用提供了一种方式去实现设备的特殊命令，例如格式化软驱磁道，如果不存在这样的ioctl方法，系统将会返回-ENOTTY("NO such ioctl for device")
+	/*这ioctl系统调用提供了一种方式去实现设备的特殊命令，例如格式化软驱磁道，如果不存在
+	  这样的ioctl方法，系统将会返回-ENOTTY("NO such ioctl for device")
 	 */
 	int (*mmap) (struct file *,struct vm_area_struct *);
 	/*
@@ -159,12 +162,14 @@ struct file_operations {
 	int (*release) (struct inode *, struct file *);
 	/*激活file数据结构*/
 	int (*fsync) (struct file *,struct dentry *, int);
-	/*This method is the back end of the fsync system call,which a user calls to flush any pending data,if this is NULL, return -EINVAL*/
+	/*This method is the back end of the fsync system call,which a user calls to flush any 
+	  pending data,if this is NULL, return -EINVAL*/
 	int (*aio_fsync)(struct kiocb *, int);//异步
 	int (*fasync) (int, struct file *, int);
 	/*这个方法被用来通知设备去改变它的FASYNC的标志，这是关于一个异步的问题*/
 	int (*lock) (struct file *, int ,struct file_lock *);
-	/*loch 方法被用来实现文件锁，locking对于日常文件很重要，但是对于设备驱动却几乎没有用过*/
+	/*loch 方法被用来实现文件锁，locking对于日常文件很重要，但是对于设备驱动
+	  却几乎没有用过*/
 	ssize_t (*readv)(struct file *, const struct iovec *,unsigned long,loff_t *);
 	ssize_t (*writev) (struct file *,const struct iovec *,unsigned long,loff_t *);
 	/*实现扫描/采集 读或写 操作，if is NULL，被read和write代替*/
@@ -220,4 +225,9 @@ or
 	};
 
 内核喜欢用第一种方式，使用第一种和第二种方式，成员初始化的顺序可以改变。使代码更具有可移植性。
-p71
+####file struct
+struct file 是第二重要的数据结构，与用户空间的FILE完全没有关系
+{% highlight c %}
+	mode_t f_mode;//mode_t is defined as __bitwise__
+	/*The method 区分这个文件是可读的还是可写的*/
+{% endhighlight %}
