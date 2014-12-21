@@ -1,5 +1,6 @@
 ---
 layput: article
+title: "Mutt和msmtp的配合使用"
 category: linux
 tags: email
 ---
