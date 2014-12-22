@@ -145,7 +145,7 @@ auth on #
 
 port 25
 user yuzibode
-password yuzibode25836936
+password xx
 
 logfile /var/msmtp.log
 
@@ -202,7 +202,7 @@ set sort_browser=alpha
 #使用下面的简单配置一定要小心
 #只使用这几句简单的就可以把网易邮箱的东西弄到本地来
 #set pop_user=yuzibode@126.com
-#set pop_pass="yuzibode25836936"
+#set pop_pass="xx"
 #set pop_host=pops://pop.126.com
 #set pop_last=yes
 #####################
@@ -270,7 +270,7 @@ uidl # 每次只读新的邮件
 #protocol POP3
 #port 25
 user "yuzibode@126.com"
-password "yuzibode25836936"
+password "xx"
 mda "/usr/bin/procmail  -d %T"
 ssl
 #在服务器上保留
