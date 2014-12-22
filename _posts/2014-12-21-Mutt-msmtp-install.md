@@ -1,8 +1,7 @@
 ---
-layput: article
-title: "Mutt和msmtp的配合使用"
+layout: article
+title: "Mutt,msmtp,fetchmail,procmail的配合使用"
 category: linux
-tags: email
 ---
 
 想要真正使用mutt，必须详细了解邮件系统的运作机制
@@ -29,40 +28,44 @@ tags: email
 
 在这里，我们使用mutt作为邮件客户端。
 
-###2.1分步讲解
+###分步讲解
+2.1
 
-	MUA：让用户管理，如阅读、储存邮箱里的email，或者通过MSA将新的邮件发出。
-	除了在unix上流行的mutt,其他较为流行的MUA还有：
+MUA：让用户管理，如阅读、储存邮箱里的email，或者通过MSA将新的邮件发出。
+除了在unix上流行的mutt,其他较为流行的MUA还有：
 
-	Other popular MUAs include Thunderbird, Kmail, evolution, Sylpheed,
-	mulberry, pegasus, pine, and elm (mutt's predecessor)... 
+Other popular MUAs include Thunderbird, Kmail, evolution, Sylpheed,mulberry, pegasus, pine, and elm (mutt's predecessor)... 
 
- 2.2	MTA: Mail Transport Agent(SMTP server)	
+2.2
 
-	MTA的功能是接受、发送email到其他的MTAs，在Internet上，MTAs与MTAs交流使用的是 the Simple Mail Transfer Protocol,简称SMTP.官网上还有很多，自己也没有看懂，先就不写了
+MTA: Mail Transport Agent(SMTP server)	
 
-	较流行的MTAs有
+MTA的功能是接受、发送email到其他的MTAs，在Internet上，MTAs与MTAs交流使用的是 the Simple Mail Transfer Protocol,简称SMTP.官网上还有很多，自己也没有看懂，先就不写了
+
+较流行的MTAs有
+	
 	exim
 	postfix
 	sendmail
 	qmail
 
-2.3	MDA: Mail Delivery Agent
-	MDA的功能是从MTA接收一封email或者发送(过滤)email到用户的邮箱文件夹。
+2.3	
 
-	而MDAs用的较多就是procmail.
+MDA: Mail Delivery Agent
+
+MDA的功能是从MTA接收一封email或者发送(过滤)email到用户的邮箱文件夹。
+
+而MDAs用的较多就是procmail.
 
 2.4	
-	MRA: Mail Retrieval Agent(POP/IMAP client)
 
-	MRA的处理对象是POP/IMAP，很多功能和MUAs很象
-	如果你能直接使用SHELL-cmd或者mutt直接读取邮件服务器的本地邮件，就
-	不需要MRA了。
-	我的理解是我们之所以使用MRA是我们能直接使用上面情况的机会很少，更
-	多的使用是例如网易的163、126,google的gmail的邮件服务器，那么就需要
-	MRA将他们服务器上的邮件转移到你这儿来
+MRA: Mail Retrieval Agent(POP/IMAP client)
 
-	MRA使用较多的是
+MRA的处理对象是POP/IMAP，很多功能和MUAs很象如果你能直接使用SHELL-cmd或者mutt直接读取邮件服务器的本地邮件，就不需要MRA了。
+	
+我的理解是我们之所以使用MRA是我们能直接使用上面情况的机会很少，更多的使用是例如网易的163、126,google的gmail的邮件服务器，那么就需要MRA将他们服务器上的邮件转移到你这儿来
+
+MRA使用较多的是
 
     fetchmail ( http://fetchmail.berlios.de/)
     getmail ( http://pyropus.ca/software/getmail/)
@@ -82,10 +85,14 @@ tags: email
      http://www.netbsd.org/docs/guide/en/chap-mail.html 
 
 
+=====================
 
+前面都是基本知识,废话,下面才是重点
 
-##安装过程
+====================
 
+#安装过程
+## 安装mutt
 建议源码安装，我自己偷懒了直接(先测试 mutt -v,若找不到，可能你的linux发行版没有安装)
 
 	sudo apt-get install mutt
@@ -113,68 +120,131 @@ tags: email
 	...
 	EXECSHELL="/bin/sh"
 
-相关内容
-
-从这儿我们可以看出mutt假定我们MTA已经安装，如果你确实已经安装，ok！否则，你要先安装、配置MTA,现在也就是这些，别的我也说不出来太多。
-
-当然，mutt的全局配置文件在/etc/Muttrc中，个人用户的配置文件在用户目录("~/.muttrc" or "~/.mutt/muttrc"),配置文件的内容看不明白啊
-
+我们可以看出mutt的默认发送邮件的程序是 sendmail,下面我们使用msmtp来发送邮件,
+(配置文件先不写,在msmtp的后面)
+##install msmtp
 	sudo apt-get install msmtp
 
 msmtp 是一款专门负责邮件发送的客户端软件，基于GPL发布，支持TLS/SSL、DNS模式、IPv6、服务器端认证、多用户等特性。
-2.
-分别在创建/etc/msmtprc(root权限)和～/.msmtprc,内容都可以是下面一样的
 
-	defaults
-      	tls on
-	tls_starttls on
-	tls_trust_file /etc/ssl/certs/ca-certificates.crt
+创建msmtp的配置文件～/.msmtprc,内容如下:
 
-	account default
-	host smtp.126.com#这里随意改
-	port 25#gmail是587
-	auth on
-	user username@126.com
-	password mypass
-	from username@gmail.com
-	logfile /var/msmtp.log#设置好位置，要注意文件的权限
+vim $HOME/.msmtprc
 
-这两个配置文件都要注意权限，
+{% highlight bash %}
+defaults
+tls on
+tls_starttls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
 
-	chmod 0600 file
+# 126
+account default
+host smtp.126.com
+from yuzibode@126.com
+auth on # 
 
-test send email:
+port 25
+user yuzibode
+password yuzibode25836936
+
+logfile /var/msmtp.log
+
+
+{% endhighlight %}
+
+这个配置文件都要注意权限，
+
+	chmod 0600 $HOME/.msmtprc
+
+
+
+在命令行下test send email:
 
 	msmtp xx@126.com
 
 Ctrl+D,you will receive a letter later.
+
+那mutt与msmtp是怎么配合的呢?
+
 ##配置mutt
 首先查看一下msmtp的安装位置
 
 	which msmtp
 
-编辑mutt的配置文件，～/.muttrc,root edits /etc/Muttrc
+编辑mutt的配置文件，～/.muttrc
 
-	set sendmail="/path/to/msmtp"
-	set use_from=yes
-	set realname="Your Name"
-	set from=you@example.com
-	set envelope_from=yes
-	set editor="vim"
+{% highlight bash %}
+#=====================
+#关于msmtp的设置
+
+set sendmail=/usr/bin/msmtp
+set use_from=yes
+set realname="YU Bo"
+set from=yuzibode@126.com
+set envelope_from=yes
+
+
+# received messages-folder
+set spoolfile="/var/spool/mail/yubo" 
+#====================
+#关于信箱的设置
+set folder="~/Mail" # E-mail folder
+set mbox="~/Mail/seen" # save SEEN message
+set record="+sent" #set save sent-mail folder
+set postponed="+postponed" # 放草稿
+set move=no #移动已读邮件
+#====================
+#
+mailboxes ! +Fetchmail +slrn +mutt
+set sort_browser=alpha
+
+##############################
+#使用下面的简单配置一定要小心
+#只使用这几句简单的就可以把网易邮箱的东西弄到本地来
+#set pop_user=yuzibode@126.com
+#set pop_pass="yuzibode25836936"
+#set pop_host=pops://pop.126.com
+#set pop_last=yes
+#####################
+
+set editor="vim"
+
+#终端显示的代码
+#set charset="utf-8"
+
+#外发邮件使用的编码
+#set send_charset="UTF-8"
+
+#auto view html
+auto_view text/html
+
+
+# 回信时之前的引文符号
+set indent_str=">"
+
+#macro index,pager I '<shell-escape> fetchmail -v<enter>'
+
+{% endhighlight %}
+
+写好配置文件后,创建一个Mail目录
+
+	mkdir -v $HOME/Mail
+
+其他的子目录和日志文件不用管,我就是因为这个浪费了一天的时间.
 
 You can write email used mutt and sending it via msmtp
 
-###test:
 
 	echo "content:123456" | mutt -s "title" -a file yuzibode@126.com
+
+tips:
 
 mutt -s: subject
 
 mutt -a: 附件
 
 __注意__,在多个收件人的情况下,以空格键分隔收件人即可.
-##Summary:
-小结
+
 
 对于 msmtp 的详细介绍，可以参考 http://msmtp.sourceforge.net/documentation.html 或者 man msmtp。
 
@@ -182,5 +252,62 @@ __注意__,在多个收件人的情况下,以空格键分隔收件人即可.
 
 对于 mutt，还有很多需要配置，比如对多个邮件帐号的支持、分类文件夹等，这些会在后面的使用过程中逐渐完善。 
 
+##fetchmail
+
+	sudo apt-get install fetchmail
+
+Fetchmail用于将其它支持pop3的邮件服务器上取回邮件并保存到本地的spool中。它的配置文件为 ~/.fetchmail,在配置好后，还需要在shell的启动脚本里写入启动fetchmail的指令。
+
+.fetchmail文件的内容为： 
+
+{% highlight bash %}
+#每隔60秒获取新邮件
+set daemon 60
+poll pop.126.com 
+with proto POP3 
+#and options no dns
+uidl # 每次只读新的邮件
+#protocol POP3
+#port 25
+user "yuzibode@126.com"
+password "yuzibode25836936"
+mda "/usr/bin/procmail  -d %T"
+ssl
+#在服务器上保留
+keep
+#ssl
+set logfile /var/fetchmail.log
 
 
+{% endhighlight %}
+
+##procmail
+
+	sudo apt-get install procmail
+
+这个文件具体的运行机制我也不是特别的明白,你先照着做吧
+{% highlight bash %}
+PATH=/bin:/usr/bin:/usr/local/bin
+MAILDIR=$HOME/Mail
+
+#DEFAULT=$MAILDIR/inbox
+VERBOSE=OFF
+LOGFILE=/var/log/procmaillog
+
+:0:
+* ^TOmutt-user
+mutt
+{% endhighlight %}
+
+#最后两个文件的权限最好也要设置为600
+
+将这几个文件弄好后,在命令行下输入
+
+	mutt
+
+接着键入 
+
+	!
+你可以在shell输入: fetchmail -v
+
+其实刚才set daemon 60就已经弄好了,在mutt的世界里慢慢玩吧!
