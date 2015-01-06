@@ -230,4 +230,119 @@ struct file 是第二重要的数据结构，与用户空间的FILE完全没有�
 {% highlight c %}
 	mode_t f_mode;//mode_t is defined as __bitwise__
 	/*The method 区分这个文件是可读的还是可写的*/
+	loff_t f_ops;
+	/*目前读和写的位置*/
+	unsigned int f_flags;
+	/*这是文件标志，such as O_RDONLY,O_NONBLACK,O_SYNC,当一个驱动询问是
+	  否正在堵塞应该检查O_NONBLOCK标志位，所有的标志是被定义在<linux/fcntl.h>*/
+	struct file_operations *f_op;
+	/*这是关于文件的，这一块很重要，但是我没有读懂什么意思，open操作
+	  对应主设备号1,filp->p对应次设备号*/
+	void *private_data;
+	/*这open系统呼叫在使用open方法之前设置了NULL？？，要记得释放*/
+	struct dentry *f_dentry;
+	/*the directory entry (dentry) 和文件有关系，BTW，设备从来不创建file结构*/
 {% endhighlight %}
+###inode structure
+The inode 是被内核内部用来代表文件，单个文件可以有多个file结构，但是它们全都指向一个 inode,现在先有两个重要域关于驱动的
+{% highlight c %}
+	dev_t i_rdev;
+	/*对于inode来说，它代表设备文件，包含实际的设备号*/
+	struct cdev *i_dev;
+	/*struct cdev 是代表字符设备的内部结构*/
+
+{% endhighlight %}
+最近，有开发者希望能从inode中直接获取主设备号和次设备，
+
+	unsigned int iminor(struct inode *inode);
+	unsigned int imajor(struct inode *inode);
+
+###字符设备注册
+在linux中，内核使用 cdev 结构去表示字符设备，那么必须包含<linux/cdev.h>,可以使用以下方法在运行时获得 cdev 结构，
+
+	struct cdev *my_cdev = cdev_alloc();
+	my_dev->ops = &my_fops;
+
+在初始化中,
+
+	void cdev_init(struct cdev *cdev, struct file_operations *ops);
+
+在kenel呼叫cdev是
+
+	int cdev_add(struct cdev *dev, dev_t num, unsigned int count);
+
+num是这个设备对应的第一设备号,count是设备号对应的设备的数量,多数情况下是1,也有例外的情况.这个函数失败的话会返回一个负数.
+
+To remove a char device from the system ,call:
+
+	void cdev_del(struct cdev, *dev);
+
+## Device Registration in scull
+scull 代表被一个scull_dev设备
+
+	struct scull_dev {
+		strcut scull_qset *data; /*first quantum*/
+		int quantum; /* The current quantum size*/
+		int qset; /*the current array size*/
+		unsigned long size; /*amount of data stored here*/
+		unsigned int access_key;
+		struct semaphore sem; /* mutual exclusion semaphore*/
+					/*互斥信号量*/
+		struct cdev cdev;/* Char device structure*/
+	}
+
+struct cdev是设备加载到内核的接口,这个结构必须初始化和加进系统使用如下的方法,
+
+	static void scull_setup_cdev(struct scull_cdev *dev, int index)
+	{
+		int err, devno = MKDEV(struct scull_major, scull_mirror + 
+					index);
+		cdev->init(&dev->cdev, &scull_fops);
+		dev->cdev.owner = THIS_MOUDLE;
+		dev->cdev.ops = &scull_fops;
+		err = cdev_add (&dev->cdev, devno,1);
+		if(err);
+		printk(KERN_NOTICE "error %d adding scull%d",err,index);
+	}
+
+##open()
+__open__method is provided for a driver to do any initialization in preparation for later operations,must consider following tasks:
+		
+	检查设备特别的错误,如没有就绪
+	Initialize the device if it is being opened for the first time
+	Update f_op pointer,
+	Allocate and in filp->private_data
+	
+第一件事是确定哪个设备正在被打开,open的函数原型为
+
+	int (*open)(struct inode *inode, struct file *file)
+
+我们希望scull_dev结构包含cdev结构,(它这是在说什么), container_of defined is in <linux/kernel.h>
+
+	container_of(pointer, container_type, container_field);
+
+这个宏把一个指针指向container_field的域,返回一个指针指向containing结构,在scull_open
+
+	struct scull_dev *dev; /*device information*/
+
+	dev = contain_of(inode->i_cdev,struct scull_dev, cdev);
+	filp->private_data = dev;
+
+只要一发现scull_dev结构,scull把一个指向前者的指针储存在private_data( in file structure)
+
+另一种方法是储存在 inode 结构体中的次设备号,尤其你使用register_chrdev方法注册设备,scull_open的代码如下:
+
+	int scull_open(struct inode *inode, struct file *file)
+	{
+		struct scull_dev *dev; /* device information*/
+		dev = contain_of(inode->i_cdev, struct scull_dev, cdev);
+		filp->private_data =dev;/*for other methods */
+		/*now trim to 0 the length of the device if open was write
+		 -only*/
+		if ( (filp->f_flags & 0_ACCMODE) == 0_WRONLY) {
+			scull_trim(dev);/*ignore errors*/
+		}
+		return 0; /* success*/
+	
+	
+	}
