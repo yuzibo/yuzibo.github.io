@@ -1,6 +1,6 @@
 ---
 layout: article
-title: "LDD读书笔记"
+title: "LDD读书笔记(1-4)"
 category: book
 ---
 
@@ -346,3 +346,97 @@ __open__method is provided for a driver to do any initialization in preparation 
 	
 	
 	}
+scull is a global structure.
+
+## release
+这个函数的作用有两个:1.撤销任何已经分配给filp->private_data的数据,2. 最后一次关闭设备
+
+	int scull_release(struct inode *inode, struct file *file)
+	{
+		return 0;
+	}
+
+因为没有硬件所以可以使用最简洁的方法去关闭scull.
+
+如果一个设备文件关闭的次数比它打开的次数多会发生什么? (what happens when a device file is closed more times than it is opened),after all,dup和fork呼叫这open files不使用open,How to a driver know when an open device file has really been closed?
+
+the answer is simple: not every close system call causes the release method to be invoked.the kernel keeps a counter of how many times a file structure is being used.Neither fork nor dup creates a new file structure (only open does that),They just increment the counter in the existing structure.The close system call executes the release method only when the file structure drops to 0,the guarantees that your driver sees only one release call for each open.
+
+kernel automatically closes any file at process exit time by internally using the close system call.
+
+##scull's Memory Usage
+two core functions used to manage memory in the Linux kernel.defined in <linux/slab.h>
+
+	void *kmalloc(size_t size, int flags);
+	void kfree(void *ptr);
+
+其中,size 是申请的字节大小,flags 在这里是GFP_KERNEL(又是一个多重的宏定义),稍后再详细解释这个东西.只要不使用kmalloc,就别使用kfree,当然,NULL可以传递给kfree.kmalloc 不是最有效的方法去申请内存,但这里只是为了简单展现是read和write的方法,申请整页的方法以后讲.
+
+这里有好好几种方法改变quantum和quantum set的大小:1,改变宏SCULL_QUANTUM和SCULL_QSET.2.在加载模块的时候指定scull_quantum和scull_qset的大小.3.或者改变ioctl的大小.
+
+	struct scull_qset {
+		void **data;
+		struct scull_qset *next;
+	
+	}
+下面的代码段展示了struct scull_dev和struct scull_qset如何持有data,__scull_trim__被scull_open激活.它遍历list和free   quantum和quantum set.
+
+	int scull_trim(struct scull_dev *dev)
+	{
+		struct scull_qset *next, *dptr;
+		int qset = dev->qset;
+		int i;
+		for (dptr = dev->data;dptr; dptr = next){ 
+			/*all the list items*/
+			if(dptr->data){
+				for(i=0; i<qset; i++)
+					kfree(dptr->data[i]);
+				kfree(dptr->data);
+			}
+			next = dptr->next;
+			kfree(dptr);
+		}
+		dev->size = 0;
+		dev->quantum = scull_quantum;
+		dev->qset = scull_qset;
+		dev->data = NULL;
+		return 0;
+	}
+
+##read and write
+
+	ssize_t read (struct file *flip, char __user *buff,
+			size_t count, loff_t *offp);
+	ssize_t write(struct file *filp, const char __user *buff,
+			size_t count, loff_t *offp);
+
+这里的buff是用户空间的数据,不能直接被kernel 的代码使用,为了能够在用户空间和内核空间传递buff,我们引入了特别的函数<asm/uaccess.h>,
+
+	unsigned long copy_to_user(void __user *to,
+				   const void *from,
+				   unsigned long count);
+	unsigned long copy_from)_user(void *to,
+					const void __user, *from,
+					unsigned long count);
+
+需要注意的是,用户空间的地址可能不存在,这时你必须把该进程睡眠.你必须保证传递给这些函数的用户空间指针是合法的.:
+###the read method
+A negative value is means an error,defined in <linux/errono.h>.typical values include -ETNTR(interrupted sytem call) -EFAULT(bad address).
+##readv and writev  
+These sysyem calls are versions of read and write taking an array of structures.each of which contains a pointer and a length value.
+	
+	ssize_t (*read) (struct file *filp,const struct iovec *iov,
+			unsigned long count, loff_t *ppos);
+	ssize_t (*write) (struct file *filp, const struct iovec *iov,
+			unsigned long count, loff_t *ppos);
+
+Here,the filp and ppos arugments are the same as for read and write.The __iovec__structure,defined in <linux/uio.h>
+
+	struct iovec
+	{
+		void __user *iov_base;
+		__kernel_size_t iov_len;
+	};
+
+__kernel_size_t__是unsigned long ,Each iovec describes one chunk of data to be transferred; it starts at iov_base(in user space) and is iov_len bytes long.The count parameter tells the method how many iovec structure there are.
+
