@@ -31,7 +31,7 @@ struct {
 {% endhighlight %}
 这个声明创建了y和z，y是一个数组，它包含了20个结构，z是一个指针，它指向这个类型的结构。上面两个声明会被当作两种截然不同的类型。
 ##标签的使用
-{% highlight %}
+{% highlight c %}
 struct SIMPLE {
 	int a;
 	char b;
@@ -48,7 +48,7 @@ struct SIMPLE y[20],*z;
 
 ##typedef
 使用结构体时，我们有一个东西不得不说：typedef;请看下例：
-{% highlight %}
+{% highlight c %}
 typedef struct{
 	int a;
 	char b;
@@ -68,13 +68,3 @@ Simple y[20],*z;
 先看看[!StackOverFlow](http://stackoverflow.com/questions/18554721/how-to-understand-size-t-type-0-member)的这个问题吧，我知道了，之前说过现在读linux kernel代码毫无感觉，无从下手的主要原因是自己知道的太少了，其实自己现在的c语言水平，根本连linux kernel的门都找不到。废话少讲，每天必须有五个新增知识点进账。
 
 
-{% highlight %}
-{% endhighlight %}
-{% highlight %}
-{% endhighlight %}
-{% highlight %}
-{% endhighlight %}
-{% highlight %}
-{% endhighlight %}
-{% highlight %}
-{% endhighlight %}

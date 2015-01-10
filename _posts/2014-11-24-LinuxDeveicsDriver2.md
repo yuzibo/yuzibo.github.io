@@ -111,7 +111,7 @@ Defined in <linux/kdev_t.h>
 	
 	}
 
-{% highlightend  %}
+{% endhighlight %}
 
 
 
