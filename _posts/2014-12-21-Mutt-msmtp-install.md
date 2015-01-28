@@ -182,10 +182,14 @@ set use_from=yes
 set realname="YU Bo"
 set from=yuzibode@126.com
 set envelope_from=yes
-
+#Update:
+here, you have to create serveral files that contain message from 126 and so.
+For example, i can create there files orther than dir inbox, sent,
+i use inbox restore message.
 
 # received messages-folder
-set spoolfile="/var/spool/mail/yubo" 
+#set spoolfile="/var/spool/mail/yubo" 
+set spoolfile="~/Mail/inbox" ##It' ok  
 #====================
 #关于信箱的设置
 set folder="~/Mail" # E-mail folder
