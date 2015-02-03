@@ -113,5 +113,94 @@ Defined in <linux/kdev_t.h>
 
 {% endhighlight %}
 
+##kdb内核调试器
 
+1.在编译内核时，首先将支持kdb的选项打开，在 Linux hacking >> KGDB
+
+2.在控制台下，按下 Pause Break 键启动调试，当内核发生oops，或者到达一个断点时也会开启调试。
+
+3.具体用到的时候再说
+##并发和竞争
+
+1.当一个linux process reaches a point where it cannot make any further process it goes to sleep (or "block")
+
+2.使用锁机制容易造成“sleep”，所以使用信号量来避免，在linux中，有一对函数叫做P，V。在进入临界区前，首先呼叫p，并且将value-1,V 释放这个信号量。当这两个函数出现意外时，需要等待...
+
+3.实现
+
+为了使用semaphore,需要包括<asm/semaphore>
+
+	struct semaphore;
+
+	void sem_init(struct semaphore *sem, int val); 
+	// val is the inital value to assign to a semaphore.
+
+还可以使用MACROS
+	
+	DECLARE_MUTEX(NAME); // ==>> 1
+
+	DECLARE_MUTEX_LOCKED(NAME); // ==>> 0
+
+如果在运行时进行初始化，可以使用以下两种方法
+
+	void init_MUTEX(struct semaphore *sem);
+	void init_MUTEX_LOCKED(struct semaphore *sem);
+
+使用：
+	
+	void down (struct semaphore *sem);
+	void down_interruptible(struct semaphore *sem); 
+	//产生不可杀的进程(D state in PS command)
+	int down_trylock(struct semaphore *sem);
+	//立即返回nonzero
+	
+	void up(struct semaphore *sem);
+
+使用信号量通过down获得，也就是说在你的目标代码中使用上述的的down xx（），可以获得这个信号量;当你离开这个临界区时，通过up()释放。
+
+首先我们在设备文件中设置 
+
+	struct semaphore sem;
+	init_MUTEX(&scull_devices[i].sem);
+	//一定要在设备分配之前使用
+
+	up(&dev->sem);
+	//must clean up
+
+###Read/write semaphore
+如果只是仅仅访问收保护的临界区，我们可以使用rwsem("reader/writer semaphore"), it comes from <linux/rwsem.h>.
+
+	void down_read(struct rw_semaphore *sem);
+	int down_read_trylock(struct rw_semaphore * sem);
+	void up_read(struct rw_semaphore *sem);
+
+down_read只是使用可读的权限使用被保护的数据，还可以是并发的。它可以把呼叫程序处于一种不可中断的睡眠。down_read_trylock如果成功的话返回非0,不成功返回0,这一点与其它的内核函数一样。一个 rwsem使用down_read到的，必须使用up_read释放。
+
+for writer:
+
+	void down_write(struct rw_semaphore *sem);
+	int down_write_trylock(struct rw_semaphore *sem);
+	void up_write(struct rw_semaphore *sem);
+	void downgrade_write(struct rw_semaphore *sem);
+
+综合rwsem的表现，我们拥有rwsem的时间不能过长，否则会出问题.
+###completion
+即便使用信号量我们也不能保障临界区的安全使用，in the 2.4.7 kernel,we can use completion that allow one thread to tell another that job is done. <linux/completion.h>
+
+	DECLARE_COMPLETION(my_completion);
+
+如果动态的使用，则
+
+	struct completion my_completion;
+	/*...*/
+	init_completion(&my_completion);
+wait.
+
+	void wait_for_completion(strcut completion *c);
+
+这个函数是不可中断的，如果使用后不及时释放，会产生不可杀的进程.
+
+
+	
+	
 

@@ -114,7 +114,7 @@ struct str2 b;
 a = (struct) b; //This is wrong
 a = *((struct str1*)&b); //This is corrent
 {% endhighlight %}
-这一部分的缺陷继续去阅读经典的书记去填补
+这一部分的缺陷继续去阅读经典的书籍去填补
 #利用宏来求结构体成员的偏移量
 ##输入：
 一个结构体定义type，这个结构体中某个成员变量的名字member以及它的地址ptr
@@ -130,7 +130,7 @@ struct father_t {
 char *ptr = &(f.b);
 /*而不是 ptr = f.b; 这里ptr是结构体f的成员b的地址，而不是它指向的地址。
 根据C语言对struct类型的存储特性，我们可以画这么一个图示：
-/*
+*/
 
 }
 {% endhighlight %}
@@ -148,6 +148,7 @@ char *ptr = &(f.b);
 __#define offset(TYPE,MEMBER)((size_t) & ((TYPE \*)0)->member)__
 ##这个宏的功能就是获得一个结构体成员在此结构体的偏移量
 问题是，你能清楚的讲解上面语句的含义吗？我用了一天的时间去恶补基础，结果发现自己太菜了。
+
 1.((TYPE \*)0) 将零强制转换为TYPE类型的指针;
 
 2.((TYPE \*)0)->MEMBER 访问结构中的数据成员;

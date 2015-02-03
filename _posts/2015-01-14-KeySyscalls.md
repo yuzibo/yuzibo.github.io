@@ -1,9 +1,47 @@
 ---
 layout: article
-title: "12 linux 系统呼叫函数"
-category: kernel
+title: "12 linux 系统呼叫函数和 strace"
+category: kernel 
 ---
-#syscall
+#强大的调试工具 strace
+strace是一个优秀的调试工具，它调用的是系统函数ptrace(),缺点是导致应用程序运行的非常慢。
+#使用
+
+	strace -e open target-file
+	strace -o out ls
+{% highlight bash %}
+# Slow the target command and print details for each syscall:
+strace command
+
+# Slow the target PID and print details for each syscall:
+strace -p PID
+
+# Slow the target PID and any newly created child process, printing syscall details:
+strace -fp PID
+
+# Slow the target PID and record syscalls, printing a summary:
+strace -cp PID
+
+# Slow the target PID and trace open() syscalls only:
+strace -eopen -p PID
+
+# Slow the target PID and trace open() and stat() syscalls only:
+strace -eopen,stat -p PID
+
+# Slow the target PID and trace connect() and accept() syscalls only:
+strace -econnect,accept -p PID
+
+# Slow the target command and see what other programs it launches (slow them too!):
+strace -qfeexecve command
+
+# Slow the target PID and print time-since-epoch with (distorted) microsecond resolution:
+strace -ttt -p PID
+
+# Slow the target PID and print syscall durations with (distorted) microsecond resolution:
+strace -T -p PID
+{% endhighlight %}
+
+#syscall, must to read xx man
 
 ###read: read bytes from a file descriptor(file,socket)
 

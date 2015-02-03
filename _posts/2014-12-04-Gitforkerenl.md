@@ -3,6 +3,105 @@ layout: article
 title: "git追踪linux kerenl技巧"
 category: git
 ---
+##先介绍点简单的
+1. 从linus那里pull,当然，前提是你先从linus那里clone一份代码树。
+
+	git pull
+
+2. 撤销所有在本地的修改
+  
+	git checkout -f 
+
+3. 查看你所做的修改
+
+	git commit -a
+	
+4. 撤销最近的提交
+	 
+	git reset HEAD~2
+
+5.List all changes in working dir,in diff format
+
+	git diff
+
+6. Dispaly changes since last commit
+	
+	git diff HEAD
+
+7. List all changeset descriptions
+
+	git log
+
+8. 追踪特定文件的changesets
+
+	git log net/ieee80211/ieee80211_module.c
+
+##Branches
+
+1. List all branches
+
+	git branch
+
+2. Make desired branch current in working dur
+
+	git checkout $branch
+
+3. Create a new branch, and make it current
+
+	git checkout -b my-new-branch master
+
+4. Examine which branch is current
+
+	git status
+
+5. Obtain a diff between *current* branch, and *master* branch
+
+	git diff master master..HEAD
+
+6. Obtain a list of changes between *current* branch, and master branch
+
+	git log master..HEAD
+
+7. A one line summary of each changes
+
+	git shortlog master..HEAD
+
+#### 合并分支
+假设你在分支A，分支B上完成了工作，你需要把你的工作放进主分支M，
+
+	git checkout M
+	git merge A
+	git merge B
+
+#### Check out an older kernel version
+
+	cd linux-source
+	git checkout -b tmp v2.6.22
+
+#### Apply all patches in a Berkerey mbox-format file
+!!!
+
+	cd linux-kernel-source
+	git am --utf8 --signoff /path/to/mbox
+
+The --signoff option 暗示git am 在最后加上
+
+	Signed-off-by: Your Name <your@email.com>
+
+The name and email are taken from the GIT_COMMITTER_NAME AND GIT_COMMITTER_EMAIL environment variables,(可以设定在.bash_profile 或者相似的文件)
+
+###download tags
+
+	git fetch --tags $URL
+
+Tag a partical commit
+
+	cd linux-tree
+	git tag my-tag
+
+
+
+
 转载(http://larmbr.me/2013/10/27/Git-for-linux-tips-for-tracking-code-history/#top)
 ##查看某次提交
 	git show <commit Id/revsper>
