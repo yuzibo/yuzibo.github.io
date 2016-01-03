@@ -1,4 +1,5 @@
 ---
+title:linux关闭防火墙
 layout: article
 category: Linux
 ---
@@ -13,13 +14,13 @@ __whereis iptables__
 
 __sudo iptables -L__
 
-如果你第一次安装配置 iptables，会得到如下信息，                         
+如果你第一次安装配置 iptables，会得到如下信息，
 `
 Chain INPUT (policy ACCEPT)
 target prot opt source destination
 Chain FORWARD (policy ACCEPT)
 target prot opt source destination
 Chain OUTPUT (policy ACCEPT)
-target prot opt source destination 
+target prot opt source destination
 `
 
