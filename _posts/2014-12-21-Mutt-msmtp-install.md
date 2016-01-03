@@ -34,22 +34,22 @@ category: linux
 MUA：让用户管理，如阅读、储存邮箱里的email，或者通过MSA将新的邮件发出。
 除了在unix上流行的mutt,其他较为流行的MUA还有：
 
-Other popular MUAs include Thunderbird, Kmail, evolution, Sylpheed,mulberry, pegasus, pine, and elm (mutt's predecessor)... 
+Other popular MUAs include Thunderbird, Kmail, evolution, Sylpheed,mulberry, pegasus, pine, and elm (mutt''s predecessor)...
 
 2.2
 
-MTA: Mail Transport Agent(SMTP server)	
+MTA: Mail Transport Agent(SMTP server)
 
 MTA的功能是接受、发送email到其他的MTAs，在Internet上，MTAs与MTAs交流使用的是 the Simple Mail Transfer Protocol,简称SMTP.官网上还有很多，自己也没有看懂，先就不写了
 
 较流行的MTAs有
-	
+
 	exim
 	postfix
 	sendmail
 	qmail
 
-2.3	
+2.3
 
 MDA: Mail Delivery Agent
 
@@ -57,32 +57,32 @@ MDA的功能是从MTA接收一封email或者发送(过滤)email到用户的邮�
 
 而MDAs用的较多就是procmail.
 
-2.4	
+2.4
 
 MRA: Mail Retrieval Agent(POP/IMAP client)
 
 MRA的处理对象是POP/IMAP，很多功能和MUAs很象如果你能直接使用SHELL-cmd或者mutt直接读取邮件服务器的本地邮件，就不需要MRA了。
-	
+
 我的理解是我们之所以使用MRA是我们能直接使用上面情况的机会很少，更多的使用是例如网易的163、126,google的gmail的邮件服务器，那么就需要MRA将他们服务器上的邮件转移到你这儿来
 
 MRA使用较多的是
 
     fetchmail ( http://fetchmail.berlios.de/)
     getmail ( http://pyropus.ca/software/getmail/)
-    retchmail ( http://freecode.com/projects/retchmail) 
+    retchmail ( http://freecode.com/projects/retchmail)
 
 ##注意
 
 在实际应用中，上面的划分存在很多变体，与上面各个子系统的功能会有部分的叠加和交叉，其实，上面的邮件子系统也存在着很多交叉的功能，大家注意区分，毕竟，万变不离其宗。
 ###参考-----
-    
+
 
      http://www.iki.fi/era/procmail/mini-faq.html#appendix-mx
      http://www.feep.net/sendmail/tutorial/intro/MUA-MTA-MDA.html
      http://ebusiness.gbdirect.co.uk/howtos/mail-system.html
      http://twiki.org/cgi-bin/view/Wikilearn/EmailServerSketches
      http://www.tldp.org/HOWTO/Mail-User-HOWTO/
-     http://www.netbsd.org/docs/guide/en/chap-mail.html 
+     http://www.netbsd.org/docs/guide/en/chap-mail.html
 
 
 =====================
@@ -104,16 +104,16 @@ MRA使用较多的是
 	Compile options:
 	-DOMAIN
 	-DEBUG
-	-HOMESPOOL  +USE_SETGID  +USE_DOTLOCK  +DL_STANDALONE  
+	-HOMESPOOL  +USE_SETGID  +USE_DOTLOCK  +DL_STANDALONE
 	+USE_FCNTL  -USE_FLOCK
-	+USE_POP  +USE_IMAP  -USE_GSS  +USE_SSL  -USE_SASL  -USE_SASL2  
-	+HAVE_REGCOMP  -USE_GNU_REGEX  
-	+HAVE_COLOR  +HAVE_START_COLOR  +HAVE_TYPEAHEAD  +HAVE_BKGDSET  
-	+HAVE_CURS_SET  +HAVE_META  +HAVE_RESIZETERM  
-	+CRYPT_BACKEND_CLASSIC_PGP  +CRYPT_BACKEND_CLASSIC_SMIME  
-	-CRYPT_BACKEND_GPGME  -BUFFY_SIZE -EXACT_ADDRESS  -SUN_ATTACHMENT  
-	+ENABLE_NLS  -LOCALES_HACK  +HAVE_WC_FUNCS  +HAVE_LANGINFO_CODESET		+HAVE_LANGINFO_YESEXPR  
-	+HAVE_ICONV  -ICONV_NONTRANS  -HAVE_LIBIDN  +HAVE_GETSID			-HAVE_GETADDRINFO  
+	+USE_POP  +USE_IMAP  -USE_GSS  +USE_SSL  -USE_SASL  -USE_SASL2
+	+HAVE_REGCOMP  -USE_GNU_REGEX
+	+HAVE_COLOR  +HAVE_START_COLOR  +HAVE_TYPEAHEAD  +HAVE_BKGDSET
+	+HAVE_CURS_SET  +HAVE_META  +HAVE_RESIZETERM
+	+CRYPT_BACKEND_CLASSIC_PGP  +CRYPT_BACKEND_CLASSIC_SMIME
+	-CRYPT_BACKEND_GPGME  -BUFFY_SIZE -EXACT_ADDRESS  -SUN_ATTACHMENT
+	+ENABLE_NLS  -LOCALES_HACK  +HAVE_WC_FUNCS  +HAVE_LANGINFO_CODESET		+HAVE_LANGINFO_YESEXPR
+	+HAVE_ICONV  -ICONV_NONTRANS  -HAVE_LIBIDN  +HAVE_GETSID			-HAVE_GETADDRINFO
 	-ISPELL
 	SENDMAIL="/usr/lib/sendmail"
 	MAILPATH="/var/mail"
@@ -141,7 +141,7 @@ tls_trust_file /etc/ssl/certs/ca-certificates.crt
 account default
 host smtp.126.com
 from yuzibode@126.com
-auth on # 
+auth on #
 
 port 25
 user yuzibode
@@ -188,8 +188,8 @@ For example, i can create there files orther than dir inbox, sent,
 i use inbox restore message.
 
 # received messages-folder
-#set spoolfile="/var/spool/mail/yubo" 
-set spoolfile="~/Mail/inbox" ##It' ok  
+#set spoolfile="/var/spool/mail/yubo"
+set spoolfile="~/Mail/inbox" ##It' ok
 #====================
 #关于信箱的设置
 set folder="~/Mail" # E-mail folder
@@ -254,7 +254,7 @@ __注意__,在多个收件人的情况下,以空格键分隔收件人即可.
 
 文档里面提供了配置示例，包括 msmtp 配合 mutt 的配置。
 
-对于 mutt，还有很多需要配置，比如对多个邮件帐号的支持、分类文件夹等，这些会在后面的使用过程中逐渐完善。 
+对于 mutt，还有很多需要配置，比如对多个邮件帐号的支持、分类文件夹等，这些会在后面的使用过程中逐渐完善。
 
 ##fetchmail
 
@@ -262,13 +262,13 @@ __注意__,在多个收件人的情况下,以空格键分隔收件人即可.
 
 Fetchmail用于将其它支持pop3的邮件服务器上取回邮件并保存到本地的spool中。它的配置文件为 ~/.fetchmail,在配置好后，还需要在shell的启动脚本里写入启动fetchmail的指令。
 
-.fetchmail文件的内容为： 
+.fetchmail文件的内容为：
 
 {% highlight bash %}
 #每隔60秒获取新邮件
 set daemon 60
-poll pop.126.com 
-with proto POP3 
+poll pop.126.com
+with proto POP3
 #and options no dns
 uidl # 每次只读新的邮件
 #protocol POP3
@@ -309,9 +309,11 @@ mutt
 
 	mutt
 
-接着键入 
+接着键入
 
 	!
 你可以在shell输入: fetchmail -v
 
 其实刚才set daemon 60就已经弄好了,在mutt的世界里慢慢玩吧!
+===================更新==2016-01-03==============
+这里,我将fetchnail更换为getmail,非常不错,有一点遗憾就是没有实现将所有的邮箱回收.新增功能[0]签名[1]联系人
