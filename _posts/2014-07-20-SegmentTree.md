@@ -1,6 +1,7 @@
 ---
+title: 线段树
 layout: article
-category: DS 
+category: DS
 tags: [DS]
 ---
 #暂时不熟悉的用法
@@ -27,7 +28,7 @@ tags: [DS]
 
      File Name: hdu1166-4.cpp
      Author: damit
-     Mail: yuzibode@126.com 
+     Mail: yuzibode@126.com
      Created Time: 2014年07月18日 星期五 19时55分04秒
      学习重点:
 
@@ -89,7 +90,7 @@ void update(int p,int add,int t,int l,int r)
 	PushUp(t);
 
 }
-//more argument more clearly,L and R is Query from to  
+//more argument more clearly,L and R is Query from to
 int getSum(int L,int R,int t,int l,int r)
 {//区间在最左侧或最右侧/不理解,还有，每个结点的ret要清0，由分支再求和
 	//求和的函数确实难以理解
@@ -105,7 +106,7 @@ int getSum(int L,int R,int t,int l,int r)
 		ret+=getSum(L,R,lson);
 	if(R>m)
 		ret+=getSum(L,R,rson);
-	return ret; 
+	return ret;
 
 }
 int main()
@@ -126,7 +127,7 @@ int main()
 					case 'Q':
 						{
 	//						printf("Query %d %d\n",p,q);
-							printf("%d\n",getSum(p,q,1,1,n));			
+							printf("%d\n",getSum(p,q,1,1,n));
 						}
 						break;
 					case 'S':
@@ -146,7 +147,7 @@ int main()
 				}
 			}
 		}
-	
+
 	return 0;
 }
 
@@ -161,7 +162,7 @@ int main()
 /*
      File Name: hdu1166array.cpp
      Author: damit
-     Mail: yuzibode@126.com 
+     Mail: yuzibode@126.com
      Created Time: 2014年07月19日 星期六 06时27分29秒
      学习重点:
 */
@@ -272,7 +273,7 @@ C[8]=A[1]+...+A[8]。
 /*************************************************************************
      File Name: hdu1754-5.cpp
      Author: damit
-     Mail: yuzibode@126.com 
+     Mail: yuzibode@126.com
      Created Time: 2014年07月20日 星期日 18时06分35秒
      学习重点:
  ************************************************************************/
@@ -310,7 +311,7 @@ void Update(int p,int add,int l,int r,int t)
 	int m=(l+r)>>1;
 	if(p<=m)
 		Update(p,add,lson);
-	else 
+	else
 		Update(p,add,rson);
 	UpPush(t);
 }
@@ -375,7 +376,7 @@ update()函数中p+=lowbit(p)是推算p在后面的有关的st的位置，至于
 /*************************************************************************
      File Name: hdu2795.cpp
      Author: damit
-     Mail: yuzibode@126.com 
+     Mail: yuzibode@126.com
      Created Time: 2014年07月21日 星期一 21时15分10秒
      学习重点:
 	 原来线段树还可以这样用啊，自己真是长见识了，以后我也要尝试着去写些这类有价值的东西来，
@@ -385,7 +386,7 @@ update()函数中p+=lowbit(p)是推算p在后面的有关的st的位置，至于
 为什么呢，我们试想想，h*w，我们只需h层（最安全），
 如3*5，我们
 
-如果贴2张纸条	， 
+如果贴2张纸条	，
 则只需建一个【1，2】的线段树，够使用的就可以的。然后每个节点被赋值w（宽度），build(l,r,t)先赋值，判断退		出，然后左右子树分别建立。
 	 查询时，将每个宽度的值传递过来，到叶子节点时去掉宽度值，并返回l，即层数
 	 然后更新父节点，取自左右子树的最大值，以便下次使用。
@@ -435,7 +436,7 @@ int Query(int p,int l,int r,int t)
 	int ret=((MAX[t<<1] >= p) ? Query(p,lson) : Query(p,rson));
 	UpPush(t);
 	return ret;
-	
+
 
 }
 
