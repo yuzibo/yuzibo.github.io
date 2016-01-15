@@ -30,7 +30,7 @@ yubo@debian:~/apache-tomcat/bin$ ./catalina.sh start
 ```c
 int main()
 {
-	printf();
+	printf("hello,world!\n");
 }
 ```
 
