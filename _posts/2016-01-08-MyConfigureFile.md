@@ -26,6 +26,7 @@ yubo@debian:~/apache-tomcat/bin$ ./catalina.sh start
 那么关闭应该是同样的情况
 #mysql字符问题
 [这里](http://stackoverflow.com/questions/3513773/change-mysql-default-character-set-to-utf-8-in-my-cnf),而且要把已经建立的数据库删除才行.
+
 ```c
 int main()
 {
