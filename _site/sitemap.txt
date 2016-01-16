@@ -1,17 +1,113 @@
 
-  /links.html
-
-  /index.html
-
-  /class.html
+  /404.html
 
   /about.html
 
+  /class.html
+
+  /index.html
+
+  /links.html
+
   /sitemap.txt
 
-  /404.html
+  /page2/index.html
+
+  /page3/index.html
 
 
+
+  /GitTest3.html
+
+  /MyConfigureFile.html
+
+  /GitTest2.html
+
+  /kernelnewbe.html
+
+  /C_knowlegde_sum.html
+
+  /linux_kernel_config.html
+
+  /foryourself.html
+
+  /BitOfOperations.html
+
+  /KeySyscalls.html
+
+  /SimplyLinuxDeviceDrives.html
+
+  /InstallPython3.html
+
+  /Perl2.html
+
+  /Mutt-msmtp-install.html
+
+  /segmentforlinux.html
+
+  /Makefile.html
+
+  /NetCommandForlinux.html
+
+  /AssemblyForLinux.html
+
+  /Gitforkerenl.html
+
+  /WhatisLove.html
+
+  /vim.html
+
+  /SetUp.html
+
+  /Perl.html
+
+  /LinuxDeveicsDriver2.html
+
+  /LinuxDeveicsDriver.html
+
+  /CsName.html
+
+  /kernelPMAPI.html
+
+  /StartBusiness.html
+
+  /TypeCoercionsInC.html
+
+  /StructInC.html
+
+  /LinuxKbuild.html
+
+  /GitTest.html
+
+  /MyLKDReading.html
+
+  /MyBookPlan.html
+
+  /DebianBuildKernel.html
+
+  /LinuxModuleProgram1.html
+
+  /DebianInstallBochs.html
+
+  /AllKindOfPeriod.html
+
+  /LinuxShellCommand.html
+
+  /VirtualBoxConnection.html
+
+  /LinuxCloseIptables.html
+
+  /DebianInstallFTP.html
+
+  /FreeDosAndDebianChangeFile.html
+
+  /IMeetMyLuck.html
+
+  /MyOs.html
+
+  /reblog.html
+
+  /DebianSolveTouchPad.html
 
   /SegmentTree.html
 
@@ -23,20 +119,13 @@
 
   /MyFristBlog.html
 
-  /IDontRegret.html
-
   /WebsiteKnowledge.html
 
   /InstallArchlinuxInThinkpadEdge.html
 
-  /FixGithub%27CDN%27ProblemBecauseOf%27GFW%27.html
-
   /SettingOfDebian7.html
-
-  /CaiPekingUniversity%27sInauguralAddress.html
 
   /HowToLearnEnglish.html
 
   /HowToLearnTheCS.html
 
-  /HowToBuyALaptop.html

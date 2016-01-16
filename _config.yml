@@ -20,5 +20,5 @@ paginate: 20
 pygments: true
 comments:
     provider:duoshuo
-    duoshuo:
-        short_name: yuzibo
+#duoshuo:
+#       short_name: yuzibo

@@ -8,14 +8,19 @@ category: Linux
 ##简介
 “kbuild” is build system used by the linux kernel.Modules must use kbuild to stay compatible with GCC. Modules programming is consist of in-tree and out-of-tree
 ##系统命令
-	$make -C <path_to_kerenl_src> M=$PWD
-	$make -C /lib/modules/\`uname -r\`/build M=$PWD 
+
+>$make -C <path_to_kerenl_src> M=$PWD
+>$make -C /lib/modules/\`uname -r\`/build M=$PWD
 
 __target__:
+
 __modules_install__
-	$make -C /lib/modules/\`uname -r\`/build modules_install
+
+>$make -C /lib/modules/\`uname -r\`/build modules_install
+
 ##选项
-	tips: $KDIR is short of path of the kernel source directory
+
+tips: $KDIR is short of path of the kernel source directory
 
 __-C $KDIR__
 	make命令会自动改变到这个特殊的kernel source目录
@@ -23,11 +28,11 @@ __-C $KDIR__
 __M=$PWD__
 	通知kbuild一个外部模块已经被建立,"M"是这个外部模块（kbuild file）所在的绝对路径
 ##target
-	make -C $KDIR M=$PWD [target]
-	
-	模块默认在这个文件夹生成（哪个？），所有的文件都会在这个文件夹中
-	
-###modules: 
+>make -C $KDIR M=$PWD [target]
+
+模块默认在这个文件夹生成（哪个？），所有的文件都会在这个文件夹中
+
+###modules:
 	同上
 ###modules_install:
 	同上
@@ -41,9 +46,9 @@ __M=$PWD__
 __obj-m := <module_name>.o__
 
 这kbuild系统将会根据<module_name>.c文件建立<module_name>.o，经过链接后，将后生成<module_name>.ko
-	
+
 如果模块是由多个文件构建而来，则是一下格式
-	
+
 __<module_name>-y := <src1>.o <src2>.o
 
 
@@ -75,7 +80,7 @@ __<module_name>-y := <src1>.o <src2>.o
 	else
 		PWD := $(shell pwd)
 		KVER := $(shell uname -r)
-		KDIR := /lib/modules/$(KVER)/build 
+		KDIR := /lib/modules/$(KVER)/build
 	default:
 		$(MAKE) -C $(KDIR) M=$(PWD)	modules
 	endif
