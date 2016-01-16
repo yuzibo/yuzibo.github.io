@@ -1,6 +1,6 @@
 <!--本文件是文章的尾部-->
 <div id="article-footer">
- 
+
       <!--作者＆时间-->
       <span>
         Write by <a href="{{ site.url }}about.html">{{ site.author }}</a><br>
@@ -13,7 +13,7 @@
       <!--分类＆标签-->
       {% if page.categories %}
       <span>
-        Class: 
+        Class:
         {% for cat in page.categories %}
         &nbsp;<a href="{{ site.url }}class.html#{{ cat }}" title="{{ cat }}">{{ cat }}</a><br>
         {% endfor %}
@@ -22,7 +22,7 @@
 
       {% if page.tags %}
       <span>
-        Tags: 
+        Tags:
         {% for tag in page.tags %}
         &nbsp;<a href="{{ site.url }}tags.html#{{ tag }}" title="{{ tag }}">{{ tag }}</a><br>
         {% endfor %}
@@ -37,8 +37,8 @@
 </div>
 
     <hr>
-  
-<div id="article-nav">  
+
+<div id="article-nav">
     <!--前一篇＆后一篇-->
     <span>
         <a {% if page.previous %} href="{{ site.url }}{{ page.previous.url }}"{% endif %} {% unless page.previous %} {% endunless %} >< 前一篇</a>&nbsp;&nbsp;
