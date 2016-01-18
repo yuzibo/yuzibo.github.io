@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "模块编程(1)Hello,World"
-category: Programming
+category: Kernel Programming
 ---
 #前戏
 看了这么多关于内核的东西，这两天终于上手实现了基于内核的编程——模块编程。
@@ -68,7 +68,7 @@ __make__
 
 我们会看到如下信息：
 ![图片](http://yuzibo.qiniudn.com/2014-11-06-makeafter.png)
-紧接着执行 
+紧接着执行
 
 __insmod module.ko__
 

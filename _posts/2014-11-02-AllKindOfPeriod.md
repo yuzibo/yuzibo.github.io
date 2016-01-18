@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "周期概念辨析"
-category: conception
+category: OS Conception
 ---
 #时钟周期、振荡周期、机器周期、CPU周期、状态周期、指令周期、总线周期、任务周期
 

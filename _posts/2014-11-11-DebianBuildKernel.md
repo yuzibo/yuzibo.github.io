@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Debian编译linux内核"
-category: kernel
+category: kernel programming
 ---
 #终于成功一次了
 之前重新编译了好多次，可惜没有一次成功的，说实话，借助Debian强大的dpkg软件包管理，使得重新编译内核仅仅像安装软件一样简单，我都觉得这不是正宗的编译内核，好了，废话不多说，马上进入主题。
@@ -30,7 +30,7 @@ __"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我
 首先,
 
 	__make-kpkg clean__
-	
+
 稍微等一会，我们接着使用命令
 
 __fakeroot make-kpkg --initrd --revesion=yubo.1.0  kernel_image__
@@ -43,7 +43,7 @@ __注意__，--revesion只会影响Debian软件包本身的名字而不是内核
 __kernel-image-(kernel-version)(--append-to-version)_(--version)_(architecture).deb__.至于什么是fakeroot这一点我也不是很清楚，好像是模拟root环境来创建一个kernel-image软件包。
 ##创建Ramdisk
 经过漫长的等待后，我们在代码目录的上一层目录就得到一个linux-image-3.2.64.141111_3.2.64.141111-10.00.Custom_i386.deb的软件包，别急，我们还有一步工作需要完善。下面是废话，可以忽略。我们有一个问题是boot过程中mount根文件系统的“先有鸡还是先有蛋的问题”，一般来说，根文件在形形色色的存储设备上，不同的设备又要不同的硬件厂商的驱动，比如intel的ide/sata驱动，VIA的南桥需要VIA的ide/sata驱动，根文件系统也不同的文件系统的可能，假如把所有的驱动/模块都编译进内核，那自然没问题，可现实（内核的精神或本质）是我们把驱动/模块都驻留在根文件系统本身/lib/modules/xxx,那么“鸡蛋”问题就就来了，要mount根文件系统却需要根文件系统上的文件系统，怎么办？于是，就想出了下面的ramdisk,内核总是能安装ramdisk的(__因为ramdisk临时文件和内核一样，也是由bootloader通过低级读写命令（uboot用nand read，而不用通过系统层提供的高级读写接口）加载进内存，因此内核可以挂载ramdisk文件系统），然后把所有要使用到的驱动/模块都放在ramdisk上，首先，让内核将ramdisk当作根文件来安装，然后再利用这个根文件系统上的驱动来真正安装根文件系统，就将这个问具体解决了。补充，有时间你可以到/boot文件目录下看看，会有一个initrd.img的文件，initrd大体上就是 包含根文件系统的ramdisk。说了这么多，重点还没有解决，也就是我们需要创建这么一个文件-initrd，将我们新编译的内核在根文件系统挂载前能装进内存，那么，我们该怎么样解决这个问题呢？
-		
+
   首先，使用vi编辑/boot/config-3.2.64.141111文件，将代码__CONFIG_DEFCONFIG_LIST="/lib/modules/$UNAME_RELEASE/.config"__这句话注释掉（在句首用#），否则我们就不会成功。接下来执行
 
 __mkinitramfs -o /boot/initrd.img-3.2.64.141111  3.2.64.141111__
