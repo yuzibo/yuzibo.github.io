@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Mutt,msmtp,fetchmail,procmail的配合使用"
-category: mutt
+category: tools
 ---
 
 想要真正使用mutt，必须详细了解邮件系统的运作机制

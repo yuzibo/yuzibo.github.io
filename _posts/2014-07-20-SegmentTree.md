@@ -1,8 +1,7 @@
 ---
 title: 线段树
 layout: article
-category: DS
-tags: [DS]
+category: Al&DS
 ---
 #暂时不熟悉的用法
 ##宏定义：

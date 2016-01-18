@@ -1,8 +1,7 @@
 ---
 layout: article
 title: "Debian解决触摸板无法使用的问题"
-category: Debian
-tags: linux
+category: tools
 ---
 #1.问题描述
    自己使用Debian系统也已经很长时间了，触摸板是一直无法使用，感觉没什么大问题也就得过且过，最近发现触摸板上的单击键不太灵敏了，这才觉得这样下去不是办法，于是乎，google了一下，发现问题是如此的简单，在这里，分享给需要帮助的朋友。

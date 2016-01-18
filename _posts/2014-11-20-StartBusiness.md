@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "创业"
-category: 创业
+category: experience
 ---
 看到一篇好的[!文章](http://www.cnblogs.com/youxin/archive/2011/11/06/2238535.html)，转过来。
 #导读

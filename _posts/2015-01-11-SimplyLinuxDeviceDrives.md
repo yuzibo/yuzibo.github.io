@@ -1,7 +1,7 @@
 ---
 layout: article
-title: "简单的linux驱动程序"
-category: linux drivers
+title: "MKNOD命令"
+category: linux shell
 ---
 #mknod
 
