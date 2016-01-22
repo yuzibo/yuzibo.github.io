@@ -6,18 +6,18 @@ category: git
 ##先介绍点简单的
 1. 从linus那里pull,当然，前提是你先从linus那里clone一份代码树。
 
-	git pull
+	`git pull`
 
 2. 撤销所有在本地的修改
-  
-	git checkout -f 
+
+	```git checkout -f```
 
 3. 查看你所做的修改
 
 	git commit -a
-	
+
 4. 撤销最近的提交
-	 
+
 	git reset HEAD~2
 
 5.List all changes in working dir,in diff format
@@ -25,7 +25,7 @@ category: git
 	git diff
 
 6. Dispaly changes since last commit
-	
+
 	git diff HEAD
 
 7. List all changeset descriptions
@@ -54,11 +54,11 @@ category: git
 
 	git status
 
-5. Obtain a diff between *current* branch, and *master* branch
+5. Obtain a diff between *current* branch with *master* branch
 
 	git diff master master..HEAD
 
-6. Obtain a list of changes between *current* branch, and master branch
+6. Obtain a list of changes between *current* branch with master branch
 
 	git log master..HEAD
 
@@ -120,7 +120,7 @@ Tag a partical commit
 该命令会输出每一行引入的时间, 作者, commit ID, 有了这些信息, 或者用git show命令阅读作者引入时的提交信息, 了解该改动的原因和做法; 或者, 利用这些信息, 加上lkml关键字, 用Google搜索邮件列表存档, 更深入了解当时开发者们对这一变动的所解决的问题, 解决方法的讨论。
 ##确定某次变化是哪次提交引入的
 	git bisect start HEAD <oldVersion> --no-checkout
-	git bisect run sh -c 'git show BISECT_HEAD:<path that include the struct in file > 
+	git bisect run sh -c 'git show BISECT_HEAD:<path that include the struct in file >
 	grep -q "struct <struct name>"'
 
 第一条命令，指定了查找的范围，--no-checkout 表示对于每一次检查，不检出当前版本库，加快检索速度。
@@ -132,7 +132,7 @@ Create a new branch called "first-patch", and checkout that branch by running:
 	git checkout -b first-patch
 
 只能初次使用
-	
+
 
 
 ##删除一个分支
@@ -150,7 +150,7 @@ Create a new branch called "first-patch", and checkout that branch by running:
 查看远方版本库的目前使用的分支
 ##Update your kernel
 
-	git fetch origin 
+	git fetch origin
 
 与原来的版本库标定
 

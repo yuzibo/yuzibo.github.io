@@ -16,6 +16,26 @@ __xz -d linux-xx__
 __tar -xvf linux-xx__
 ##安装所需的软件包
 __sudo apt-get install kernel-package libncurses5-dev fakeroot build-essential bc__
+##使用git
+
+利用git得到linus的最新 *kernel*,然后执行 ```make clean ```,接下来执行
+``` make menuconfig```
+
+###tips
+如果你想单独编译某个模块,可以单独地编译那个模块(不建立镜像)
+
+	make drivers/usb/serial
+
+下面可以建立镜像
+
+	make M=drivers/usb/serial
+
+如果你想把内核镜像编译在别处,那么则可以使用
+
+	make O=~/linux-kernel-image-dir
+
+
+
 ##配置内核
 这个怎么说呢，在你没有对内核配置选项有个清醒的认识之前，我的建议是使用你本机的默认配置吧，我之前配置失败就是想弄清楚配置选项的每一个，结果备受挫折，先看看编译内核是什么样的，以后我们再说这些也不错啊。
 
@@ -26,7 +46,7 @@ __cd linux-XX__
 __"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我建议使用__make menuconfig__
 ##使用git获取源代码(2)
 
-##编译内核
+##编译内核1
 首先,
 
 	__make-kpkg clean__
@@ -34,6 +54,19 @@ __"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我
 稍微等一会，我们接着使用命令
 
 __fakeroot make-kpkg --initrd --revesion=yubo.1.0  kernel_image__
+
+#Update:
+不用debian的软件包,自己完全可以手动解决问题:配置完config后,就可以执行
+
+	make
+
+	make modules_install install
+
+接着修改*/boot/grub.cfg*即可.
+
+
+
+
 
 
 我们有必要讲讲make-kpkg与fakeroot这两个软件包，前者是可以自动替换__make dep;make clean;make bzImage;make modules__命令序列的脚本，而--append-to-version就是让我们来指定一个额外的内核版本，这个版本是成为内核名的一部分，我们可以使用数字，“+”，“,”,但是不能使用“_”,在这里的用法我借鉴网上同学的例子，使用当天日期来解决不同的版本号问题。内核模块位于/lib/modules子目录下，每一个内核都有它自己的子目录，所以每次我们创建新内核时使用新的内核名字，这个包安装程序就会在/lib/modules目录下创建一个新的子目录来保存它自己的模块。
