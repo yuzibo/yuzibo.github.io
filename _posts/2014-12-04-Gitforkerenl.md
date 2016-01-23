@@ -10,61 +10,61 @@ category: git
 
 2. 撤销所有在本地的修改
 
-	```git checkout -f```
+	`git checkout -f`
 
 3. 查看你所做的修改
 
-	git commit -a
+	`git commit -a`
 
 4. 撤销最近的提交
 
-	git reset HEAD~2
+	`git reset HEAD~2`
 
 5.List all changes in working dir,in diff format
 
-	git diff
+	`git diff`
 
 6. Dispaly changes since last commit
 
-	git diff HEAD
+	`git diff HEAD`
 
 7. List all changeset descriptions
 
-	git log
+	`git log`
 
 8. 追踪特定文件的changesets
 
-	git log net/ieee80211/ieee80211_module.c
+	`git log net/ieee80211/ieee80211_module.c`
 
 ##Branches
 
 1. List all branches
 
-	git branch
+	`git branch`
 
 2. Make desired branch current in working dur
 
-	git checkout $branch
+	`git checkout $branch`
 
 3. Create a new branch, and make it current
 
-	git checkout -b my-new-branch master
+	`git checkout -b my-new-branch master`
 
 4. Examine which branch is current
 
-	git status
+	`git status`
 
 5. Obtain a diff between *current* branch with *master* branch
 
-	git diff master master..HEAD
+	`git diff master master..HEAD`
 
 6. Obtain a list of changes between *current* branch with master branch
 
-	git log master..HEAD
+	`git log master..HEAD`
 
 7. A one line summary of each changes
 
-	git shortlog master..HEAD
+	`git shortlog master..HEAD`
 
 #### 合并分支
 假设你在分支A，分支B上完成了工作，你需要把你的工作放进主分支M，
@@ -113,7 +113,7 @@ Tag a partical commit
 2.从最后提交的日期来看该代码的开发热度，对于不稳定的代码可以略读，对于稳定的代码可以详读。
 ##追踪文件内容的变化历史
 	git blame -C -L <start>,<end> <文件名>
-     该命令可以小到行的__粒度__来了解代码的变化历史, -C选项可以追踪某行代码之前是位于哪个文件中的, -L选项则是选定行范围, 这样对于很大的文件, 对整个文件运行该命令可能会比较久, 指定感兴趣的行范围可以缩短时间。这两个选项都是可选的。
+该命令可以小到行的__粒度__来了解代码的变化历史, -C选项可以追踪某行代码之前是位于哪个文件中的, -L选项则是选定行范围, 这样对于很大的文件, 对整个文件运行该命令可能会比较久, 指定感兴趣的行范围可以缩短时间。这两个选项都是可选的。
 
 使用场景:
 
