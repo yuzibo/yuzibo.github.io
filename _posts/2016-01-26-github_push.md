@@ -1,5 +1,5 @@
 ---
-title "在github上每次push输入用户名和密码的问题"
+titlei: "在github上每次push输入用户名和密码的问题"
 layout: article
 category: git
 ---
