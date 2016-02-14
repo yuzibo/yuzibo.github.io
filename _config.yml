@@ -1,5 +1,5 @@
 #采用什么模板编写博客
-markdown: rdiscount
+markdown: kramdown
 
 #是否有文件更新就需要更新站点
 auto: true
