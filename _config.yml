@@ -1,5 +1,19 @@
 #采用什么模板编写博客
-markdown: kramdown
+github: [metadata]
+#markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+gems:
+  - jekyll-coffeescript
+  - jekyll-paginate
+
+lsi: false
+safe: true
+source: http://yuzibo.github.io
+incremental: rouge
+gist:
+   noscript: false
 
 #是否有文件更新就需要更新站点
 auto: true
