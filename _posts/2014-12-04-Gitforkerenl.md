@@ -3,10 +3,14 @@ layout: article
 title: "git追踪linux kerenl技巧"
 category: git
 ---
-##先介绍点简单的
+# 先介绍点简单的
 1. 从linus那里pull,当然，前提是你先从linus那里clone一份代码树。
 
 	`git pull`
+
+### 补充
+
+	最好不用 `git pull`,使用`git fetch` 和 `git merge`来代替它.
 
 2. 撤销所有在本地的修改
 
@@ -36,7 +40,7 @@ category: git
 
 	`git log net/ieee80211/ieee80211_module.c`
 
-##Branches
+## Branches
 
 1. List all branches
 
@@ -90,7 +94,7 @@ The --signoff option 暗示git am 在最后加上
 
 The name and email are taken from the GIT_COMMITTER_NAME AND GIT_COMMITTER_EMAIL environment variables,(可以设定在.bash_profile 或者相似的文件)
 
-###download tags
+### download tags
 
 	git fetch --tags $URL
 
@@ -102,17 +106,27 @@ Tag a partical commit
 
 
 
-转载(http://larmbr.me/2013/10/27/Git-for-linux-tips-for-tracking-code-history/#top)
-##查看某次提交
-	git show <commit Id/revsper>
-##查看某个版本的代码库,下面命令中的"<>"去掉
-	git checkout -b <分支名> <某个版本>
-##追踪特定文件的变化记录
-	git log --follow <文件名>
+[转载](http://larmbr.me/2013/10/27/Git-for-linux-tips-for-tracking-code-history/#top)
+
+## 查看某次提交
+	`git show <commit Id/revsper>`
+
+##i 查看某个版本的代码库,下面命令中的"<>"去掉
+
+	`git checkout -b <分支名> <某个版本>`
+
+## 追踪特定文件的变化记录
+
+	`git log --follow <文件名>`
+
 1.详细了解一个文件的修改过程
+
 2.从最后提交的日期来看该代码的开发热度，对于不稳定的代码可以略读，对于稳定的代码可以详读。
-##追踪文件内容的变化历史
-	git blame -C -L <start>,<end> <文件名>
+
+## 追踪文件内容的变化历史
+
+	`git blame -C -L <start>,<end> <文件名>`
+
 该命令可以小到行的__粒度__来了解代码的变化历史, -C选项可以追踪某行代码之前是位于哪个文件中的, -L选项则是选定行范围, 这样对于很大的文件, 对整个文件运行该命令可能会比较久, 指定感兴趣的行范围可以缩短时间。这两个选项都是可选的。
 
 使用场景:
