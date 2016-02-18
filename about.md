@@ -5,6 +5,8 @@ layout: page
 
 
 ----
+## introduction myself
+
 Hello,
 
    Welcome to my own blog.My name is YU Bo. I was born on June 17 1994,living in Shandong province, China.
@@ -31,3 +33,5 @@ Hello,
 
 
 ----
+## Thanks!
+ Thanks for [liuhuan](https://github.com/bitsly/bitsly.github.com).I git clone his site.
