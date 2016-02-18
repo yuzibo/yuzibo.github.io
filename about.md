@@ -5,19 +5,20 @@ layout: page
 
 
 ----
+Hello,
 
-##  简介：
+   Welcome to my own blog.My name is YU Bo. I was born on June 17 1994,living in Shandong province, China.
+   I will graduate from Taishan University in June 2016.My major is Compute Science.I have studied OS, Data Structure, Networking and so on.By now,i focus my energy on Linux programing.I wish to become a linux kernel hacker in future.
+   Ok, only can i use C to programer now . I will to learn more.
 
-喜欢足球，技术，
-
-有点孤独
 
 ----
 
 
-## 联系方式：
+## ：
 
-邮箱：[yuzibode@126.com](mailto:yuzibode@126.com)
+email： [tsu.yubo@gmail.com](mailto:tsu.yubo@gmail.com)
+	[yuzibode@126.com](mailto:yuzibode@126.com)
 
 
 
@@ -25,6 +26,7 @@ layout: page
 ----
 
 ## 总有一天你会成为你想成为的人
-![总有一天你会成为你想成为的人](http://bit-sly.qiniudn.com/%E6%80%BB%E6%9C%89%E4%B8%80%E5%A4%A9%E6%88%91%E4%BB%AC%E8%83%BD%E9%95%BF%E6%88%90%E8%87%AA%E5%B7%B1%E5%B8%8C%E6%9C%9B%E5%8F%98%E6%88%90%E7%9A%84%E9%82%A3%E4%B8%AA%E4%BA%BA.jpg)
+[总有一天你会成为你想成为的人](http://7pum5d.com1.z0.glb.clouddn.com/become.jpg)
+
 
 ----

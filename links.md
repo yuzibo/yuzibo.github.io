@@ -34,7 +34,6 @@ stackoverflow: [http://stackoverflow.com/](http://stackoverflow.com/)
 ----
 
 
-## RECOMMENDED
 
 
 ----
