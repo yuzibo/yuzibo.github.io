@@ -1,11 +1,12 @@
 ----
 layout: article
 category: network
+title: "虚拟机与主机的连接方式"
 ---
-#问题
+# 问题
 主机与虚拟机的连接方式有 bridged(桥连)，NAT(网络地址转换模式)和host-only(主机模式)，不同的连接方式对应不同的网卡。
 
-#补充
+# 补充
 	在Linux下面ifconfig显示的eth0是第一个网卡ip(eth就是ethenet以太网，这里指网络接口)
 
 	1. 桥连方式(bridged)
@@ -30,7 +31,7 @@ category: network
 
 	在某些特殊的网络调试环境中，我们需要将虚拟机器与外部其他机器分开，所以我们这时可以采用Host-only方式，默认情况下，虚拟机只能到宿主机器访问，这可能也就是取名为 host-only的原因。
 
-#说了这么多，问题还没有解决
+# 说了这么多，问题还没有解决
 	但知识点已经掌握了，还是综合一下记录吧
 
 	我在 win7上安装了 VirtualBox,在网络共享那多出了一个 Virtual Host-Only Network网卡“ip： 192.168.56.1“因为VirtualBox的DHCP服务器是192.168.56.100,要在同一网段。
