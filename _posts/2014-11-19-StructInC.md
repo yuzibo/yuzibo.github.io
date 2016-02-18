@@ -1,12 +1,12 @@
 ---
 layout: article
-title "struct成员偏移量"
+title: "struct成员偏移量"
 category: C
 ---
-#起因
+# 起因
 原本是想看Linux Kernel内核的，结果...
 这篇文章纯属自己回忆瞎写，请不要当真。
-##结构声明
+## 结构声明
 struct __tag {
 	member-list
 } variable-list__;
@@ -25,7 +25,7 @@ struct {
 struct {
 	int a;
 	char b;
-	float c; 
+	float c;
 } y[20],*z;
 
 {% endhighlight %}
@@ -46,7 +46,7 @@ struct SIMPLE y[20],*z;
 
 并且它们具有相同的类型。
 
-##typedef
+## typedef
 使用结构体时，我们有一个东西不得不说：typedef;请看下例：
 {% highlight c %}
 typedef struct{
@@ -63,7 +63,8 @@ Simple x;
 Simple y[20],*z;
 
 同上面使用标签是一样的。
-#利用宏来求结构体成员的偏移量
+
+# 利用宏来求结构体成员的偏移量
 这才是今天的重点，发现自己很容易跑偏，抓紧时间啊;
 先看看[!StackOverFlow](http://stackoverflow.com/questions/18554721/how-to-understand-size-t-type-0-member)的这个问题吧，我知道了，之前说过现在读linux kernel代码毫无感觉，无从下手的主要原因是自己知道的太少了，其实自己现在的c语言水平，根本连linux kernel的门都找不到。废话少讲，每天必须有五个新增知识点进账。
 
