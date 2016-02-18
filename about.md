@@ -32,7 +32,7 @@ Hello,
 ## 总有一天你会成为你想成为的人
 ![总有一天你会成为你想成为的人](http://7pum5d.com1.z0.glb.clouddn.com/become.jpg)
 
-
 ----
+
 ## Thanks!
  Thanks for [liuhuan](https://github.com/bitsly/bitsly.github.com).I git clone his site.
