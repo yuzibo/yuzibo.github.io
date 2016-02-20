@@ -20,9 +20,7 @@ category: linux
 <pre>
 
 #include<signal.h>
-void (*signal(int signum, void (*handler))(int))(int);
-
-</pre>
+void (*signal(int signum, void (*handler))(int))(int);</pre>
 
 `signum` 指定要安装的信号,handler指定信号处理的函数.
 
