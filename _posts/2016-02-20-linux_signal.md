@@ -26,11 +26,11 @@ void (*signal(int signum, void (*handler))(int))(int);
 该函数的和返回值是一个函数指针,指向上次安装的handler.
 
 ## 经典安装方式
-```
+`
 if(signal(SIGINT,SIG_IGN) != SIG_IGN){
 	signal(SIGINT, sig_handler);
 }
-```
+`
 
 先获得上次的handler,如果不是忽略信号,就安装此信号的hndler.
 由于信号被交付后,系统自动的重置handler为默认动作,为了使信号在handler处理期间,仍能对后继信号作出反应,往往在handler的第一条语句再次调用 signal
