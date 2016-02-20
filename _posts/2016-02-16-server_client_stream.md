@@ -8,11 +8,11 @@ category: network
 套接字(socket)是一种为计算机网络通信编程的接口,首次出现在美国加州Berkeley大学开发的BSD版本的系统中.有了套接字(应用层),从而允许我们进行服务器/客户端的开发,不必关心底层的细节.详细的关于内核网络协议的实现,我会在以后详细阐述,[现在,这篇文章](https://www.ibm.com/developerworks/cn/linux/l-linux-networking-stack/)
 
 ## 创建套接字
-`
+{% highlight c %}
 #include<sys/types.h>
 #include<sys/socket.h>
 int socket(int domain,int type, int protocol)
-`
+{% endhighlight %}
 ### 说明
 ` domain`: 代表套接字地址族,常用的有AF_INET,PF_INET(IPv4),AF_INET6(IPv6),
 AF_IPX(Novell 网络协议)...
@@ -23,4 +23,5 @@ AF_IPX(Novell 网络协议)...
 
 ##套接字地址
 
-貌似又不好受了,某些人呐
+
+TODO
