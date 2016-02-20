@@ -17,21 +17,19 @@ category: linux
 # 信号的安装
 
 ### 系统调用 signal
-<pre>
 
 #include<signal.h>
-void (*signal(int signum, void (*handler))(int))(int);</pre>
+void (*signal(int signum, void (*handler))(int))(int);
 
 `signum` 指定要安装的信号,handler指定信号处理的函数.
 
 该函数的和返回值是一个函数指针,指向上次安装的handler.
 
 ## 经典安装方式
-<pre>
 if(signal(SIGINT,SIG_IGN) != SIG_IGN){
 	signal(SIGINT, sig_handler);
 }
-</pre>
+
 先获得上次的handler,如果不是忽略信号,就安装此信号的hndler.
 由于信号被交付后,系统自动的重置handler为默认动作,为了使信号在handler处理期间,仍能对后继信号作出反应,往往在handler的第一条语句再次调用 signal
 <pre>
