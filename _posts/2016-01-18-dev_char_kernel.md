@@ -123,8 +123,10 @@ static int dev_open(struct inode *inodep, struct file *filep){
 	return 0;
 }
 /*
- * This function is  called whenever device is being read from user space .data is being sent from the device to the user.In this case is uses the copy_
- *to_user() function to send the buffer string to the user and captures any  * errors
+ * This function is  called whenever device is being read from user space.
+ * data is being sent from the device to the user.In this case is uses the copy_to_user()
+ function to send the buffer string to the user and captures any  * errors
+
  *@parma filep A pointer to a file object
  *@parma buffer The pointer to the buffer to which this function writes the  *        data
  *@parma len The length of the b

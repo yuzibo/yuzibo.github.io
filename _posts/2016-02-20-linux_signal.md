@@ -49,10 +49,10 @@ sig_handler(int signum){
 
 <pre>
 #include <signal.h>
-
-       int sigaction(int signum, const struct sigaction *act,
-		                            struct sigaction *oldact);
+int sigaction(int signum, const struct sigaction *act,
+		struct sigaction *oldact);
 </pre>
+
 `signum`  除了SIGKILL和SIGSTOP以外的参数都正确
 
 `act` 如果act非空,那么来自act的信号就是传提给signum的.
@@ -61,7 +61,7 @@ sig_handler(int signum){
 
 The sigaction structure is defined as something like:
 <pre>
-           struct sigaction {
+struct sigaction {
 	                  void     (*sa_handler)(int);
 	                  void     (*sa_sigaction)(int, siginfo_t *, void *);
 	                  sigset_t   sa_mask;
@@ -69,6 +69,7 @@ The sigaction structure is defined as something like:
 	                  void     (*sa_restorer)(void);
 	              };
 </pre>
+
 /* 设置SIGINT */
 <pre>
 action.sa_handler = sig_handler;
