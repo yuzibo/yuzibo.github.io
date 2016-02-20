@@ -47,11 +47,11 @@ sig_handler(int signum){
 ## 库函数sigaction
 使用sigaction安装信号的动作后,该动作一直保持,直到另一次调用sigaction建立另一个动作为止.这就克服了古老的signal调用存在的问题.
 
-<pre>
+`
 #include <signal.h>
 int sigaction(int signum, const struct sigaction *act,
 		struct sigaction *oldact);
-</pre>
+`
 
 `signum`  除了SIGKILL和SIGSTOP以外的参数都正确
 
@@ -60,7 +60,8 @@ int sigaction(int signum, const struct sigaction *act,
 `oldact` 如果oldact非空,那么oldact就保存前一个信号(?)
 
 The sigaction structure is defined as something like:
-<pre>
+
+`
 struct sigaction {
 	                  void     (*sa_handler)(int);
 	                  void     (*sa_sigaction)(int, siginfo_t *, void *);
@@ -68,10 +69,10 @@ struct sigaction {
 	                  int        sa_flags;
 	                  void     (*sa_restorer)(void);
 	              };
-</pre>
+`
 
 /* 设置SIGINT */
-<pre>
+`
 action.sa_handler = sig_handler;
 sigemptyset(&action.sa_mask);
 sigaddset(&action.sa_mask, SIGTERM);
@@ -81,7 +82,7 @@ sigaction(SIGINT, NULL,&old_action);
 if (old_action.sa_handler != SIG_IGN){
 	sigaction(SIGINT, &action, NULL);
 }
-</pre>
+`
 基于 sigaction 实现的库函数: signal
 sigaction 自然强大, 但安装信号很繁琐, 目前linux中的signal()是通过sigation()函数
 实现的，因此，即使通过signal（）安装的信号，在信号处理函数的结尾也不必
