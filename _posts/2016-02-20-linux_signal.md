@@ -17,10 +17,10 @@ category: linux
 # 信号的安装
 
 ### 系统调用 signal
-
+<code>
 #include<signal.h>
 void (*signal(int signum, void (*handler))(int))(int);
-
+</code>
 `signum` 指定要安装的信号,handler指定信号处理的函数.
 
 该函数的和返回值是一个函数指针,指向上次安装的handler.
@@ -47,11 +47,11 @@ sig_handler(int signum){
 ## 库函数sigaction
 使用sigaction安装信号的动作后,该动作一直保持,直到另一次调用sigaction建立另一个动作为止.这就克服了古老的signal调用存在的问题.
 
-`
+```
 #include <signal.h>
 int sigaction(int signum, const struct sigaction *act,
 		struct sigaction *oldact);
-`
+```
 
 `signum`  除了SIGKILL和SIGSTOP以外的参数都正确
 
@@ -61,7 +61,7 @@ int sigaction(int signum, const struct sigaction *act,
 
 The sigaction structure is defined as something like:
 
-`
+{% highlight c %}
 struct sigaction {
 	                  void     (*sa_handler)(int);
 	                  void     (*sa_sigaction)(int, siginfo_t *, void *);
@@ -69,10 +69,10 @@ struct sigaction {
 	                  int        sa_flags;
 	                  void     (*sa_restorer)(void);
 	              };
-`
 
+{% endhighlight %}
 /* 设置SIGINT */
-`
+{% highlight c %}
 action.sa_handler = sig_handler;
 sigemptyset(&action.sa_mask);
 sigaddset(&action.sa_mask, SIGTERM);
@@ -82,7 +82,8 @@ sigaction(SIGINT, NULL,&old_action);
 if (old_action.sa_handler != SIG_IGN){
 	sigaction(SIGINT, &action, NULL);
 }
-`
+{% endhighlight %}
+
 基于 sigaction 实现的库函数: signal
 sigaction 自然强大, 但安装信号很繁琐, 目前linux中的signal()是通过sigation()函数
 实现的，因此，即使通过signal（）安装的信号，在信号处理函数的结尾也不必
