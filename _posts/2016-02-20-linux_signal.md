@@ -20,7 +20,8 @@ category: linux
 <code>
 #include<signal.h>
 void (*signal(int signum, void (*handler))(int))(int);
-</code>
+<code>
+
 `signum` 指定要安装的信号,handler指定信号处理的函数.
 
 该函数的和返回值是一个函数指针,指向上次安装的handler.
