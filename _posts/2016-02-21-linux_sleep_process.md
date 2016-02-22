@@ -5,6 +5,7 @@ category: linux
 ---
 
 # 休眠规则
+
 1. 不要在原子上下文中休眠
 
 2. 禁止中断时,也不能休眠
@@ -79,7 +80,9 @@ wait_event_interruptible_timeout(queue, condition, timeout);
 ### might_sleep()
 不得不说一下这个宏,上面这四个宏中都牵扯上它了.代码注释是这么说的:
 
-	might_sleep - annotation for function that can sleep
+```c
+might_sleep - annotation for function that can sleep
+```
 
 queue 是等待队列头,传值方式,condition是任意一个布尔表达式,在休眠前后多次
 对condition求值,为真则唤醒.
@@ -90,6 +93,8 @@ queue 是等待队列头,传值方式,condition是任意一个布尔表达式,�
 void wake_up(wait_queue_head_t *queue);
 void wake_up_interruptible(wait_queue_head_t *queue);
 ```
+实际上,一般是`wait_event`和wake_up`,`wait_event_interruptible`和`wake_
+u_interruptible`成对使用
 
 
 
