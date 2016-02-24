@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "struct成员偏移量"
-category: C
+category: c
 ---
 # 起因
 原本是想看Linux Kernel内核的，结果...

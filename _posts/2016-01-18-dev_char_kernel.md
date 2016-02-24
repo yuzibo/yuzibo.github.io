@@ -191,7 +191,7 @@ module_exit(yubochar_exit);
 # 装入内核
 这是Makefile
 
-{% highlight c %}
+{% highlight make %}
 obj-m+=yubochar.o
 
 all:

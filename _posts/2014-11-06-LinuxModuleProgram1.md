@@ -1,14 +1,14 @@
 ---
 layout: article
 title: "模块编程(1)Hello,World"
-category: Kernel Programming
+category: kernel programming
 ---
-#前戏
+# 前戏
 看了这么多关于内核的东西，这两天终于上手实现了基于内核的编程——模块编程。
 这里，简单的记录一下，因为还是有些东西需要牢记的。
 先说点题外话，看到资料上说模块机制、设备机制、驱动机制是在linux上很重要的三种机制之一，所以，看起来，这真是万里长征的第一步。
 
-##先建立一个源文件，module.c
+## 先建立一个源文件，module.c
 
 {% highlight c %}
 #include<linux/init.h>
