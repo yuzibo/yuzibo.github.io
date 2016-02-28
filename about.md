@@ -21,6 +21,7 @@ Hello,
 
 
 ## Email
+If you find any errors or disunderstand, please ccing me:)
 
 [tsu.yubo@gmail.com](mailto:tsu.yubo@gmail.com)
 
