@@ -17,8 +17,11 @@ title: "linux的内存浅析"
 有以下几个方面的应用：
 
 >ZONE_DMA
+
 >ZONE_DMA32
+
 >ZONE_NORMAL
+
 >ZONE_HIGHMEM
 
 这些东西是定义在`<include/linux/mmzone.h>`中的。
@@ -32,7 +35,8 @@ title: "linux的内存浅析"
 void *alloc_pages(gfp_t fp_mask, unsigned int order)
 ```
 这样会分配一个2的order次方大小数量的页。`gfp_t`是关于你分配页的使用的
-标志，定义在<linux/gfp.h>里。使用上面的函数，我们得到的页是物理地址，
+标志，定义在<linux/gfp.h>里，它是`__get_free_page()`的缩写。使用上面的函数，
+我们得到的页是物理地址，
 还不能被进程使用，我们必须转换成进程使用的虚拟地址，才能够真正应用这个
 物理页。利用：
 
@@ -58,10 +62,25 @@ __get_free_page()
 ```c
 void *kmalloc(size_t size, gfp_t flag)
 ```
-`c
-void *kmalloc(size_t size, gfp_t flag)
-`
 
+## GFP_T
+说说这个标志。它被定义在<linux/types.h>中，分为action modifiers、zone
+modifiers ,定义在<linux/gfp.h>中。
 
+>> 仅仅 ~alloc_page`可以分配高内存。
+
+# vmalloc
+这个函数直接从虚拟地址分配地址，定义在<linux/vmalloc.h>文件中，且与
+vfree()函数配套使用。
+
+# slab
+前面的分配页的内存管理方法可以满足绝大多数对内存的需要，可是有一点，
+就是消耗的时间太多，因为经过了两级映射，有的甚至是三级映射，所以，
+内核的开发者又想出了一个折中的方案，把页连成一串，形成页缓存。
+在它下面使用
+```c
+kmem_cache_create()
+```
+类似的函数，这里我们只需要简单的了解，更详细的我会补充上。
 
 

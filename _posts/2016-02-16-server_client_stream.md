@@ -1,7 +1,7 @@
 ---
 layout: article
-title: "流式套接字客户端服务端编程详解"
-category: network
+title: "socket客户端服务端编程详解"
+category: socket
 ---
 
 # 套接字概念
@@ -21,7 +21,7 @@ AF_IPX(Novell 网络协议)...
 
 `protocol`: 一般情况下会设置为0,表示由系统在当前的domain下选择合适的协议.
 
-##套接字地址
+## 套接字地址
 
 
 TODO

@@ -70,20 +70,19 @@ category: git
 
 	`git shortlog master..HEAD`
 
-#### 合并分支
+## 合并分支
 假设你在分支A，分支B上完成了工作，你需要把你的工作放进主分支M，
 
 	git checkout M
 	git merge A
 	git merge B
 
-#### Check out an older kernel version
+## Check out an older kernel version
 
 	cd linux-source
 	git checkout -b tmp v2.6.22
 
-#### Apply all patches in a Berkerey mbox-format file
-!!!
+## Apply all patches in a Berkerey mbox-format file
 
 	cd linux-kernel-source
 	git am --utf8 --signoff /path/to/mbox
@@ -131,16 +130,23 @@ Tag a partical commit
 
 使用场景:
 
-该命令会输出每一行引入的时间, 作者, commit ID, 有了这些信息, 或者用git show命令阅读作者引入时的提交信息, 了解该改动的原因和做法; 或者, 利用这些信息, 加上lkml关键字, 用Google搜索邮件列表存档, 更深入了解当时开发者们对这一变动的所解决的问题, 解决方法的讨论。
-##确定某次变化是哪次提交引入的
+该命令会输出每一行引入的时间, 作者, commit ID, 有了这些信息, 或者用git show
+命令阅读作者引入时的提交信息, 了解该改动的原因和做法; 或者, 利用这些信息,
+加上lkml关键字, 用Google搜索邮件列表存档, 更深入了解当时开发者们对这一变动的
+所解决的问题, 解决方法的讨论。
+
+## 确定某次变化是哪次提交引入的
+```git
 	git bisect start HEAD <oldVersion> --no-checkout
 	git bisect run sh -c 'git show BISECT_HEAD:<path that include the struct in file >
 	grep -q "struct <struct name>"'
-
+```
 第一条命令，指定了查找的范围，--no-checkout 表示对于每一次检查，不检出当前版本库，加快检索速度。
 
-当这两条命令运行结束后，引入变化的提交就被找到了，然后再利用git show命令查看更加详细的变化原因。
-##创建新分支
+当这两条命令运行结束后，引入变化的提交就被找到了，然后再利用git show命令查看
+更加详细的变化原因。
+
+## 创建新分支
 Create a new branch called "first-patch", and checkout that branch by running:
 
 	git checkout -b first-patch
@@ -149,11 +155,11 @@ Create a new branch called "first-patch", and checkout that branch by running:
 
 
 
-##删除一个分支
+## 删除一个分支
 
 	git branch -D temp
 
-##查看有目前目录有多少分支
+##i 查看有目前目录有多少分支
 
 	git branch
 
@@ -162,9 +168,14 @@ Create a new branch called "first-patch", and checkout that branch by running:
 	git branch -a
 
 查看远方版本库的目前使用的分支
-##Update your kernel
+
+## Update your kernel
 
 	git fetch origin
 
 与原来的版本库标定
+
+## 搜索某个人的提交
+
+git log --author="name"
 

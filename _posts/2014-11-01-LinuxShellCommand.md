@@ -3,135 +3,163 @@ layout: article
 title: "linux基本命令"
 category: linux shell
 ---
-##注，代码中的数字是注释
-##bc
+## 注，代码中的数字是注释
+
+## bc
+
+## 十进制转换成二进制
+
 {% highlight bash %}
-1.##十进制转换成二进制
 no=100
 echo "obase=2;$no" | bc
-2.##()B==>()10
+## x()B==>()10
 no=1100100
 echo "obase=10;ibase=2;$no" | bc
-3##direct to
+## direct to
 echo "sqrt(100)" | bc
 echo "10^10" | bc
 {% endhighlight %}
 
-##cat
+## cat
 
 {% highlight bash %}
-1.##remove blank cols
+## remove blank cols
 cat 1.txt | tr -s '\n'
-2.## display tab
+## display tab
 cat -T xx.txt
-3.## lines numbers
+## lines numbers
 cat -n filename
-4.## cat > file1
+## cat > file1
 向文件中写入内容
 {% endhighlight %}
-##comm
+## comm
 
-{% highlight bash %}
 
-1.##comm must use sorted file as input
+## comm must use sorted file as input
+``` bash
 sort A.txt -o A.txt ;
 sort B.txt -o B.txt
 comm A.txt B.txt
+```
 产生以下三列：
 第一列是在A中，第二列是在B中，第三列是在A，B中的，加上参数
 即可方便的格式化输出：
 -1 ；删除第一列
 -2；删除第二列
 -3；删除第三列
+```bash
 comm A.txt B.txt -1 -2
 comm A.txt B.txt -3 | sed 's/^\t//'
-##这个命令会产生1，2列，用sed命令删除空白字段，s是替换，^是行首，
-##利用这个命令产生差集
-comm A.txt B.txt -1 -3  ##is B\'s
+```
+这个命令会产生1，2列，用sed命令删除空白字段，s是替换，^是行首，
+利用这个命令产生差集
+comm A.txt B.txt -1 -3
 
-{% endhighlight %}
 
-##cut
+
+## cut
 
 {% highlight bash %}
 
-##1. 在cut的术语中，每列都是一个字段
+## 1. 在cut的术语中，每列都是一个字段
 cut -f 2,3 filename
-##2.    打印除第三列之外所有的列，
+## 2.    打印除第三列之外所有的列，
 cut -f3 --complement filename
 ##    要指定字段的定界符，使用-d选项
 cut -f2 -d";" filename
 
 {% endhighlight %}
-##less--more
+## less--more
 
 
 
-##mkdir
+## mkdir
 
-
-1.##
+```bash
 if [ -e /home/yubo ]; then
 #mkdir
 fi
-2.## 创建多级目录
+```
+## 创建多级目录
+```bash
 mkdir -p /home/yubo/xx
+```
+
+## chmod
 
 
-##chmod
-
-
-1. ##
 u=用户权限
 g=用户组权限
 o=其他实体权限
-##如一个文件 rwx rw- r--增加其他组的可执行权限
+
+如一个文件 rwx rw- r--增加其他组的可执行权限
+```bash
 chmod o+x filename
 chmod a(all)+x filename
-##删除权限
+```
+
+## 删除权限
+```bash
 chmod a-x filename
-##r--=4,-w-=2,--x=1,依次类推
+```
+## r--=4,-w-=2,--x=1,依次类推
 
 
-##chown
+## chown
 
 
-1.## 更改所有权
-chown user.group filename
-2.##
-chown [OPTION]... [OWNER][:[GROUP]] FILE...
-chown [OPTION]... --reference=RFILE FILE...
-3.## -R operate a file or direct recurence
+## 更改所有权
+```bash
+chown u
+ser.group filename
+```
+
+>>chown [OPTION]... [OWNER][:[GROUP]] FILE...
+>>chown [OPTION]... --reference=RFILE FILE...
+## -R operate a file or direct recurence
+```bash
 chown -R redhat ./test
-4.#### 将test目录及其子目录中的文件的其他用户权限设置为没有任何权限
-chmod -R o=--- ./test
+```
+
+## 将test目录及其子目录中的文件的其他用户权限设置为没有任何权限
+```bash
+chown -R o=--- ./test
+```
+
+## cp
 
 
-##cp
-
-
-1.## -r copy directories recursively
+## -r copy directories recursively
+```bash
 cp -r /ect/pam.d ./test
+```
+
+# chattr
 
 
-##chattr
-
-
-1.## 使文件不可修改
+### 使文件不可修改
+```bash
 chattr +i file
-2.##删除这个属性
+```
+### 删除这个属性
+```bash
 chattr -i file
-##echo
+```
+# echo
 
-1.##print color text
+### print color text
+```bash
 echo -e "[e1;42m This is color txet \e[0m"#其中数字不同颜色不同
+```
 
 
-##find
+# find
 
 
-1.## find and print
+### find and print
+```bash
 find . -print   ## . stand for current directory,".." father
+```
 2.## -iname(ignore lower or upper leteer)
 find /dir -iname "*.txt" -print
 3.##  or
