@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "linux基本命令"
-category: linux shell
+category: shell
 ---
 ## 注，代码中的数字是注释
 

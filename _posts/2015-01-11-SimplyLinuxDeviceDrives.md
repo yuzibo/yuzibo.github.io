@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "MKNOD命令"
-category: linux shell
+category: shell
 ---
 #mknod
 
