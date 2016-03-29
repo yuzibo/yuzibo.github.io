@@ -1,6 +1,7 @@
 ---
 layout: article
-title: "windows靠git"
+title: "windows安装git"
 category: tools
 ---
-縧inux靠靠靠windows靠靠靠
+
+把linux下的编程习惯完全带到windows上来，好舒服的呀
