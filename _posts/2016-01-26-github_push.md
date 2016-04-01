@@ -13,8 +13,8 @@ category: git
 
 ```c
 machine github.com
-	login <user>
-	password <password>
+login <user>
+password <password>
 ```
 # windows
 
