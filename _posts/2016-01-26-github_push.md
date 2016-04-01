@@ -17,6 +17,7 @@ machine github.com
 	password <password>
 ```
 # windows
+
 真不容易，搞了很久才搞定。首先，你先设定HOME的环境变量，最好全局的，然后把
 `_netrc`文件放到你设定的HOME文件夹里，然后再克隆下来就方便了。
 
