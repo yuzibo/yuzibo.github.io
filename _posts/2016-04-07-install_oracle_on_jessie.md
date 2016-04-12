@@ -1,14 +1,161 @@
 ---
-title: "在jessie上安装oracle"
+title: "在jessie上安装oracle 11gR2"
 layout: article
 category: oracle
 ---
 # 先期条件
 
+## apt-get install list
+ sudo apt-get install gcc make binutils gawk x11-utils rpm build-essential
+ libaio1 libaio-dev libmotif4 libtool expat alien ksh pdksh unixODBC 
+ unixODBC-dev sysstat elfutils libelf-dev binutils  lsb-cxx libstdc++5  
+ libmotif4 libmotif-common  libstdc++5 libmotif-dev expat pdksh  sysstat 
+ libtool  libmotif4 pcb-lesstif libdb4.6 
+
+ <em>没有lesstif2 用 pcb-lesstif代替,libaio1不要用这个上面的，我自己是下的源
+ 包，而且版本是0.3.109</em>
+
+ 在安装过程中，看到提示缺少某个库函数的时候，不要简单的中断退出来，根据问题
+ 的提示，利用google解决后，再retry下。
+
+## 相关的脚本
+
+ 说明：在代码块中你可以看见"`","`"在开始和结尾处，这是一个shell文件，
+ 在debian上，
+ 直接使用:
+
+ > sh xx.sh
+
+ 就可以使用了。当然，如果你想用手输入的话，找到对应的系统文件，敲进去就是了
+ 。
+
+ 相关脚本放在了[这里](https://github.com/yuzibo/configure_file.git)
+
+### 创建oracle相关的用户
+
+```bash
+#!/bin/bash
+`
+groupadd oinstall;
+groupadd dba;
+groupadd oper;
+useradd -m -s /bin/bash -g oinstall -G dba,oper oracle; #初始群组为 oinstall，有效群组为 dba、oper
+passwd oracle; 
+`
+```
+这里一定要有"-m"选项，否则在你安装的过程中以oracle用户无法登入系统。 "-s"是
+指定该用户使用的shell，在debian上，当然是bash了。
+
+### 修改内核参数
+ 
+```bash
+
+#!/bin/bash
+
+echo "#">> /etc/sysctl.conf
+echo "# Oracle 11gR2 entries">> /etc/sysctl.conf
+echo "fs.aio-max-nr=1048576" >> /etc/sysctl.conf
+echo "fs.file-max=6815744" >> /etc/sysctl.conf
+echo "kernel.shmall=2097152" >> /etc/sysctl.conf
+echo "kernel.shmmni=4096" >> /etc/sysctl.conf
+echo "kernel.sem=250 32000 100 128" >> /etc/sysctl.conf
+echo "net.ipv4.ip_local_port_range=9000 65500" >> /etc/sysctl.conf
+echo "net.core.rmem_default=262144" >> /etc/sysctl.conf
+echo "net.core.rmem_max=4194304" >> /etc/sysctl.conf
+echo "net.core.wmem_default=262144" >> /etc/sysctl.conf
+echo "net.core.wmem_max=1048586" >> /etc/sysctl.conf 
+echo "kernel.shmmax=1073741824" >> /etc/sysctl.conf
+
+
+sysctl -p
+
+```
+注意最后一个命令，这里是立即生效刚刚修改过的系统文件。同样，该命令我也放在了
+脚本中，请注意。
+在安装的过程中，有一步是检查所有的先决条件是否满足，有一个地方会说
+
+>kernel.sem fixable
+
+我在别的地方看见说这个警告没有影响，直到现在，我也是忽略它了，不知道有没有风
+险。
+
+
+
+### 修改系统限制
+
+```bash
+
+#!/bin/bash
+`
+cp /etc/security/limits.conf /etc/security/limits.conf.original
+echo "#Oracle 11gR2 shell limits:">>/etc/security/limits.conf
+echo "oracle soft nproc 2048">>/etc/security/limits.conf
+echo "oracle hard nproc 16384">>/etc/security/limits.conf
+echo "oracle soft nofile 1024">>/etc/security/limits.conf
+echo "oracle hard nofile 65536">>/etc/security/limits.conf
+`
+
+```
+
+### 创建安装目录
+
+```bash
+
+mkdir /opt/oracle;
+chown oracle:oinstall /opt/oracle;
+chmod 755 /opt/oracle;
+
+mkdir /opt/oraInventory;
+chown oracle:oinstall /opt/oraInventory;
+chmod 755 /opt/oraInventory;
+```
+这个脚本创建oracle的安装目录。
+
+### 确保用户oracle对解压的oracle安装包的权限
+
+
+```bash
+<BS>chmod -R 700 /home/oracle/database;
+chown -R oracle:oinstall /home/oracle/database;
+```
+
+database就是将oracle的两个安装包解压后的数据包。oracle安装包[下载](http://pan.baidu.com/s/1eS36gfC)
+===========================退出root，oracle用户登录===================
+
+### 设置oracle用户的登录环境
+
+在/home/oracle下，新建.bash_profile或者使用.bashrc,输入以下内容:
+
+```bash
+ORACLE_BASE=/opt/oracle; #安装目录
+ORACLE_HOME=$ORACLE_BASE/11g; #oracle家目录
+ORACLE_SID=orcl; #实例名
+LD_LIBRARY_PATH=$ORACLE_HOME/lib;
+PATH=$PATH:$ORACLE_HOME/bin:$HOME/bin;
+export ORACLE_BASE ORACLE_HOME ORACLE_SID LD_LIBRARY_PATH PATH;
+
+```
+最后在每个环境变量后面使用export xx的方式分别导出，这样好像才可靠。
+
+最后使用：
+
+>source .bash_profile
+
+使之生效。
+
+### 安装开始
+
+以oracle身份安装
+
+>sh /../../datebase/runInstaller 
+
+就进入了安装界面
 
 # During install errors
 
-## 
+
+## undefined reference to __stack_chk_fail@GLIBC_2.4
+
 'l take error during installing Oracle 11g on Debian 8 (jessie).
 Can't install 'proc' and many other "agents" (during linked libs). 
 I take errors like: 
@@ -18,6 +165,7 @@ libaio.so.1 undefined reference to __stack_chk_fail@GLIBC_2.4
 
 
 # B_DestroyKeyObject
+
 ```c
 Edit : sysman/lib/ins_emagent.mk 
 
@@ -28,6 +176,7 @@ with:
 $(SYSMANBIN)emdctl:
         $(MK_EMAGENT_NMECTL) -lnnz11
 ```
+
 上面是arbrc number "11".
 [reference](http://www.manu.ms/Oracle/libro01_en.html)
 
