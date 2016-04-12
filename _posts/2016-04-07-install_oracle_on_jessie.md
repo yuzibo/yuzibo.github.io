@@ -307,3 +307,9 @@ oracle@debian:/opt/oracle/11g/bin$
 1. 修改oracle系统配置文件：/etc/oratab,只用这样，oracle自带的dbstart和dbshut
 才能起作用。
 将最后一行的数据库的"N"改为"Y"
+
+# 参考连接
+
+[one](http://www.cnblogs.com/mophee/archive/2013/06/01/3107137.html)
+[two](https://www.debian-administration.org/article/656/Installing_Oracle11_and_Oracle12_on_Debian_Wheezy_Squeeze)
+[three](http://www.cloudnetwork.in/2015/01/how-to-install-oracle-11g-r2-step-by.html)
