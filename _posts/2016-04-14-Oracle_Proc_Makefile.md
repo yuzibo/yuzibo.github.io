@@ -80,3 +80,50 @@ clean:
 	@rm -f *.o
 ```
 
+# v0.3
+
+爽，实在是爽，不但解决了makech的问题，还解决了Makefile自动生成
+的文件放在相应的目录，只是简简单单的在将目标文件放在对应的目录
+即可，当然，这里的目标文件不只是指gcc生成的目标文件，这里广义
+的指你想操作的文件，比如：
+
+```c
+./
+./Makefile
+./src/*.c;*.h
+./obj/*.o
+./bin/<executable>
+```
+类似于一个工程，各种不同的文件放在不同的目录，各司其职。
+
+```bash
+.SUFFIXES: .pc .c .o
+
+CC = gcc -o
+PROC = proc
+
+ORACLE_HOME = /opt/oracle/11g
+BINDIR = /home/oracle/src/tools/dbsvr/bin
+
+ORALIB = -lclntsh -lpthread
+
+PROCSRCS = makech.pc
+EXE	= makech
+
+SRCS=$(PROCSRCS:.pc=.c)
+OBJS=$(SRCS:.c=.o)
+
+$(BINDIR)/$(EXE): $(SRCS)
+	$(CC)   $@ -g $(SRCS)  -I$(ORACLE_HOME)/precomp/public -L$(ORACLE_HOME)/lib  $(ORALIB)
+
+$(SRCS):
+	$(PROC) INAME=$(PROCSRCS)  CODE=ANSI_C PARSE=NONE oname=$(SRCS)
+
+clean:
+	@echo "rm ..."
+	@rm -f *.c
+	@rm -f *.lis
+	@rm -f *.o
+```
+看见没有，v3与v2的区别就在于新建了个BINDIR,然后使用$(BINDIR)/$(EXE)即可，
+相应的，如果在源目录src中寻找相应的源文件，加入相应的路径名即可。
