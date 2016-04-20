@@ -4,7 +4,7 @@ categroy: c
 title: "c语言的文件操作"
 ---
 
-
+```c
 #include<stdio.h>
 #include<sys/types.h>
 #include<sys/stat.h>
@@ -41,6 +41,12 @@ int main()
  * 从这里我们可以看出，库函数的文件操作的前面都有一个f，
  * 这可能就是这两者最明显的区别了
  * */
+
+```
+
+下面这是先向文件写内容，后来再读取文件中的内容。
+
+```c
 #include<stdio.h>
 #define LENGTH 100
 int main()
@@ -59,3 +65,4 @@ int main()
 	fclose(fd);
 
 }
+```
