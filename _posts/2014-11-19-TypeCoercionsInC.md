@@ -3,7 +3,10 @@ layout: article
 title: "c语言中的强制转换类型"
 category: c
 ---
-# 这是看到的文章[原文地址](http://www.cnblogs.com/ArtsCrafts/p/C%E6%8C%87%E9%92%88.html)
+
+# 这是看到的文章
+
+[原文地址](http://www.cnblogs.com/ArtsCrafts/p/C%E6%8C%87%E9%92%88.html)
 
 c语言中，任何变量都有一个地址，这个地址是由0和1二进制代码组成的，在声明变量
 时，例如<em>int</em>，系统就会临时开辟一个存储空间，空间的大小根据类型的不同
