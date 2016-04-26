@@ -31,7 +31,7 @@ safe: true
 paginate: 20
 
 #代码高亮
-pygments: true
+highlighter: true
 comments:
     provider:duoshuo
 #duoshuo:
