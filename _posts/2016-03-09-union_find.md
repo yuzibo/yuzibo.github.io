@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "并查集原理及实现"
-category: DS&AL
+category: DS
 ---
 
 很久之前接触过这个东西，这是很久的事情了。现在又是重新捡起来。

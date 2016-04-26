@@ -1,12 +1,11 @@
 ---
 layout: article
-category: DS&AL
+category: DS
 title: "红黑树简介"
 ---
 
 # 性质
 
-```c
 性质一. 节点是红色或者黑色的
 性质二. 根是黑色的
 性质三. 所有的叶子是黑色的(NULL)

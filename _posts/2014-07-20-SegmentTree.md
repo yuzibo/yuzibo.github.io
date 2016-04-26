@@ -1,13 +1,14 @@
 ---
 title: 线段树
 layout: article
-category: Al&DS
+category: DS
 ---
-#暂时不熟悉的用法
-##宏定义：
+# 暂时不熟悉的用法
 
-###define L(x) (x<<1)//将x乘以2
-###define R(x) (x<<1|1)//将x乘以2加1，注意后面|1就是加1,其他的不一定正确
+## 宏定义：
+
+### define L(x) (x<<1)//将x乘以2
+### define R(x) (x<<1|1)//将x乘以2加1，注意后面|1就是加1,其他的不一定正确
 
 线段树的深度为log2(b-a+1)
 线段数组基本知识：
@@ -15,7 +16,9 @@ category: Al&DS
 2.lowbit(x)=x&(-x);
 3.lowbit(x)实际上就是x的二进制表示形式留下最右边的1，其他位都变成0
 数组a对应的线段数组应该是C[i]=a[i-lowbit(i)+1]+...+a[i]
-#hdu 1166我居然挂了20多次
+
+# hdu 1166我居然挂了20多次
+
 [hdu 1166](http://acm.hdu.edu.cn/showproblem.php?pid=1166)
 虽然是一个人的战场，但你永远不会独行！you nerver go alone!
 线段树的简单使用可以用以下模板，高级还需自己慢慢领会
