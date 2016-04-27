@@ -37,6 +37,10 @@ int main()
 	pmax = max;
 	printf("Please input two numbers:\n");
 	scanf("%d%d",&z,&x);
+	/*
+	 *这里，你可以sum(z,x);
+	 * c=(*pmax)();
+	 */
 	c = (*pmax)(z,x);
 	print("Max number is %d\n", c);
 }
@@ -44,6 +48,8 @@ int main()
 
 从上面我们可以看出来，先定义函数指针，<del>将函数指向函数指针后</del>，将函
 数指针指向函数后，就可以像使用原函数那样进行调用。
+
+
 
 那么，这两个函数返回值类型也必须一致
 

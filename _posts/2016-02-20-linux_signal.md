@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "linux信号浅析"
-category: linux
+category: unix
 ---
 
 # 信号的种类
