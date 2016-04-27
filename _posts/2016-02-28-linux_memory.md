@@ -49,19 +49,19 @@ void *page_address(struct page *page)
 unsigned long get_zeroed_page(
 		unsigned int gfp_mask)
 ```
-在某些情况下等于
+在某些情况下等于,返回一个全部充满0的页。
 ```c
 __get_free_page()
 ```
-??
 
 # kmalloc
 这个函数是分配以字节为单位的内核空间，与用户空间的`malloc`函数特别相似。
-函数定义在<linux/slab.h>
+函数定义在<linux/slab.h>,分配的也是2的方的数值。
 
 ```c
 void *kmalloc(size_t size, gfp_t flag)
 ```
+分配的最大数值为128KB.
 
 ## GFP_T
 说说这个标志。它被定义在<linux/types.h>中，分为action modifiers、zone
@@ -83,4 +83,8 @@ kmem_cache_create()
 ```
 类似的函数，这里我们只需要简单的了解，更详细的我会补充上。
 
+# 其他
 
+>alloc_bootmem_..()
+
+这是在启动的时候分配内存的代码，在初始化完成后这个代码就会被擦除。
