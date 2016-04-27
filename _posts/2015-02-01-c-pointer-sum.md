@@ -47,6 +47,62 @@ int main()
 
 那么，这两个函数返回值类型也必须一致
 
+看下面的例子：
+
+>void (*fptr) ();
+
+把函数的地址赋值给函数指针，可以采用下面两种形式：
+
+```c
+fptr = &Function;
+fptr = Function;
+```
+取地址运算符&不是必需的，因为单单一个函数标识符就表示了它的地址,上面的程序代码就是直接拿的函数名。
+
+```c
+x = (*fptr)();
+x = fptr();
+```
+两种函数调用的方式。倾向使用第一种方式，前面接收的那个变量的类型要与调用的函数的类型一致。
+
+# 指针函数
+指针函数是带指针的函数，与上面的极易混淆，下面看一下具体形式
+
+	类型标识符  *函数名(参数表)
+	int *f(x,y)
+
+<del>当然了，由于返回的是一个地址，所以类型说明符一般都是int。</del>void,float也都有返回的地址，什么都是可以的。
+
+```c
+#include<stdio.h>
+
+int *GetDate(int wk,int ddy);
+
+int main(){
+	int wk,dy;
+	do{
+		printf("Enter week(1-5)day(1-7)\n");
+		scanf("%d%d",&wk,&dy);
+	}while(wk<1 || wk>5 || dy<1 || dy>7);
+	printf("%d\n",*GetDate(wk,dy));
+}
+int *GetDate(int wk,int dy){
+	static int calendar[5][7] =
+	{
+		{1,2,3,4,5,6,7,},
+		{8,9,10,11,12,13,14},
+		{15,16,17,18,19,20,21},
+		{22,23,24,25,26,27,28},
+		{29,30,31}
+	};
+	return &calendar[wk-1][dy-1];
+}
+
+```
+首先这是一个函数，函数的返回值是地址。返回值必须用同类型的指针变量来接受，(当然了)，也就是说，指针函数一定有返回值，在
+主调函数中，函数的返回值必须赋给同类型的指针变量。
+
+在调用它的时候，由返回值类型确定相应的格式类型(对于printf函数而言)。
 
 看下面的例子：
 
@@ -73,7 +129,7 @@ A):  fun1不是函数，只是个指针变量，它指向一个函数，返回�
 		else
 			return p2;
 		/*Note:
-		 Connect return value with char * 
+		 Connect return value with char *
 		 */
 	}
 	int main()
