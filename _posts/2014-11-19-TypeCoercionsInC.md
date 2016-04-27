@@ -126,14 +126,16 @@ int *p;
 	b = (int)ptr;//把指针ptr的值当作一个整数取出来
 	str = (char *)b;//把这个整数的值当作一个地址赋给指针str
 {% endhighlight %}
-###1.指针类型强制转换
+
+#  指针类型强制转换
 {% highlight c %}
 int m;
 int *pm = &m;
 char *cp = (char *)&m;
 {% endhighlight %}
 pm指向一个整型，cp指向整型的第一个字节。
-###2.结构体之间的强制转换
+
+# 结构体之间的强制转换
 {% highlight c %}
 struct str1 a;
 struct str2 b;
@@ -141,10 +143,14 @@ a = (struct) b; //This is wrong
 a = *((struct str1*)&b); //This is corrent
 {% endhighlight %}
 这一部分的缺陷继续去阅读经典的书籍去填补
-#利用宏来求结构体成员的偏移量
-##输入：
+
+# 利用宏来求结构体成员的偏移量
+
+## 输入：
+
 一个结构体定义type，这个结构体中某个成员变量的名字member以及它的地址ptr
-##输出：
+
+## 输出：
 包含此成员变量的结构体的地址
 {% highlight c %}
 struct father_t {
@@ -171,8 +177,9 @@ char *ptr = &(f.b);
 </pre>
 通过以上分析我们不难得出，我们只需要把当前知道的成员变量的地址ptr，减去它在结构体当中的相对偏移量4就得到了结构体的地址（ptr-4）。在linux内核中，有一个很好的宏叫做container_of，
 
-__#define offset(TYPE,MEMBER)((size_t) & ((TYPE \*)0)->member)__
-##这个宏的功能就是获得一个结构体成员在此结构体的偏移量
+	#define offset(TYPE,MEMBER)((size_t) & ((TYPE *)0)->member)
+
+## 这个宏的功能就是获得一个结构体成员在此结构体的偏移量
 问题是，你能清楚的讲解上面语句的含义吗？我用了一天的时间去恶补基础，结果发现自己太菜了。
 
 1.((TYPE \*)0) 将零强制转换为TYPE类型的指针;
