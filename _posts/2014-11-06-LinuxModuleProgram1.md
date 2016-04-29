@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "模块编程(1)Hello,World"
-category: kernel programming
+category: kernel 
 ---
 # 前戏
 看了这么多关于内核的东西，这两天终于上手实现了基于内核的编程——模块编程。

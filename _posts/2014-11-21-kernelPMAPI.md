@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "kernel进程管理API"
-category: kernel API
+category: kernel 
 ---
 #函数
 __task_pid_nr_ns(struct task_struct \*task,enum pid_type type,struct pid_namespace *ns)

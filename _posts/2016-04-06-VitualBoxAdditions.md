@@ -1,7 +1,7 @@
 ---
 title: "VitualBox共享文件夹"
 layout: article
-category: linux
+category: tools 
 ---
 
 # 首先安装增强型文件包

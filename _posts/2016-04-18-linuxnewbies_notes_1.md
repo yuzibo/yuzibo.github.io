@@ -1,7 +1,7 @@
 ---
 title:  "linuxnewbie 问答总结(一)"
 layout: article
-category: linux 
+category: kernel 
 ---
 
 # 内核空间和用户空间的数据类型

@@ -1,6 +1,6 @@
 ---
 layout: article
-category: kernel programming
+category: kernel 
 title: "linux kernel字符设备编程举例"
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: article
-category: linux
+category: kernel 
 title: "linux中的vfs"
 ---
 # 什么是vfs

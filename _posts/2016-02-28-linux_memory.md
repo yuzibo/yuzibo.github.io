@@ -1,6 +1,6 @@
 ---
 layout: article
-category: linux
+category: kernel 
 title: "linux的内存浅析"
 ---
 

@@ -3,7 +3,8 @@ layout: article
 title: "linux中的段"
 category: linux
 ---
-##简介
+
+# 简介
 保护模式下段描述表分为全局描述符表(GDT)、中断描述表（IDT）、局部描述符表（LDT）。
 
 linux使用以下段描述符：

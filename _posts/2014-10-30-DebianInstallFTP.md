@@ -1,6 +1,6 @@
 ---
 layout: article
-category: linux
+category: tools 
 title: "Debian 安装FTP"
 ---
 # 零

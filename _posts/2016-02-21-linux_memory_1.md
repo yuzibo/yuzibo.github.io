@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "linux 内存管理"
-category: linux
+category: kernel 
 ---
 
 # 进程内存区域
