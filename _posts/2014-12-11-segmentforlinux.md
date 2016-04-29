@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "linux中的段"
-category: linux
+category: kernel 
 ---
 
 # 简介

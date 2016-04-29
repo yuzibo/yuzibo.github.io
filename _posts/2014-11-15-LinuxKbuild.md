@@ -1,13 +1,16 @@
 ---
 layout: article
 title: "kbuild学习心得"
-category: linux
+category: kernel
 ---
-#起因
+
+# 起因
 最近想写linux设备驱动，发现不同参考书上的Makefile文件风格不一致，不一致是小事，我自己对这方面知识的欠缺总感觉穿着很重的鞋子走路。当然，网上的资料也是良莠不齐，自己看内核代码Document/kbuild中的文件算是做一下读书笔记，有错误的话还请谅解。
-##简介
+
+## 简介
 “kbuild” is build system used by the linux kernel.Modules must use kbuild to stay compatible with GCC. Modules programming is consist of in-tree and out-of-tree
-##系统命令
+
+## 系统命令
 
 >$make -C <path_to_kerenl_src> M=$PWD
 >$make -C /lib/modules/\`uname -r\`/build M=$PWD
@@ -18,7 +21,7 @@ __modules_install__
 
 >$make -C /lib/modules/\`uname -r\`/build modules_install
 
-##选项
+## 选项
 
 tips: $KDIR is short of path of the kernel source directory
 
@@ -27,20 +30,25 @@ __-C $KDIR__
 
 __M=$PWD__
 	通知kbuild一个外部模块已经被建立,"M"是这个外部模块（kbuild file）所在的绝对路径
-##target
+
+## target
 >make -C $KDIR M=$PWD [target]
 
 模块默认在这个文件夹生成（哪个？），所有的文件都会在这个文件夹中
 
-###modules:
+### modules:
 	同上
-###modules_install:
+
+### modules_install:
 	同上
-###clean:
+
+### clean:
 	仅仅删除在模块目录中生成的所有文件
-###help:
+
+### help:
 	从来没用过
-##建立分离文件
+
+## 建立分离文件
 	最简单的例子：
 
 __obj-m := <module_name>.o__
@@ -53,7 +61,7 @@ __<module_name>-y := <src1>.o <src2>.o
 
 
 
-##例子
+## 例子
 {% highlight bash %}
 
 
@@ -72,7 +80,8 @@ __<module_name>-y := <src1>.o <src2>.o
 
 
 {% endhighlight	%}
-##Makefile样本
+
+## Makefile样本
 经过本人亲自测试，下面的Makefile文件真实有效，其来源与LDD（Linux Decives Drives）
 {% highlight bash %}
 	ifneq ($(KERNELRELEASE),)

@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "linux 进程休眠"
-category: linux
+category: kernel 
 ---
 
 # 休眠规则
