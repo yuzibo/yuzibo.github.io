@@ -36,3 +36,25 @@ kmalloc函数分配，而且地址分为基地址和偏移地址，或者说是�
 System.Map is a symbol table, which contains a list of function names in the
 Linux kernel, with for each function the virtual address at which its code
 is loaded in memory.
+
+# schedule()
+关于这个函数是很意思的，目前讨论的不多。内核中调用schedule()的方式有两种，
+
+	1. 直接呼叫schedule();
+	
+	2. 通过阻塞一个进程(blocking)
+
+# preempt_count
+
+preempt_count是每一个task的锁的数量。当锁的数量增加时，preempt_count的值就会
+增加，锁的数量减少时，preempt_count的数量就会减少；当在内核中运行的task的
+preempt_count>时，内核是不能被抢占的；如果preempt_count == 0的时候，这个时候
+内核是可以被抢占的。
+
+# write-reader和semaphore的区别
+semaphore是控制一个进程在一个时间内访问一个数据；write-reader是可以有多个读
+者的情况。
+
+# spin locks
+在多处理器系统上，linux使用spin locks去管理竞态。linux在获得spin locks时禁用了内核抢占；当释放了spin locks时，又开启了内核抢占；在单处理器上，使用
+spin locks是不合适的
