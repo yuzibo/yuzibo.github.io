@@ -23,6 +23,8 @@ Hello,
 支付宝账号： 
 357130479@qq.com
 
+# 欢迎大家加入linux kernel学习交流群 212973173
+
 
 ## Email
 If you find any errors or disunderstand, please ccing me:)
