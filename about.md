@@ -19,6 +19,10 @@ Hello,
 
 ----
 
+如果你觉得本站对你有价值，请打赏一下吆:
+支付宝账号： 
+357130479@qq.com
+
 
 ## Email
 If you find any errors or disunderstand, please ccing me:)
