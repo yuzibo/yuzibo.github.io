@@ -5,6 +5,12 @@ layout: page
 
 
 ----
+[中国支教联盟](http://blog.go9999.com/2016/04/20/%E5%85%A8%E5%9B%BD%E8%8C%83%E5%9B%B4%E5%86%85%E6%8B%9B%E5%8B%9F%E4%BB%A3%E5%8F%91%E5%AE%A3%E4%BC%A0%E5%8D%95%E5%BA%97%E9%93%BA.html)
+这是一个有关中国支教的网站，不要求你出人出力，只需给他们一点关注，给山区的孩
+子更多的关注。
+
+
+
 
 ## introduction-myself
 
