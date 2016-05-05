@@ -14,6 +14,7 @@ ad.h,我们将他们连接编译成一个动态库: libso.so.
 文件的内容分别如下：
 
 so_head.h:
+
 ```c
 #include<stdio.h>
 void print_a();
@@ -21,6 +22,7 @@ void print_b();
 void print_c();
 ```
 so_a.c:
+
 ```c
 #include "so_head.h"
 void print_a()
@@ -29,6 +31,7 @@ void print_a()
 }
 ```
 so_b.c:
+
 ```c
 #include "so_head.h"
 
@@ -42,6 +45,7 @@ void print_b()
 这里省略so_c.c的源文件。
 将这几个文件编译成一个动态库:libso.so
 下面是Makefile:
+
 ```bash
 SRCS = $(wildcard *.c)
 
