@@ -67,6 +67,18 @@ $(OBJS):
 
 ## 动态库的连接
 所谓的连接就是将你所编译成的动态库连接你的可执行文件。
+上面，我们已经生成了libso.so,那么我们需要编写一个文件调用里面的函数。
+
+
+```c
+/* so_test.c */
+#include "so_test.h"
+int main(){
+	print_a();
+	print_b();
+
+}
+```
 
 将上面的Makefile改写成:
 
