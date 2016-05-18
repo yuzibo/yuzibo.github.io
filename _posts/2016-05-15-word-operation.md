@@ -27,13 +27,17 @@ category: word
 
 11、插入表格后的Word删除空白页 
 
-在Word2003中插入一张表格并使该表格充满当前页时，会在当前页后面产生一个空白页。尽管在产生的空白页中只含有一个段落标记，但是无法将其删除，从而无法去掉该Word空白页。不过用户可以按以下步骤删除Word空白页： 
+在Word2003中插入一张表格并使该表格充满当前页时，会在当前页后面产生一个空白页
+。尽管在产生的空白页中只含有一个段落标记，但是无法将其删除，从而无法去掉该Wo
+rd空白页。不过用户可以按以下步骤删除Word空白页： 
 
-    第1步，在Word2003窗口选中空白页中的段落标记，然后在Word菜单栏依次单击“编辑”→“全选”菜单命令。 
+第1步，在Word2003窗口选中空白页中的段落标记，然后在Word菜单栏依次单击“编辑”→
+“全选”菜单命令。 
 
-    第2步，在Word菜单栏依次单击“格式”→“段落”菜单命令，打开“段落”对话框。在“行距”下拉菜单中选中“固定值”，并将“设置值”调整为“1”。设置完毕单击“确定”按钮
+第2步，在Word菜单栏依次单击“格式”→“段落”菜单命令，打开“段落”对话框。在“行距”
+下拉菜单中选中“固定值”，并将“设置值”调整为“1”。设置完毕单击“确定”按钮
 
-	[百度知道](http://zhidao.baidu.com/link?url=wZ1LlUhPu68Y-jPd22TJFrI_S-yyjsFxhDhbt0tRgBXIIcQjiRSRhyjl89FgBJbuyIP6aKPGBEkR1vfWCJ2h__)
+[百度知道](http://zhidao.baidu.com/link?url=wZ1LlUhPu68Y-jPd22TJFrI_S-yyjsFxhDhbt0tRgBXIIcQjiRSRhyjl89FgBJbuyIP6aKPGBEkR1vfWCJ2h__)
 
 # 页码的插入
 我这里最怵的就是页码的插入，等你知道了流程，会后悔的要死。。。
