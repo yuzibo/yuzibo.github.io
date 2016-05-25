@@ -79,11 +79,7 @@ make -j4
 
 3. 运行调试
 
-```bash
-qemu-system-x86_64 -kernel xx-bzImage -gdb tcp::1234 -S
-```
-### kernel
-讲的是刚才生成的bzImage .
+
 
 ### gdb
 启动qemu的内嵌gdbserver，监听的是本地端口1234。
@@ -91,6 +87,13 @@ qemu-system-x86_64 -kernel xx-bzImage -gdb tcp::1234 -S
 ### S
 暂停内核的启动，以便于自己的调试。
 
+调试：
+
+```bash
+qemu-system-x86_64 -kernel xx-bzImage -gdb tcp::1234 -S
+```
+其中，xx-bzImage是刚才生成的bzImage.位于你内核源代码的/arch/x86/boot/，既/linux/arch/x86/boot/bzImage。
+将这个命令改写成qemu.start就可以形成一个shell脚本。
 将上面的命令写成shell。
 
 ```bash
