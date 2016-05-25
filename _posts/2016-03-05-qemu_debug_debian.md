@@ -10,6 +10,7 @@ layout: article
 # kernel
 
 1. 先下载源代码，我这里是用的git。
+
 ```bash
 $git clone
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
@@ -26,12 +27,14 @@ $ make bzImage
 
 编译后，bzImage这个是被压缩了的，供qemu虚拟机使用，vmlinux里面带了某些信息，
 没有压缩，供gdb使用。
+
 # 安装qemu
 
 1. 先下载源代码，git
 
 ```bash
 git clone git://git.qemu-project.org/qemu.git
+
 ```
 
 2. 简单的测试下(不是重点，而且费时):
@@ -40,20 +43,23 @@ git clone git://git.qemu-project.org/qemu.git
 
 # Switch to the QEMU root directory.
 cd qemu
+
 # Prepare a native debug build.
 mkdir -p bin/debug/native
 cd bin/debug/native
+
 # Configure QEMU and start the build.
 ../../../configure --enable-debug
 make
+
 # Return to the QEMU root directory.
 cd ../../..
+
 ```
 使用以下命令:
 
-bin/debug/native/x86_64-softmmu/qemu-system-x86_64 -L pc-bios
+>bin/debug/native/x86_64-softmmu/qemu-system-x86_64 -L pc-bios
 
-```
 2. 现在只安装自己平台的东西
 
 同时应该将上面运行后的东西删除掉。
@@ -66,6 +72,7 @@ switch to the QEMU root directory
 cd qemu
 # Configure QEMU for x86_64 only - faster build
 ./configure --target-list=x86_64-softmmu --enable-debug
+
 # Build in parallel - my system has 4 CPUs
 make -j4
 ```
