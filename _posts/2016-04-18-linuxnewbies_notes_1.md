@@ -58,3 +58,24 @@ semaphore是控制一个进程在一个时间内访问一个数据；write-reade
 # spin locks
 在多处理器系统上，linux使用spin locks去管理竞态。linux在获得spin locks时禁用了内核抢占；当释放了spin locks时，又开启了内核抢占；在单处理器上，使用
 spin locks是不合适的
+
+# 来自qq群
+
+bus_register、device_register 这两个函数注册的总线和设备，是不是必然注册到 platform_bus 总线上了？ 
+有没有其他总线，也用 bus_register、device_register 来注册？
+Andy(759217195)  11:31:25
+no 系统里面总线很多
+spi i2c spi 这些实实在在的物理总线 也叫总线
+对于有些没有实在物理总线的 他们抽象出来一种虚拟的总线 叫做platform bus
+
+bus device driver 驱动的三个要素
+
+通过bus 连接device和driver
+device注册到bus上的时候会去找driver
+driver注册到bus上的时候会去找device
+这个找的过程是通过match 大法
+match上了 就会probe
+网上文章这样说的时候，往往是拿 platform 做例子，我就搞不清楚，是不是其他类型的总线，也都是和“驱动的三要素”说的一样
+一样
+不一样到时候代码框架就很难管理了
+
