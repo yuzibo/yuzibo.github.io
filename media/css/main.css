@@ -36,6 +36,8 @@ embed,object,iframe{display:block;margin:4px auto;}
 /*#article-main img{width:41em;margin:0 auto;display:block;margin:4px auto;-webkit-box-shadow:#999 1px 1px 4px;-moz-box-shadow:#999 1px 1px 4px;box-shadow:#999 1px 1px 4px;}
 */
 #article-main img {
+text-align:center;
+box-shadow: .1em .1em .5em rgba(0,0,0,.45);
 border:0;
 max-width:650px;
 overflow:hidden;
