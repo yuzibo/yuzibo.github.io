@@ -1,0 +1,64 @@
+ # oracle pro*c编程基础
+
+## 声明部分
+
+```c
+EXEC SQL BEGIN DECLARE
+
+/* 在这里声明所有的宿主变量*/
+
+	char *uid = "usrname/password"
+
+EXEC SQL DECLARE SECTION
+```
+两者之间的部分有要求限制
+
+## 定界符(delimiters)
+
+sql语句使用单引号引用字符串
+
+## 文件长度
+不能使用太大的源文件，适当的时候可以分成程序组。
+
+## sql长度
+最好不要超过256
+
+## 续行号
+同声明宏的方式类似，一行解决不了问题的，需要使用"\"换行
+
+## 声明中断符 ；
+ > EXEC SQL DELETE FROM emp WHERE deptno = :dept_number;
+
+“；”暗示着一个声明结束
+
+ ## 定义符号
+```c
+EXEC ORACLE DEFINE symbol;
+
+or
+
+DEFINE=symbol;
+
+```
+注意，这里的symbol不是大小写敏感,应该是为了迎合sql。
+
+应用程序的组成结构如图所示：          
+EXEC SQL BEGIN DECLARE SECTION 
+  （SQL变量的定义） 
+EXEC SQL END DECLARE SECTION；        
+EXEC SQL INCLUDE SQLLA；                 
+EXEC SQL CONNECT：< 用户名>;   
+           IDENTIFIED BY: < 口令            
+SQL 语句及游标的使用 
+
+## 应用程序首部
+	应用程序的首部就是Pro*c的开始部分，它包含以下三个部分：
+
+	1. c变量描述部分
+
+	2. SQL变量描述部分(DECLARE部分)
+
+	3. sql通信区
+
+：w
+

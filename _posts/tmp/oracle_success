@@ -1,0 +1,38 @@
+﻿四、编译运行
+    无需修改任何参数文件，即安装后直接创建main.pc，执行如下命令：
+    
+  $ proc parse=none iname=main.pc
+  
+  Pro*C/C++: Release 9.2.0.4.0 - Production on Thu Jun 7 14:17:05 2007
+  
+  Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+  
+  System default option values taken from: /home/ora/ora9/oracle/precomp/admin/pcscfg.cfg
+  
+  $ gcc -g -o main main.c -I/home/ora/ora9/oracle/precomp/public -L/home/ora/ora9/oracle/lib -lclntsh
+  
+  $ ./main
+  
+   <ERROR>  ORA-12541: TNS:no 
+   成功编译运行，这里也可以使用《ProC动态SQL示例(第1,2,3种方法)》一文中的示例，
+将//注释全部替换为空，即可编译。
+    [url]http://blog.csdn.net/liwei_cmg/archive/2006/05/29/759963.aspx[/url]
+    不过会有告警提示：
+  /tmp/ccC7E6qe.o(.text+0xea): In function `db_connect':
+  /home/ora/develop/src/db.c:385: the `gets' function is dangerous and should not be used.
+    
+    这个是由于使用了gets函数所致，见gets的man手册：
+    
+BUGS
+       Never use gets().  Because it is impossible to tell without knowing the
+       data in advance how many  characters  gets()  will  read,  and  because
+       gets() will continue to store characters past the end of the buffer, it
+       is extremely dangerous to use.  It has  been  used  to  break  computer
+       security.  Use fgets() instead.
+       It  is  not  advisable  to  mix calls to input functions from the stdio
+       library with low - level calls to read() for the file descriptor  asso-
+       ciated  with  the  input stream; the results will be undefined and very
+       probably not what you want.
+       
+    要解决这个问题，可以使用scanf函数替换gets，获取屏幕输入。如 scanf("%s",cmd)。
+rlwrap sqlplus yubo/yubo

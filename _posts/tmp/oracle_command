@@ -1,0 +1,76 @@
+一.基本命令 
+
+## 1. show user; 
+
+		查看此时链接数据库的用户
+
+## 2. select * from all_usres;
+
+		查看oracle中的所有用户
+
+## 3. select * from tab;
+
+		查看当前用户下的所有的表
+
+
+```mysql 
+SQL> SQL>  create table test_dept_yubo
+  2  (
+  3  dept_no    number(2) not null,
+  4  dept_name  varchar2(14),
+  5  dept_loc  varchar2(13));
+```
+
+## 4. 查询表结构
+
+	desc test_dept_yubo
+
+## 5. 删除表
+
+	drop table table_name
+
+
+## 6. 修改表
+
+	ALTER TABLE table_name ADD (column_name DATA_TYPE DEFAULT);
+
+
+## 7. 重命名表
+
+	RENAME oldtable to NewTable
+
+
+# 用户相关
+
+
+## 授权和撤销
+
+	GRANT
+	REVOKE 
+
+## create a user and grant
+
+	CREATE USER yubo IDENTIFIED BY passwd;
+
+	GRANT CONNECT TO yubo；
+
+## 删除一个用户
+
+	drop user yubo cascade;//必须有cascade
+
+## lock a user
+	 
+	ALTER USER YUBO ACCOUNT LOCK
+
+## unlock a user
+	
+	ALTER USER YUBO ACCOUNT unlock
+
+
+
+
+
+
+
+		
+

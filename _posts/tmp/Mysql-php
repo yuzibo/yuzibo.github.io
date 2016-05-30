@@ -1,0 +1,17 @@
+# 三处你需要注意的地方
+
+1. 数据库
+修改clinet，dbserver的字体，全部改成 utf8.
+
+2. php导入数据时引入的乱码
+
+如果php连接mysql的时候，有乱码的行为，在查询的前面，加上以下几句，同时指定
+页面的编码格式
+
+MySQL_query('set character_set_client = utf8');  
+MySQL_query('set character_set_connection = GBK');  
+MySQL_query('set character_set_results = utf8');  
+
+3. 前段页面
+这个需要自己好好的整理下，因为有很多的字体，浏览器等等
+<,...;charset = "UTF-8">
