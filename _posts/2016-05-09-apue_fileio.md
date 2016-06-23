@@ -1,7 +1,7 @@
 ---
 title: "apue之文件io"
 layout: article
-category: apue
+category: book
 ---
 
 # 点滴记录apue的学习
@@ -24,7 +24,7 @@ int openat(int fd,const char *path,int oflag...);
 O_RDONLY : open for reading only;
 O_WRONLY : open for writing only;
 O_RDWR	 : OPEN FOR READING AND writing
-O_EXEC	 : 
+O_EXEC	 :
 O_SEARCH :
 ```
 这些标志放在了<fcntl.h>中，还有其他的，等到有新的认识，再补充上。这几个标志
@@ -37,7 +37,7 @@ O_SEARCH :
 int create(const char *path, mode_t mode);
 
 ```
-这儿有一篇有厉害的c的程序，不知道在讲些什么，但是还使用了od命令：
+这儿有一篇厉害的c的程序，不知道在讲些什么，但是还使用了od命令：
 上面代码库中的creat.c,真的不知道在讲些什么！！
 
 ### close
@@ -83,7 +83,7 @@ ssize_t read(int fd, void *buf,size_t bbytes);
 ```
 返回值是读取的字节数，0读到文件尾，-1读出错了。
 
-### write 
+### write
 
 ```c
 #include <unistd.h>
@@ -116,7 +116,7 @@ v-node的指针；
 
 每次执行完成后，在file table entry中偏移量需要增加写入的个数；如果大于文件的大小，那么在i-node中设置现在文件的偏移量？
 
-> O_APPEND 
+> O_APPEND
 
 如果打开的文件设置为O_APPEND,那么file table entry的偏移量会从 i-node的偏移量中选取后设置；
 
@@ -149,7 +149,7 @@ pread 是在lseek后立即执行read操作；pwrite是相同的结果。
 
 2. 目前的偏移没有更新
 
-在函数creat中，如果标志O_CREAT 和 O_EXCL也是表达的同样的意思。这里不是这个意思，好好理解去；
+在函数create中，如果标志O_CREAT 和 O_EXCL也是表达的同样的意思。这里不是这个意思，好好理解去；
 
 ### dup 和dup2
 
@@ -158,3 +158,50 @@ int dup(int fd);
 int dup2(int fd, int fd2);
 ```
 成功返回新的fd，失败-1.前者会分配最小的可利用的fd，后者将fd2的值作为返回的fd，如果fd2已经打开了，则先关闭它；如果参数1的fd与fd2相同，则返回fd2并保持打开状态。
+如果熟悉fcntl函数的话，上面的函数分别等于以下代码段:
+
+```c
+fcntl(fd, F_DUPFD,0);和
+close(fd);
+fcntl(fd, F_DUPFD,fd2);
+```
+但是需要注意的是，dup2是原子操作，而close()和fcntl函数之间可能存在异步的风险。还有就是errno有可能不同的。
+
+### sync,fsync, fdatasync
+
+这几个函数是为了控制延时写，将缓存的数据放回磁盘中。
+
+```c
+#include<unistd.h>
+int fsync(int fd);
+int fdatasync(int fd);
+
+void sync(void);
+
+```
+sync函数 以每隔30秒的周期从系统中调动，命令sync就是调用的这个函数。
+
+fsync对于单个文件有效，且必须等待磁盘回写结束后才能返回。比如在数据库操作中
+需要确认已修改的块已经被写回磁盘。
+
+fdatasync仅对于文件中的数据部分，其他的没有影响。fsync对于文件属性也回写。
+
+### fcntl
+
+```c
+#include<fcntl.h>
+int fcntl(int fd, int cmd, .../* int arg */);
+```
+这个函数主要有5个方面的作用：
+
+1. 复制一个存在的描述符（cmd = F_DUPFD 或者F_DUPFD_CLOEXEC）
+
+2. 得到/设置文件描述符标志(cmd = F_GETFD 或者F_SETFD)
+
+3. 得到/设置文件状态标志(cmd = F_GETFL或者F_SETFL)
+
+4. 得到/设置异步io属性(cmd = F_GETOWN或者F_SETOWN)
+
+5. 得到/设置记录锁(cmd = F_GETLK,F_SETLK或者F_SETLKW);
+
+
