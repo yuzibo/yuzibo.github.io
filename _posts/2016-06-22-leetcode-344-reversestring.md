@@ -116,24 +116,3 @@ char *str = (char *)malloc(strlen(s) + 1); // 给'\0'留给空
 这里的s是参数，可以作为返回值。那么，为什么要有第一个式子呢？str的指针指向了
 最后，如果不把指针回送到字符串首部，那样只会给s一个空的字符。str的加减操作就是移动的指针。
 
-整个代码如下：
-
-```c
-char *reverseString(char *s){
-	int len = strlen(s) - 1;
-	if( len >= 0){
-		char *str = (char*)malloc(strlen(s) + 1);
-		do {
-			*str = s[len];
-			str++;
-
-		}while(len--);
-		*str = '\0';
-		str = str - strlen(s);
-		s = str;
-	}
-	return s;
-}
-
-
-```
