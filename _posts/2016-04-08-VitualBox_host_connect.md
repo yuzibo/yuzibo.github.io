@@ -1,7 +1,7 @@
 ---
 title: "Vbox主机ssh访问虚拟机"
 layout: article
-category: vbox
+category: tools 
 ---
 
 # 环境
