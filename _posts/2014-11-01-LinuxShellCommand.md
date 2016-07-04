@@ -532,15 +532,26 @@ sort unsorted.txt | uniq -c
 5.##use model for exec
 exec 3<file
 cat <&3##display content text
+
 ##each time use one time
+
 6.##M>&N: redirect the output of channel M to channel N
 grep foo nofile 2>&1 ## errors will appear on STDOUT
+
 7.## STDOUT
 echo `date' whoami' >> 1.txt
 echo $(date) $(whoami) >> 1.txt
+
 8.##详解exec用法
-##不要畏难，其实这一块还是蛮简单的，首先，自己定义一个文件描述符，最好不要用0，1，2当然，你执意使用，没人拦你，exec 4<out.txt,就定义一个从文件读的符号，使用时，如cat <&4,看好格式，有一点需要弄明白，从文件读的时候，我们不需要用追加模式，而向文件写的时候，我们的必须分清截断模式（>）和追加模式(>>),在定义(>>)的时候，是这样子的
+
+不要畏难，其实这一块还是蛮简单的，首先，自己定义一个文件描述符，最好不要用0
+，1，2当然，你执意使用，没人拦你，exec 4<out.txt,就定义一个从文件读的符号，
+使用时，如cat <&4,看好格式，有一点需要弄明白，从文件读的时候，我们不需要用追
+加模式，而向文件写的时候，我们的必须分清截断模式（>）和追加模式(>>),在定义(>
+>)的时候，是这样子的
+
 举个例子：
+
 exec 4>out.txt
 echo newline >&4  ##这样就将newline写入了out.txt, 我们 cat out.txt,会显示   newline, 而使用追加模式
 exec 4>>out.txt
@@ -556,15 +567,17 @@ append line
 ```bash
 1.##cols and lines
 tput cols;lines
+
 2.##set backgroundcolor
 tput set no(0~no~7)
+
 3.##text bold
 tput bold
 4.##del all to end
 tput ed
 ```
 
-###function()
+### function()
 
 ```bash
 1.##methon
@@ -610,7 +623,7 @@ ulimit [-SHacdfltu] [配额]
 -H :hard limit,不能超过这个设定的数值
 -S :soft limit,超过发出警告
 -a :all ，后面不接任何选项，列出所有的限制额度
----
+```
 
 
 ## sed
@@ -651,14 +664,18 @@ cat 1.txt | sed 's/\b[0-9]\{3\}\b/number/g'
 1.## construct,这三部分都是可选的
 awk ' BEGIN{ print "start" } pattern { command } end{ print "end" }'
 file
-2.## principle :begin语句从输入流读取行之前被执行，end语句同begin语句相似，只是在之后执行，最重要的pattern语句，就像while循环样，不断读取行，执行｛｝中的语句
+
+2.## principle :begin语句从输入流读取行之前被执行，end语句同begin语句相似，
+只是在之后执行，最重要的pattern语句，就像while循环样，不断读取行，执行｛｝中的语句
+
 3.## example print的参数是以逗号进行分割的，参数打印时以空格作为定界符
 双引号是被当作拼接操作符使用的
 echo -e "line1\nline2" | awk 'BEGIN{ print "start" } { print } end{ print "end" } '
 echo | awk '{ var1="v1";var2="v2";var3="v3"; print var1,var2,var3 ; }'
 print v1 v2 v3
 
-4.## NR(number of records)==行号；（NF）（字段数量）；$0(current row's content) ;$1(第一个字段的文本内容)；$2(第二个字段的文本内容)
+4.## NR(number of records)==行号；（NF）（字段数量）；$0(current row's content) ;
+$1(第一个字段的文本内容)；$2(第二个字段的文本内容)
 echo -e "line1 f2 f3\nline2 f4 f5\nline3 f6 f7" | awk '{
 print "Line no "NR",no of field:"NF,"$0="$0,"$1="$1,"$2="$2,"$3="$3 }'
 5.## 打印每一行的第2和第3个字段
