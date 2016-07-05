@@ -589,10 +589,12 @@ return 0;
 }
 fname 1 2 3 4
 ```
-#### export
 
+## export
+
+```bash
 export -f fname ##subprocess can use fanme
-
+```
 
 ## read-重点是对于变量起作用
 
@@ -661,48 +663,57 @@ cat 1.txt | sed 's/\b[0-9]\{3\}\b/number/g'
 ## awk
 
 ```bash
-1.## construct,这三部分都是可选的
+## 1.construct,这三部分都是可选的
 awk ' BEGIN{ print "start" } pattern { command } end{ print "end" }'
 file
 
-2.## principle :begin语句从输入流读取行之前被执行，end语句同begin语句相似，
-只是在之后执行，最重要的pattern语句，就像while循环样，不断读取行，执行｛｝中的语句
+## 2.principle :begin语句从输入流读取行之前被执行，end语句同begin语句相似，
+## 只是在之后执行，最重要的pattern语句，就像while循环样，不断读取行，执行｛｝中的语句
 
-3.## example print的参数是以逗号进行分割的，参数打印时以空格作为定界符
+## 3.example print的参数是以逗号进行分割的，参数打印时以空格作为定界符
 双引号是被当作拼接操作符使用的
 echo -e "line1\nline2" | awk 'BEGIN{ print "start" } { print } end{ print "end" } '
 echo | awk '{ var1="v1";var2="v2";var3="v3"; print var1,var2,var3 ; }'
 print v1 v2 v3
 
-4.## NR(number of records)==行号；（NF）（字段数量）；$0(current row's content) ;
+## 4. NR(number of records)==行号；（NF）（字段数量）；$0(current row's content) ;
 $1(第一个字段的文本内容)；$2(第二个字段的文本内容)
 echo -e "line1 f2 f3\nline2 f4 f5\nline3 f6 f7" | awk '{
 print "Line no "NR",no of field:"NF,"$0="$0,"$1="$1,"$2="$2,"$3="$3 }'
-5.## 打印每一行的第2和第3个字段
+
+## 5 打印每一行的第2和第3个字段
 awk '{ print $3,$2 }' file
-6.## 将外部变量值传给awk -v
+
+## 6 将外部变量值传给awk -v
 VAR=10000
 echo | awk -v var=$VAR '{ print var }'
-7.## 当输入来自文件时
+
+## 7 当输入来自文件时
 awk  '{ print v1,v2 }' v1=$var1 v2=$var2 filename
-8.## 用样式对awk处理的行进行过滤
+
+## 8用样式对awk处理的行进行过滤
 awk 'NR < 5'
 awk 'NR==1,NR==4' 打印文本1-4行的所有内容
 awk '/linux/' 包含样式linux的行
 awk '1/linux/' 不包含linux行
-9.## 用getline读取行
-10.##  设置字段定界符
-awk -F: '{ print $NF }' /etc/passwd <==> awk 'BEGIN { FS=':'} { print $N    F}' 1.txt  ##这里的:可以使用" "弄起来
-11. ## 模拟head
+
+## 9用getline读取行
+
+## 10 设置字段定界符
+awk -F: '{ print $NF }' /etc/passwd <==> awk 'BEGIN { FS=':'} { print $N  F}
+' 1.txt  ##这里的:可以使用" "弄起来
+## 11 模拟head
 awk ‘NR <= 10' file
-12. ## 模拟tail命令打印文件的后10行,buffer[] should be build-in array in awk
+## 12 模拟tail命令打印文件的后10行,buffer[] should be build-in array in awk
 awk '{ buffer[NR%10] = $0;} END { for(i=1;i<11;i++) { print buffer[i%10]    } }' file
-13.## 模拟tac逆序输出
+## 13模拟tac逆序输出
 awk '{ buffer[NR] = $0;} END { for(i=NR;i>0;i--) { print buffer[i] } }'
 file
-14.## 以，为分界符
+
+## 14以，为分界符
 awk -F, '/pattern/ { print $1 }' file
-15.## -f 脚本文件；-v var=value follows
+
+## 15 -f 脚本文件；-v var=value follows
 ```
 
 

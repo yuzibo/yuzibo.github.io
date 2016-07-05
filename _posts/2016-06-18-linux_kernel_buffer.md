@@ -44,7 +44,7 @@ category: kernel
 
 open系列函数与fopen系列的区别可以简单概括为：
 
-```perl
+<pre>
 open系列函数										 fopen系列函数
 一般用于打开设备文件（少数情况）          一般用于打开普通文件（大多数情况）
 
@@ -57,8 +57,8 @@ POSIX系统调用										ANSI C库函数
 非缓冲IO			     							 缓冲IO
 只能读取二进制或普通文   						可以读取一个结构
 可以指定要创建文件的访 限					不能指定要创建文件的访问权限
+</pre>
 
-```
 注: 文件指针的类型为 F *fp;
 
 总结一下，就是带f前缀的是库函数，操作对象是file stream，不带f的原生态的
@@ -67,3 +67,19 @@ POSIX系统调用										ANSI C库函数
 用C标准I/O库函数要时刻注意I/O缓冲区和实际文件有可能不一致，在必要时需调用fflush(3)。
 
 又因为c标准库函数是C标准的一部分，而Unbuffered I/O函数是UNIX标准的一部分，前者放在<stdio.h>文件中，后者放在<unistd.h>,从文字上你就可以知道什么意义了。
+
+其实还有一个函数也是比较重要的，尤其是确保内核内的数据写入磁盘，这个函数就是
+
+```c
+#include<unistd.h>
+void sync(void)
+```
+还有一个函数也是非常重要的
+
+```c
+#include <unistd.h>
+int fsync(int fd);
+int fdatasync(int fd);
+```
+
+

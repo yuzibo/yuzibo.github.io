@@ -52,7 +52,7 @@ char *reverseString(char *s){
 
 字符串的长度，不包括结尾的标识符'\0',例如下面：
 
-```
+```c
 #include<stdio.h>
 #include<string.h>
 int main()
@@ -66,7 +66,7 @@ int main()
 
 则显示的结果为
 
->> The length of str is 5
+> The length of str is 5
 
 那么，你在复制字符串时要特别留意这一点。
 
