@@ -125,5 +125,96 @@ void do_ls(char *dirname )
 想实现`ls -l` 的效果， 需要读取文件的信息状态，那么，这个信息由stst结构体提
 供，相关的代码还是得看上面连接的部分
 
+## 如何把模式的数字转化为数字
 
-![图片](http://ww3.sinaimg.cn/thumb300/a865ffcbgw1f5mhduocozj20m603it8z.jpg)
+st_mode是一个16位的二进制数，[图](http://pan.baidu.com/s/1pLD153P).
+
+为了提取有效的数字，我们使用掩码技术。什么是掩码呢？就是好像带上面具将其他没
+有的数据隐藏起来。
+
+(1)掩码(masking) 会将不需要的字段置为0，需要的字段不发生变化。
+
+(2)我们还知道整数在计算机中的表示也是二进制。这样一个普通的整数也就有了意义。
+
+(3)与0做位与(&)操作可以将相应的bit为置为0， 
+
+(4) 使用8进制
+
+介绍完了掩码，还必须介绍子域编码。
+
+在 <bits/stat.h>中，有以下定义：
+
+```c
+#define	__S_IFMT	0170000	/* These bits determine file type.  */
+
+/* File types.  */
+#define	__S_IFDIR	0040000	/* Directory.  */
+#define	__S_IFCHR	0020000	/* Character device.  */
+#define	__S_IFBLK	0060000	/* Block device.  */
+#define	__S_IFREG	0100000	/* Regular file.  */
+#define	__S_IFIFO	0010000	/* FIFO.  */
+
+```
+
+```c
+if ((info.st_mode & 0170000) == 0040000)
+	printf("This is a directory");
+```
+
+然而在<sys/stat.h>中，又定义了上面的宏，有__X_IFXXX前面的__去掉了。
+
+```c
+#include <bits/stat.h>
+
+#if defined __USE_MISC || defined __USE_XOPEN
+# define S_IFMT		__S_IFMT
+# define S_IFDIR	__S_IFDIR
+# define S_IFCHR	__S_IFCHR
+# define S_IFBLK	__S_IFBLK
+# define S_IFREG	__S_IFREG
+# ifdef __S_IFIFO
+#  define S_IFIFO	__S_IFIFO
+# endif
+# ifdef __S_IFLNK
+#  define S_IFLNK	__S_IFLNK
+# endif
+# if (defined __USE_MISC || defined __USE_UNIX98) \
+     && defined __S_IFSOCK
+#  define S_IFSOCK	__S_IFSOCK
+# endif
+#endif
+
+```
+
+更简单的方法是使用<sys/stat.h>中的macro,注意，这里版本的不同文件所处的位置也
+不同的.
+下面,具体的宏实现如下：
+
+```c
+
+/* Test macros for file types.	*/
+
+#define	__S_ISTYPE(mode, mask)	(((mode) & __S_IFMT) == (mask))
+
+#define	S_ISDIR(mode)	 __S_ISTYPE((mode), __S_IFDIR)
+#define	S_ISCHR(mode)	 __S_ISTYPE((mode), __S_IFCHR)
+#define	S_ISBLK(mode)	 __S_ISTYPE((mode), __S_IFBLK)
+#define	S_ISREG(mode)	 __S_ISTYPE((mode), __S_IFREG)
+#ifdef __S_IFIFO
+# define S_ISFIFO(mode)	 __S_ISTYPE((mode), __S_IFIFO)
+#endif
+#ifdef __S_IFLNK
+# define S_ISLNK(mode)	 __S_ISTYPE((mode), __S_IFLNK)
+#endif
+
+#if defined __USE_MISC && !defined __S_IFLNK
+# define S_ISLNK(mode)  0
+#endif
+
+```
+这里，具体的应用如下：
+
+```c
+#define S_ISFIFO(m) (((m)&(0170000)) == 0010000)
+```
+
