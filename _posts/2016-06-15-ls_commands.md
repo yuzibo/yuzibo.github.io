@@ -126,4 +126,4 @@ void do_ls(char *dirname )
 供，相关的代码还是得看上面连接的部分
 
 
-[](!http://ww3.sinaimg.cn/thumb300/a865ffcbgw1f5mhduocozj20m603it8z.jpg)
+[图片](!http://ww3.sinaimg.cn/thumb300/a865ffcbgw1f5mhduocozj20m603it8z.jpg)
