@@ -1,7 +1,7 @@
 ---
 title: "c下实现who和more命令-time"
 layout: article
-category: c 
+category: unix 
 ---
 
 # 代码不是重点，重点是陌生的东西
@@ -255,7 +255,7 @@ calendar time t,应该就是time_t 类型，其中记录了从 1970年01月01日
 
 ### asctime()
 
-讲形式为tm成员的时间表达式转化成类似于ctime 的形式。
+将形式为tm成员的时间表达式转化成类似于ctime 的形式。
 
 ### mktime()
 
