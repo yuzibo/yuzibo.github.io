@@ -212,9 +212,30 @@ if ((info.st_mode & 0170000) == 0040000)
 #endif
 
 ```
-这里，具体的应用如下：
+这里，还可以定义如下宏：
 
 ```c
 #define S_ISFIFO(m) (((m)&(0170000)) == 0010000)
 ```
+ 
+### 解决用户/组问题
+
+先提供struct passwd 的源码：
+
+```c
+/* defined in pwd/pwd.h */
+/* The passwd structure.  */
+struct passwd
+{
+  char *pw_name;		/* Username.  */
+  char *pw_passwd;		/* Password.  */
+  __uid_t pw_uid;		/* User ID.  */
+  __gid_t pw_gid;		/* Group ID.  */
+  char *pw_gecos;		/* Real name.  */
+  char *pw_dir;			/* Home directory.  */
+  char *pw_shell;		/* Shell program.  */
+};
+
+```
+
 
