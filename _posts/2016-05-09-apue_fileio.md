@@ -1,8 +1,14 @@
 ---
-title: "apue之文件io"
+title: "unix文件 io"
 layout: article
-category: book
+category: unix 
 ---
+
+# update 
+
+随着时间的发展，看的书越来越多，需要进行重新归类了
+
+2016-07-15 将apue的标题改为unix 文件 io，新增文件属性的内容。
 
 # 点滴记录apue的学习
 这一章简单记录有关文件io的操作，大概提一点，这块的函数返回值不成功的话返回值
@@ -204,4 +210,78 @@ int fcntl(int fd, int cmd, .../* int arg */);
 
 5. 得到/设置记录锁(cmd = F_GETLK,F_SETLK或者F_SETLKW);
 
+
+# 文件属性
+
+## 磁盘文件的属性
+
+### 缓冲
+
+可以通过修改控制改变文件描述符的动作。通过3步来关闭磁盘缓冲。
+
+1. 获取位置
+
+2. 修改设置
+
+3. 存储设置
+
+代码如下：
+
+```c
+#include<fcntl.h>
+int s;					// settings
+s = fcntl(fd, F_GETFL)  //get flags 
+s |= O_SYNC;			// set SYNC bit
+result = fcntl(fd, F_SETFL, s); // set flags
+if (result == -1)		// if error 
+	perror("setting SYNC"); // report
+```
+
+文件描述的属性被编码在一个整数的位中。
+
+上面的代码含义就是fd所指定的文件上，参数F_GETFL得到当前的位集，变量s存放这个
+flag集， 位逻辑或操作打开位O_SYNC.该位告诉内核，对write的调用仅能在数据写入实际的硬件时才能返回，而不是在数据复制到内核缓冲时就执行默认的返回操作。
+
+设置O_SYNC会关闭内核的缓冲机制。
+
+### 自动添加模式
+
+文件描述符的另一个属性是自动添加(auto-append mode)， 自动添加模式对于若干进
+程在同一时间写入文件是很有用的,这里，使用的效果就是避免竞态。
+
+说的简单一点就是，auto-append mode 就是当文件描述符属性O_APPEND打开后，每个
+对write的调用自动调用lseek函数将内容添加到文件的末尾。
+
+```c
+#include <fcntl.h>
+int s;					// settings
+s = fcntl(fd, F_GETFL); // get flags 
+s |= O_APPEND;			// set APPEND bit
+result = fcntl(fd, F_SETFL, s); //set flags
+if  (result == -1)			//IF ERROR
+	perror("setting APPEND"); //report
+else
+	write(fd, &rec, 1); // write
+```
+也就是说当O_APPEND被设置的时候，lseek和write被打包成一个原子操作
+
+open和write在执行一个文件描述符时有很多的选项。详细的请看联机手册。
+
+## 终端连接的属性
+
+### 读取tty驱动程序的属性
+
+```c
+#include <termios.h>
+#include <unistd.h>
+int result = tcgetattr(int fd, struct termios *info);
+```
+
+### 操作属性
+
+```c
+测试位			if(flagset & MASK)
+置位			flagset |= MASK
+清除位			flagset &= ~MASK
+```
 
