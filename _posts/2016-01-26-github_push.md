@@ -30,3 +30,16 @@ password <password>
 # 设置编辑器
 
 >git config --global core.editor vim
+
+# 设置默认语言
+
+因为有些时候新安装的git默认使用的系统语言，导致不方便，所以，有必要修改默认
+的语言。
+
+```bash
+alias git='LANG=en_US git'
+```
+
+并`source`一下就可以了。
+
+
