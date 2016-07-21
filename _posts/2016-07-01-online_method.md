@@ -25,7 +25,7 @@ ssh -N -D 7070 root@your_ip
 
 ### firefox
 
-> 首选项-》高级-》网络-》设置
+> 首选项->高级->网络->设置
 
 只使用SOCKS那个选项，主机填上127.0.0.1，端口是7070,下面的类型选择SOCKS_v5
 
@@ -60,9 +60,21 @@ chromium --proxy-server="socks:127.0.0.1:7070"
 
 这个可以自己搭建，可以购买。自己搭建的步骤我会完善，现在我的重点是在客户端上。
 
-### client
+补充，在自己的vps上搭建ss的服务端，可以使用这个脚本。[here](https://github.com/yuzibo/configure_file/blob/master/online/shadowsocks/shadowsocks-libev-debian.sh)
 
-#### insatll
+按照下面的命令：
+
+```bash
+chmod +x shad.....sh
+./shad.....sh 2>&1 | tee shad.....log
+
+```
+
+
+
+### 客户端
+
+#### 安装
 
 [debian]
 
