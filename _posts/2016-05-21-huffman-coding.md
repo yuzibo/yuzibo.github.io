@@ -31,6 +31,7 @@ category: DS
 假设A、B、C、D的编码分别为0,00，1,01，则字符串’‘000011010’就有多种译法，所以，这里设计长度不同的编码，则必须是任何一个字符的编码不是另一个字符的前缀，这
 种编码称之为_前缀编码_。这里我省略了一个概念。
 
-							
+[code](https://github.com/yuzibo/DS/blob/master/greed/haffmancode.c)
+
 
 
