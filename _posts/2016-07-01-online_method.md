@@ -31,6 +31,15 @@ ssh -N -D 7070 root@your_ip
 
 ### chromium
 
+首先安装的话，
+
+```bash
+sudo apt-get update
+
+apt-get install chromium chromium-l10n
+
+```
+
 这一个是chrome的测试版本吧，开源的，比较好用的。先用它得了。
 
 但是它不支持Desktop，只能使用命令行，在完成上面的配置后，你可以使用如下command打开chromium
@@ -38,5 +47,53 @@ ssh -N -D 7070 root@your_ip
 ```bash
 chromium --proxy-server="socks:127.0.0.1:7070"
 ```
+
+# 日常使用
+
+前面是应急使用的，正常渠道我们应该好的工具。
+
+如果我写得不清晰，接下来请看[这篇](https://aitanlu.com/ubuntu-shadowsocks-ke-hu-duan-pei-zhi.html)
+
+但是我还要自己写一下，以免到时用的时候找不到了。
+
+### 服务端
+
+这个可以自己搭建，可以购买。自己搭建的步骤我会完善，现在我的重点是在客户端上。
+
+### client
+
+#### insatll
+
+[debian]
+
+Frist, please type the command as followings:
+
+```bash
+sudo apt-get update
+apt-get install python-pip python-setutools m2crypto
+```
+
+#### startup
+
+Locally we need `sslocal`, normanlly you can use `man sslocal`,
+
+[shell script](https://github.com/yuzibo/configure_file/blob/master/online/shadowsocks/ss.sh)
+
+Laterlly, you can add SwitchyOmega plug-in.
+
+But here is many detail to be carefully.
+
+## 1.新建情景模式
+
+>	名称->代理服务器 ->
+
+在新的代理服务器下选择代理协议(SOCKS5),代理服务器为127.0.0.1, 端口为1080.
+每次先打开ss客户端，再切换到这里就行了。
+
+## 2.自动切换
+
+这个玩的比较高深，没有弄明白它。
+
+
 
 
