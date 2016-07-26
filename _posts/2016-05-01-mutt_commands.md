@@ -1,10 +1,14 @@
 ---
-title: "mutt删除邮箱内的全部邮件"
+title: "mutt使用技巧"
 layout: article
 category: tools
 ---
 
-# 真是太神奇了
+
+[github](https://github.com/yuzibo/configure_file/tree/master/mutt)
+
+# 删除某个邮箱的全部信件
+
 订阅了lkml,可是经常有很多的邮件看不了而删了。现在，强大的命令来了，请接招:
 
 首先，使用命令
@@ -39,3 +43,26 @@ Delete messages matching:
 >~A
 
 也可以达到以上相同的效果
+
+## 打开邮件内的网页
+
+这个功能更是geek,首先新建一个`.mailcap`的文件在主目录下：
+
+```bash
+text/html; lynx -dump -width=78 -nolist %s | sed 's/^  //';
+sopiousoutput; needsterminal;nametemplate=%s.html
+
+```
+
+这样mutt就会将mail中html格式的信息转化为PLAIN/TEXT格式，方便阅读。
+
+## 打开邮件内的url
+
+在`.muttrc`内新建命令绑定
+
+```bash
+# 设置键绑定 ,为了使用urlview.
+macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
+```
+
+前提是你要安装`urlview`这个软件。
