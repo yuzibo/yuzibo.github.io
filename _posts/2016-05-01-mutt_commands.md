@@ -66,3 +66,5 @@ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 ```
 
 前提是你要安装`urlview`这个软件。
+
+然后使用命令`ctrl-b`就可以打开链接了
