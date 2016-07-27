@@ -1,5 +1,5 @@
 ---
-title: "mutt使用技巧"
+title: "mutt&&lynx使用技巧"
 layout: article
 category: tools
 ---
@@ -58,6 +58,7 @@ sopiousoutput; needsterminal;nametemplate=%s.html
 
 ## 打开邮件内的url
 
+<del>
 在`.muttrc`内新建命令绑定
 
 ```bash
@@ -68,3 +69,21 @@ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 前提是你要安装`urlview`这个软件。
 
 然后使用命令`ctrl-b`就可以打开链接了
+</del>
+
+现在使用`urlscan`命令，同样，在`.muttrc`配置文件中写入man手册的语句。
+
+# lynx使用记录
+
+这也是一个unix的神器，学会使用的话，收益匪浅。
+
+###  `?` 帮助
+
+### 使用空格键进行翻页
+不要使用箭头，慢的要死
+
+### 标签
+按下`a`键，接着按`d`,就添加了一个书签.查看书签需要`v`
+
+
+
