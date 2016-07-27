@@ -85,5 +85,12 @@ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 ### 标签
 按下*a*键，接着按*d*,就添加了一个书签.查看书签需要`v`
 
+### 输入rul
+按下_g_即可输入url。
 
+### 中断没有回应的
+_Ctrl-g_即可。
+
+### 查看源代码
+使用_\_即可查看源代码，还可以再次使用返回页面 
 
