@@ -4,6 +4,13 @@ layout: article
 category: kernel 
 ---
 
+# 网上kernel的资源
+
+[1](http://www.tinylab.org/docker-qemu-linux-lab/)
+
+[2](http://kernel.meizu.com/linux-dead-lock-detect-lockdep.html)
+
+
 # 内核空间和用户空间的数据类型
 
 ### 在内核中使用的话
