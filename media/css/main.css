@@ -28,7 +28,7 @@ li{padding:.2em 0;list-style-type:none;}
 ol,ul{list-style-position:inside;}
 ol ul, ul ol, ul ul, ol ol {margin-left:2em;}
 
-pre,code{border-radius:0px;font-family:'monospace',Monaco;font-size:1em;overflow:visible;background-color:#3939E9;src:url("/media/css/highlight.css");}
+pre,code{border-radius:0px;font-family:'monospace',Monaco;font-size:1em;overflow:visible;background-color:#99ffff;src:url("/media/css/highlight.css");}
 pre code{margin:.5em 0 1em 0.3em;padding:.2em 0;line-height:1.4;display:block;box-shadow: .1em .1em .5em rgba(0,0,0,.45);}
 blockquote{margin: 1em 0em;padding: .5em 1em;border-left:5px solid #08298A;background-color: #58FAD0;}
 blockquote p {margin: 0box-shadow: .1em .1em .5em rgba(0,0,0,.45);}
