@@ -43,6 +43,7 @@ N个数
 
 Ri=R-{ri}
 
+[code](https://github.com/yuzibo/DS/blob/master/algorithm/recursion/permut.c)
 
 # 回溯(backtracking)
 

@@ -120,9 +120,9 @@ chown u
 ser.group filename
 ```
 
->>chown [OPTION]... [OWNER][:[GROUP]] FILE...
+>chown [OPTION]... [OWNER][:[GROUP]] FILE...
 
->>chown [OPTION]... --reference=RFILE FILE...
+>chown [OPTION]... --reference=RFILE FILE...
 
 ## -R operate a file or direct recurence
 
@@ -490,7 +490,7 @@ cp -r source_file destion_file
 ## du-----df
 
 
->du显示当前目录所占的磁盘空间    df目前磁盘的所剩空间
+>du显示当前目录所占的磁盘空间    
 
 
 ## sort--uniq
@@ -525,24 +525,30 @@ sort unsorted.txt | uniq -c
 ## stdin==0--stdout==1---stderr==2
 
 ```bash
-1.##> and >>
-2,##< and <<
+1.## > and >>
+
+2,## < and <<
+
 3.ls + 2> out.txt
-4.##/dev/null the data that The file revice will discard
-5.##use model for exec
+
+4.## /dev/null the data that The file revice will discard
+
+5.## use model for exec
+
 exec 3<file
-cat <&3##display content text
+cat <&3      ##display content text
 
-##each time use one time
+## each time use one time
 
-6.##M>&N: redirect the output of channel M to channel N
+6.## M>&N: redirect the output of channel M to channel N
+
 grep foo nofile 2>&1 ## errors will appear on STDOUT
 
 7.## STDOUT
 echo `date' whoami' >> 1.txt
 echo $(date) $(whoami) >> 1.txt
 
-8.##详解exec用法
+8.## 详解exec用法
 
 不要畏难，其实这一块还是蛮简单的，首先，自己定义一个文件描述符，最好不要用0
 ，1，2当然，你执意使用，没人拦你，exec 4<out.txt,就定义一个从文件读的符号，
@@ -565,13 +571,13 @@ append line
 ### termial-tput and stty
 
 ```bash
-1.##cols and lines
+1.## cols and lines
 tput cols;lines
 
-2.##set backgroundcolor
+2.## set backgroundcolor
 tput set no(0~no~7)
 
-3.##text bold
+3.## text bold
 tput bold
 4.##del all to end
 tput ed
@@ -599,13 +605,13 @@ export -f fname ##subprocess can use fanme
 ## read-重点是对于变量起作用
 
 ```bash
-1.##read and can''t use Enter(no-echoed)
+1.## read and can''t use Enter(no-echoed)
 read -n 2 var
 2.## display
 read -p "enter input" var
 3.## timeout
 read -t 2 var
-4.##define symbol
+4.## define symbol
 read -d ":" var
 ```
 
@@ -770,6 +776,27 @@ echo file name is: $name
 ##其中，%是最长提取符%%是最短提取符，匹配规则是从右向左
 2，##提取扩展名：#，匹配规则是从左向右的。
 exten=${file_jpg#*.}
+```
+
+## Here Document(cat << EOF)
+
+这是一个特殊的重定向技术， 基本形式如下：
+
+```bash
+cmd << delimiter
+	Here is text
+delimiter
+```
+其中delimiter可以是任意标识符，经常用的是EOF.这句命令就是把text传递给cmd。
+
+```bash
+root@yubo-2:~/git# cat << EOF
+> hello
+> world
+> EOF
+hello
+world
+root@yubo-2:~/git# 
 ```
 
 
