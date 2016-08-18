@@ -4,11 +4,22 @@ layout: article
 category: kernel 
 ---
 
+# 调试ethernet driver
+
+You can start by testing the loopback mode (perhaps). Also, use wireshark
+or tcpdump for capturing the packets.
+
+
+
 # 网上kernel的资源
 
-[1](http://www.tinylab.org/docker-qemu-linux-lab/)
+#### 搭建实验环境
 
-[2](http://kernel.meizu.com/linux-dead-lock-detect-lockdep.html)
+[docker-qemu-linux-lab](http://www.tinylab.org/docker-qemu-linux-lab/)
+
+#### 侦测死锁
+
+[魅族团队](http://kernel.meizu.com/linux-dead-lock-detect-lockdep.html)
 
 
 # 内核空间和用户空间的数据类型
