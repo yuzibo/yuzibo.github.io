@@ -1,7 +1,7 @@
 ---
 title: "财务系统简介"
 layout: article
-category: DHC
+category: dhc 
 ---
 
 [个人理财](http://www.zhihu.com/question/24859069)
