@@ -1,8 +1,10 @@
 ---
 title: "常用算法归类"
-layout: article 
+layout: article
 category: algorithm
 ---
+
+[poj题目分类](http://www.cnblogs.com/kuangbin/archive/2011/07/29/2120667.html)
 
 # 贪心算法(greed)
 
@@ -106,9 +108,9 @@ if ( base case )
    // return some simple expression
 else // recursive case
   {
-     // some work before 
-     // recursive call 
-     // some work after 
+     // some work before
+     // recursive call
+     // some work after
   }
 ```
 
@@ -123,21 +125,21 @@ else if ( base case 3 )
    // return some simple expression
 else if ( recursive case 1 )
   {
-     // some work before 
-     // recursive call 
-     // some work after 
+     // some work before
+     // recursive call
+     // some work after
   }
 else if ( recursive case 2 )
   {
-     // some work before 
-  // recursive call 
-     // some work after 
+     // some work before
+  // recursive call
+     // some work after
   }
 else // recursive case 3
   {
-     // some work before 
-     // recursive call 
-     // some work after 
+     // some work before
+     // recursive call
+     // some work after
   }
 ```
 
