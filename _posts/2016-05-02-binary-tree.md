@@ -42,7 +42,7 @@ n2+1
 (这里是以2为低，对数为N的运算)
 
 
-# 节点
+# 以数组表示二叉树
 
 如果使用数组代表二叉树的话，那么数组里的元素依次就是从根节点水平方向读取来的
 
@@ -63,3 +63,71 @@ n2+1
 
 	RIGHT(i)		return 2i + 2
 
+# 以链表表示二叉树
+
+```c
+typedef struct Node{
+    struct Node* left;
+    struct Node* right;
+    int data;
+}Node;
+```
+
+## 二叉树的几个操作
+
+新建一个二叉树
+
+```c
+Node* newNode(int data)
+{
+    Node* node=(Node*)malloc(sizeof(Node));
+    node->left=node->right=NULL;
+    node->data=data;
+    return node;
+}
+```
+
+得到二叉树的高度
+
+```c
+/* 将root == NULL的返回值置为-1或者0，结果不一样*/
+int getHeight(Node* root)
+{
+	if(root == NULL)
+		return -1;
+    /* 返回为0， 结果是从根节点到叶子节点的节点数，
+    *  返回为-1， 是经历的路径长度 */
+	int left_height = getHeight(root->left);
+	int right_height = getHeight(root->right);
+	return (left_height > right_height ? left_height  : right_height ) + 1 ;
+}
+```
+
+计算节点的数目
+
+```c
+/* The number of node*/
+int node_num_tree(Node* root)
+{
+    if(root == NULL)
+        return 0;
+    /* 这里的返回 0 还是有区别的 */
+    return 1 + node_num_tree(root->left) + node_num_tree(root->right);
+}
+```
+
+计算叶子的数目
+
+```c
+/* the numbers of leaves */
+int leaf_num_tree(Node* root)
+{
+    if(root == NULL)
+        return 0;
+    if(root->left == NULL && root->right == NULL)
+        return 1;
+    return leaf_num_tree(root->left) + leaf_num_tree(root->right);
+
+}
+```
+[代码](https://github.com/yuzibo/DS/blob/master/data_struct/tree/bst.c)

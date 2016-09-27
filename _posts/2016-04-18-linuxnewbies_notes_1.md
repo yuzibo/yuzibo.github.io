@@ -1,8 +1,24 @@
 ---
 title:  "linuxnewbie 问答总结(一)"
 layout: article
-category: kernel 
+category: kernel
 ---
+
+# 16/09/14
+
+memblock_reserve 和 memblock_remove的用法
+
+memblock_reserve() adds a given memory to the "memblock.reserved" list,
+it ends up to mark the given range of pages as "reserved". It means the
+pages are reserved and will not be allocated to other users. The kernel
+still can see the pages, create linear mappings on them, even access
+them by linear mappings.
+memblock_remove() removes a given memory from the "memblock.memory"
+list, it ends to removed from kernel's memory management system. The
+memory will not have page structure, no linear mapping on them. It
+prevents the memory from CPU accessing by the linear address. To access
+the memory (by CPU), you must use ioremap() to create a mapping to
+them.'
 
 # 调试ethernet driver
 
@@ -59,14 +75,14 @@ is loaded in memory.
 关于这个函数是很意思的，目前讨论的不多。内核中调用schedule()的方式有两种，
 
 	1. 直接呼叫schedule();
-	
+
 	2. 通过阻塞一个进程(blocking)
 
 # preempt_count
 
 preempt_count是每一个task的锁的数量。当锁的数量增加时，preempt_count的值就会
 增加，锁的数量减少时，preempt_count的数量就会减少；当在内核中运行的task的
-preempt_count>时，内核是不能被抢占的；如果preempt_count == 0的时候，这个时候
+preempt_count>0时，内核是不能被抢占的；如果preempt_count == 0的时候，这个时候
 内核是可以被抢占的。
 
 # write-reader和semaphore的区别
@@ -74,12 +90,11 @@ semaphore是控制一个进程在一个时间内访问一个数据；write-reade
 者的情况。
 
 # spin locks
-在多处理器系统上，linux使用spin locks去管理竞态。linux在获得spin locks时禁用了内核抢占；当释放了spin locks时，又开启了内核抢占；在单处理器上，使用
-spin locks是不合适的
+在多处理器系统上，linux使用spin locks去管理竞态。linux在获得spin locks时禁用了内核抢占；当释放了spin locks时，又开启了内核抢占；在单处理器上，使用 spin locks是不合适的
 
 # 来自qq群
 
-bus_register、device_register 这两个函数注册的总线和设备，是不是必然注册到 platform_bus 总线上了？ 
+bus_register、device_register 这两个函数注册的总线和设备，是不是必然注册到 platform_bus 总线上了？
 有没有其他总线，也用 bus_register、device_register 来注册？
 Andy(759217195)  11:31:25
 no 系统里面总线很多
