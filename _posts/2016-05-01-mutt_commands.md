@@ -48,6 +48,13 @@ Delete messages matching:
 
 这个功能更是geek,首先新建一个`.mailcap`的文件在主目录下：
 
+更新： mutt只是一个管理邮箱的软件，并不会显示很复杂的邮件内容，
+比如，网页类型的及非ascii编码类型的。如果想使用以上效果，那么就需要
+其他软件配合了。
+
+我首先使用的lynx文本网页浏览器，有一点我是开始没有理会
+的，无法显示中文的邮件内容，lynx的配置在.mailcap的配置如下：
+
 ```bash
 text/html; lynx -dump -width=78 -nolist %s | sed 's/^  //';
 sopiousoutput; needsterminal;nametemplate=%s.html
@@ -55,6 +62,19 @@ sopiousoutput; needsterminal;nametemplate=%s.html
 ```
 
 这样mutt就会将mail中html格式的信息转化为PLAIN/TEXT格式，方便阅读。
+
+## 查看中文编码问题
+
+mutt对于英语的支持那是相当不错，可是在浏览由中文邮箱发过来的邮件
+时便会遇到可恶的乱码问题，如今，你可以使用w3m这个对中文支持好的。
+
+将上面.mailcap文件的注释掉，使用下面的语句：
+
+```bash
+text/html; w3m -dump -ppc 9 -I %{charset} -T text/html %s|uniq; copiousoutput
+```
+
+这样子你就可以看见你亲切的汉字邮件了。
 
 ## 打开邮件内的url
 
@@ -92,5 +112,5 @@ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 _Ctrl-g_即可。
 
 ### 查看源代码
-使用_\_即可查看源代码，还可以再次使用返回页面 
+使用_\_即可查看源代码，还可以再次使用返回页面
 
