@@ -4,6 +4,41 @@ title: "linux信号浅析"
 category: unix
 ---
 
+# 信号从哪里来
+
+### 用户
+用户通过Crtl-C、Crtl-\等键或者通过驱动终端程序来请求内核产生信号。
+
+### 内核
+
+当进程执行出错时，内核给进程发送一个信号，比如，非法存取段、浮点数溢出、
+或者一个非法的机器指令。内核也利用信号通知进程特事件的发生。
+
+### 进程
+一个进程可以通过系统调用kill给另一个进程发送信号。一个进程可以可以和另一个
+进程通过信号通信。
+
+由进程的某个操作产生的信号被称为同步信号，例如，被零除；像用户击键这样的进程外
+的事件引起的信号称之为异步信号。
+
+# 进程处理
+
+### 接受默认处理(通常是消亡)
+使用以下调用来恢复默认处理
+```c
+signal(SIGINT, SIG_DFL);
+```
+
+### 忽略信号
+程序可以通过以下调用来告诉内核，它需要忽略SIGINT的信号
+
+```c
+signal(SIGINT, SIG_IGN);
+```
+
+### 调用另一个程序
+程序在接收到SIGINT后，调用一个恢复设置的函数
+
 # 信号的种类
 
 ### 可靠信号
@@ -101,6 +136,7 @@ int sigismember(const sigset_t *set, int signum);
 int sigsuspend(const sigset_t *mask);
 int sigpending(sigset_t *set);
 </pre>
+
 `int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);`
 
 这个函数检查和改变被阻塞的函数,操作主要有三种:
