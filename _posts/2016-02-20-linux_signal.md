@@ -147,6 +147,58 @@ int sigpending(sigset_t *set);
 
 `SET_SETMASK` 更新进程阻塞信号集为set指向的信号集
 
-
-
 [reference](http://kenby.iteye.com/blog/1173862)
+
+
+
+# singal.h
+
+我们先看singal函数的声明：
+
+```c
+void (*signal(int sig_num,void(*handler)(int))) (int)
+```
+你必须弄明白声明才可以运用自如。
+
+这是一个函数指针(void (\*fun)(int)),这样就好看多了吧，它与指针函数(int \*fun())极易混淆。你可以这样记忆，
+()的优先级比\*要高，(\*fun())是函数在先，所以整体加上 * 就是指针函数了;(void (\*fun)(int)),由于两个括号是相同等级的，
+那么先出现的就是指针了((\*fun)),再加上后面的就是指针函数了。^_^
+
+言归正传，一般的函数指针的声明为:
+
+```c
+void (*fp)(int)
+```
+这里的参数类型可以去掉的。那么，这里的fp相当于singal函数声明中的
+
+```c
+signal(int sig_num, void(*handler)(int))
+```
+
+函数名signal，参数列表包括一个整型值和一个函数指针，这个函数指针是
+
+```c
+void(*handler)(int)
+```
+我们来对照一个代码段的例子来说明这个比较有意思的话题。
+
+```c
+#include <signal.h>
+#include <stdio.h>
+void handler(int s)
+{
+	if (SIGBUS == s) printf("now got a bus error signal\n");
+	if (SIGSEGV == s) printf("now got a segmentation violation signal\n");
+	if (SIGILL == s) printf("Now got an illegal instruction siganl\n");
+	exit(1);
+}
+int main(){
+	int *p = NULL;
+	signal(SIGBUS,handler);
+	signal(SIGSEGV,handler);
+	signal(SIGILL,handler);
+}
+```
+说明一下，最好使用信号名称去捕捉信号，因为在不同的系统上信号值是不一样的。关键看看后面的handler的实现。
+
+# 信号的基本概念
