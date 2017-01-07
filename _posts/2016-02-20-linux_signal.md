@@ -26,8 +26,9 @@ category: unix
 ### 接受默认处理(通常是消亡)
 使用以下调用来恢复默认处理
 
+
 ```c
-signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 
 ```
 
@@ -58,10 +59,15 @@ signal(SIGINT, SIG_IGN);
 # 信号的安装
 
 ### 系统调用 signal
-<code>
+
+```c
 #include<signal.h>
-void (*signal(int signum, void (*handler))(int))(int);
-<code>
+
+void (*signal(int signum, void (*handler))(int))(int); 
+
+```
+
+
 
 `signum` 指定要安装的信号,handler指定信号处理的函数.
 
@@ -86,7 +92,7 @@ sig_handler(int signum){
 我们知道在程序的任意执行点上, 信号随时可能发生, 如果信号在sig_handler重新安装
 信号之前产生, 这次信号就会执行默认动作, 而不是sig_handler. 这种问题是不可预料的.
 
-## 库函数sigaction
+# 库函数sigaction
 使用sigaction安装信号的动作后,该动作一直保持,直到另一次调用sigaction建立另一个动作为止.这就克服了古老的signal调用存在的问题.
 
 ```
