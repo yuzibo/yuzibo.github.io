@@ -25,8 +25,10 @@ category: unix
 
 ### 接受默认处理(通常是消亡)
 使用以下调用来恢复默认处理
+
 ```c
 signal(SIGINT, SIG_DFL);
+
 ```
 
 ### 忽略信号
@@ -38,6 +40,10 @@ signal(SIGINT, SIG_IGN);
 
 ### 调用另一个程序
 程序在接收到SIGINT后，调用一个恢复设置的函数
+
+```c
+	signal(SIGALRM, handler);
+```
 
 # 信号的种类
 
