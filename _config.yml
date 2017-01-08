@@ -10,7 +10,7 @@ gems:
 
 lsi: false
 safe: true
-source: http://yuzibo.github.io
+source: http://aftermath.cn
 incremental: rouge
 gist:
    noscript: false
@@ -31,7 +31,7 @@ safe: true
 paginate: 20
 
 #代码高亮
-highlighter: rouge 
+highlighter: rouge
 comments:
     provider:duoshuo
 #duoshuo:
