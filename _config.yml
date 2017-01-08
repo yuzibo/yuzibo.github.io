@@ -10,7 +10,7 @@ gems:
 
 lsi: false
 safe: true
-source: http://aftermath.cn
+source: http://www.aftermath.cn
 incremental: rouge
 gist:
    noscript: false
