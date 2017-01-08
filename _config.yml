@@ -20,8 +20,8 @@ auto: true
 
 #规定了博客的URL地址
 permalink: /:title.html
-url: http://yuzibo.github.io
-author: yubo
+url: http://www.aftermath.cn
+author: Bo Yu
 email: yuzibode@126.com
 
 #禁用自定义插件
