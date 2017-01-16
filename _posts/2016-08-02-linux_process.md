@@ -1,10 +1,20 @@
 ---
-title: "linux中关于进程函数fork()的认识"
+title: "linux中关于进程之fork()的认识"
 layout: article 
 category: unix
 ---
 
+好吧，开一系列介绍linux进程的文章，先从fork说起。
+
 # fork()入门
+
+fork()函数就医复制当前的进程创造一个新的进程，当前的进程叫做叫做父进程，复制产生的进程叫做子进程。
+
+子进程复制父进程的一切资源，除了：
+
+1 子进程具有独一无二的进程 pid,
+
+2 子进程有一个父进程，其ID和创造这个进程(子进程)的id相同
 
 先看代码，这里有点意思，程序的输出结果如果你不仔细分辨的，真的会让你想不到。
 
@@ -37,12 +47,14 @@ int main()
 
 结果在我的机子上显示为;
 
+```c
 I am the parent process, my process id is 10369 
 I am father of my son
  as a result: 1
 root@yubo-2:~/test/unix_linux# I am the child process, my process id is 10370
 I am son of my father
  as a result: 1
+```
 
 也就是说一个主程序在没有循环的情况下，居然有两个返回值，它是怎么做到的后来剖析，现在简单地分析下导致这种现象的原因.
 
@@ -103,5 +115,8 @@ root@yubo-2:~/test/unix_linux#  1 child    1 11510    0
 1 parent    1 11509 11511
  1 child    1 11511    0
 ```
+
+仔细分析这个输入法，在 i = 0时，上面这个程序调用fork函数，系统中出现两个进程
+p11508和p11509(p是进程的意思)，且p11508是p11509的父进程，p11040是p11508的父进程。因为对应的函数为： getpid(), fpid = fork(), getppod().即进程链p11040->p11508->p11509.
 
 
