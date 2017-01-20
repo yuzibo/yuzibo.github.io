@@ -5,6 +5,8 @@ category: unix
 ---
 !(linux 中关于信号的资源)[http://www.thegeekstuff.com/2012/03/linux-signals-fundamentals/] 
 
+![资源2](http://www.linuxprogrammingblog.com/all-about-linux-signals?page=3)
+
 # 信号是什么
 
 信号就是一个软中断(software interrupts)。 一个健壮的程序必须需要处理信号，信号是向应用程序传递异步事件的方式。
@@ -40,6 +42,19 @@ category: unix
 	signal(SIGINT, SIG_DFL);
 
 ```
+
+##### 1 中断进程
+这是这类信号处理行为的最普遍的，有SIGTERM、SIGQUIT、SIGPIPE、SIGUSR1、SIGUSR2
+
+##### 2 中断进程 with code dump
+有SIGSEGV、SIGILL、SIGABRT这个信号。
+
+##### 3 忽略
+比如这个SIGCHLD
+
+##### 4 悬停
+SIGSTOP使进程悬停(suspend)然后使用SIGCOND继续(shell中的ctrl-z)
+
 
 ### 忽略信号
 程序可以通过以下调用来告诉内核，它需要忽略SIGINT的信号

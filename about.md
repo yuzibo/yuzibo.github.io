@@ -10,6 +10,7 @@ layout: page
 子更多的关注。
 
 
+轻财足以聚人，律己足以服人，量宽足以得人，身先足以率人。——曾国藩
 
 
 ## introduction-myself
