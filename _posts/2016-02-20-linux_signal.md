@@ -3,9 +3,9 @@ layout: article
 title: "linux信号浅析"
 category: unix
 ---
-!(linux 中关于信号的资源)[http://www.thegeekstuff.com/2012/03/linux-signals-fundamentals/] 
+(linux 中关于信号的资源)![http://www.thegeekstuff.com/2012/03/linux-signals-fundamentals/] 
 
-![资源2](http://www.linuxprogrammingblog.com/all-about-linux-signals?page=3)
+资源(http://www.linuxprogrammingblog.com/all-about-linux-signals?page=3)
 
 # 信号是什么
 
