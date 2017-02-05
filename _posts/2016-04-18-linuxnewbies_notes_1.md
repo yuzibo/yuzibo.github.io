@@ -4,6 +4,12 @@ layout: article
 category: kernel
 ---
 
+# 2017/02/05 linux-next
+
+关于linux-next的开发使用下面的资源。
+
+https://www.kernel.org/doc/man-pages/linux-next.html
+
 # 16/09/14
 
 memblock_reserve 和 memblock_remove的用法
