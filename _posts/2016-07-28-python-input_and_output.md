@@ -1,5 +1,5 @@
 ---
-title: "python基础教程1"
+title: "python输入和输出"
 category: python
 layout: article
 ---
@@ -27,16 +27,30 @@ name = raw_input('please enter your name');
 print 'hello', name
 
 # 输入非数字的话，就会报错
-birth = int(raw_input('birth:'))  
-  
+birth = int(raw_input('birth:'))
+
+```
+
+# 使用end = ‘ ’
+
+在python2.x中，无法使用
+
+```python
+print(x,end=' ')
+```
+
+必须在前面导入模块，
+
+```python
+from __future__ import print_function
 ```
 
 # 字符表示
 
-```bash 
+```bash
 print '\\\n\\\'
 
-## 打印 
+## 打印
 # \
 # \
 
@@ -70,7 +84,7 @@ print 'Hello, %s' % 'wrold'
 
 直接创建：
 
-```python 
+```python
 list('python')
 ```
 
