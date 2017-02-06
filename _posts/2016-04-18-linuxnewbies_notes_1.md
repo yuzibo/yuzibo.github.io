@@ -4,6 +4,12 @@ layout: article
 category: kernel
 ---
 
+# 代码格式
+
+scripts/checkpatch.pl -f patch_or_code_c
+
+对文本文件的检查
+
 # 2017/02/05 linux-next
 
 关于linux-next的开发使用下面的资源。
