@@ -7,6 +7,6 @@ echo layout: >> $1;
 echo category: >> $1;
 echo --- >> $1
 
-`cat $1 && vim $1`
+`cat $1 && gvim $1`
 
 
