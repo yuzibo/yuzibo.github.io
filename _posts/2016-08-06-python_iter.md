@@ -1,6 +1,6 @@
 ---
 title: "python迭代器"
-layput: article
+layout: article
 category: python
 ---
 
