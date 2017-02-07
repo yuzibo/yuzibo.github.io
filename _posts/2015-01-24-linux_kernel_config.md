@@ -1,14 +1,14 @@
 ---
 layout: article
 title: "linux kernel 配置"
-category: kernel 
+category: kernel
 ---
 
 # 前言
 在真的机子上debian的内核一次没有配置成功，我要用两天的时间把配置的内容探个究竟。
 
 ## 工具
-在编译内核之前最好使用  
+在编译内核之前最好使用
 
 	make mrproper
 
@@ -25,75 +25,50 @@ category: kernel
 
 ### 说明：下面的项目就是我自己的内核的配置，后边的字母代表我的选项。
 
-64-bit kernel  : n
 
-General setup -->
+# 特殊的配置
 
-Cross-compile tool prefix : n
+# Namespace support
 
-Compile also drivers which not load(NEW) : n
+注意这篇文章：
 
-Local version - append to kernel release : yubo (按回车键即可进去)
+http://lwn.net/Articles/531114/
 
-Automatically append version information to the version string : n
+http://unix.stackexchange.com/questions/92177/kernel-namespaces-support
 
-kernel compression mode : default
+# networking
 
-Support for paging of anonymous memory (swap) : y
+### CAN BUS
 
-System V IPC : y 
+CAN总线 编辑
+同义词 CAN-BUS一般指CAN总线
+CAN是控制器局域网络(Controller Area Network, CAN)的简称，是由以研发和生产汽车电子产品著称的德国BOSCH公司开发的，并最终成为国际标准（ISO 11898），是国际上应用最广泛的现场总线之一。 在北美和西欧，CAN总线协议已经成为汽车计算机控制系统和嵌入式工业控制局域网的标准总线，并且拥有以CAN为底层协议专为大型货车和重工机械车辆设计的J1939协议。[1]
 
-POSIX Message Queues : y
-	
-	POSIX Message Queues is message queues(a form of interprocess communciation) where have a priority.
+### IrDA
 
-Enable process_vm_readv/writev syscall : y
+红外线协议
 
-uselib syscall : y
+### RF switch
 
-Enable system-call auditing support : n
-	系统中的一些相关操作都会写进日志文件，不要
+射频那块的东西
 
-IRQ subsystem  -> (IRQ is a signal from the hardware to the processor to temporarily stop a runing program and allow a special program to execute in its space)
+# Device drives
 
-2>>Export hardware/virtual IRQ mapping via debugfs[IRQ_DOMAIN_DEBUG] : n
+### misc devices
 
-Timer tick handing >> 1. Old Idle dynticks config [NO_HZ] : y 向后与配置文件保持兼容
+杂项设备 杂项设备（misc device）
+杂项设备也是在嵌入式系统中用得比较多的一种设备驱动。在 Linux 内核的include\linux目录下有Miscdevice.h文件，要把自己定义的misc device从设备定义在这里。其实是因为这些字符设备不符合预先确定的字符设备范畴，所有这些设备采用主编号10，一起归于misc device，其实misc_register就是用主标号10调用register_chrdev()的。
+也就是说，misc设备其实也就是特殊的字符设备。
 
-2. High Resolutions Timer Support [High_RES_TIMERS] : N (与你的机器有关)
+来自百度知道：
 
-### CPU/Task time and stats accounting
+https://zhidao.baidu.com/question/354123482.html
 
-A. Cputime accounting (Simple tick based cputime  accounting ) >> 1.Simple tick based cputime accounting [TICK CPU_ACCOUNTING] : Y (it checks /proc/stat on every CPU tick)
+### mpt
+Media Transfer Protocol
 
-2. Fine granularity task level IRQ time accounting [IRQ_TIME_ACCOUNTING] : n
+### FDI
 
-B. BSD Process Accounting [BSD_PROCESS_ACCT] : N (A variety of information for each process that closes).
-
-C. Export task/process statistics through netlink [TASKSTATS] ： （NETLINK IS A FORM OF IPC between kernel and user space processes）: y
-
-D.Enable per-task delay accounting(TASK_DELAY_ACCT) [TASK_DELAY_ACCT] : (watches the processes and delays concerning the access of resources) : y
-
-E. Enable extanded accounting over taskstats (TASK_XACCT) : n (collects extra accounting data)
-
-### RCU subsystem (The Read-Copy-Update)
-
-A. Rcu Implementation 
-
-> Tree-Based hierarchical RCU [Tree_Rcu] : y (large SMP cpus and small is ok)
-
-B.
- [ ] Task_based RCU implementation using voluntary context switch │ │  
-
-  │ │    (32) Tree-based hierarchical RCU fanout value                    │ 
-  
-  │ │    (16) Tree-based hierarchical RCU leaf-level fanout value (NEW)   │  
-  │ │    [ ] Disable tree-based hierarchical RCU auto-balancing           │   
-  │ │    [ ] Accelerate last non-dyntick-idle CPU's grace periods         │   
-  │ │    [ ] Offload RCU callback processing from boot-selected CPUs (NEW)│   
-  │ │                                                        
+光纤式分布
 
 
-
-
-	
