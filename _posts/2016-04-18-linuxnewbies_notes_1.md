@@ -12,9 +12,67 @@ scripts/checkpatch.pl -f patch_or_code_c
 
 # 2017/02/05 linux-next
 
+这一块的内容以后移植到 http://www.aftermath.cn/Gitforkerenl.html
+
 关于linux-next的开发使用下面的资源。
 
 https://www.kernel.org/doc/man-pages/linux-next.html
+
+简洁的介绍一下，如何使用linux-next。
+
+首先， git clone linus的linux kernel代码。
+
+！！
+如果已经有了，不要忘记 git fetch origin/master
+
+进入主目录，然后增加需要追踪的linux-next分支。
+
+```git
+cd linux
+git remote add linux-next https://linux-next-urls.git  注意，自己改正url
+# 以linux-next为名字添加远程仓库
+```
+
+fetch linux-next plus tags
+
+```git
+git fetch linux-next
+git fetch --tags linux-next
+```
+
+### 日常追踪
+
+```git
+git checkout master #to be safe
+git remote update # 等价于 git fetch all remotes, git fetch xx 的作用更精确
+```
+### list linux-next tags
+
+```git
+git tag -l "next-*" | tail
+```
+
+显示的内容为：
+
+```shell
+next-20170120
+next-20170123
+next-20170124
+next-20170125
+next-20170130
+next-20170131
+next-20170201
+next-20170202
+next-20170203
+next-20170206
+```
+
+### 选一个版本，并基于此工作
+
+```git
+git checkout -b my_local_branch next-20170206
+```
+
 
 # 16/09/14
 

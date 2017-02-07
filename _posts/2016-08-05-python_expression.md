@@ -135,6 +135,48 @@ print(map(None, S1,S2))
 
 ### zip组合字典
 
+```python
+keys = ['spam', 'eggs', 'toast']
+vals = [1, 2, 3]
+
+print(list(zip(keys, vals)))
+```
+处理的结果是如下图所示：
+
+```python
+[('spam', 1), ('eggs', 2), ('toast', 3)]
+```
+
+这样，我们并没有形成字典，正确的还需要多处理一步：
+
+```python
+keys = ['spam', 'eggs', 'toast']
+vals = [1, 2, 3]
+
+print(list(zip(keys, vals)))
+
+D2 = { }
+for (k, v) in zip(keys, vals): D2[k] = v
+
+print(D2)
+```
+
+其输出的结果如下所示：
+
+```python
+[('spam', 1), ('eggs', 2), ('toast', 3)]
+{'toast': 3, 'eggs': 2, 'spam': 1}
+```
+在2.x以后，可以直接使用dict函数。
+
+```python
+D3 = dict(zip(keys, vals))
+print(D3)
+```
+
+
+
+
 
 
 
