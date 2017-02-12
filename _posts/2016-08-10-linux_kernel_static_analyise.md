@@ -1,7 +1,7 @@
 ---
 title: "内核代码静态分析工具"
 layout: article
-category: kerenl
+category: kernel
 ---
 
 # 注意
