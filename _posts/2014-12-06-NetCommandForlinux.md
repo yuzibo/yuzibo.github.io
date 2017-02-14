@@ -65,10 +65,14 @@ telnet hostname port - 使用指定的端口telnet主机名。这通常用来测
 
 ### iptables
 
-```bash 
+```bash
 iptables -L ## 查看
 
 iptables -F ## 清空规则
 ```
+
+## 更新资源
+
+https://www.quora.com/What-is-the-best-way-to-learn-Linux-networking-concepts-and-practices
 
 
