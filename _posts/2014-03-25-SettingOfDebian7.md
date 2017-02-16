@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Debian7设置"
-category: tools
+category: debian
 tags: [setting,linux]
 ---
 
@@ -38,8 +38,8 @@ tags: [setting,linux]
     deb-src http://mirrors.163.com/debian wheezy-updates main contrib non-free
 
     #######wheezy/updates安全更新
-    deb http://mirrors.163.com/debian-security wheezy/updates main contrib non-free 
-    deb-src http://mirrors.163.com/debian-security wheezy/updates main contrib non-free 
+    deb http://mirrors.163.com/debian-security wheezy/updates main contrib non-free
+    deb-src http://mirrors.163.com/debian-security wheezy/updates main contrib non-free
     deb http://http.us.debian.org/debian wheezy main contrib non-free
     deb http://security.debian.org wheezy/updates main contrib non-free
 
@@ -73,7 +73,7 @@ tags: [setting,linux]
 
     # dpkg-reconfigure locales
 
-在界面中钩选上 `zh_CN.UTF-8` ,确定，在接下来的选项中也选择 `zh_CN.UTF-8` 
+在界面中钩选上 `zh_CN.UTF-8` ,确定，在接下来的选项中也选择 `zh_CN.UTF-8`
 然后重启，到这里应该就可以显示中文了
 
 
@@ -253,7 +253,7 @@ sudo可以让非root用户具有管理员的权限，安装好的Debian后还不
 
 ## 安装FoxitReader
 
-在http://www.foxitsoftware.cn/downloads/中->福昕阅读器 -> Desktop Linux  -> bz2 
+在http://www.foxitsoftware.cn/downloads/中->福昕阅读器 -> Desktop Linux  -> bz2
 下载 FoxitReader-1.1.0.tar.bz2
 解压到 /usr/local 中
 

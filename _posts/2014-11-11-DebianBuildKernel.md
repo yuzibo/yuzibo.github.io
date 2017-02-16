@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Debian编译linux内核"
-category: kernel 
+category: kernel
 ---
 
 # 终于成功一次了
@@ -51,7 +51,7 @@ category: kernel
 先进入目录，我们如使用默认配置的话，
 
 
-__"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我建议使用__make menuconfig__
+__"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我建议使用 __make menuconfig__
 
 ## 使用git获取源代码(2)
 
@@ -74,18 +74,32 @@ __"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我
 接着修改*/boot/grub.cfg*即可.
 
 
+## 再更新
+
+现在，在我的机子上，上面的方法已经不好使了。我重新按照原来的方法在安装新的 kernel
 
 
 
+我们有必要讲讲make-kpkg与fakeroot这两个软件包，前者是可以自动替换
 
-我们有必要讲讲make-kpkg与fakeroot这两个软件包，前者是可以自动替换__make dep;make clean;make bzImage;make modules__命令序列的脚本，而--append-to-version就是让我们来指定一个额外的内核版本，这个版本是成为内核名的一部分，我们可以使用数字，“+”，“,”,但是不能使用“_”,在这里的用法我借鉴网上同学的例子，使用当天日期来解决不同的版本号问题。内核模块位于/lib/modules子目录下，每一个内核都有它自己的子目录，所以每次我们创建新内核时使用新的内核名字，这个包安装程序就会在/lib/modules目录下创建一个新的子目录来保存它自己的模块。
+```bash
+make dep;
+make clean;
+make bzImage;
+make modules
+```
+
+命令序列的脚本，而--append-to-version就是让我们来指定一个额外的内核版本，这个版本是成为内核名的一部分，我们可以使用数字，“+”，“,”,但是不能使用“_”,在这里的用法我借鉴网上同学的例子，使用当天日期来解决不同的版本号问题。内核模块位于/lib/modules子目录下，每一个内核都有它自己的子目录，所以每次我们创建新内核时使用新的内核名字，这个包安装程序就会在/lib/modules目录下创建一个新的子目录来保存它自己的模块。
 
 注意，--revesion只会影响Debian软件包本身的名字而不是内核的名字，Debian kernel-image文件的名字格式如下：
 
 kernel-image-(kernel-version)(--append-to-version)_(--version)_(architecture).deb.至于什么是fakeroot这一点我也不是很清楚，好像是模拟root环境来创建一个kernel-image软件包。
 
 ## 创建Ramdisk
-经过漫长的等待后，我们在代码目录的上一层目录就得到一个linux-image-3.2.64.141111_3.2.64.141111-10.00.Custom_i386.deb的软件包，别急，我们还有一步工作需要完善。下面是废话，可以忽略。我们有一个问题是boot过程中mount根文件系统的“先有鸡还是先有蛋的问题”，一般来说，根文件在形形色色的存储设备上，不同的设备又要不同的硬件厂商的驱动，比如intel的ide/sata驱动，VIA的南桥需要VIA的ide/sata驱动，根文件系统也不同的文件系统的可能，假如把所有的驱动/模块都编译进内核，那自然没问题，可现实（内核的精神或本质）是我们把驱动/模块都驻留在根文件系统本身/lib/modules/xxx,那么“鸡蛋”问题就就来了，要mount根文件系统却需要根文件系统上的文件系统，怎么办？于是，就想出了下面的ramdisk,内核总是能安装ramdisk的(__因为ramdisk临时文件和内核一样，也是由bootloader通过低级读写命令（uboot用nand read，而不用通过系统层提供的高级读写接口）加载进内存，因此内核可以挂载ramdisk文件系统），然后把所有要使用到的驱动/模块都放在ramdisk上，首先，让内核将ramdisk当作根文件来安装，然后再利用这个根文件系统上的驱动来真正安装根文件系统，就将这个问具体解决了。补充，有时间你可以到/boot文件目录下看看，会有一个initrd.img的文件，initrd大体上就是 包含根文件系统的ramdisk。说了这么多，重点还没有解决，也就是我们需要创建这么一个文件-initrd，将我们新编译的内核在根文件系统挂载前能装进内存，那么，我们该怎么样解决这个问题呢？
+
+经过漫长的等待后，我们在代码目录的上一层目录就得到一个linux-image-3.2.64.141111_3.2.64.141111-10.00.Custom_i386.deb的软件包，别急，我们还有一步工作需要完善。
+
+下面是废话，可以忽略。我们有一个问题是boot过程中mount根文件系统的“先有鸡还是先有蛋的问题”，一般来说，根文件在形形色色的存储设备上，不同的设备又要不同的硬件厂商的驱动，比如intel的ide/sata驱动，VIA的南桥需要VIA的ide/sata驱动，根文件系统也不同的文件系统的可能，假如把所有的驱动/模块都编译进内核，那自然没问题，可现实（内核的精神或本质）是我们把驱动/模块都驻留在根文件系统本身/lib/modules/xxx,那么“鸡蛋”问题就就来了，要mount根文件系统却需要根文件系统上的文件系统，怎么办？于是，就想出了下面的ramdisk,内核总是能安装ramdisk的(__因为ramdisk临时文件和内核一样，也是由bootloader通过低级读写命令（uboot用nand read，而不用通过系统层提供的高级读写接口）加载进内存，因此内核可以挂载ramdisk文件系统），然后把所有要使用到的驱动/模块都放在ramdisk上，首先，让内核将ramdisk当作根文件来安装，然后再利用这个根文件系统上的驱动来真正安装根文件系统，就将这个问具体解决了。补充，有时间你可以到/boot文件目录下看看，会有一个initrd.img的文件，initrd大体上就是 包含根文件系统的ramdisk。说了这么多，重点还没有解决，也就是我们需要创建这么一个文件-initrd，将我们新编译的内核在根文件系统挂载前能装进内存，那么，我们该怎么样解决这个问题呢？
 
   首先，使用vi编辑/boot/config-3.2.64.141111文件，将代码__CONFIG_DEFCONFIG_LIST="/lib/modules/$UNAME_RELEASE/.config"__这句话注释掉（在句首用#），否则我们就不会成功。接下来执行
 
