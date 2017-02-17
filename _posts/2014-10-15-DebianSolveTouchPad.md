@@ -10,7 +10,6 @@ category: debian
    	系统：	Debian Wheezy Xfce
 # 2.解决过程
 
-        {% highlight bash %}
 	1.首先，保证安装了 synaptics驱动
 	sudo apt-get install xserver-xorg-input-synaptics
 	2.复制 /usr/share/X11/xorg.conf.d到 /etc/X11
@@ -25,7 +24,6 @@ category: debian
 		Option "TapButton2" "2"
 		Option "TapButton2" "3"
 	EndSection
-	{% endhighlight %}
 
 # 3.重启系统
 
