@@ -34,6 +34,7 @@ __./configure --enable-debugger --enable-disasm__
 [linux 0.11](http://www.oldlinux.org/Linux.old/images/bootimage-0.11-20040305)
 
 6.配置bochs启动文件
+
 {% highlight bash %}
 #how much memory the emulated will have
 megs: 32
@@ -54,8 +55,8 @@ log: bochsout.txt
 #disable mouse
 mouse: enabled=0
 
-
 {% endhighlight %}
+
 看到没，我们对Bochs的控制全在这里，包括映像文件的路径和启动顺序，至于a.img是在怎么来的，请看下面的东东，我们将配置文件写好以后，使用命令
 
 __bochs__
@@ -124,6 +125,7 @@ yubo@debian:~$ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
 ##下面是boot.asm文件，我们使用命令
 
 __nasm boot.asm -o boot.bin__
+
 {% highlight c %}
 org 07c00h ;load first instructor notify compile
 
@@ -148,4 +150,5 @@ DispStr:
 	times 510-($-$$) db 0
 	dw 0xaa55
 {% endhighlight %}
+
 简单介绍下这个文件的意思，引导扇区，是从0面0磁道1扇区到0xAA55,之间应包含少于512字节的执行码，一旦BIOS发现了引导扇区，就会将这512字节的内容装载到内存地址0000:7c00处，然后跳转到0000:7c00处将控制权交给这段引导代码。
