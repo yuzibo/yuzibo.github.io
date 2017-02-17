@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Debian编译linux内核"
-category: kernel
+category: debian
 ---
 
 # 终于成功一次了
@@ -62,7 +62,7 @@ __"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我
 
 稍微等一会，我们接着使用命令
 
->fakeroot make-kpkg --initrd --revesion=yubo.1.0  kernel_image
+>fakeroot make-kpkg --initrd --revesion=1.0.xx  kernel_image
 
 # Update:
 不用debian的软件包,自己完全可以手动解决问题:配置完config后,就可以执行
@@ -119,3 +119,15 @@ Update:
 
 ## 感谢
 首先感谢我女友春春的理解和支持，有她在背后，我感觉很幸福;这篇文章我重点参考了[The blog](http://www.blog.csdn.mylxiaoyi/article/details/1499397)
+
+### 最后更新
+
+这篇文章需要重写，步骤有很多的过时的。
+
+说白了，在安装完了新的内核后，之后主要的问题就是grub的配置了。
+
+我需要记一篇关于grub的文章。这里先简单的说下我的问题。
+
+之前使用 kernel自带的万用的的 make && make install modules_insatll,然后直接改写 /boot/grub/grub.cfg,这明显是针对的 grub v2,说明的grub是v2。怎么改呢，就是copy  menuentry,将initrd-xx和image-xx的路径写正确，但是最近几次，在启动的时候报 uuid的错误，搜寻了n多网页，实在没辙了。偶然间，发现：
+
+/boot/grub/grub.cfg 这个文件是系统生成的，不能手动改写 （但是我已经动了），，这个文件的构建基于/etc/default/grub 和/etc/grub.d/*,而且只要 update-grub,会自动写入/boot/grub/grub.cfg.但是我的不能，这次启动新的内核，是由于修改了/etc/default/grub 的 GRUB_DISABLE_UUID=true,然后手动改写了/boot/grub/grub.cfg,这才成功的。

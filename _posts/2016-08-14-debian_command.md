@@ -1,5 +1,5 @@
 ---
-title:  "debian常用命令"
+title: "debian常用命令"
 layout: article
 category: debian
 ---

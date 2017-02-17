@@ -2,7 +2,6 @@
 layout: article
 title: "Debian安装Bochs"
 category: tools
-tags:
 ---
 
 #问题阐述
@@ -38,7 +37,7 @@ __./configure --enable-debugger --enable-disasm__
 {% highlight bash %}
 #how much memory the emulated will have
 megs: 32
-#filename of ROM images 
+#filename of ROM images
 romimage: file=/home/yubo/bochs/bios/BIOS-bochs-latest
 
 vgaromimage: file=/home/yubo/bochs/bios/VGABIOS-lgpl-latest
@@ -52,7 +51,7 @@ floppya: 1_44=/home/yubo/a.img,status=inserted  #注意路径一定要写全,我
 boot: floppy
 
 log: bochsout.txt
-#disable mouse 
+#disable mouse
 mouse: enabled=0
 
 
@@ -102,10 +101,10 @@ Please type hd or fd. [hd] fd
 
 Choose the size of floppy disk image to create, in megabytes.
 Please type 160k, 180k, 320k, 360k, 720k, 1.2M, 1.44M, 1.68M, 1.72M, or 2.88M.
- [1.44M] 
+ [1.44M]
 
 What should be the name of the image?
-[a.img] 
+[a.img]
 
 Creating floppy image 'a.img' with 2880 sectors
 
@@ -126,7 +125,7 @@ yubo@debian:~$ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
 
 __nasm boot.asm -o boot.bin__
 {% highlight c %}
-org 07c00h ;load first instructor notify compile 
+org 07c00h ;load first instructor notify compile
 
 mov ax,cs
 mov ds,ax
