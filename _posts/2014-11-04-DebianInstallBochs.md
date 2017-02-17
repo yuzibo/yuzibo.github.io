@@ -122,11 +122,12 @@ yubo@debian:~$ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
 </pre>
 稍微解释一下这个命令，if是input file的缩写，of是out file的缩写，也就是目标文件，bs是文件的大小，count不是很清楚，conv=notrune是不要截断.
 注意路径问题就行
-##下面是boot.asm文件，我们使用命令
+
+## 下面是boot.asm文件，我们使用命令
 
 __nasm boot.asm -o boot.bin__
 
-```bash
+```c
 org 07c00h ;load first instructor notify compile
 
 mov ax,cs
