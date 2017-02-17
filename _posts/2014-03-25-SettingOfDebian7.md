@@ -2,7 +2,6 @@
 layout: article
 title: "Debian7设置"
 category: debian
-tags: [setting,linux]
 ---
 
 本配置适用于debian7，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。
