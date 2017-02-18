@@ -3,6 +3,9 @@ layout: article
 title: "linux基本命令"
 category: shell
 ---
+
+test
+
 ## 注，代码中的数字是注释
 
 ## bc
@@ -32,7 +35,6 @@ cat -n filename
 ## cat > file1
 向文件中写入内容
 {% endhighlight %}
-## comm
 
 
 ## comm must use sorted file as input
@@ -179,57 +181,66 @@ find . -print   ## . stand for current directory,".." father
 
 ## -iname(ignore lower or upper leteer)
 
-find /dir -iname "*.txt" -print
+	find /dir -iname "*.txt" -print
 
+	 find . \( -name "*.txt" -o -name "*.sh" \) -print
 
-### find . \( -name "*.txt" -o -name "*.sh" \) -print
-4.## path
+## path
 
 ```bash
 find /home/xx -path "*xx*" -print
 ```
 
 ### regex
+
 ```bash
 find . -regex ".*\(.sh\|\.c\)$"
 ```
 
 ### not args
+
 ```bash
 find . ! -name "*.txt" -print
 ```
 
 ### maxdepth or mindepth
+
 ```bash
 find . -maxdepth 2 -type f -print
 ```
 
 ### filetype
+
 ```bash
 find . -type d/f/l -print
 ```
 
 ### time
+
 ```bash
 find . -type f -a/m/cmin -/+num -print
 ```
 
 ### sizeoffile
+
 ```bash
 find . -type f -size (+/-/)num(b/c/w/k/M/G)
 ```
 
 ### del
+
 ```bash
 find . -type f -name "*.swp*" -delete
 ```
 
 ### perm
+
 ```bash
 find . -type f -name "*.php" ! -perm 644 -print
 ```
 
 ### exec???
+
 ```bash
 find . -type f -name "*.txt" -exec chown yubo {} \
 ```
@@ -280,7 +291,7 @@ echo "hello 123 world 456" | tr -d '0-9'
 
 ## 宣告变量----$PATH and $VAR
 
-```bash 
+```bash
 1.##add path:
 export PATH="$PATH:/home/user/bin"
 2,##obtain length of var:
@@ -355,7 +366,7 @@ patch -p1 1.txt < version.patch
 
 ## tar
 
-```bash 
+```bash
 1.    ## gzip [-cdtv] file,可以被WinRAR解压缩
 gzip -v file  ##显示压缩比
 zcat file ##可以将压缩的.gz内容读出来
@@ -482,7 +493,7 @@ ls -l | grep "^d"
 
 ## cp
 
-```bash 
+```bash
 1.##  连同子目录一起复制
 cp -r source_file destion_file
 ```
@@ -490,7 +501,7 @@ cp -r source_file destion_file
 ## du-----df
 
 
->du显示当前目录所占的磁盘空间    
+>du显示当前目录所占的磁盘空间
 
 
 ## sort--uniq
@@ -736,6 +747,7 @@ seq 5 | tac
 
 
 ## who---w-----ku
+```
 
 
 1.##这三个指令差不多，只不过ku是检查整个网络上的用户
@@ -766,6 +778,7 @@ echo "hghjkh:hgfjh:hf" | xargs -d :
 or
 echo "jhhgjg:hjfh:bv" | xargs -d : -n 2
 ```
+
 ## 12
 
 ```bash
@@ -787,6 +800,7 @@ cmd << delimiter
 	Here is text
 delimiter
 ```
+
 其中delimiter可以是任意标识符，经常用的是EOF.这句命令就是把text传递给cmd。
 
 ```bash
@@ -796,7 +810,7 @@ root@yubo-2:~/git# cat << EOF
 > EOF
 hello
 world
-root@yubo-2:~/git# 
+root@yubo-2:~/git#
 ```
 
 
