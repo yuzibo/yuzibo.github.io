@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Debian编译linux内核"
-category: tools
+category: kernel
 ---
 
 # 终于成功一次了
@@ -76,7 +76,13 @@ __"cp /boot/config-`uname -r` .config"__,如果我们自己一定要配置，我
 
 ## 再更新,请参阅下面的make dep-pkg
 
-<del>
+===================================
+===================================
+舍不得del，但是这段真的没有多大的用处
+===================================
+===================================
+
+
 现在，在我的机子上，上面的方法已经不好使了。我重新按照原来的方法在安装新的 kernel
 我们有必要讲讲make-kpkg与fakeroot这两个软件包，前者是可以自动替换
 
@@ -105,7 +111,12 @@ kernel-image-(kernel-version)(--append-to-version)_(--version)_(architecture).de
 
 直观上我们可以理解生成目标文件initrd.img-3.2.64.141111,我们做的所有工作你最后在/boot目录下会发现的。
 
-</del>
+
+===================================
+===================================
+舍不得del，但是这段真的没有多大的用处
+===================================
+===================================
 
 # make deb-pkg
 
@@ -132,7 +143,7 @@ linux-image-4.10.0-rc8+-dbg_4.10.0-rc8+-1_i386.deb
 linux-libc-dev_4.10.0-rc8+-1_i386.deb
 ```
 
-还有一个 .tar文件，先使用 __dpkg__安装*_headers_*包，接着安装镜像文件。
+还有一个 .tar文件，先使用 __dpkg__ 安装*_headers_*包，接着安装镜像文件。
 
 当然，你还可以使用 dpkg命令去删除他们，这和你使用 apt-get命令去装软件是一样的，维护了软件包之间的关系完整性。
 
@@ -143,13 +154,6 @@ linux-libc-dev_4.10.0-rc8+-1_i386.deb
 
 	update-grub2
 
-<del>
-Update:
-
-只是简单的修改menu.lst是不行，必须将 /boot/grub/grub.cfg比着葫芦画瓢才行。你可以使用menu.lst的对照选项。
-
-赶快重启吧，你就会发现在grub的引导菜单上有自己版本的内核了。
-</del>
 
 ## 感谢
 首先感谢我女友春春的理解和支持，有她在背后，我感觉很幸福;这篇文章我重点参考了[The blog](http://www.blog.csdn.mylxiaoyi/article/details/1499397)
@@ -164,11 +168,15 @@ Update:
 
 之前使用 kernel自带的万用的的 make && make install modules_insatll,然后直接改写 /boot/grub/grub.cfg,这明显是针对的 grub v2,说明的grub是v2。怎么改呢，就是copy  menuentry,将initrd-xx和image-xx的路径写正确，但是最近几次，在启动的时候报 uuid的错误，搜寻了n多网页，实在没辙了。偶然间，发现：
 
-/boot/grub/grub.cfg 这个文件是系统生成的，不能手动改写 （但是我已经动了），，这个文件的构建基于/etc/default/grub 和/etc/grub.d/*,而且只要 update-grub,会自动写入/boot/grub/grub.cfg.但是我的不能，这次启动新的内核，是由于修改了/etc/default/grub 的 GRUB_DISABLE_UUID=true,然后手动改写了/boot/grub/grub.cfg,这才成功的。
+/boot/grub/grub.cfg 这个文件是系统生成的，不能手动改写 （但是我已经动了），，这个文件的构建基于/etc/default/grub 和/etc/grub.d/*,而且只要 update-grub(其实应该是update-grub2),会自动写入/boot/grub/grub.cfg.但是我的不能，这次启动新的内核，是由于修改了/etc/default/grub 的 GRUB_DISABLE_UUID=true,然后手动改写了/boot/grub/grub.cfg,这才成功的。
 
 也就说，你得知道你的grub是什么版本的。这里我只是说一下 grub2.安装grub2会重写
 grub的引导项，因为我是在一个硬盘安装了双系统，所以在安装的过程中会问你引导项安装到什么地方，我选择的是整块硬盘。
 
-执行 __update-grub2__即可发现了新的kernel.
+执行 __update-grub2__ 即可发现了新的kernel.
+
+最后总结一点，就是，如果你的grub是v1,在启动的时候遇到了麻烦，那么可以直接试着修改   /boot/grub/grub.cfg,如果遇到了uuid的错误，那么就将/etc/default/grub中的GRUB_DISABLE_UUID=true.
+
+上面是不提倡的一种做法，还要使用debian的官方提倡的做法，使用grub2,这样，安装内核就像安装普通的软件包一样可以那样。
 
 
