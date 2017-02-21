@@ -38,5 +38,7 @@ category: tools
 
 ![test](http://7pum5d.com1.z0.glb.clouddn.com/test.png)
 
+这张图片就是上面链接的第一个的工具，自己用的时候在配置文件中需要注意一下。
+
 
 
