@@ -27,5 +27,13 @@ category: tools
 
 /JOIN #debian
 
+比如，加入linux kernelnewbies channel
+
+/server irc.oftc.net
+
+/join #kernelnewbies
+
+
+
 
 
