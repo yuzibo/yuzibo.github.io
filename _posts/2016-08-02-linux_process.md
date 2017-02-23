@@ -78,6 +78,8 @@ fork()出错的原因可能有几下几种：
 
 两个进程的执行没有先后顺序，根据调度算法而已.
 
+### 建立一个新的进程
+
 ```c
 #include<stdio.h>
 int main()
@@ -109,6 +111,50 @@ int main()
 	=========|=======> p21635
 		fork
 
+
+一个fork会产生2个进程，两个fork会产生4个进程，依次类推....
+
+### 子进程创建进程
+
+```c
+#include<stdio.h>
+int main()
+{
+	fork();
+	fork();
+	fork();
+	printf("my pid is %d \n", getpid());
+}
+yubo@debian:~/test/tmp/unix$
+
+```
+结果如下所示：
+
+![fork3.png](http://yuzibo.qiniudn.com/fork3.png)
+
+### 分辨子进程和父进程
+
+```c
+#include<stdio.h>
+int main()
+{
+	int fork_rv;
+
+	printf("Before: my pid is %d \n", getpid());
+
+	fork_rv = fork();
+
+	if (fork_rv == -1)
+		perror("Fork  failed\n");
+	else if (fork_rv == 0)
+		printf("I am the child, my pid is %d\n", getpid());
+	else
+		printf("I am the parent, my pid is %d\n", getpid());
+}
+
+```
+
+![fork4.png](http://yuzibo.qiniudn.com/fork4.png)
 
 
 # fork进阶
