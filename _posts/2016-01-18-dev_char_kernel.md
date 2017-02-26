@@ -1,6 +1,6 @@
 ---
 layout: article
-category: kernel 
+category: kernel
 title: "linux kernel字符设备编程举例"
 ---
 
@@ -8,10 +8,6 @@ title: "linux kernel字符设备编程举例"
 
 {% highlight c %}
 /*************************************************************************
-     File Name: yubochar.c
-     Author: yubo
-     Mail: yuzibode@126.com
-     Created Time: 2016年01月17日 星期日 20时02分10秒
 references:
 http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/
  ************************************************************************/
@@ -209,12 +205,7 @@ clean:
 # 用户空间的程序
 
 {% highlight c %}
-/*************************************************************************
-     File Name: testyubochar.c
-     Author: yubo
-     Mail: yuzibode@126.com
-     Created Time: 2016年01月18日 星期一 17时35分11秒
- ************************************************************************/
+
 /*
  * The User-space Program for testing the LKM
  *
@@ -263,11 +254,11 @@ int main()
 
 {% endhighlight %}
 
-#LKM 同步问题
+# LKM 同步问题
+
 ### Step 1:
 首先在一个终端运行用户空间的程序:testyubochar.o
 <pre>
- bash
 
 ./testyubochar
 
