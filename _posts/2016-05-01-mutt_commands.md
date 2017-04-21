@@ -93,6 +93,21 @@ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 
 现在使用`urlscan`命令，同样，在`.muttrc`配置文件中写入man手册的语句。
 
+# neomutt
+
+将源代码包下载下来后，使用如下的编译选项：
+
+```bash
+./configure --with-slang=/usr/local/src/slang-2.2.4 --enable-pop --enable-imap
+--enable-ssl --enable-smtp --enable-gpgme --with-ssl=/usr --enable-debug
+```
+
+接着使用
+
+> make install
+
+
+
 # lynx使用记录
 
 这也是一个unix的神器，学会使用的话，收益匪浅。
