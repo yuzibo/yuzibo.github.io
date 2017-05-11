@@ -1,6 +1,6 @@
 ---
 title: "tcpdump教程"
-category: socket
+category: network
 layout: article
 ---
 

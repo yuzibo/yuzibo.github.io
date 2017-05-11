@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "socket客户端服务端编程详解"
-category: socket
+category: netwrok
 ---
 
 [好的资料](http://blog.csdn.net/www_307/article/details/87510)
