@@ -1,5 +1,5 @@
 ---
-title: "linux中关于进程之wait的认识"
+title: "unix中关于进程之wait的认识"
 layout: article
 category: unix
 ---
