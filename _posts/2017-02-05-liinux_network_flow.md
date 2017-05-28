@@ -76,7 +76,9 @@ packet在内核中的旅行有很多的变动：大的包在发送之前会被�
 
 为了更好的理解网络的流程，你需要知道sk_buff,无论是Rx，还是Tx，都离不开这个结构。<include/linux/skbuff.h>
 
-```c/**
+```c
+
+/**
  *	struct sk_buff - socket buffer
  *	@next: Next buffer in list
  *	@prev: Previous buffer in list
@@ -330,6 +332,7 @@ struct sk_buff {
 	unsigned int		truesize;
 	atomic_t		users;
 };
+
 ```
 
 
