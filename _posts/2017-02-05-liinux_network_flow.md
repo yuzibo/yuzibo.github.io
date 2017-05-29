@@ -370,4 +370,7 @@ skb_mac_header();
 
 在SKB中的一些成员，会被L2层决定，例如，这个pkt_type 就会被eth_type_trans()方法决定，这个方法根据目的的Ethernet地址，如果这个地址是（多播）multicast，就会被设置为PACKET_MULTICASE,如果是(广播)broadcast，则会被设置为PACKET_BROADCASE;如果是本地主机地址，则是PACKET_HOST.绝大多数Ethernet驱动将会在Rx路径调用eth_type_trans()这个方法。这个eth_type_trans()方法也会设置SKB的协议域根据Ethernet的头部。这个方法也会调用skb_pull_inline()提前预付SKB的数据指针，大小为14(ETH_HLEN),这就是Ethernet header的大小。
 
+请看下面的图片：
+
+![net-1.png](http://yuzibo.qiniudn.com/net-1.png)
 
