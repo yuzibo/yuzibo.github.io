@@ -335,6 +335,39 @@ struct sk_buff {
 
 ```
 
+就捡着重要的知识说一说。你要熟悉SKB的API。
 
+如果你想使用skb->data,你不应该直接使用它，相反，你应该这样
+
+```c
+skb_pull_inline();
+/* 或者 */
+
+skb_pull();
+```
+
+如果你想fetch L4（transport header）,你应该使用
+
+```c
+skb_transport_header();
+```
+
+同样， L3(network header),你需要
+
+```c
+skb_network_header();
+```
+
+如果你想fetch L2(MAC header)
+
+```c
+skb_mac_header();
+```
+
+这三个方法将SKB作为唯一的参数。
+
+当一个包来临的时候，一个SKB被netdev_alloc_skb()方法分配(或者dev_alloc_skb(),这个方法也是调用netdev_alloc_skb(),但是第一个参数是NULL)。如果遇到包被丢弃的情景，我们将会调用kfree_skb()或者dev_kfree_skb().
+
+在SKB中的一些成员，会被L2层决定，例如，这个pkt_type 就会被eth_type_trans()方法决定，这个方法根据目的的Ethernet地址，如果这个地址是（多播）multicast，就会被设置为PACKET_MULTICASE,如果是(广播)broadcast，则会被设置为PACKET_BROADCASE;如果是本地主机地址，则是PACKET_HOST.绝大多数Ethernet驱动将会在Rx路径调用eth_type_trans()这个方法。这个eth_type_trans()方法也会设置SKB的协议域根据Ethernet的头部。这个方法也会调用skb_pull_inline()提前预付SKB的数据指针，大小为14(ETH_HLEN),这就是Ethernet header的大小。
 
 
