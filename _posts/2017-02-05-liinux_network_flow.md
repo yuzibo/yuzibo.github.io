@@ -374,3 +374,17 @@ skb_mac_header();
 
 ![net-1.png](http://yuzibo.qiniudn.com/net-1.png)
 
+每一个SKB有一个dev成员，这是一个net_device结构的实例化。接收和发出的包是不同的。在这个过程中，需要不停的fetch能影响包在内核栈中行程的信息。比如MTU。每一个传输的SKB有一个sock对象赋予它(sk),如果这个包是被转发的包，这个sk为NULL，因为它不是有本地主机生成。
+
+
+每一个接收的包应该通过网络层协议处理，比如，一个ipv4包应该被ip_rcv()方法处理，ipv6应该是ipv6_rcv(),相反的过程，这二者都需要dev_add_pack()方法去注册协议。ip_rcv()方法检查自己的参数，一切没有问题的话被NF_INET_PRE_ROUTING钩子调用。接下来是ip_rcv_finish()方法。在路由子系统中，会建立一个目的缓存项(dst_entry),同时在dst_entry中会有input和output方法。
+
+在这里简单说一下v4和v6的区别。地址空间不说了，v6的header 是40字节，而v4是20～40,这样v6的性能就会提升了一大截;在ICMP中，v6也加入了很多其他的东西。
+
+接收包被网络设备驱动传递给ipv4或者ipv6-网络层，如果是局部传输，他们会被传递给传输层（l4）的监听socket处理。在L4层上，有UDP和TCP两种协议。此外，还有两种新的协议，Stream Control Transmission Protocol(SCTP)，Datagram Congestion Control Protocol(DCCP),这两者结合了tcp和udp的特征。
+
+本地主机产生的packets由L4的TCP或者UDP负责。这些都是Sockets APi可以提供。struct socket是提供给用户空间的接口，struct sock提供L3的接口。
+
+每一个L2网络层接口有一个L2的地址去鉴别它。在Ethernet中，这是一个48位的地址，并且MAC地址被赋予每一个Ethernet网络接口（唯一），每一个Ethernet包以Ethernet header开始，它包含Ethernet 类型（2-bit）， 源MAC地址（6-bit），目的MAC地址（6-bit）.注意，Ethernet 的类型值ipv4是0x0800,ipv6是0x86DD.对于发出的包来讲，一个Ethernet Header也应该被创建，其中的目的MAC地址通过邻居子系统找到。邻居协议被IPv4中的ARP处理(ipv6中的NDISC)，这两者在处理上也有不同的地方。ARP协议依靠于发送广播请求，而NDISC依靠ICMPv6请求，该者实际上是多播请求。
+
+netlink为内核和用户空间之间的交流提供通道。iproute2就是依靠netlink实现的。
