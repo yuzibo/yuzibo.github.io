@@ -24,3 +24,62 @@ socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);
 ```
 
 然后创造一个**sockaddr_nl**的对象实例
+
+# 使用netlink sockets 库
+
+libnl是与内核空间交流的用户空间程序的API，iproute2就是使用的libnl库，一般在这个源代码包的下面，有基本核心库(libnl),它支持一般netlink家族(libnl-genl),路由家族(libnl-route)和netfilter家族(libnl-nf).还有一个最小化的用户空间的库函数叫libmnl.
+
+先来一段用户空间的程序，看看大体概貌
+
+```c
+#include <netlink/netlink.h>
+#include <errno.h>
+
+int main(int argc, char *argv[])
+{
+	struct nl_sock *h[1025];
+	int i;
+
+	h[0] = nl_socket_alloc();
+	printf("Created handle with port 0x%x\n",
+			nl_socket_get_local_port(h[0]));
+	nl_socket_free(h[0]);
+	h[0] = nl_socket_alloc();
+	printf("Created handle with port 0x%x\n",
+			nl_socket_get_local_port(h[0]));
+	nl_socket_free(h[0]);
+
+	for (i = 0; i < 1025; i++) {
+		h[i] = nl_socket_alloc();
+		if (h[i] == NULL)
+			nl_perror(ENOMEM, "Unable to allocate socket");
+		else
+			printf("Created handle with port 0x%x\n",
+				nl_socket_get_local_port(h[i]));
+	}
+
+	return 0;
+}
+```
+
+这是在编译的时候，有些麻烦，
+
+```c
+gcc program.c $(pkg-config --cflags --libs libnl-3.0)
+```
+
+这里涉及了**pkg-config**的用法。这个工具还是非常有用的，他解决了有关已安装的库函数中的种种使用的问题。比如，库函数的版本、链接位置...pkg-config的具体以后补充。
+
+看一下**sockaddr_nl**的结构体
+
+```c
+
+struct sockaddr_nl {
+	__kernel_sa_family_t	nl_family;	/* AF_NETLINK	*/
+	unsigned short	nl_pad;		/* zero		*/
+	__u32		nl_pid;		/* port ID	*/
+       	__u32		nl_groups;	/* multicast groups mask */
+};
+```
+
+上面的成员参数可以看注释，这里说一下nl_pid,它是netlink socket的单播地址，对于内核来说，它应该是0;对于用户空间来说，应该是运行它的的pid(使用getpid()).
