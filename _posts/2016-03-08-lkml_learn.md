@@ -30,3 +30,12 @@ passed to free().
 
 这个过程一直维持到"rc7",个别时期有可能是"rc6"或者"rc8"。当这一切到来时，
 就会正式发布这个内核。比如，到了"4.5-rc7",接下来，linus会发布"4.5"的正式版本。而对于"4.6"版本的开发周期又开始了.
+
+# 修订原先patch的格式
+
+```c
+> Fixes: d85b758f72b0 "virtio_net: fix support for small rings"
+
+Fixes: d85b758f72b0 ("virtio_net: fix support for small rings")
+```
+后者才是正确的，被社区认可的。
