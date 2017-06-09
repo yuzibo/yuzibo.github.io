@@ -3,7 +3,9 @@ layout: article
 title: "git追踪linux kerenl技巧"
 category: git
 ---
+
 # 先介绍点简单的
+
 1. 从linus那里pull,当然，前提是你先从linus那里clone一份代码树。
 
 	`git pull`
@@ -178,4 +180,58 @@ Create a new branch called "first-patch", and checkout that branch by running:
 ## 搜索某个人的提交
 
 git log --author="name"
+
+# kernel next 工作技巧
+
+[here](https://www.kernel.org/doc/man-pages/linux-next.html)
+
+我摘抄过来了，当作自己的笔记：
+The linux-next tree is the holding area for patches aimed at the next kernel merge window. If you're doing bleeding edge kernel development, you may want to work from that tree rather than Linus Torvalds' mainline tree.
+
+Initial set up
+
+If you haven't already done so, first clone a copy of the mainline Linux Git repository:
+
+    $ git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+	# or: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+    Cloning into 'linux'...
+    ...
+
+    Then add a remote tracking branch for linux-next:
+
+    $ cd linux
+    $ git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+                          # or: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+Fetch linux-next plus tags
+
+    $ git fetch linux-next
+    ...
+    $ git fetch --tags linux-next
+    ...
+Regular tracking
+
+Update linux-next:
+
+    $ git checkout master      # to be safe
+    ...
+    $ git remote update
+    ...
+List (recent) linux-next tags:
+
+    $ git tag -l "next-*" | tail
+    next-20140612
+    next-20140613
+    next-20140616
+    next-20140617
+    next-20140618
+    next-20140619
+    next-20140620
+    next-20140623
+    next-20140624
+    next-20140625
+Choose the linux-next version that you will work from, and create a local branch based on that version:
+
+    $ git checkout -b my_local_branch next-20140625
+    Switched to a new branch 'my_local_branch'
 
