@@ -83,3 +83,11 @@ struct sockaddr_nl {
 ```
 
 上面的成员参数可以看注释，这里说一下nl_pid,它是netlink socket的单播地址，对于内核来说，它应该是0;对于用户空间来说，应该是运行它的的pid(使用getpid()).
+
+
+## socket monitoring interface
+
+**sock_diag**就是提供了基于netlink子系统、可以得到有关socket的信息。有关网络的工具**ss**就是大量使用了sock_diag.
+
+#### NETLINK_SOCK_DIAG
+
