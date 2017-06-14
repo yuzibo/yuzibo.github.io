@@ -99,6 +99,12 @@ git rebase master
 [参考](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
 
 
+## 问题
+
+初次使用，难免会出现各种问题，下面是解决方法汇总。
+
+[merge](https://stackoverflow.com/questions/10298291/cannot-push-to-github-keeps-saying-need-merge)
+
 
 
 
