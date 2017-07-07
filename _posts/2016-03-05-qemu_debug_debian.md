@@ -1,7 +1,7 @@
 ---
 title: "qemu调试kernel"
 layout: article
-category: tools 
+category: tools
 ---
 
 之前安装过Bochs,但是本身也没有怎么用，看到网上说使用qemu效果好一些，也就简
@@ -130,3 +130,10 @@ Breakpoint 1, start_kernel () at init/main.c:498
 }
 ```
 这时的qemu那一端就已经有信息产生了,接下来自己就一步步调试去吧:)
+
+
+# 安装自己编译的内核
+
+基本上这篇[文章](http://www.cnblogs.com/senix/archive/2013/02/21/2921221.html)就够了。
+
+
