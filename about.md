@@ -17,7 +17,7 @@ layout: page
 
 Hello,
 
-   Welcome to my own blog.My name is YU Bo. I was born on June 17 1994,living in Shandong province, China.
+   Welcome to my own blog.My name is vimer. I was born on June 17 1994,living in Shandong province, China.
 
    I will graduate from Taishan University in June 2016.My major is Compute Science.I have studied OS, Data Structure, Networking and so on.By now,i focus my energy on Linux programing.I wish to become a linux kernel hacker in future.
 
@@ -27,7 +27,7 @@ Hello,
 ----
 
 如果你觉得本站对你有价值，请打赏一下吆:
-支付宝账号： 
+支付宝账号：
 357130479@qq.com
 
 # 欢迎大家加入linux kernel学习交流群 212973173
