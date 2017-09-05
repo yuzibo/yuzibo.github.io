@@ -21,7 +21,7 @@ auto: true
 #规定了博客的URL地址
 permalink: /:title.html
 url: http://www.aftermath.cn
-author: Bo Yu
+author: vimer
 email: yuzibode@126.com
 
 #禁用自定义插件
