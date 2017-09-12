@@ -132,30 +132,5 @@ Breakpoint 1, start_kernel () at init/main.c:498
 这时的qemu那一端就已经有信息产生了,接下来自己就一步步调试去吧:)
 
 
-# 安装自己编译的内核
-
-基本上这篇[文章](http://www.cnblogs.com/senix/archive/2013/02/21/2921221.html)就够了。
-
-打开qemu终端，缺点是不能复制。
-
-```bash
-qemu-system-x86_64 -kernel arch/x86/boot/bzImage \
--initrd ~/initramfs/rootfs.img.gz \
--append "root=/dev/ram rdinit=sbin/init noapic"
-```
-改进一下：
-
-```bash
-hehe
-```
-
-## 配置网络
-
-```bash
-ifconfig lo 127.0.0.1
-route add -net 127.0.0.0 netmask 255.255.255.0 lo
-ifconfig eth0 192.168.10.0
-route add -net 192.168.10.0 netmask 255.255.255.0 eth0
-```
 
 
