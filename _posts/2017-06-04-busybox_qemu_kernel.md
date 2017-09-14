@@ -146,6 +146,12 @@ CONFIG_X86_VERBOSE_BOOTUP=y
 CONFIG_EARLY_PRINTK=y
 
 
+
+尤其注意这里：
+
+CONFIG_INITRAMFS_SOURCE=/pathto/myinitrd.cpio
+
+这个路径是不能空缺的，否则内核是编译不过去的。
 最后可以执行
 
 make
@@ -158,7 +164,9 @@ make
 
 ```bash
 
-qemu-system-x86_64  -kernel /path-to/bzImage -initrd /path-to/myinitrd.cpio -append "root=/dev/ram0 rootfstype=ramfs init=init console=ttyS0" -net nic,model=rtl8139 -net user  -net dump -nographic
+qemu-system-x86_64  -kernel /path-to/bzImage -initrd /path-to/myinitrd.cpio
+-append "root=/dev/ram0 rootfstype=ramfs init=init console=ttyS0"
+-net nic,model=rtl8139 -net user  -net dump -nographic
 
 ```
 
