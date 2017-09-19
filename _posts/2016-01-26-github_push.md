@@ -1,5 +1,5 @@
 ---
-title: "在github上每次push输入用户/密码&&编辑器"
+title: "在github上每次push输入用户/密码&&编辑器&&补全"
 layout: article
 category: git
 ---
@@ -34,12 +34,25 @@ password <password>
 # 设置默认语言
 
 因为有些时候新安装的git默认使用的系统语言，导致不方便，所以，有必要修改默认
+
+编辑系统配置文件 .profile
+
 的语言。
 
 ```bash
 alias git='LANG=en_US git'
 ```
 
-并`source`一下就可以了。
+并`source .profile`一下就可以了。
+
+# 补全git命令
+
+如果让git能够自己补全命令的话，效率非常的高
+
+方法是将git源代码目录中`git/contrib/completion/git-completion.bash`这个文件放到用户主目录下。然后使用`source .git-completion.bash`即可。
+
+我把配置文件放在了[github](https://github.com/yuzibo/configure_file/blob/master/git/.git-completion.bash)
+
+
 
 

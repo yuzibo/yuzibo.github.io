@@ -192,6 +192,7 @@ Initial set up
 
 If you haven't already done so, first clone a copy of the mainline Linux Git repository:
 
+```bash
     $ git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 
 	# or: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
@@ -201,10 +202,15 @@ If you haven't already done so, first clone a copy of the mainline Linux Git rep
     Then add a remote tracking branch for linux-next:
 
     $ cd linux
-    $ git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-                          # or: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+    $ git remote add linux-next https://git.kernel.org/pub/scm/linux/ \
+    kernel/git/next/linux-next.git
+
+    # or: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+```
+
 Fetch linux-next plus tags
 
+```bash
     $ git fetch linux-next
     ...
     $ git fetch --tags linux-next
@@ -230,6 +236,8 @@ List (recent) linux-next tags:
     next-20140623
     next-20140624
     next-20140625
+```
+
 Choose the linux-next version that you will work from, and create a local branch based on that version:
 
     $ git checkout -b my_local_branch next-20140625
