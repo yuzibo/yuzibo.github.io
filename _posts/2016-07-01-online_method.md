@@ -28,6 +28,7 @@ ssh -N -D 7070 root@your_ip
 > 首选项->高级->网络->设置
 
 只使用SOCKS那个选项，主机填上127.0.0.1，端口是7070,下面的类型选择SOCKS_v5
+`-D`选项是socks_v5的含义。
 
 ### chromium
 
