@@ -1,5 +1,5 @@
 ---
-title: "python基础教程1"
+title: "python输入输出函数和操作文件"
 category: python
 layout: article
 ---

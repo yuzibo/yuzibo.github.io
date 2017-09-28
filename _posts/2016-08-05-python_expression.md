@@ -45,11 +45,11 @@ for(key, value) in D.items():
 ### 注意，*p 通用复制在2.x中不可用
 
 #  计数器
- 这里的计数器类似于c语言中的for循环，典型的用法如下：
+ 这里的计数器类似于c语言中的for循环，典型的用法如下, from 0 to (i - 1)：
 
 ```python
 for i in range(3):
-	print(x, 'pythons')
+	print(i, 'pythons')
 ```
 就会打印三个pythons.
 
@@ -174,6 +174,32 @@ D3 = dict(zip(keys, vals))
 print(D3)
 ```
 
+# python 相关函数整理
+
+在python中，字符串的比较应该多留意下，不能直接比较，可以转化为浮点型进行比较
+
+```python
+>>> a = '1.2'
+>>> b = '100.9'
+>>> c = '2.4'
+>>> alist = [a, b, c]
+>>> alist.sort()
+>>> print(alist)
+	['1.2', '100.9', '2.4']
+```
+
+So , you would better to do it :
+
+```python
+
+>>> a='1.2'
+>>> b='100.9'
+>>> c='2.4'
+>>> alist=[float(a), float(b), float(c)]
+>>> alist.sort()
+>>> print(alist)
+[1.2, 2.4, 100.9]
+```
 
 
 

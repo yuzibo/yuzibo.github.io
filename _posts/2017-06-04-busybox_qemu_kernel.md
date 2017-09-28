@@ -76,7 +76,7 @@ ln -s ../proc/kcore     kcore
 cd ..
 
 ```
-
+[file](https://github.com/yuzibo/configure_file/blob/master/busybox/exe.sh)
 最后一条命令返回到了主目录，然后将busybox文件下的_install文件复制到initramfs的主目录下。
 
 由于我们已经将busybox构建为一个静态的库(static libs), 原作者所说的加载动态库的步骤已经不需要了。
@@ -84,6 +84,7 @@ cd ..
 然后在initramfs文件夹下面新建init文件，这个文件是kernel启动后的第一个文件。
 
 ```bash
+#!/bin/sh
 /bin/mount -t proc none /proc
 /bin/mount -t sysfs sysfs /sys
 /sbin/mdev -s
@@ -96,6 +97,7 @@ echo 'Enjoy your Linux system!'
 /usr/bin/setsid /bin/cttyhack /bin/sh
 exec /bin/sh
 ```
+[file](https://github.com/yuzibo/configure_file/blob/master/busybox/init)
 
 最后，将init文件执行以下：
 
