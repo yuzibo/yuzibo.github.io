@@ -4,6 +4,8 @@ category: network
 layout: article
 ---
 
+如果你有用户空间的程序去测试，请参考这篇文章[1](https://home.regit.org/netfilter-en/nftables-quick-howto/)
+
 在net/下，有af_netlink.c af_netlink.h genetlink.c和diag.c
 
 af_netlink 文件中提供了绝大多数的API，genetlink提供了新的API，这使得更容易创建netlink消息。diag.c是为了dump netlink消息，里面是相关的API。
