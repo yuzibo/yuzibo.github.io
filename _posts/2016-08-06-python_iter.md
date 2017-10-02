@@ -3,6 +3,10 @@ title: "python迭代器"
 layout: article
 category: python
 ---
+# 这篇文章的内容有
+
+迭代 查找单词collections.Counter()
+
 
 # 文件的迭代
 
@@ -35,6 +39,7 @@ while True:
  I.next()
 ```
 
-# 其他方式
+# 查找单词
 
+请参阅这篇文章 [here](https://github.com/yuzibo/linux-programming/blob/master/python/py-list/common.py)
 

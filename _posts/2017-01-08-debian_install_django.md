@@ -1,6 +1,6 @@
 ---
 title: "debian安装django"
-category: python
+category: django
 layout: article
 ---
 

@@ -25,6 +25,10 @@ Hello,
 
 
 ----
+My practice's project:
+
+linux-programming: https://github.com/yuzibo/linux-programming.git
+
 
 如果你觉得本站对你有价值，请打赏一下吆:
 支付宝账号：
@@ -32,6 +36,9 @@ Hello,
 
 # 欢迎大家加入linux kernel学习交流群 212973173
 
+
+## Thanks!
+ Thanks for [liuhuan](https://github.com/bitsly/bitsly.github.com).I git clone his site.
 
 ## Email
 If you find any errors or disunderstand, please ccing me:)
@@ -48,5 +55,3 @@ If you find any errors or disunderstand, please ccing me:)
 
 ----
 
-## Thanks!
- Thanks for [liuhuan](https://github.com/bitsly/bitsly.github.com).I git clone his site.
