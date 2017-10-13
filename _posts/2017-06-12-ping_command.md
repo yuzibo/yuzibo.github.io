@@ -8,8 +8,6 @@ layout: article
 首先看一个大概。
 
 ```c
-
-
 /*
  *     File Name: ping.c
  *     Author: Bo Yu
@@ -169,7 +167,10 @@ int unpack(char *buf, int len)
 		/*以毫秒为单位计算rtt*/
 		rtt = tvrecv.tv_sec * 1000 + tvrecv.tv_usec/1000;
 		/*显示相关信息*/
-		printf("%d bytes from %s: icmp_seq=%u ttl=%d rtt=%.3f ms\n", len, inet_ntoa(from.sin_addr), icmp->icmp_seq, ip->ip_ttl, rtt);
+		printf("%d bytes from %s: icmp_seq=%u ttl=%d rtt=%.3f ms\n",
+				len,
+				inet_ntoa(from.sin_addr),
+				icmp->icmp_seq, ip->ip_ttl, rtt);
 	}
 	else
 		return -1;
@@ -227,7 +228,8 @@ int main(int argc, char **argv)
 	/* 回收root权限，设置当前权限 */
 	setuid(getuid());
 	/* 扩大套接字接收缓冲区到50K,不过，对于，下面的参数我是很不了解 */
-	setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size)); bzero(&dest_addr, sizeof(dest_addr)); dest_addr.sin_family = AF_INET;
+	setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
+	bzero(&dest_addr, sizeof(dest_addr)); dest_addr.sin_family = AF_INET;
 	/* 判断是主机名还是ip地址 */
 	if((inaddr = inet_addr(argv[1])) == INADDR_NONE)
 	{
