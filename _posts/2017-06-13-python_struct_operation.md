@@ -267,3 +267,25 @@ for name in favorite_languages.keys():
                 favorite_languages[name].title() + "!")
 ```
 
+用户输入填充字典， 有些东西需要raw_input()函数实现。
+
+```python
+
+responses = {}
+
+polling_active = True
+while polling_active:
+    name = raw_input("\n What is your name? ")
+    response = raw_input("Which mountain would you like to climb someday?")
+    # 将答案存在字典中, 我自己这里写错了
+    responses[name] = response
+    # 看看是否还有其他人参与调查问卷
+    repeat = raw_input("Would you like to let another people response?")
+    if repeat == 'no':
+        polling_active = False
+
+print("\n-----[pull]-------\n")
+for person ,mount in responses.items():
+    print(person + " Would like to climb " + mount + ".")
+
+```
