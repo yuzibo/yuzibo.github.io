@@ -101,3 +101,75 @@ my_new_car.update_odometer(113)
 my_new_car.read_meter()
 ```
 这种方案还是比较符合现代主流软件设计思潮的
+
+### 继承
+集成就是利用父类已经让子类可以继续使用定义好的属性
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 自动继承父类的所有属性
+# python 2 中需要填写object,而且继承的子类必须声明自己的实例加上self
+# pyhton 3 中不需要这些
+
+class Battery():
+
+	"""将多个类分开，让子类多继承"""
+	def __init__(self, battery_size = 70):
+		""" 初始化电平属性"""
+		self.battery_size = battery_size
+
+	def describe_battery(self):
+		""" 打印一条电瓶容量的消息"""
+
+		print("This car has a " + str(self.battery_size) + "-kwh battery.")
+	def get_range(self):
+		""" 打印一条消息，指出电瓶的续航里程"""
+		if self.battery_size == 70:
+			range = 240
+		elif self.battery_size == 85:
+			range = 270
+
+		message = " This car can go approximately " + str(range)
+		message += " miles on a full charge "
+		print(message)
+
+class Car(object):
+	""" 一次模拟汽车的简单尝试 """
+	def __init__(self, make, model, year):
+		self.make = make
+		self.model = model
+		self.year = year
+		""" 默认值  里程表"""
+		self.odometer_reading = 0
+
+	def get_describe(self):
+		long_name = str(self.year) + ' ' + self.make + ' ' + self.model
+		return long_name
+
+	def read_odometer(self):
+		print(" This car has " + str(self.odometer_reading) + " miles on it")
+	""" 禁止任何人将里程表往回拨"""
+	def update_odometer(self, mileage):
+		if mileage >= self.odometer_reading:
+			self.odometer_reading = mileage
+		else:
+			print("You can't roll back an odometer!")
+
+	def increment_odometer(self, miles):
+		self.odometer_reading += miles
+
+class ElectricCar(Car):
+	""" 电动汽车的特点"""
+	def __init__(self, make, model, year):
+		""" 初始化父类的属性"""
+		super(ElectricCar, self).__init__(make, model, year)
+		""" 以这样的方法继承Battery()"""
+		self.battery = Battery()
+
+my_tesla = ElectricCar('tesla', 'model s', 2016)
+print(my_tesla.get_describe())
+my_tesla.battery.describe_battery()
+my_tesla.battery.get_range()
+```
