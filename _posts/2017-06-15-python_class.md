@@ -32,7 +32,7 @@ my_dog.roll_over()
 ```
 小提示，在python2.x中，定义类时需要在括号里面填上`object`, 就像这样
 
->>> def Dog(object)
+> def Dog(object)
 
 根据约定，在python中，首字母大写就是指的类，上面的这个类的括号里面是空的，这说明我们要从空白处新建立类。
 
