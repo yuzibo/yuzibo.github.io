@@ -4,6 +4,30 @@ category: python
 layout: article
 ---
 
+### pygame中加载位图、绘制位图
+pygame中有这些类和函数：
+
+```python
+#1
+screen = pygame.display.set_mode()
+#上面这个函数会返回一个Surface 对象,他是位图的一种.
+
+#2
+space = pygame.image.load("xx.png")
+
+#3, Surface对象有一个名为blit()的方法，它可以绘制位图
+screen.blit(space, (0,0))
+""" 第一个参数是加载完成的位图，第二个参数是绘制的起始坐标"""
+```
+
+
+其实，没有代码的话直说函数有点空洞，现在我就将最重要的(至少我认为是)的重点列出来，以方便自己复习。
+
+
+    keys = pygame.key.get_pressed()
+
+这个函数就是在打开的界面中监听你的动作，顺便说一句，在python中，函数的返回值最好设为列表，这样就和绝大多数的库函数保持一致了。
+
 ```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
