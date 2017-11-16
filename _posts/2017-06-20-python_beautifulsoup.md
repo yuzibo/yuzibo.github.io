@@ -27,4 +27,4 @@ print(soup.prettify())
 ```
 
 效果如下:
-http://yuzibo.qiniudn.com/bs_1.png
+![png](http://yuzibo.qiniudn.com/bs_1.png)
