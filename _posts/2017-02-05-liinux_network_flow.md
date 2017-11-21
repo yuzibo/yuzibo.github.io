@@ -31,7 +31,7 @@ struct net_device {
 	const struct net_device_ops *netdev_ops;
 	const struct ethtool_ops *ethtool_ops;
 
-		const struct header_ops *header_ops;
+	const struct header_ops *header_ops;
 
 	unsigned int		flags;
 	unsigned int		priv_flags;
@@ -337,6 +337,19 @@ struct sk_buff {
 
 就捡着重要的知识说一说。你要熟悉SKB的API。
 
+[Update]: sk_buff包含３个联合体，每一个对应着内核网络层。分别是：
+
+```c
+transport_header();
+/*tcp udp icmp and more  */
+
+network_header();
+/*ip ipv6 arp*/
+
+mac_header();
+#link layer
+```
+
 如果你想使用skb->data,你不应该直接使用它，相反，你应该这样
 
 ```c
@@ -364,7 +377,7 @@ skb_network_header();
 skb_mac_header();
 ```
 
-这三个方法将SKB作为唯一的参数。
+这三个方法将SKB作为唯一的参数。分别返回头部的指针。
 
 当一个包来临的时候，一个SKB被netdev_alloc_skb()方法分配(或者dev_alloc_skb(),这个方法也是调用netdev_alloc_skb(),但是第一个参数是NULL)。如果遇到包被丢弃的情景，我们将会调用kfree_skb()或者dev_kfree_skb().
 
@@ -379,6 +392,16 @@ skb_mac_header();
 
 每一个接收的包应该通过网络层协议处理，比如，一个ipv4包应该被ip_rcv()方法处理，ipv6应该是ipv6_rcv(),相反的过程，这二者都需要dev_add_pack()方法去注册协议。ip_rcv()方法检查自己的参数，一切没有问题的话被NF_INET_PRE_ROUTING钩子调用。接下来是ip_rcv_finish()方法。在路由子系统中，会建立一个目的缓存项(dst_entry),同时在dst_entry中会有input和output方法。
 
+```c
+int (*input)(struct sk_buff);
+
+int (*output)(struct sk_buff);
+
+```
+*input()*可以被下面的函数指定：　ip_local_deliver(),ip_forward(), ip_mr_input(),ip_error()或者dst_discard_in.
+
+*output()* 可以被下面的使用ip_output,ip_mc_output, ip_rt_bug或者dst_discard_out
+
 在这里简单说一下v4和v6的区别。地址空间不说了，v6的header 是40字节，而v4是20～40,这样v6的性能就会提升了一大截;在ICMP中，v6也加入了很多其他的东西。
 
 接收包被网络设备驱动传递给ipv4或者ipv6-网络层，如果是局部传输，他们会被传递给传输层（l4）的监听socket处理。在L4层上，有UDP和TCP两种协议。此外，还有两种新的协议，Stream Control Transmission Protocol(SCTP)，Datagram Congestion Control Protocol(DCCP),这两者结合了tcp和udp的特征。
@@ -388,3 +411,104 @@ skb_mac_header();
 每一个L2网络层接口有一个L2的地址去鉴别它。在Ethernet中，这是一个48位的地址，并且MAC地址被赋予每一个Ethernet网络接口（唯一），每一个Ethernet包以Ethernet header开始，它包含Ethernet 类型（2-bit）， 源MAC地址（6-bit），目的MAC地址（6-bit）.注意，Ethernet 的类型值ipv4是0x0800,ipv6是0x86DD.对于发出的包来讲，一个Ethernet Header也应该被创建，其中的目的MAC地址通过邻居子系统找到。邻居协议被IPv4中的ARP处理(ipv6中的NDISC)，这两者在处理上也有不同的地方。ARP协议依靠于发送广播请求，而NDISC依靠ICMPv6请求，该者实际上是多播请求。
 
 netlink为内核和用户空间之间的交流提供通道。iproute2就是依靠netlink实现的。
+
+# 路由子系统
+
+路由子系统可以帮助我们找到net设备、找到被发送包的目的主机。
+
+```c
+
+static inline int fib_lookup(struct net *net, const struct flowi4 *flp,
+			     struct fib_result *res, unsigned int flags)
+{
+	struct fib_table *tb;
+	int err = -ENETUNREACH;
+
+	rcu_read_lock();
+
+	tb = fib_get_table(net, RT_TABLE_MAIN);
+	if (tb)
+		err = fib_table_lookup(tb, flp, res, flags | FIB_LOOKUP_NOREF);
+
+	if (err == -EAGAIN)
+		err = -ENETUNREACH;
+
+	rcu_read_unlock();
+
+	return err;
+}
+struct fib_table {
+	struct hlist_node	tb_hlist;
+	u32			tb_id;
+	int			tb_num_default;
+	struct rcu_head		rcu;
+	unsigned long 		*tb_data;
+	unsigned long		__data[0];
+};
+```
+这个结构位于include/net/ip_net.h. *FIB*的意思是"Forwarding Information Base"
+
+这里有两个默认的基本表(在没有配置的情况下)，比如，局部表(local FIB table)（ip_fib_local_table: ID 255）和主表(main fib table)(ip_fib_main_table; ID 254)
+
+主路由表可以有３种方式改变：
+
+1.系统命令(route add/ip route) 2. (routing daemons) 3.(ICMP 重定向)
+
+fib_loolup 首先寻找local FIB 表，其次再寻找main　FIB,*route -C*这个命令可以查看缓存。另一种就是*cat /proc/net/rt_cache*,在这样的情况下，地址是十六进制的。
+
+```c
+
+struct rtable {
+	struct dst_entry	dst;
+
+	int			rt_genid;
+	unsigned int		rt_flags;
+	__u16			rt_type;
+	__u8			rt_is_input;
+	__u8			rt_uses_gateway;
+
+	int			rt_iif;
+
+	/* Info on neighbour */
+	__be32			rt_gateway;
+
+	/* Miscellaneous cached information */
+	u32			rt_pmtu;
+
+	u32			rt_table_id;
+
+	struct list_head	rt_uncached;
+	struct uncached_list	*rt_uncached_list;
+};
+```
+分配一个rtable的实例可以使用*dst_alloc()*方法来进行(net/core/dst.c)。
+
+```c
+
+void *dst_alloc(struct dst_ops *ops, struct net_device *dev,
+		int initial_ref, int initial_obsolete, unsigned short flags)
+{
+	struct dst_entry *dst;
+
+	if (ops->gc && dst_entries_get_fast(ops) > ops->gc_thresh) {
+		if (ops->gc(ops))
+			return NULL;
+	}
+
+	dst = kmem_cache_alloc(ops->kmem_cachep, GFP_ATOMIC);
+	if (!dst)
+		return NULL;
+
+	dst_init(dst, ops, dev, initial_ref, initial_obsolete, flags);
+
+	return dst;
+}
+```
+
+# 用户工具
+
+### iputils(ping arping and so on)
+
+### net-tools(ifconfig, netstat, route, arp)
+
+### iproute2(ip)
