@@ -520,11 +520,43 @@ print (soup.prettify())
 为了提取图中的文字，可以使用下面的代码：
 
 ```python
-bf = BeautifulSoup(content ,'lxml')
-context = bf.find(id='articleContent')
-print bf.h1.text
-print context.text
+import urllib2
+from bs4 import BeautifulSoup
+import requests
+
+import chardet
+import re
+
+if __name__ == '__main__':
+#    target = 'http://paper.people.com.cn/rmrb/html/2017-11/15/nbs.D110000renmrb_09.htm'
+    target = 'http://paper.people.com.cn/rmrb/html/2017-11/15/nw.D110000renmrb_20171115_1-09.htm'
+    req = requests.get(url=target)
+    req.encoding = 'utf-8'
+    content = req.text
+    bf = BeautifulSoup(content ,'lxml')
+    context = bf.find(id='articleContent')
+    print bf.h1.text
+    print context.text
 ```
 
- 参考：https://jiayi.space/post/yong-beautifulsoupti-qu-wang-ye-xin-xi-shi-li
+参考：https://jiayi.space/post/yong-beautifulsoupti-qu-wang-ye-xin-xi-shi-li
+
+#### 分行
+这个东西从一开始就困扰我，现在还好些了，请看效果:
+
+![rmrb3.png](http://yuzibo.qiniudn.com/rmrb3.png)
+
+在这里，我们知道<P></P>标签就是分段的意思，同理，<br>也是同样的意思，你可以使用*.get_text*属性
+
+```python
+    bf = BeautifulSoup(content ,'lxml')
+    context = bf.find(id='articleContent')
+    print context.get_text(separator = u'\n')
+```
+
+Please to see the picture:
+
+![rmrb4.png](http://yuzibo.qiniudn.com/rmrb4.png)
+
+
 

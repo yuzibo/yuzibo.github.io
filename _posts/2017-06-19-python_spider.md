@@ -38,6 +38,7 @@ print response.read()
 ### post 和　get  方式
 [IMPORTANT]，这块后来补充
 先上一张正则表达式的图片
+
 ![sp_1.png](http://yuzibo.qiniudn.com/sp_1.png)
 
 
@@ -72,6 +73,7 @@ if __name__ == '__main__':
     print(req.text)
 ```
 效果:
+
 ![requests_1.png](http://yuzibo.qiniudn.com/requests_1.png)
 
 注意源码中的编码字符集，这个对于以后的中文处理字符有很大的作用.
@@ -108,6 +110,7 @@ if __name__ == '__main__':
 为什么这么啰嗦呢，关键问题在于字符编码的问题影响了事情的发展。BeautifulSoup将输入的内容自己转换为unicode的编码了，需要我们在输出的时候，人为的指定输出格式.
 
 效果如下:
+
 ![sp_1.png](http://yuzibo.qiniudn.com/sp_1.png)
 
 参考这篇[文章](https://www.crifan.com/beautifulsoup_already_got_unicode_soup_but_print_messy_code/)
@@ -142,6 +145,7 @@ if __name__ == '__main__':
 不能再对Unicode编码再进行解码(decode)了，这时候你应该对其进行对应于你的终端上的编码格式进行编码(encode)
 
 效果如下：
+
 ![request_2.png](http://yuzibo.qiniudn.com/request_2.png)
 
 ### 关于编码的问题
