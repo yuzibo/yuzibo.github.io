@@ -511,4 +511,20 @@ print (soup.prettify())
 
 赶快拿出笔记本记重点：如果prettify()的  *UTF-8*不是你的菜，你可以使用prettify()的编码方法。
 
+# 实例
+
+[以这篇文章为例](http://paper.people.com.cn/rmrb/html/2017-11/15/nw.D110000renmrb_20171115_1-09.htm)
+
+![rmrb2.png](http://yuzibo.qiniudn.com/rmrb2.png)
+
+为了提取图中的文字，可以使用下面的代码：
+
+```python
+bf = BeautifulSoup(content ,'lxml')
+context = bf.find(id='articleContent')
+print bf.h1.text
+print context.text
+```
+
+ 参考：https://jiayi.space/post/yong-beautifulsoupti-qu-wang-ye-xin-xi-shi-li
 

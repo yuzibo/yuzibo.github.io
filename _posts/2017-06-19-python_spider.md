@@ -146,8 +146,10 @@ if __name__ == '__main__':
 
 ### 关于编码的问题
 这里有一篇好的文章，请参考一下[here](http://www.cnblogs.com/huxi/archive/2010/12/05/1897271.html)
+
 (ascii编码)[http://blog.csdn.net/songjinshi/article/details/7868866]
 
 正则表达式:
+
 ![04.png](http://yuzibo.qiniudn.com/04.png)
 
