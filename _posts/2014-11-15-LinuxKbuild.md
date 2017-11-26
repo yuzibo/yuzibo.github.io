@@ -49,15 +49,15 @@ __M=$PWD__
 	从来没用过
 
 ## 建立分离文件
-	最简单的例子：
+最简单的例子：
 
-__obj-m := <module_name>.o__
+	obj-m := <module_name>.o
 
 这kbuild系统将会根据<module_name>.c文件建立<module_name>.o，经过链接后，将后生成<module_name>.ko
 
 如果模块是由多个文件构建而来，则是一下格式
 
-__<module_name>-y := <src1>.o <src2>.o
+	<module_name>-y := <src1>.o <src2>.o
 
 
 
@@ -95,5 +95,22 @@ __<module_name>-y := <src1>.o <src2>.o
 	endif
 {% endhighlight %}
 
-我们的源文件取名为__task_pid_nr_ns.c，一会我会把代码写上来，看来linux编程真的是博大精深啊。
+我们的源文件取名为task_pid_nr_ns.c，一会我会把代码写上来，看来linux编程真的是博大精深啊。
 
+# update
+
+==========2017-11-26=uodate=========
+
+First you have downloaded the source code from www.kernel.org with git or other tools.then you can *make menuconfig**make -j8**make modules_install install* and update grub,you reboot your machine.please refer to [here](http://www.aftermath.cn/DebianBuildKernel.html)
+
+But, if you like source code and output separated:
+
+you would better use:
+
+```bash
+export KBUILD_OUTPOT=$HOME/src/kernel-build
+```
+
+Even you type 'make menuconfig && make ' in source file, the output will put into  *KBUILD_OUTPOT*, then , you *must* move into *KBUILD_OUTPOT* dir type"make modules_install install" command.
+
+But, if i modify some code, how to i did?

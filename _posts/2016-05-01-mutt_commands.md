@@ -94,15 +94,23 @@ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
 现在使用`urlscan`命令，同样，在`.muttrc`配置文件中写入man手册的语句。
 
 # neomutt
+现在，这几大发行版本已经把NeoMutt作为默认的版本了，但是使用源码安装的时候会遇上各种各样的包依赖，这时候，你要熟悉你的发行版的搜索软件的命令，以debian为例，那就是这样：
+
+```bash
+sudo apt-cache search xx
+```
 
 将源代码包下载下来后，使用如下的编译选项：
 
+这个软件首先安装字符库或者图形界面的需要，推荐使用slang。当完成以后，使用*./configure.autosetup   --help*,因为下面的命令已经不适用了。
 ```bash
-./configure --with-slang=/usr/local/src/slang-2.2.4 --enable-pop --enable-imap
---enable-ssl --enable-smtp --enable-gpgme --with-ssl=/usr --enable-debug
+./configure --with-slang=/usr/local/src/slang-2.2.4
+--ssl --disable-doc --debug
 ```
 
 接着使用
+
+> make
 
 > make install
 
