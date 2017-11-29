@@ -1,14 +1,16 @@
 ---
 layout: article
 title: "12 linux 系统呼叫函数和 strace"
-category: kernel 
+category: kernel
 ---
-#强大的调试工具 strace
+# 强大的调试工具 strace
 strace是一个优秀的调试工具，它调用的是系统函数ptrace(),缺点是导致应用程序运行的非常慢。
-#使用
+
+# 使用
 
 	strace -e open target-file
 	strace -o out ls
+
 {% highlight bash %}
 # Slow the target command and print details for each syscall:
 strace command
@@ -41,15 +43,15 @@ strace -ttt -p PID
 strace -T -p PID
 {% endhighlight %}
 
-#syscall, must to read xx man
+# syscall, must to read xx man
 
-###read: read bytes from a file descriptor(file,socket)
+### read: read bytes from a file descriptor(file,socket)
 
 	#include <unistd.h>
 
 	ssize_t read(int fd, void *buf, size_t count)
 
-###write: write bytes into a file descriptor(file,socket)
+### write: write bytes into a file descriptor(file,socket)
 
 
 
