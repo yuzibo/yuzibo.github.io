@@ -61,6 +61,48 @@ Host y.github.com
 HostName github.com
 User y
 IdentityFile ~/.ssh/id_rsa_y
+```
+
+# 四、远程测试
+
+```bash
+ssh -T x.github.com
+
+ssh -T y.github.com
+```
+
+# 五、克隆并设置git的配置文件
+
+将你的项目_clone_到本地，
+
+```bash
+git clone git@github.com:wahtever
+```
+
+还有一个重要的问题就是你的git配置文件大部分都设置为了全局文件，那么就要设置新的config文件，这是针对你的项目而言的。
+
+```bash
+# 取消全局　用户名/邮箱　配置,下面的user.name是你的原来的真实名字
+git config --global --unset user.name
+git config --global --unset user.email
+
+#为每个repo设置不同的　用户名/邮箱
+git config user.email "x@x.com"
+git config user.name "x"
+```
+
+# 重建origin
+
+```bash
+git remote rm origin
+git remote add origin git@ieit.github.com:whatever
+
+# 重新push
+
+git push origin master
+```
+
+Enjoy!
 
 
 
