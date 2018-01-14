@@ -101,3 +101,16 @@ source ll_env/bin/activate
 #禁用
 deactivate
 ```
+
+但是还有问题怎么办？比如我的就是有问题了，上面的命令不好使，我自己的解决方案就是再装一遍：
+
+```bash
+pip install --user virtualenv
+```
+这时候你会看到那个virtualenv.py文件在哪了，接着使用：
+
+```bash
+python path-virtualenv dest-dir
+```
+
+这样就可以了。
