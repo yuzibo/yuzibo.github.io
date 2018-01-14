@@ -48,4 +48,6 @@ django.VERSION
 ```
 
 就可以看见相关的信息，说明安装成功.
+# 卸载软件
+[参考](http://www.aftermath.cn/python_install_packets.html)
 
