@@ -6,6 +6,12 @@ layout: article
 
 # 快速开始
 
+## 软件安装
+
+	sudo pip install beautifulsoup
+
+python的软件安装请参[参考](http://www.aftermath.cn/python_install_packets.html)
+
 详细教程请参考这里:
 
 提醒大家，使用这个库，一定做好字符编码这个坑的准备
