@@ -4,6 +4,9 @@ category: python
 layout: article
 ---
 
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=tf_til&ad_type=product_link&tracking_id=vimerbf-20&marketplace=amazon&region=US&placement=1593276036&asins=1593276036&linkId=f5eaeee62c358a4e99f19b434f682e82&show_border=false&link_opens_in_new_window=false&price_color=333333&title_color=0066C0&bg_color=FFFFFF">
+    </iframe>
+    
 # install
 
 	sudo pip install pygal
