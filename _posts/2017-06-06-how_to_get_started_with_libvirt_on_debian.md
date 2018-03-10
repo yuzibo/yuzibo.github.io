@@ -1,5 +1,5 @@
 ---
-title: "在debian上安装libvirt"
+title: "用libvirt安装debian"
 category: tools
 layout: article
 ---
@@ -263,7 +263,7 @@ You must use `sudo` command to execute the command,next, you will enter into lin
 
 `--disk=pool=devel,size=10,format=qcow2` means it have 10GB space disk to support your VMs.
 
-``
+
 
 # Managing a vitual machine
 This is my first wrong step to try it.I missed it.
@@ -305,3 +305,12 @@ sudo virt-viewer --connect qemu:///system 8
 ```
 
 Congratulations! Enjoy it:)
+
+
+# 后记
+For example, when you in trouble reboot the virtual machine,how to do?
+In my case, after shutdown the system installed, now i want to reboot,
+But, the libvirt warn me: failed to match domain "".I don't' know to do.
+Until i have googled: first, use `define` to edit the configure file with XML type.Yes, when you installed a system, you will get a XML file in /etc/libvirt/qemu/(or somewhere). My way to slove the problem is `cp` the xml file to a directory and then `sudo virsh define xx.xml`.If get any errors you can disappear it according to hints.
+
+I will post a new blog to show how to resize the pool size in KVMS.See you!
