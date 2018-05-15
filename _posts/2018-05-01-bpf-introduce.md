@@ -9,7 +9,16 @@ layout: article
 
 首先，参考[这里](https://linux.cn/article-9507-1.html)
 
+# install
+If you install the bcc from source code,now i have some terrible question to resolve it.So, i recommended you install it from package manager.
 
+[here](http://www.brendangregg.com/ebpf.html#bccinstallation) To see section 5.1
+bcc tools will be installed under /usr/share/bcc/tools
+
+# run
+Way 1: run it under /usr/share/bcc/tools
+
+Way 2: git clone [iovisor](https://github.com/iovisor/bcc), if it does right, you can run command of bcc directly.
 
 # BPF vertifier
 
@@ -29,6 +38,10 @@ Rules:
 	7. Living analysis register
 	8. Reducing verification complexity
 
+Generlly, there is two check, The first check is :
+check_cfg()(Do you remember DFS?). It is check wheather is DAG(Directed Acyclic Graph).
+
+The second check is do_check(): register, memory, function, branch(<1024),instructions < 96K
 
 # BPF JIT
 C -> LLVM -> BPF -> loader -> verifier -> JIT -> tx/XDP -> offload
@@ -38,6 +51,7 @@ BPF registers mapped to CPU register 1:1
 1. R0 -> return value from helper call
 2. R1-R5 -> argument registers for helper call
 3. R6-R9 -> callee saved, preserved on helper call
+4. R10 -> Read only, as stack pointer
 
 
 
@@ -55,3 +69,5 @@ The context will be describe in Documents/bpf/bpf_devel_QA.txt llvm section.
 http://www.brendangregg.com/blog/2015-05-15/ebpf-one-small-step.html
 
 https://blog.yadutaf.fr/2016/03/30/turn-any-syscall-into-event-introducing-ebpf-kernel-probes/
+
+http://www.brendangregg.com/Slides/Velocity2017_BPF_superpowers.pdf
