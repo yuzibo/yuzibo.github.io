@@ -69,10 +69,10 @@ sudo python get-pip.py
 # 注意，使用 pip install -U pip检查最新的pip版本
 ```
 这里多说一句，你觉得是不是应该将python设置最新的？不一定的，但是更新最新版本，有好处。django最新版本，就是面向了python 3.6
-这里多说一句，你觉得是不是应该将python设置最新的？不一定的，但是更新最新版本，有好处。django最新版本，就是面向了python 3.6..
 
 ## 卸载
 这个软件可以使用 "uninstall"选项，甚至可以删除`easy_install`软件安装的包。
+
 
 # 建立虚拟环境
 使用Django软件啥的，就需要一个虚拟环境，这个环境就是系统的一个位置，你可以在其中安装包，并将其与其他Python包分离，这样做是有益的。
@@ -91,14 +91,28 @@ sudo python get-pip.py
 pip install --user virtualenv
 ```
 
+# 创建项目
 下面就是建立一个目录mysite, 然后创建一个虚拟环境.
 
 ```bash
+cd my_project_folder
 virtualenv ll_env
 # 激活
 source ll_env/bin/activate
+```
+这个命令执行后，会在本地生成一个与ll_env 的文件夹，包含python的可执行文件和pip库的拷贝，可用于安装其他包。
 
-#禁用
+但是有时候你想使用系统中其他的包，在虚拟环境下你是无法使用的。如果在系统环境中想要使用系统环境的第三方的软件包，可以在创建虚拟环境的时候使用　``-system-site-packages`` 参数。
+```bash
+virtualenv --system-site-packages
+```
+
+还可以制定python的版本，当然前提是你的系统中已经安装了相应的python。
+```bash
+virtualenv -p /usr/bin/python2.7 env
+```
+
+```bash
 deactivate
 ```
 
