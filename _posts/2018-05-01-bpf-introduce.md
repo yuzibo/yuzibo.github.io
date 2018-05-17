@@ -29,13 +29,21 @@ Rules:
 2. Simulation of exection of all paths of the program
 
 3. Steps involved(extract):
+
 	1. Control flow graph
+
 	2. Out of range jumps, unreachable instructions
+
 	3. Contxt, initialized memory, stack spill
+
 	4. Pointer checking
+
 	5. Verifying helper function call arguments
+
 	6. Value and aligment tracking for data access
+
 	7. Living analysis register
+
 	8. Reducing verification complexity
 
 Generlly, there is two check, The first check is :
@@ -49,15 +57,34 @@ C -> LLVM -> BPF -> loader -> verifier -> JIT -> tx/XDP -> offload
 BPF registers mapped to CPU register 1:1
 
 1. R0 -> return value from helper call
+
 2. R1-R5 -> argument registers for helper call
+
 3. R6-R9 -> callee saved, preserved on helper call
+
 4. R10 -> Read only, as stack pointer
 
+# BPF encoding
 
+[here](https://github.com/iovisor/bpf-docs/blob/master/eBPF.md)
+
+MSB(most significant bit) 最高有效位　
+LSB(least significant bit) 最低有效位
+
+From least significant to most significant bit:
+
+MSB<------>LSB
+
+	8 bit opcode
+	4 bit destination register (dst)
+	4 bit source register (src)
+	16 bit offset
+	32 bit immediate (imm)
+
+Notes: Most instructions do not use all of these fields. Unused fields should be zeroed.
 
 # llvm
 The context will be describe in Documents/bpf/bpf_devel_QA.txt llvm section.
-
 
 
 # Reference
