@@ -14,7 +14,7 @@ Yes, from literly you know i means.
 ```git
 git reset --soft <版本号>
 ```
-<版本号> == HEAD^??
+
 
 Notes: ``--soft`` rollback verison before, but it retains the modifies for the local work, then restart push it.
 
@@ -23,6 +23,7 @@ Notes: ``--soft`` rollback verison before, but it retains the modifies for the l
 ```git
 git push origin <branch-name> --force
 ```
+
 If you use the command without ```--force```, it will reject.Forcing to over cover remote branch.
 
 Done.
