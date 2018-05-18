@@ -77,7 +77,6 @@ packet在内核中的旅行有很多的变动：大的包在发送之前会被�
 为了更好的理解网络的流程，你需要知道sk_buff,无论是Rx，还是Tx，都离不开这个结构。<include/linux/skbuff.h>
 
 ```c
-
 /**
  *	struct sk_buff - socket buffer
  *	@next: Next buffer in list
@@ -148,7 +147,6 @@ packet在内核中的旅行有很多的变动：大的包在发送之前会被�
  *	@truesize: Buffer size
  *	@users: User count - see {datagram,tcp}.c
  */
-
 struct sk_buff {
 	union {
 		struct {
@@ -164,7 +162,6 @@ struct sk_buff {
 		struct rb_node	rbnode; /* used in netem & tcp stack */
 	};
 	struct sock		*sk;
-
 	union {
 		struct net_device	*dev;
 		/* Some protocols might use this space to store information,
@@ -504,6 +501,14 @@ void *dst_alloc(struct dst_ops *ops, struct net_device *dev,
 	return dst;
 }
 ```
+
+顺序有些乱，先凑活着看，到时候我再一并整理。
+
+# 网络层 network layer
+首先看一下ip packet:
+![2018-05-16-ip_packet.png](http://yuzibo.qiniudn.com/2018-05-16-ip_packet.png)
+
+
 
 # 用户工具
 
