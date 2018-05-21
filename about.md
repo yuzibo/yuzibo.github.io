@@ -43,9 +43,9 @@ linux-programming: https://github.com/yuzibo/linux-programming.git
 ## Email
 If you find any errors or disunderstand, please ccing me:)
 
-[tsu.yubo@gmail.com](mailto:tsu.yubo@gmail.com)
+[tsu.yubo#gmail.com](mailto:tsu.yubo@gmail.com) 请将#换为@
 
-[yuzibode@126.com](mailto:yuzibode@126.com)
+[yuzibode#126.com](mailto:yuzibode@126.com)
 
 
 
