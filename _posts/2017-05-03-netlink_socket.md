@@ -4,6 +4,8 @@ category: network
 layout: article
 ---
 
+[redhat](https://people.redhat.com/nhorman/papers/netlink.pdf)
+
 如果你有用户空间的程序去测试，请参考这篇文章[1](https://home.regit.org/netfilter-en/nftables-quick-howto/)
 
 在net/下，有af_netlink.c af_netlink.h genetlink.c和diag.c
@@ -30,6 +32,12 @@ socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);
 # 使用netlink sockets 库
 
 libnl是与内核空间交流的用户空间程序的API，iproute2就是使用的libnl库，一般在这个源代码包的下面，有基本核心库(libnl),它支持一般netlink家族(libnl-genl),路由家族(libnl-route)和netfilter家族(libnl-nf).还有一个最小化的用户空间的库函数叫libmnl.
+
+相关的源代码在这里[here](https://www.infradead.org/~tgr/libnl/),下面就是结构图:
+
+进行开发的文档在[这里](https://www.infradead.org/~tgr/libnl/doc/core.html)
+
+![2018-05-21-netlink_user.png](http://yuzibo.qiniudn.com/2018-05-21-netlink_user.png)
 
 先来一段用户空间的程序，看看大体概貌
 
@@ -71,6 +79,62 @@ gcc program.c $(pkg-config --cflags --libs libnl-3.0)
 ```
 
 这里涉及了**pkg-config**的用法。这个工具还是非常有用的，他解决了有关已安装的库函数中的种种使用的问题。比如，库函数的版本、链接位置...pkg-config的具体以后补充。
+
+## Message Format
+![2018-05-21-nlmsghdr.png](http://yuzibo.qiniudn.com/2018-05-21-nlmsghdr.png)
+
+### Netlink Header
+
+```c
+struct nlmsghdr{
+	__u32 nlmsg_len;
+	__u32 nlmsg_type;
+	__u32 nlmsg_flags;
+	__u32 nlmsg_seq;
+	__u32 nlmsg_pid;
+}
+```
+from <linux/uapi/linux/netlink.h>．这里重点介绍几个。
+
+``nlmsg_len`` is the length of the message including the header
+
+``nlmsg_type`` four basic netlink message header types:
+
+	NLMSG_NOOP : no operations, message must be discarded
+	NLMSG_ERROR: Error occured
+	NLMSG_DONE: A multipart message is terminated
+	NLMSG_OVERRUN: error, data was lost
+
+
+``nlmsg_flags``:
+
+	NLM_F_REQUEST - Message is a request, see Message Types.
+
+	NLM_F_MULTI - Multipart message, see Multipart Messages
+
+	NLM_F_ACK - ACK message requested, see ACKs.
+
+	NLM_F_ECHO - Request to echo the request.
+
+	NLM_F_ROOT - Return based on root of tree.
+
+	NLM_F_MATCH - Return all matching entries.
+
+	NLM_F_ATOMIC - Obsoleted, once used to request an atomic operation.
+
+	NLM_F_DUMP - Return a list of all objects (NLM_F_ROOT|NLM_F_MATCH).
+
+	NLM_F_REPLACE - Replace an existing object if it exists.
+
+	NLM_F_EXCL - Do not update object if it exists already.
+
+	NLM_F_CREATE - Create object if it does not exist yet.
+
+	NLM_F_APPEND - Add object at end of list.
+
+``nlmsg_seq``: the message sequence number
+
+``nlmsg_pid``: is the sending port id
 
 看一下**sockaddr_nl**的结构体
 
