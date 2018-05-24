@@ -5,6 +5,44 @@ layout: article
 ---
 
 # howtos
+## install
+
+First :
+
+# Needed libraries
+libmnl:
+libnftnl
+libmnl: git://git.netfilter.org/libmnl
+libnftnl: git://git.netfilter.org/libnftnl
+
+```bash
+./autogen.sh
+./configure
+make
+make install
+ldconfig
+```
+
+If you have error as below:
+
+```bash
+./configure: line 3960: syntax error near unexpected token `LIBMNL,'
+./configure: line 3960: `PKG_CHECK_MODULES(LIBMNL, libmnl >= 1.0.0)'
+```
+
+please refer to here:
+
+http://blog.anarey.info/2014/08/pkg_check_moduleslibmnl-libmnl-1-0-0-error/
+
+
+
+# nftables
+
+```bash
+sudo apt-get install libgmp-dev libreadline-dev
+```
+
+
 首先在安装之前，请参考这篇[文章](https://home.regit.org/netfilter-en/nftables-quick-howto/)，这篇文章还是比较好的。
 
 How to use the code:
@@ -60,3 +98,5 @@ table ip filter {
 	}
 }
 ```
+
+
