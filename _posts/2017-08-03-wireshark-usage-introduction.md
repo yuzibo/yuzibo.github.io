@@ -31,7 +31,7 @@ The picture is very happy:
 
 # Starting Capture
 
-	wireshsrk -i eth0 -k
+	wireshark -i eth0 -k
 
 This will start Wireshark capturing on interface eth0.
 
@@ -40,4 +40,5 @@ Or you click "Capture" -> "Options", which short key is `ctrl + k`. You can add 
 ![wireshark-usage-2018-03-16_7.png](http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_7.png)
 
 ![wireshark-usage-2018-03-16_8.png](http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_8.png)
+
 So, my eth0 is called 'enp1s0'
