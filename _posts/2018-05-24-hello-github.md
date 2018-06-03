@@ -7,7 +7,7 @@ layout: article
 Hello,
 This is a picture that implys a bug i inspect.
 
-![i-will-delete.png](![2018-06-01-github1.png](http://yuzibo.qiniudn.com/2018-06-01-github1.png)
+![2018-06-01-github1.png](http://yuzibo.qiniudn.com/2018-06-01-github1.png)
 
 The neomutt github is
 
