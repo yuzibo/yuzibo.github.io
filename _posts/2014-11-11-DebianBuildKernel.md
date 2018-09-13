@@ -120,6 +120,12 @@ kernel-image-(kernel-version)(--append-to-version)_(--version)_(architecture).de
 
 # make deb-pkg
 
+在执行下面的命令前，首先执行:
+
+	sudo apt install dpkg-dev
+
+这个命令能解决诸多dpkg-*的错误，比如： `dpkg-buildpackage`: command not found
+
 如果说在debian中，最能体现debian的特色了，莫过于debian的软件包管理了。上面删除线的内容，在几年前可能是真实的，但是现在，不知道为什么会出现这样那样的问题
 ，而debian的维护者又开发了一种新的编译内核的方法，相对来说，简单不少。
 
