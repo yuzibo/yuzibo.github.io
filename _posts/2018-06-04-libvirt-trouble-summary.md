@@ -24,4 +24,11 @@ virtlockd-admin.socket  virtlockd.service       virtlockd.socket
 	we have a systemd unit so you can enable that
 
 
+Update: 目前不知道为什么我没有开启这个systemd unit，暂时还是使用`service`命令。
+
+```bash
+service libvirtd restart
+```
+也可以解决上面的问题
+
 
