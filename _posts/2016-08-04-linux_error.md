@@ -1,6 +1,6 @@
 ---
 title: "linux中错误提示"
-layout: article
+layout: post
 category: unix
 ---
 

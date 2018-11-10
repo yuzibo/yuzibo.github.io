@@ -1,7 +1,7 @@
 ---
 title: "理财小视频"
 category: life
-layout: article
+layout: post
 ---
 
 

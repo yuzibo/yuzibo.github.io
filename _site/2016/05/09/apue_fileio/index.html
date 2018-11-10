@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>unix文件 io</title>
+    <meta name="description" content="update随着时间的发展，看的书越来越多，需要进行重新归类了2016-07-15 将apue的标题改为unix 文件 io，新增文件属性的内容。点滴记录apue的学习这一章简单记录有关文件io的操作，大概提一点，这块的函数返回值不成功的话返回值为-1。相关的练习题放在githubopen#include &lt...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/05/09/apue_fileio/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>unix文件 io</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-05-09
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="update">update</h1>
+
+<p>随着时间的发展，看的书越来越多，需要进行重新归类了</p>
+
+<p>2016-07-15 将apue的标题改为unix 文件 io，新增文件属性的内容。</p>
+
+<h1 id="点滴记录apue的学习">点滴记录apue的学习</h1>
+<p>这一章简单记录有关文件io的操作，大概提一点，这块的函数返回值不成功的话返回值
+为-1。</p>
+
+<p>相关的练习题放在<a href="https://github.com/yuzibo/Apue/tree/master/cha3-fileIO">github</a></p>
+
+<h3 id="open">open</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;fcntl.h&gt;
+</span><span class="kt">int</span> <span class="n">open</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span><span class="kt">int</span> <span class="n">oflag</span><span class="p">,...);</span>
+<span class="kt">int</span> <span class="n">openat</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span><span class="kt">int</span> <span class="n">oflag</span><span class="p">...);</span>
+</code></pre></div></div>
+<p>错误的话就会返回”-1”
+尤其注意几个标志，它控制了你要打开的文件的方式。举几个例子，</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">O_RDONLY</span> <span class="o">:</span> <span class="n">open</span> <span class="k">for</span> <span class="n">reading</span> <span class="n">only</span><span class="p">;</span>
+<span class="n">O_WRONLY</span> <span class="o">:</span> <span class="n">open</span> <span class="k">for</span> <span class="n">writing</span> <span class="n">only</span><span class="p">;</span>
+<span class="n">O_RDWR</span>	 <span class="o">:</span> <span class="n">OPEN</span> <span class="n">FOR</span> <span class="n">READING</span> <span class="n">AND</span> <span class="n">writing</span>
+<span class="n">O_EXEC</span>	 <span class="o">:</span>
+<span class="n">O_SEARCH</span> <span class="o">:</span>
+</code></pre></div></div>
+<p>这些标志放在了<fcntl.h>中，还有其他的，等到有新的认识，再补充上。这几个标志
+位还可以使用"|"的形式一起使用。</fcntl.h></p>
+
+<h3 id="create">create</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#nclude &lt;fcntl.h&gt;
+</span><span class="kt">int</span> <span class="n">create</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">mode_t</span> <span class="n">mode</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p>这儿有一篇厉害的c的程序，不知道在讲些什么，但是还使用了od命令：
+上面代码库中的creat.c,真的不知道在讲些什么！！</p>
+
+<h3 id="close">close</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">close</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+<span class="cm">/*
+ * error return -1
+ */</span>
+
+</code></pre></div></div>
+
+<p>这个函数的作用是关闭已打开文件描述符。当关闭一个文件时，这个文件会自动释放在
+它身上的锁；当一个进程终止时，内核会自动释放相关的文件。</p>
+
+<h2 id="注意两个函数的头文件不一样">注意，两个函数的头文件不一样</h2>
+
+<h3 id="lseek">lseek</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+</span><span class="kt">off_t</span> <span class="n">lseek</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span><span class="kt">off_t</span> <span class="n">offset</span><span class="p">,</span><span class="kt">int</span> <span class="n">whence</span><span class="p">);</span>
+<span class="cm">/*   error on -1 */</span>
+</code></pre></div></div>
+<p>其中参数列表中offset与第三个参数有关,若第三个参数为下列值：</p>
+
+<blockquote>
+  <p>SEEK_SET: 则文件的偏移量设置为从文件开始处offset的地方；</p>
+</blockquote>
+
+<blockquote>
+  <p>SEEK_CUR: 偏移量为现在的值加上offset，可正可负；</p>
+</blockquote>
+
+<blockquote>
+  <p>SEEK_END: 偏移量为整个文件的大小记上offset，可正可负；</p>
+</blockquote>
+
+<p>函数的返回值为文件重新标定后的偏移量。所以，在有些机器上，返回值可能是负的
+所以即使读取成功了有可能是-1，特别重要这一点·``</p>
+
+<h3 id="read">read</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">ssize_t</span> <span class="n">read</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="kt">size_t</span> <span class="n">bbytes</span><span class="p">);</span>
+</code></pre></div></div>
+<p>返回值是读取的字节数，0读到文件尾，-1读出错了。</p>
+
+<h3 id="write">write</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">ssize_t</span> <span class="n">write</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="kt">size_t</span> <span class="n">nbytes</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p>返回的是写入文件的字数，如果错误返回-1.</p>
+
+<p>标准输入输出STDIN_FILEIN,有这个标志，就可以使用标准输入了。</p>
+
+<h3 id="文件分享">文件分享</h3>
+<p>简单地说，这类文件有三类：</p>
+
+<ol>
+  <li>
+    <p>process table entry 在进程表中有一个表项，里面有文件描述符（包括fd的标志和一个指向文件的指针）。这里的fd flag没有搞明白具体是啥含义。</p>
+  </li>
+  <li>
+    <p>file table entry: 这个表里的项是来自于上面的一个指向，在这个表中，
+有三个域a.这个文件的状态：读、写、追加、同步…b.文件的偏移位置。c.一个指向
+v-node的指针；</p>
+  </li>
+</ol>
+
+<p>3.这v-node 是一个链表，里面有文件的类型、在这个文件上的函数指针，在linux上这
+里是有i-node结构，里面包括文件的作者、文件的大小、文件指向实际块的指针；</p>
+
+<h4 id="重点如果两个进程共享一个文件那么是如何指向的呢这里的共享是针">重点，如果两个进程共享一个文件，那么，是如何指向的呢？这里的共享，是针</h4>
+<p>对v(i)-node 的共享，不是对前1、2两种情况的分享；主要原因是每个进程要控制自己
+在文件中的偏移量。</p>
+
+<p>在这种情况下，有三种类型的操作需要我们分别：</p>
+
+<blockquote>
+  <p>write.</p>
+</blockquote>
+
+<p>每次执行完成后，在file table entry中偏移量需要增加写入的个数；如果大于文件的大小，那么在i-node中设置现在文件的偏移量？</p>
+
+<blockquote>
+  <p>O_APPEND</p>
+</blockquote>
+
+<p>如果打开的文件设置为O_APPEND,那么file table entry的偏移量会从 i-node的偏移量中选取后设置；</p>
+
+<blockquote>
+  <p>lseek</p>
+</blockquote>
+
+<p>与O_APPEND原理相似，但不一样！！！</p>
+
+<p>这个标志，仅仅修改文件指针的偏移位置，没有任何I/O操作。</p>
+
+<p>有可能在file table entry中被不止一个文件描述符所指向，尤其是在执行完fork命令后，父进程和子进程就会共享一个file table entry。</p>
+
+<p>1的flag为与2的status的区别在于前者仅仅局限于单一进程中，后者对所有的进程的开放。</p>
+
+<h3 id="原子操作">原子操作</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">ssize_t</span> <span class="n">pread</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">nbytes</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">);</span>
+
+<span class="kt">ssize_t</span> <span class="n">pwrite</span><span class="p">(</span><span class="n">ing</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">nbytes</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p>两个函数成功后都会返回相应的字节数，0文件结尾， -1错误。</p>
+
+<p>pread 是在lseek后立即执行read操作；pwrite是相同的结果。</p>
+
+<p>在以下两种情况下，最好使用这个方法：</p>
+
+<ol>
+  <li>
+    <p>两个操作之间没有中断</p>
+  </li>
+  <li>
+    <p>目前的偏移没有更新</p>
+  </li>
+</ol>
+
+<p>在函数create中，如果标志O_CREAT 和 O_EXCL也是表达的同样的意思。这里不是这个意思，好好理解去；</p>
+
+<h3 id="dup-和dup2">dup 和dup2</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">dup</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">dup2</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd2</span><span class="p">);</span>
+</code></pre></div></div>
+<p>成功返回新的fd，失败-1.前者会分配最小的可利用的fd，后者将fd2的值作为返回的fd，如果fd2已经打开了，则先关闭它；如果参数1的fd与fd2相同，则返回fd2并保持打开状态。
+如果熟悉fcntl函数的话，上面的函数分别等于以下代码段:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_DUPFD</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="err">和</span>
+<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_DUPFD</span><span class="p">,</span><span class="n">fd2</span><span class="p">);</span>
+</code></pre></div></div>
+<p>但是需要注意的是，dup2是原子操作，而close()和fcntl函数之间可能存在异步的风险。还有就是errno有可能不同的。</p>
+
+<h3 id="syncfsync-fdatasync">sync,fsync, fdatasync</h3>
+
+<p>这几个函数是为了控制延时写，将缓存的数据放回磁盘中。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">fsync</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">fdatasync</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">sync</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p>sync函数 以每隔30秒的周期从系统中调动，命令sync就是调用的这个函数。</p>
+
+<p>fsync对于单个文件有效，且必须等待磁盘回写结束后才能返回。比如在数据库操作中
+需要确认已修改的块已经被写回磁盘。</p>
+
+<p>fdatasync仅对于文件中的数据部分，其他的没有影响。fsync对于文件属性也回写。</p>
+
+<h3 id="fcntl">fcntl</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;fcntl.h&gt;
+</span><span class="kt">int</span> <span class="n">fcntl</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="p">...</span><span class="cm">/* int arg */</span><span class="p">);</span>
+</code></pre></div></div>
+<p>这个函数主要有5个方面的作用：</p>
+
+<ol>
+  <li>
+    <p>复制一个存在的描述符（cmd = F_DUPFD 或者F_DUPFD_CLOEXEC）</p>
+  </li>
+  <li>
+    <p>得到/设置文件描述符标志(cmd = F_GETFD 或者F_SETFD)</p>
+  </li>
+  <li>
+    <p>得到/设置文件状态标志(cmd = F_GETFL或者F_SETFL)</p>
+  </li>
+  <li>
+    <p>得到/设置异步io属性(cmd = F_GETOWN或者F_SETOWN)</p>
+  </li>
+  <li>
+    <p>得到/设置记录锁(cmd = F_GETLK,F_SETLK或者F_SETLKW);</p>
+  </li>
+</ol>
+
+<h1 id="文件属性">文件属性</h1>
+
+<h2 id="磁盘文件的属性">磁盘文件的属性</h2>
+
+<h3 id="缓冲">缓冲</h3>
+
+<p>可以通过修改控制改变文件描述符的动作。通过3步来关闭磁盘缓冲。</p>
+
+<ol>
+  <li>
+    <p>获取位置</p>
+  </li>
+  <li>
+    <p>修改设置</p>
+  </li>
+  <li>
+    <p>存储设置</p>
+  </li>
+</ol>
+
+<p>代码如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;fcntl.h&gt;
+</span><span class="kt">int</span> <span class="n">s</span><span class="p">;</span>					<span class="c1">// settings</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_GETFL</span><span class="p">)</span>  <span class="c1">//get flags </span>
+<span class="n">s</span> <span class="o">|=</span> <span class="n">O_SYNC</span><span class="p">;</span>			<span class="c1">// set SYNC bit</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_SETFL</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span> <span class="c1">// set flags</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>		<span class="c1">// if error </span>
+	<span class="n">perror</span><span class="p">(</span><span class="s">"setting SYNC"</span><span class="p">);</span> <span class="c1">// report</span>
+</code></pre></div></div>
+
+<p>文件描述的属性被编码在一个整数的位中。</p>
+
+<p>上面的代码含义就是fd所指定的文件上，参数F_GETFL得到当前的位集，变量s存放这个
+flag集， 位逻辑或操作打开位O_SYNC.该位告诉内核，对write的调用仅能在数据写入实际的硬件时才能返回，而不是在数据复制到内核缓冲时就执行默认的返回操作。</p>
+
+<p>设置O_SYNC会关闭内核的缓冲机制。</p>
+
+<h3 id="自动添加模式">自动添加模式</h3>
+
+<p>文件描述符的另一个属性是自动添加(auto-append mode)， 自动添加模式对于若干进
+程在同一时间写入文件是很有用的,这里，使用的效果就是避免竞态。</p>
+
+<p>说的简单一点就是，auto-append mode 就是当文件描述符属性O_APPEND打开后，每个
+对write的调用自动调用lseek函数将内容添加到文件的末尾。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;fcntl.h&gt;
+</span><span class="kt">int</span> <span class="n">s</span><span class="p">;</span>					<span class="c1">// settings</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_GETFL</span><span class="p">);</span> <span class="c1">// get flags </span>
+<span class="n">s</span> <span class="o">|=</span> <span class="n">O_APPEND</span><span class="p">;</span>			<span class="c1">// set APPEND bit</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">F_SETFL</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span> <span class="c1">//set flags</span>
+<span class="k">if</span>  <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>			<span class="c1">//IF ERROR</span>
+	<span class="n">perror</span><span class="p">(</span><span class="s">"setting APPEND"</span><span class="p">);</span> <span class="c1">//report</span>
+<span class="k">else</span>
+	<span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rec</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// write</span>
+</code></pre></div></div>
+<p>也就是说当O_APPEND被设置的时候，lseek和write被打包成一个原子操作</p>
+
+<p>open和write在执行一个文件描述符时有很多的选项。详细的请看联机手册。</p>
+
+<h2 id="终端连接的属性">终端连接的属性</h2>
+
+<h3 id="读取tty驱动程序的属性">读取tty驱动程序的属性</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;termios.h&gt;
+#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">tcgetattr</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">termios</span> <span class="o">*</span><span class="n">info</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="操作属性">操作属性</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">测试位</span>			<span class="k">if</span><span class="p">(</span><span class="n">flagset</span> <span class="o">&amp;</span> <span class="n">MASK</span><span class="p">)</span>
+<span class="err">置位</span>			<span class="n">flagset</span> <span class="o">|=</span> <span class="n">MASK</span>
+<span class="err">清除位</span>			<span class="n">flagset</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">MASK</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/05/07/linux-sysfs/">linux sysfs和kobject简介</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/05/10/perl-install-modules/">perl安装模块的方法</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

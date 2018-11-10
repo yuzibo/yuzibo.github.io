@@ -1,6 +1,6 @@
 ---
 title: "linux sysfs和kobject简介"
-layout: article
+layout: post
 category: kernel 
 ---
 

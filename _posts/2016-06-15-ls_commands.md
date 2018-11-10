@@ -1,6 +1,6 @@
 ---
 title: "ls命令的实现"
-layout: article
+layout: post
 category: unix
 ---
 

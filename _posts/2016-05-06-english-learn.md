@@ -1,6 +1,6 @@
 ---
 title: "英语学习tip"
-layout: article
+layout: post
 category: english
 ---
 

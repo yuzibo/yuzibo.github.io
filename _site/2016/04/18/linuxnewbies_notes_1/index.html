@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linuxnewbie 问答总结(一)</title>
+    <meta name="description" content="代码格式scripts/checkpatch.pl -f patch_or_code_c对文本文件的检查2017/02/05 linux-next这一块的内容以后移植到 http://www.aftermath.cn/Gitforkerenl.html关于linux-next的开发使用下面的资源。https://...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/04/18/linuxnewbies_notes_1/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linuxnewbie 问答总结(一)</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-04-18
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="代码格式">代码格式</h1>
+
+<p>scripts/checkpatch.pl -f patch_or_code_c</p>
+
+<p>对文本文件的检查</p>
+
+<h1 id="20170205-linux-next">2017/02/05 linux-next</h1>
+
+<p>这一块的内容以后移植到 http://www.aftermath.cn/Gitforkerenl.html</p>
+
+<p>关于linux-next的开发使用下面的资源。</p>
+
+<p>https://www.kernel.org/doc/man-pages/linux-next.html</p>
+
+<p>简洁的介绍一下，如何使用linux-next。</p>
+
+<p>首先， git clone linus的linux kernel代码。</p>
+
+<p>！！
+如果已经有了，不要忘记 git fetch origin/master</p>
+
+<p>进入主目录，然后增加需要追踪的linux-next分支。</p>
+
+<pre><code class="language-git">cd linux
+git remote add linux-next https://linux-next-urls.git  注意，自己改正url
+# 以linux-next为名字添加远程仓库
+</code></pre>
+
+<p>fetch linux-next plus tags</p>
+
+<pre><code class="language-git">git fetch linux-next
+git fetch --tags linux-next
+</code></pre>
+
+<h3 id="日常追踪">日常追踪</h3>
+
+<pre><code class="language-git">git checkout master #to be safe
+git remote update # 等价于 git fetch all remotes, git fetch xx 的作用更精确
+</code></pre>
+<h3 id="list-linux-next-tags">list linux-next tags</h3>
+
+<pre><code class="language-git">git tag -l "next-*" | tail
+</code></pre>
+
+<p>显示的内容为：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>next-20170120
+next-20170123
+next-20170124
+next-20170125
+next-20170130
+next-20170131
+next-20170201
+next-20170202
+next-20170203
+next-20170206
+</code></pre></div></div>
+
+<h3 id="选一个版本并基于此工作">选一个版本，并基于此工作</h3>
+
+<pre><code class="language-git">git checkout -b my_local_branch next-20170206
+</code></pre>
+
+<h1 id="160914">16/09/14</h1>
+
+<p>memblock_reserve 和 memblock_remove的用法</p>
+
+<p>memblock_reserve() adds a given memory to the “memblock.reserved” list,
+it ends up to mark the given range of pages as “reserved”. It means the
+pages are reserved and will not be allocated to other users. The kernel
+still can see the pages, create linear mappings on them, even access
+them by linear mappings.
+memblock_remove() removes a given memory from the “memblock.memory”
+list, it ends to removed from kernel’s memory management system. The
+memory will not have page structure, no linear mapping on them. It
+prevents the memory from CPU accessing by the linear address. To access
+the memory (by CPU), you must use ioremap() to create a mapping to
+them.’</p>
+
+<h1 id="调试ethernet-driver">调试ethernet driver</h1>
+
+<p>You can start by testing the loopback mode (perhaps). Also, use wireshark
+or tcpdump for capturing the packets.</p>
+
+<h1 id="网上kernel的资源">网上kernel的资源</h1>
+
+<h4 id="搭建实验环境">搭建实验环境</h4>
+
+<p><a href="http://www.tinylab.org/docker-qemu-linux-lab/">docker-qemu-linux-lab</a></p>
+
+<h4 id="侦测死锁">侦测死锁</h4>
+
+<p><a href="http://kernel.meizu.com/linux-dead-lock-detect-lockdep.html">魅族团队</a></p>
+
+<h1 id="内核空间和用户空间的数据类型">内核空间和用户空间的数据类型</h1>
+
+<h3 id="在内核中使用的话">在内核中使用的话</h3>
+<p>很简单，只需使用</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">u8</span>
+<span class="n">u16</span>
+<span class="n">u32</span>
+<span class="n">u64</span>
+</code></pre></div></div>
+<p>类似的是(s8,s16…)</p>
+
+<p>如果跨边界使用的话，必须向用户空间传递，只需在前面加上”__“,使之成为”__u8”,
+“u16”即可。
+LDD3全部描绘了这些，必须抓紧时间看看</p>
+
+<h1 id="fork-process">fork process</h1>
+<p>fork()-&gt;clone()-&gt;do_fork()-&gt;copy_process();请详细解释一下这个过程
+代码实现是怎样的。</p>
+
+<h1 id="logical-address-and-vitual-address">logical address and vitual address</h1>
+<p>内核逻辑地址与内核代码相映射，可以通过标准的cpu内存访问函数来使用.可以使用
+kmalloc函数分配，而且地址分为基地址和偏移地址，或者说是分段地址。(1:1)的映射
+可以让内核访问大部分的RAM的空间。</p>
+
+<p>内核虚拟地址与逻辑地址相似，但不必遵循1:1与物理地址的映射。使用vmalloc函数进
+行物理内存分配(没有对应的逻辑地址)。也可以使用kmap去指定逻辑地址和虚拟地址的
+对应。
+System.Map is a symbol table, which contains a list of function names in the
+Linux kernel, with for each function the virtual address at which its code
+is loaded in memory.</p>
+
+<h1 id="schedule">schedule()</h1>
+<p>关于这个函数是很意思的，目前讨论的不多。内核中调用schedule()的方式有两种，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 直接呼叫schedule();
+
+2. 通过阻塞一个进程(blocking)
+</code></pre></div></div>
+
+<h1 id="preempt_count">preempt_count</h1>
+
+<p>preempt_count是每一个task的锁的数量。当锁的数量增加时，preempt_count的值就会
+增加，锁的数量减少时，preempt_count的数量就会减少；当在内核中运行的task的
+preempt_count&gt;0时，内核是不能被抢占的；如果preempt_count == 0的时候，这个时候
+内核是可以被抢占的。</p>
+
+<h1 id="write-reader和semaphore的区别">write-reader和semaphore的区别</h1>
+<p>semaphore是控制一个进程在一个时间内访问一个数据；write-reader是可以有多个读
+者的情况。</p>
+
+<h1 id="spin-locks">spin locks</h1>
+<p>在多处理器系统上，linux使用spin locks去管理竞态。linux在获得spin locks时禁用了内核抢占；当释放了spin locks时，又开启了内核抢占；在单处理器上，使用 spin locks是不合适的</p>
+
+<h1 id="来自qq群">来自qq群</h1>
+
+<p>bus_register、device_register 这两个函数注册的总线和设备，是不是必然注册到 platform_bus 总线上了？
+有没有其他总线，也用 bus_register、device_register 来注册？
+Andy(759217195)  11:31:25
+no 系统里面总线很多
+spi i2c spi 这些实实在在的物理总线 也叫总线
+对于有些没有实在物理总线的 他们抽象出来一种虚拟的总线 叫做platform bus</p>
+
+<p>bus device driver 驱动的三个要素</p>
+
+<p>通过bus 连接device和driver
+device注册到bus上的时候会去找driver
+driver注册到bus上的时候会去找device
+这个找的过程是通过match 大法
+match上了 就会probe
+网上文章这样说的时候，往往是拿 platform 做例子，我就搞不清楚，是不是其他类型的总线，也都是和“驱动的三要素”说的一样
+一样
+不一样到时候代码框架就很难管理了</p>
+
+<h1 id="linux-kernel中双下划线开头的函数">linux kernel中双下划线开头的函数</h1>
+<p>常常, 当你查看内核 API 时, 你会遇到以双下划线(__)开始的函数名. 这样标志的函数名通常是一个低层的接口组件, 应当小心使用. 本质上讲, 双下划线告诉程序员:” 如果你调用这个函数, 确信你知道你在做什么.”  ——《linux设备驱动程序》</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/04/14/Oracle_Proc_Makefile/">oracle proc编程Makefile模板</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/04/20/Writing_note/">关于引号的问题</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

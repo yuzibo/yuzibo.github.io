@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page28/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2015/12/30/GitTest2/">git教程-push博客出现问题后</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2015-12-30
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>把github的博客给搞乱了,将原来的博客目录完全删除掉,重新clone了.
+#showing your remotes</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 将github上的git clone 到本地
+
+2. git remote 此时会显示origin的url (git remote -v)
+</code></pre></div></div>
+
+<p>#Adding Remote Repositories</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.git remote
+
+2.git remote add blog "your remote repositories's url" 我对于这句指令的理解是给你的远程仓库取一个自己的命名.
+3.git remote -v #Adding&amp;&amp;committing  先把文章写出来,执行:
+
+1. git add .
+
+2. git commit -m "xx"
+</code></pre></div></div>
+
+<p>#Pushing to your Remotes</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. git push origin master
+</code></pre></div></div>
+
+<p>#Complentions:
+我在另一个目录下面git clong,实现git merge?
+也就是说,完全可以实现,现在就差分支了.我在一个工作,学习,完全可以同步推到github上了.
+#另外的技巧
+我在本机的目录上,有两个地方可以写博客,暂且称之为A和B,那么当我在B中push新的博客后,A中就会落后博客内容.如果这时我在A中添加了新的内容,就会提示我出错:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>当前目录落后...
+</code></pre></div></div>
+
+<p>这时我在网上搜到的方法是</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash save your-file-name
+</code></pre></div></div>
+
+<p>然后我就git pull,好像因为github.io只允许拥有master,所以应该问题不大..</p>
+
+<p><a href="http://stackoverflow.com/questions/22424142/error-your-local-changes-to-the-following-files-would-be-overwritten-by-checkou">原文</a>
+#没有匹配的文件
+有时候我在用git -rm file-name 时,它会抱怨说没有匹配的文件,这是因为我没有跟踪这个文件,也就是没有在git的日志文件中,此时可以直接使用简单的命令:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm file-name
+</code></pre></div></div>
+
+<p>删除这个没有跟踪的文件.</p>
+
+<p>#删除 git add file-name 但没有commit的文件
+<a href="http://stackoverflow.com/questions/348170/undo-git-add-before-commit">参考</a>
+#删除master的文件
+比如我想删掉博客上的一篇文章,在本地(假设本地与master完全同步)执行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rm file-name
+</code></pre></div></div>
+
+<p>其他的同push文章类同.</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2015/12/30/GitTest2/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2015/03/20/kernel_learn_method/">内核学习方法</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2015-03-20
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#OS" title="Category: OS" rel="category">OS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="http://www.linux.com/news/software/linux-kernel/804403-three-ways-for-beginners-to-contribute-to-the-linux-kernel">good message</a></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2015/03/20/kernel_learn_method/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2015/02/01/c-pointer-sum/">c语言指针知识点总结</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2015-02-01
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="c函数指针总结">c函数指针总结</h1>
+
+<p>首先明白的是，函数在内存中有一个物理地址，这类似与数组。这个地址可以赋给一个
+指针。函数的地址就是函数的入口，因此，函数指针可以用来调用一个函数</p>
+
+<h3 id="声明">声明</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type (* pointer_var)();
+</code></pre></div></div>
+
+<p>返回值为type类型的函数指针，表示pointer_var是一个指向函数入口的指针变量。要
+和以下的区别：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type *pointer_var();
+</code></pre></div></div>
+
+<p>这是一个返回type *的函数，举两个例子:</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">pmax</span><span class="p">)();</span>
+	<span class="kt">int</span> <span class="n">z</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">c</span><span class="p">;</span>
+	<span class="n">pmax</span> <span class="o">=</span> <span class="n">max</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input two numbers:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">z</span><span class="p">,</span><span class="o">&amp;</span><span class="n">x</span><span class="p">);</span>
+	<span class="cm">/*
+	 *这里，你可以sum(z,x);
+	 * c=(*pmax)();
+	 */</span>
+	<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">pmax</span><span class="p">)(</span><span class="n">z</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"Max number is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>从上面我们可以看出来，先定义函数指针，<del>将函数指向函数指针后</del>，将函
+数指针指向函数后，就可以像使用原函数那样进行调用。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2015/02/01/c-pointer-sum/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2015/01/24/linux_kernel_config/">linux kernel 配置</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2015-01-24
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="好工具">好工具</h1>
+<p>之前一直为笔记本的驱动找不到合适的驱动，现在，有这么一个网站：</p>
+
+<p>https://cateee.net/lkddb/</p>
+
+<p>据官网介绍可以解决这个问题，不知道是真的还是假的</p>
+
+<h1 id="前言">前言</h1>
+<p>在真的机子上debian的内核一次没有配置成功，我要用两天的时间把配置的内容探个究竟。</p>
+
+<h2 id="工具">工具</h2>
+<p>在编译内核之前最好使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make mrproper
+</code></pre></div></div>
+
+<p>清扫一下。</p>
+
+<p>我使用的是git，clone的linus的版本，一切准备妥当后，我们要选择合适的配置工具。
+我选的是 make menuconfig,注意无论哪一种都需要相应的软件包。</p>
+
+<h1 id="配置">配置</h1>
+<p>在配置前的方括号中按下“y”，就是built-in,这是将相关代码编译进内核，默认与目标机相关的硬件的代码必须内建进内核，这些东西就如同人的基本器官，不可无;另一种就是M，这是将相关的选项编译成模块，这样就可以是编译的内核的体积不过于太大，精简内核是我们必须掌握的知识点;最后一种就是按下”space”,什么也不做，就是回答“no”。</p>
+
+<h2 id="补充">补充</h2>
+<p>内核的发展太快了，当我写这篇文章的时候，代码还可以是最新的(git pull),但是很快就update的，不过，有些东西是不会变动太大。</p>
+
+<h3 id="说明下面的项目就是我自己的内核的配置后边的字母代表我的选项">说明：下面的项目就是我自己的内核的配置，后边的字母代表我的选项。</h3>
+
+<h1 id="特殊的配置">特殊的配置</h1>
+
+<h1 id="namespace-support">Namespace support</h1>
+
+<p>注意这篇文章：</p>
+
+<p>http://lwn.net/Articles/531114/</p>
+
+<p>http://unix.stackexchange.com/questions/92177/kernel-namespaces-support</p>
+
+<h1 id="networking">networking</h1>
+
+<h3 id="can-bus">CAN BUS</h3>
+
+<p>CAN总线 编辑
+同义词 CAN-BUS一般指CAN总线
+CAN是控制器局域网络(Controller Area Network, CAN)的简称，是由以研发和生产汽车电子产品著称的德国BOSCH公司开发的，并最终成为国际标准（ISO 11898），是国际上应用最广泛的现场总线之一。 在北美和西欧，CAN总线协议已经成为汽车计算机控制系统和嵌入式工业控制局域网的标准总线，并且拥有以CAN为底层协议专为大型货车和重工机械车辆设计的J1939协议。[1]</p>
+
+<h3 id="irda">IrDA</h3>
+
+<p>红外线协议</p>
+
+<h3 id="rf-switch">RF switch</h3>
+
+<p>射频那块的东西</p>
+
+<h1 id="device-drives">Device drives</h1>
+
+<h3 id="misc-devices">misc devices</h3>
+
+<p>杂项设备 杂项设备（misc device）
+杂项设备也是在嵌入式系统中用得比较多的一种设备驱动。在 Linux 内核的include\linux目录下有Miscdevice.h文件，要把自己定义的misc device从设备定义在这里。其实是因为这些字符设备不符合预先确定的字符设备范畴，所有这些设备采用主编号10，一起归于misc device，其实misc_register就是用主标号10调用register_chrdev()的。
+也就是说，misc设备其实也就是特殊的字符设备。</p>
+
+<p>来自百度知道：</p>
+
+<p>https://zhidao.baidu.com/question/354123482.html</p>
+
+<h3 id="mpt">mpt</h3>
+<p>Media Transfer Protocol</p>
+
+<h3 id="fdi">FDI</h3>
+
+<p>光纤式分布</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2015/01/24/linux_kernel_config/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2015/01/21/foryourself/">不要畏惧,直面困难</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2015-01-21
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#mood" title="Category: mood" rel="category">mood</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="一">一.</h1>
+<p>放假了,这个学校又一次只剩自己了,曾经对自己说过,不会自己独自一人在学校了,可是当现实无情逼近的时候,我发现还是学校能帮助自己.记住,我在这里,是为了更美好的梦想,所以你并不会孤单、寂寞。因为你有这个世界，你是他们的一员，更何况，你有个非常好的女朋友，你吃的这份苦，也是为了她，或者说，你只有承受更大的责任，才会给她美好的未来，加油，你不仅仅是一个人了。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2015/01/21/foryourself/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2015/01/19/BitOfOperations/">bits的一些操作</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2015-01-19
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h2 id="首先解释下关于位操作的概念">首先解释下关于位操作的概念</h2>
+
+<p>位屏蔽(bitmask): 所谓位屏蔽(bitmask)就是利用一个二进制字串与已有的二进制字串
+进行(AND)运算,通过结果知道原二进制字串中的特定位上有没有1.例如,二进制10011有
+五个位,屏蔽码是10,则
+10011 AND 00010 = 00010 &gt; 0(不等于0),
+说明在原始数据倒数第二位有数据1,而屏蔽码1000的运算结果 10011 AND 01000 = 00000,说明倒数第四位是数据0,没有该选项.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2015/01/19/BitOfOperations/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page27" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">28/36</span>
+          
+            <a href="/page29" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

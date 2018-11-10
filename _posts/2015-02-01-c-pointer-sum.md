@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "c语言指针知识点总结"
 category: c
 ---

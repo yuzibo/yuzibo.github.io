@@ -1,6 +1,6 @@
 ---
 title: "sublime 使用技巧"
-layout: article
+layout: post
 category: tools
 ---
 

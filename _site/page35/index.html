@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page35/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/07/20/SegmentTree/">线段树</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-07-20
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#DS" title="Category: DS" rel="category">DS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="暂时不熟悉的用法">暂时不熟悉的用法</h1>
+
+<h2 id="宏定义">宏定义：</h2>
+
+<h3 id="define-lx-x1将x乘以2">define L(x) (x«1)//将x乘以2</h3>
+<h3 id="define-rx-x11将x乘以2加1注意后面1就是加1其他的不一定正确">define R(x) (x«1|1)//将x乘以2加1，注意后面|1就是加1,其他的不一定正确</h3>
+
+<p>线段树的深度为log2(b-a+1)
+线段数组基本知识：
+1.通常我们用lowbit(x)表示x对应的2^k;
+2.lowbit(x)=x&amp;(-x);
+3.lowbit(x)实际上就是x的二进制表示形式留下最右边的1，其他位都变成0
+数组a对应的线段数组应该是C[i]=a[i-lowbit(i)+1]+…+a[i]</p>
+
+<h1 id="hdu-1166我居然挂了20多次">hdu 1166我居然挂了20多次</h1>
+
+<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=1166">hdu 1166</a>
+虽然是一个人的战场，但你永远不会独行！you nerver go alone!
+线段树的简单使用可以用以下模板，高级还需自己慢慢领会</p>
+
+<ol>
+  <li>下面是基于线段树结构的代码</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include&lt;cstring&gt;
+#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#define lson t&lt;&lt;1,l,m
+#define rson t&lt;&lt;1|1,m+1,r
+#define MID(x,y) (x+y)&gt;&gt;1
+#define N 50010
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">];</span>
+<span class="kt">void</span> <span class="nf">PushUp</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="o">|</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">build</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+		<span class="k">return</span> <span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+	<span class="n">build</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+	<span class="n">build</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+	<span class="n">PushUp</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">display</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d-&gt;"</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+		<span class="k">return</span> <span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+	<span class="n">display</span><span class="p">(</span><span class="n">lson</span><span class="p">);</span>
+	<span class="n">display</span><span class="p">(</span><span class="n">rson</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="c1">//p is where of update,add is value,**</span>
+<span class="c1">//i don't understand clearly</span>
+<span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span><span class="kt">int</span> <span class="n">add</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">//找准一个条件即可，如此递归下去就成了</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">){</span>
+		<span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">+=</span><span class="n">add</span><span class="p">;</span>
+		<span class="k">return</span> <span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">)</span>
+		<span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">add</span><span class="p">,</span><span class="n">lson</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">add</span><span class="p">,</span><span class="n">rson</span><span class="p">);</span>
+	<span class="n">PushUp</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="c1">//more argument more clearly,L and R is Query from to</span>
+<span class="kt">int</span> <span class="nf">getSum</span><span class="p">(</span><span class="kt">int</span> <span class="n">L</span><span class="p">,</span><span class="kt">int</span> <span class="n">R</span><span class="p">,</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span><span class="c1">//区间在最左侧或最右侧/不理解,还有，每个结点的ret要清0，由分支再求和</span>
+	<span class="c1">//求和的函数确实难以理解</span>
+	<span class="c1">//For example,get sum(1,3),肯定要分支才行，下面用笔画画</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">l</span> <span class="o">&amp;&amp;</span> <span class="n">r</span><span class="o">&lt;=</span><span class="n">R</span><span class="p">)</span>
+	<span class="p">{</span>
+
+	<span class="k">return</span> <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">L</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">)</span>
+		<span class="n">ret</span><span class="o">+=</span><span class="n">getSum</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">lson</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">R</span><span class="o">&gt;</span><span class="n">m</span><span class="p">)</span>
+		<span class="n">ret</span><span class="o">+=</span><span class="n">getSum</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">rson</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">freopen</span><span class="p">(</span><span class="s">"in.txt"</span><span class="p">,</span><span class="s">"r"</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">j</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">n</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+			<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+				<span class="n">build</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+			<span class="c1">//	display(1,1,n);</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Case %d:</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span><span class="n">str</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="sc">'E'</span><span class="p">){</span>
+				<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+				<span class="k">switch</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]){</span>
+					<span class="k">case</span> <span class="sc">'Q'</span><span class="p">:</span>
+						<span class="p">{</span>
+	<span class="c1">//						printf("Query %d %d\n",p,q);</span>
+							<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">getSum</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">));</span>
+						<span class="p">}</span>
+						<span class="k">break</span><span class="p">;</span>
+					<span class="k">case</span> <span class="sc">'S'</span><span class="p">:</span>
+						<span class="p">{</span>
+	<span class="c1">//						printf("Sub %d %d\n",p,q);</span>
+							<span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="o">-</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+	<span class="c1">//						display(1,1,n);</span>
+						<span class="p">}</span>
+						<span class="k">break</span><span class="p">;</span>
+					<span class="k">case</span> <span class="sc">'A'</span><span class="p">:</span>
+						<span class="p">{</span>
+	<span class="c1">//						printf("Add %d %d \n",p,q);</span>
+							<span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+	<span class="c1">//						display(1,1,n);</span>
+						<span class="p">}</span>
+						<span class="k">break</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>这是树状数组的做法，参考了</p>
+
+<p><a href="http://blog.csdn.net/lulipeng_cpp/post/details/7816527">树状数组</a>;</p>
+
+<p>#include<cstdio>
+#include<iostream>
+using namespace std;
+int st[50005];
+//2^k==lowbit(x)
+int lowbit(int a)
+{
+	return a&amp;(-a);
+}
+void update(int p,int val,int N)
+{
+	while(p&lt;=N)
+	{
+		st[p]+=val;//主要是向后衍生使用的
+		p+=lowbit(p);
+	}</iostream></cstdio></p>
+
+<p>}
+int getsum(int p)
+{
+	int res=0;
+	while(p){
+		res+=st[p];
+		p-=lowbit(p);
+	}
+	return res;</p>
+
+<p>}
+void display(int n)
+{
+	for(int i=1;i&lt;=n;i++)
+		printf(“%d “,st[i]);</p>
+
+<p>}
+int main()
+{
+	freopen(“in.txt”,”r”,stdin);
+	int k,n,x;
+	int p,q;
+	char str[5];
+	scanf(“%d”,&amp;k);
+	for(int j=1;j&lt;=k;j++){
+		memset(st,0,sizeof(st));
+		printf(“Case %d:\n”,j);
+		scanf(“%d”,&amp;n);
+		for(int i=1;i&lt;=n;i++)
+		{
+			scanf(“%d”,&amp;x);
+			update(i,x,n);
+		}</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	while(scanf("%s",str)&amp;&amp;str[0]!='E'){
+		scanf("%d%d",&amp;p,&amp;q);
+		if(str[0]=='A'){
+
+			update(p,q,n);
+
+		}
+		if(str[0]=='S'){
+			update(p,-q,n);
+		}
+		if(str[0]=='Q'){
+			printf("%d\n",getsum(q)-getsum(p-1));
+		}
+	}
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/07/20/SegmentTree/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/07/16/dpblog/">DP简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-07-16
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#algorithm" title="Category: algorithm" rel="category">algorithm</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>这儿有两种方法处理，一个称为自顶向下，另一个称为自下向顶.前者称为可记忆化，后者被称为动态。</p>
+
+<p>在动态规划中，所有的子问题(即使没用到的)被解决，但是在递归中，只有要求到的子问题被解决。</p>
+
+<h1 id="lis最大上升子序列">LIS(最大上升子序列)</h1>
+
+<p>这个问题是从一个给定的字符串中，找到一个最大的上升子序列。
+很经典的dp，状态转移方程</p>
+
+<blockquote>
+  <p>Opt[i]=max{1，Opt[j]+1};{A[j]&lt;=A[i],1&lt;=j&lt;i}</p>
+</blockquote>
+
+<p>其实自己连什么是LIS都不知道，是指序列中从小到大的个数，不用管其在序列上是否为连续的。</p>
+
+<blockquote>
+  <p>L(i)={1+Max(L(j))} where j&lt;i and arr[j]&lt;arr[i] and if there is no such j then L(i)=1</p>
+</blockquote>
+
+<p>我的问题是自己能隐隐约约体会到其中一点的转移，但是在代码实现上就麻烦了，自己
+始终不能流畅的写出来。最后想了想，其实上面的状态转移方程还是不太容易理解，网上有个是这么说的maxlen[i]=(max(maxlen[k],1,2,3..k..i-1&amp;&amp;str[k]&lt;str[i])+1)
+a下面代码中m可以堪看成临时变量temp，它的作用就是搜索maxlen[i]前面最大的dp[i]
+,想明白了这道，hdu 1087也就1y了</p>
+
+<h3 id="20160818">2016.08.18</h3>
+
+<p>已经过去很长时间了，算法这块的难处还是很难啃的。正如上面讲的，自己最欠缺的地方是如何将状态转移方程写成代码的能力，这一点不是其他外力就能控制的。</p>
+
+<p>伪代码如下：</p>
+
+<pre>
+LS[1] = 1
+for i from 1 to n
+	m=LS[i]
+	for j from i-1 to 0
+		a[i]&gt;a[j] &amp;&amp; LS[j]&gt;m
+			m=LS[i];
+	LS[i]=m+1
+	max{LS[i]}
+
+</pre>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ *     File Name: dp_lis.c
+ *     Author: Bo Yu
+ *     Mail: tsu.yubo@gmail.com
+ *     Created Time: 2016年08月18日 星期四 02时52分56秒
+ */</span>
+<span class="cm">/*
+ *     关于动态规划的入门题
+ *     求一个数列的最大上升子序列
+ 状态方程：
+ *L(i) = { 1 + Max ( L(j) ) } 
+ where j &lt; i and arr[j] &lt; arr[i] and if there is no such j then L(i) = 1
+ *
+ */</span>
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+</span>
+<span class="kt">int</span> <span class="n">LS</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">LIS</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span>
+	<span class="n">LS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+
+		<span class="n">m</span> <span class="o">=</span> <span class="n">LS</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="cm">/*Reset m==0 */</span>
+
+			<span class="k">for</span><span class="p">(</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">--</span><span class="p">)</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">LS</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">m</span><span class="p">)</span>
+					<span class="n">m</span> <span class="o">=</span> <span class="n">LS</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="cm">/*寻到前面的最大LIS*/</span>
+		<span class="cm">/*从前面(i-1)个LS中加上1*/</span>
+		<span class="n">LS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="cm">/*找寻最大的LS*/</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">LS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ans</span><span class="p">)</span>
+				<span class="n">ans</span> <span class="o">=</span> <span class="n">LS</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">};</span>
+
+	<span class="cm">/*int a[20] = {5,7,6,1,3,9,5,3,4,1,4,5,6,7,8};*/</span>
+	<span class="n">memset</span><span class="p">(</span><span class="n">LS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">LS</span><span class="p">));</span>
+	<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">LIS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">9</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"THE LIS is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>代码时间复杂度是O（n^2）,并且n&lt;=12000,并不是最优的。</p>
+
+<h2 id="hdu-1087">hdu 1087</h2>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include&lt;cstring&gt;
+#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1001</span><span class="p">];</span><span class="c1">//less than 12000</span>
+<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">1001</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">LIS</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="c1">//m是临时变量;</span>
+	<span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">m</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="c1">//?</span>
+
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">--</span><span class="p">)</span>
+			
+			<span class="k">if</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;</span><span class="n">m</span><span class="p">))</span>
+				<span class="n">m</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+			<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+
+			<span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">ans</span><span class="p">)</span>
+				<span class="n">ans</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">freopen</span><span class="p">(</span><span class="s">"in.txt"</span><span class="p">,</span><span class="s">"r"</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span><span class="c1">//数据组数</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">k</span><span class="o">--</span><span class="p">){</span>
+		<span class="n">memset</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+		<span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">dp</span><span class="p">));</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span><span class="c1">//每组数列的个数</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+		<span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="n">LIS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/07/16/dpblog/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/07/15/mood/">计划</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-07-15
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#plan" title="Category: plan" rel="category">plan</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>#简单的总结
+现在已经是2014年7月15日，放假已经快两周了，现在的练习怎么样了，只能由自己慢慢体会了。不过，今天倒是在动态规划的LIS理解上给自己一针鸡血，希望自己继续努力下去。
+现在开始看01背包</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/07/15/mood/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/07/14/hdu1159/">hdu 1159</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-07-14
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h2 id="分析">分析</h2>
+
+<p>很简单的一道动态规划，而且没有打印路径
+我的思路也是来自《算法导论》，但是看了一个台湾朋友的博客才算是明白了一点点。
+他是这么想的，将两个字符串各取最后一个的e1，e2，这样原字符串可以表示为sub1+e1,sub2+e2,</p>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include&lt;cstring&gt;
+#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">X</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">C</span><span class="p">[</span><span class="mi">1000</span><span class="p">][</span><span class="mi">1000</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">LCS</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">X</span><span class="p">,</span><span class="kt">char</span><span class="o">*</span> <span class="n">Y</span><span class="p">,</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+				<span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+			<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+				<span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+			<span class="k">else</span>
+				<span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+		<span class="p">}</span>
+	<span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
+
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">freopen</span><span class="p">(</span><span class="s">"in.txt"</span><span class="p">,</span><span class="s">"r"</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">X</span><span class="o">&gt;&gt;</span><span class="n">Y</span><span class="p">){</span>
+		<span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="n">strlen</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+		<span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="n">strlen</span><span class="p">(</span><span class="n">Y</span><span class="p">);</span>
+		<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="n">LCS</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ans</span><span class="p">);</span>
+
+		<span class="n">memset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">X</span><span class="p">));</span>
+		<span class="n">memset</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Y</span><span class="p">));</span>
+		<span class="n">memset</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">C</span><span class="p">));</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>后来再补充！</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/07/14/hdu1159/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/07/13/MyFristBlog/">我的第一篇blog&&致谢</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-07-13
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#experience" title="Category: experience" rel="category">experience</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>#关于本博客</p>
+<blockquote>
+  <p>首先，感谢我的同学–刘欢，这个模板就是copy他的repo，回想从大一伊始，他没少在计算机的路上带我，感谢！！！
+为了表达对它的敬意，他前面的文章我保留了，在2014-07之前，本博客所写的文章均出自<a href="www.bitsly.com">bitsly</a>,转载请注明。</p>
+</blockquote>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/07/13/MyFristBlog/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/05/06/WebsiteKnowledge/">网站知识体系结构</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-05-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#experience" title="Category: experience" rel="category">experience</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h2 id="总述">总述</h2>
+
+<p>网站建设是一项可大可小的工程。要说大，可以大到像Google、Facebook 这样日均流量上PB，占全球流量三分之一的网站，也可以小到像用模块二次开发做的各类小论坛、小博客。在这里首先要确定的学习网站技术的目的。是为了以后想当长的一段时间里面靠它来谋生？还是好奇想了解一下它？不论是哪种情况，既然接触到这一块知识，并且想了解到一定的程度。要清楚的认识到，网站这项技术已经随着互联网渗透到我们的日常生活中，而且有愈演愈烈的趋势。不论以后是不是直接靠着这项技术谋生，你都会直接或者间接的接触它。熟悉这项技术，会让你在以后的日子里占据一项获胜的筹码。</p>
+
+<p>网站这项技术是典型编程项目开发。需要美工、程序员、数据架构及分析员、运维人员的相互配合才能完成。当然，值得注意的是，每一种职位都对应的一块专业的知识，但是不以为着处于一种职位的时候就不需要了解另外一种职位的知识。因为每个职位之间需要相互配合，所以高效的配合少不了对所配合的职位的知识的了解。并且当一个项目处于初期规模还小的时候，没有足够的人专职做某一项任务的时候，就需要一个人兼任数职。所以，不论最后自己专长于哪种职位，都需要对整个网站技术有一个通盘的了解。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/05/06/WebsiteKnowledge/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page34" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">35/36</span>
+          
+            <a href="/page36" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

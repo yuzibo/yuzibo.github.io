@@ -1,10 +1,10 @@
 ---
-layout: article
+layout: post
 title: "socket客户端服务端编程详解"
 category: network
 ---
 
-[好的资料](http://blog.csdn.net/www_307/article/details/87510)
+[好的资料](http://blog.csdn.net/www_307/post/details/87510)
 
 # 套接字概念
 套接字(socket)是一种为计算机网络通信编程的接口,首次出现在美国加州Berkeley大学开发的BSD版本的系统中.有了套接字(应用层),从而允许我们进行服务器/客户端的开发,不必关心底层的细节.详细的关于内核网络协议的实现,我会在以后详细阐述,[现在,这篇文章](https://www.ibm.com/developerworks/cn/linux/l-linux-networking-stack/)

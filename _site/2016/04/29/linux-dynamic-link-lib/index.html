@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux下动态连接库的问题</title>
+    <meta name="description" content="简介linux下c或者c++编程始终离不开动态动态库”*.so”,具体它是怎么产生的、如何使用，现在就简单介绍一下。动态库的编译这里用一个简单的例子，比如有三个.c文件so_a.c、so_b.c、so_c.c;一个头文件so_head.h,我们将他们连接编译成一个动态库: libso.so.文件的内容分别如下：s...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/04/29/linux-dynamic-link-lib/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux下动态连接库的问题</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-04-29
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#system" title="Category: system" rel="category">system</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="简介">简介</h1>
+<p>linux下c或者c++编程始终离不开动态动态库”*.so”,具体它是怎么产生的、如何使用，
+现在就简单介绍一下。</p>
+
+<h2 id="动态库的编译">动态库的编译</h2>
+<p>这里用一个简单的例子，比如有三个.c文件so_a.c、so_b.c、so_c.c;一个头文件so_he
+ad.h,我们将他们连接编译成一个动态库: libso.so.
+文件的内容分别如下：</p>
+
+<p>so_head.h:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">void</span> <span class="n">print_a</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">print_b</span><span class="p">();</span>
+<span class="kt">void</span> <span class="n">print_c</span><span class="p">();</span>
+</code></pre></div></div>
+<p>so_a.c:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "so_head.h"
+</span><span class="kt">void</span> <span class="nf">print_a</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"This is print_a</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>so_b.c:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "so_head.h"
+</span>
+<span class="kt">void</span> <span class="nf">print_b</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"This is print_b</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>这里省略so_c.c的源文件。
+将这几个文件编译成一个动态库:libso.so
+下面是Makefile:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SRCS <span class="o">=</span> <span class="k">$(</span>wildcard <span class="k">*</span>.c<span class="k">)</span>
+
+OBJS <span class="o">=</span> libso.so
+
+<span class="k">$(</span>OBJS<span class="k">)</span>:
+	gcc <span class="k">$(</span>SRCS<span class="k">)</span> <span class="nt">-fPIC</span> <span class="nt">-shared</span> <span class="nt">-o</span> <span class="k">$(</span>OBJS<span class="k">)</span>
+</code></pre></div></div>
+
+<p>:-shared</p>
+
+<p>这里的-shared是指定生成的动态链接库，(让链接器生成的T类型的导出符号表，有
+时候也生成弱连接w类型的导出符)。不用该标志外部程序无法连接。(为什么呢)</p>
+
+<p>:-fPIC</p>
+
+<p>表示编译为位置独立的代码，不用此选项的编译后的代码是位置相关的，这样在动态载
+入时通过代码拷贝的方式来满足不同进程的需要，而不能真正达到代码共享的目的</p>
+
+<h2 id="动态库的连接">动态库的连接</h2>
+<p>所谓的连接就是将你所编译成的动态库连接你的可执行文件。
+上面，我们已经生成了libso.so,那么我们需要编写一个文件调用里面的函数。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* so_test.c */</span>
+<span class="cp">#include "so_test.h"
+</span><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="n">print_a</span><span class="p">();</span>
+	<span class="n">print_b</span><span class="p">();</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>将上面的Makefile改写成:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SRCS <span class="o">=</span> so_a.c <span class="se">\</span>
+       so_b.c <span class="se">\</span>
+       so_c.c <span class="se">\</span>
+       so_head.h
+
+OBJS <span class="o">=</span> libso.so
+
+
+PROC <span class="o">=</span> so_test.c
+EXE <span class="o">=</span> <span class="nb">test</span>
+<span class="k">$(</span>EXE<span class="k">)</span>: <span class="k">$(</span>OBJS<span class="k">)</span>
+	gcc <span class="k">$(</span>PROC<span class="k">)</span> <span class="nt">-L</span><span class="nb">.</span> <span class="nt">-lso</span> <span class="nt">-o</span> <span class="k">$(</span>EXE<span class="k">)</span>
+<span class="k">$(</span>OBJS<span class="k">)</span>:
+	gcc <span class="k">$(</span>SRCS<span class="k">)</span> <span class="nt">-fPIC</span> <span class="nt">-shared</span> <span class="nt">-o</span> <span class="k">$(</span>OBJS<span class="k">)</span>
+
+
+</code></pre></div></div>
+<p>-L.:</p>
+
+<p>表示要连接到库所在的当前目录。</p>
+
+<p>-lso:</p>
+
+<p>就是查找动态连接库时隐含的命名规则，即在给出的名字前面加上lib，后面加上库的
+名称。上面的默认的就是libso.so
+这个时候，你使用ldd命令查看一下可执行文件test,里面就包含着libso.so呢。</p>
+
+<h1 id="注意">注意</h1>
+<p>以上步骤完全正确，但有时程序无法执行，也就是找不到so动态库，这时你就要通过
+修改LD_LIBRARY_PATH的值来确定了。</p>
+
+<blockquote>
+  <p>LD_LIBRARY_PATH=.</p>
+</blockquote>
+
+<p>即可，当然，还有其他的修改方法</p>
+
+<h1 id="详细分析这个过程">详细分析这个过程</h1>
+
+<h3 id="使用rm工具查看动态库和静态库中有哪些函数名">使用rm工具，查看动态库和静态库中有哪些函数名：</h3>
+
+<p>常见的有三种：</p>
+
+<p>T类：是在库中定义的函数，用T表示；
+U类：在库中被调用，但并没用在库中定义(表名需要其他库的支持)；
+W类： 所谓的“弱态”符号，虽然在库中被定义，但是可能被其他库中的同名符号覆盖；</p>
+
+<p>所以，你想知道某个动态库中是否引用了printf(), 可以使用下面的命令：</p>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>nm libxx.so</td>
+        <td>grep printf</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/04/28/ELF/">ELF文件介绍</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/04/30/Bank-account-intruduce/">会计知识简介</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

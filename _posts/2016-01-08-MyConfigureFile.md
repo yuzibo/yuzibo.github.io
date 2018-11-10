@@ -1,6 +1,6 @@
 ---
 title: 我的配置文件(java,tomcat)
-layout: article
+layout: post
 category: java
 ---
 #java
@@ -26,7 +26,7 @@ export PATH=E$
 
 # 更新,
 
-经测试,这个是[可靠](http://blog.csdn.net/zhuying_linux/article/details/6583096)的
+经测试,这个是[可靠](http://blog.csdn.net/zhuying_linux/post/details/6583096)的
 
 开启tomcat:
 yubo@debian:~/apache-tomcat/bin$ ./catalina.sh start

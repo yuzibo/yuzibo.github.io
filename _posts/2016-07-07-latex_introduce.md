@@ -1,6 +1,6 @@
 ---
 title: "latex小白使用入门"
-layout: article
+layout: post
 category: tools
 ---
 

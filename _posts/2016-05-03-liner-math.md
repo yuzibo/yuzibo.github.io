@@ -1,6 +1,6 @@
 ---
 title: "高等代数入门"
-layout: article
+layout: post
 category: math
 ---
 

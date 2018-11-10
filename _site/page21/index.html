@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page21/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/04/13/Oracle_Note/">oracle基本操作</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-04-13
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#oracle" title="Category: oracle" rel="category">oracle</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="简单的基本操作">简单的基本操作</h1>
+
+<h3 id="查看所有用户">查看所有用户：</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="k">*</span> from dba_users<span class="p">;</span>   
+<span class="k">select</span> <span class="k">*</span> from all_users<span class="p">;</span>   
+<span class="k">select</span> <span class="k">*</span> from user_users<span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="查看用户或角色系统权限直接赋值给用户或角色的系统权限">查看用户或角色系统权限(直接赋值给用户或角色的系统权限)：</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="k">*</span> from dba_sys_privs<span class="p">;</span>   
+<span class="k">select</span> <span class="k">*</span> from user_sys_privs<span class="p">;</span> <span class="o">(</span>查看当前用户所拥有的权限<span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="查看角色只能查看登陆用户拥有的角色所包含的权限">查看角色(只能查看登陆用户拥有的角色)所包含的权限</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sql</span><span class="o">&gt;</span><span class="n">select</span> <span class="o">*</span> <span class="n">from</span> <span class="n">role_sys_privs</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="查看用户对象权限">查看用户对象权限：</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="k">*</span> from dba_tab_privs<span class="p">;</span>   
+<span class="k">select</span> <span class="k">*</span> from all_tab_privs<span class="p">;</span>   
+<span class="k">select</span> <span class="k">*</span> from user_tab_privs<span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="查看所有角色">查看所有角色：</h3>
+
+<blockquote>
+  <p>select * from dba_roles;</p>
+</blockquote>
+
+<h3 id="查看用户或角色所拥有的角色">查看用户或角色所拥有的角色：</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">select</span> <span class="o">*</span> <span class="n">from</span> <span class="n">dba_role_privs</span><span class="p">;</span>   
+<span class="n">select</span> <span class="o">*</span> <span class="n">from</span> <span class="n">user_role_privs</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="查看哪些用户有sysdba或sysoper系统权限查询时需要相应权限">查看哪些用户有sysdba或sysoper系统权限(查询时需要相应权限)</h3>
+
+<blockquote>
+  <p>select * from V$PWFILE_USERS</p>
+</blockquote>
+
+<h3 id="sqlplus中查看一个用户所拥有权限">SqlPlus中查看一个用户所拥有权限</h3>
+
+<blockquote>
+  <p>SQL&gt;select * from dba_sys_privs where grantee=’username’;</p>
+</blockquote>
+
+<p>其中的username即用户名要大写才行。
+比如：
+SQL&gt;select * from dba_sys_privs where grantee=’TOM’;</p>
+
+<h3 id="oracle删除指定用户所有表的方法">Oracle删除指定用户所有表的方法</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">select</span> <span class="err">'</span><span class="n">Drop</span> <span class="n">table</span> <span class="err">'</span><span class="o">||</span><span class="n">table_name</span><span class="o">||</span><span class="sc">';'</span> <span class="n">from</span> <span class="n">all_tables</span>
+<span class="n">where</span> <span class="n">owner</span><span class="o">=</span><span class="err">'要删除的用户名</span><span class="p">(</span><span class="err">注意要大写</span><span class="p">)</span><span class="err">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="删除用户">删除用户</h3>
+
+<blockquote>
+  <p>drop user user_name cascade;</p>
+</blockquote>
+
+<p>如：drop user SMCHANNEL CASCADE</p>
+
+<h3 id="获取当前用户下所有的表">获取当前用户下所有的表：</h3>
+
+<blockquote>
+  <p>select table_name from user_tables;</p>
+</blockquote>
+
+<h3 id="删除某用户下所有的表数据">删除某用户下所有的表数据:</h3>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>select ‘truncate table  ‘</td>
+        <td> </td>
+        <td>table_name from user_tables;</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<h3 id="读取一个表的字段名称">读取一个表的字段名称</h3>
+
+<p>select   column_name   from   user_tab_columns   where   table_name=’table1’
+;</p>
+
+<p>我的实验数据是</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="k">column_name</span> <span class="k">from</span> <span class="n">user_tab_columns</span><span class="p">;</span>
+
+<span class="k">COLUMN_NAME</span>
+<span class="c1">------------------------------</span>
+<span class="n">STUDENT_NO</span>
+<span class="n">STUDENT_NAME</span>
+<span class="n">TEL</span>
+<span class="n">USERID</span>
+<span class="n">USERNAME</span>
+</code></pre></div></div>
+
+<p>我现在只能直接取，因为现在只有一个表，where还不能使用，这里有一个大坑，注意
+点。</p>
+
+<h3 id="新建一个用户">新建一个用户</h3>
+
+<h4 id="忘记密码处理">忘记密码处理</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlplus</span> <span class="o">/</span> <span class="k">as</span> <span class="n">sysdba</span><span class="p">;</span>
+<span class="k">alter</span> <span class="k">user</span> <span class="n">username</span> <span class="n">identified</span> <span class="k">by</span> <span class="n">passwd</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="创建新用户">创建新用户</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">user</span> <span class="n">username</span> <span class="n">identified</span> <span class="k">by</span> <span class="k">default</span> <span class="n">tablespace</span> <span class="n">xx</span>
+</code></pre></div></div>
+
+<p>这里的表空间有以下几种：</p>
+
+<p>SYSTEM，SYSAUX USERS UNDOTBS1 EXAMPLE TEMP</p>
+
+<h3 id="系统中必须的表空间有那几个">系统中必须的表空间有那几个？</h3>
+
+<p>答案： SYSTEM、SYSAUX、TEMP、UNDO， 像USERS、EXAMPLE等表空间是可有可无的。</p>
+
+<h3 id="为用户赋予权限">为用户赋予权限</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">grant</span> <span class="k">connect</span><span class="p">,</span><span class="n">resource</span><span class="p">,</span><span class="n">dba</span> <span class="k">to</span> <span class="n">username</span><span class="p">;</span>
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/04/13/Oracle_Note/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/04/12/new-words-1/">必记单词</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-04-12
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#english" title="Category: english" rel="category">english</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="0-单词">0 单词</h1>
+
+<p>acronym: 缩写；
+ballots:投票;
+quorum:法定人数；
+intimidating:令人生畏的
+pet peeve：痛楚: pet peeve out of the way:痛苦的出路</p>
+
+<ol>
+  <li>
+    <p>tricky	英[ˈtrɪki]
+美[ˈtrɪki]
+adj.	狡猾的; 微妙的; （形势、工作等） 复杂的; 机警的;</p>
+  </li>
+  <li>
+    <p>bogus	英[ˈbəʊgəs]
+美[ˈboʊgəs]
+adj.	假冒的，伪造的; 佯作;
+[例句]He said these figures were bogus and totally inaccurate.
+他说这些数字都是捏造的，完全不准确。</p>
+  </li>
+  <li>
+    <p>percolate
+网络定义
+[S:化学]渗滤液</p>
+  </li>
+  <li>
+    <p>sentinel	英[ˈsentɪnl]
+美[ˈsɛntənəl]
+n.	岗哨，哨兵;
+[例句]Is one of the goals of the Sentinel system.
+解答频率的问题是“哨兵”系统的目标之一。
+[其他]	复数：sentinels 形近词： centinem dentinal</p>
+  </li>
+  <li>
+    <p>arcane	英[ɑ:ˈkeɪn] 美[ɑ:rˈkeɪn]
+adj.	神秘的; 晦涩难解的; 秘密的;
+Until a few months ago few people outside the arcane world of contemporary music had heard of Gorecki.
+直至几个月前，在现代音乐神秘殿堂之外很少有人听说了戈莱斯基。</p>
+  </li>
+  <li>
+    <p>hypervisor 英 [‘haɪpəvaɪzə]   美 [‘haɪpəvaɪzə]
+n.
+（系统）管理程序
+This post demonstrates an advantage of using Linux as a hypervisor.
+本文展示了将Linux作为一个系统管理程序使用的优势。</p>
+  </li>
+  <li>
+    <p>parens(parentheses) 括号</p>
+  </li>
+  <li>
+    <p>jumbo: 巨大的，
+Squashing patches into jumbo patches is inherently broken and bad coding
+practice!</p>
+  </li>
+  <li>
+    <p>waive	英[weɪv]
+美[wev]
+vt.	宣布放弃; 搁置; 推迟; 放弃（权利、要求等）;
+[例句]He pleaded guilty to the murders of three boys and waived his right to appeal.
+他承认谋杀了3个男孩，并放弃上诉。
+[其他]	第三人称单数：waives 现在分词：waiving 过去式：waived 过去分词：waived</p>
+  </li>
+  <li>
+    <p>far more	英[fɑ: mɔ:]
+美[fɑr mɔr]
+[词典]	多得多;
+[例句]We are now far more sober and realistic
+我们现在清醒、现实多了。</p>
+  </li>
+</ol>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/04/12/new-words-1/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/04/09/file-compile/">文件编译过程</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-04-09
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#system" title="Category: system" rel="category">system</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="简单的命令">简单的命令</h1>
+
+<h2 id="gcc--o1--o-p-p1c-p2c">gcc -O1 -o p p1.c p2.c</h2>
+<p>首先，1. c预编译器要扩展里面的#define<file>或者#define</file></p>
+
+<ol>
+  <li>编译器生成p1.S和p2.S的文件</li>
+</ol>
+
+<p>3.汇编器将汇编代码合并成二进制文件p1.o和p2.o，里面全是二进制的表现形式。但是
+没有填充全局变量的地址</p>
+
+<p>4.链接器伴随着库函数如(printf)将两个目标文件生成一个可执行程序</p>
+
+<h2 id="研究这一块的内容不要忘记两个工具">研究这一块的内容，不要忘记两个工具:</h2>
+
+<p>objdump和gdb xx的命令</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/04/09/file-compile/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/04/08/perl_Encode/">perl关于编码的问题</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-04-08
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#perl" title="Category: perl" rel="category">perl</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="encode">Encode</h1>
+
+<p>在程序里必须注意数据在获取和转移的过程中数据编码的问题。perl的模块Encode
+的处理模块可以很好的处理这个问题。</p>
+
+<h3 id="两个方法">两个方法</h3>
+
+<p>结果 = encode(编码方式a，要编码的字串)；</p>
+
+<p>结果 = decode(编码方式b，要编码的字串)</p>
+
+<p>encode是按编码方式a，decode是以编码方式b解码。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/04/08/perl_Encode/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/04/08/VitualBox_host_connect/">Vbox主机ssh访问虚拟机</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-04-08
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="环境">环境</h1>
+
+<h3 id="宿主主机--win7">宿主主机  win7</h3>
+<h3 id="虚拟机系统-debian-8">虚拟机系统 debian 8</h3>
+<h3 id="网络连接方式-nat">网络连接方式 NAT</h3>
+
+<h1 id="虚拟机与主机连接的几种方式的比较">虚拟机与主机连接的几种方式的比较</h1>
+
+<p>TODO…</p>
+
+<p>NAT就是虚拟机里的东西全部由主机来管理，你可以在虚拟机里访问主机，但是反过来
+就不行。所以，你想在主机上访问虚拟机的ssh，需要特别的处理。</p>
+
+<p>这时产生的虚拟机的ip一般为10.0.2.15</p>
+
+<h1 id="目标">目标</h1>
+
+<p>其实，就是在主机上的nat的网络连接方式增加端口转发规则。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">Name:</span> <span class="n">SSH</span> <span class="p">(</span><span class="err">可以是任意唯一名</span><span class="p">)</span>
+<span class="n">Protocol</span><span class="o">:</span> <span class="n">TCP</span>
+<span class="n">Host</span> <span class="n">IP</span><span class="o">:</span> <span class="mi">127</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span>
+<span class="n">Host</span> <span class="n">Port</span><span class="o">:</span> <span class="mi">2222</span> <span class="p">(</span><span class="err">任何大于</span><span class="mi">1024</span><span class="err">未使用的端口</span><span class="p">)</span>
+<span class="n">Guest</span> <span class="n">IP</span><span class="o">:</span> <span class="err">虚拟机</span><span class="n">IP</span>
+<span class="n">Guest</span> <span class="n">Port</span><span class="o">:</span> <span class="mi">22</span> <span class="p">(</span><span class="n">SSH</span> <span class="err">端口</span><span class="p">)</span>
+</code></pre></div></div>
+<p>这时你就可以使用127.0.0.1:2222的方式访问虚拟机里的ssh了。</p>
+
+<p>这一种是比较落后的</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/04/08/VitualBox_host_connect/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/04/07/install_oracle_on_jessie/">在jessie上安装oracle 11gR2</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-04-07
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#oracle" title="Category: oracle" rel="category">oracle</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="先期条件">先期条件</h1>
+
+<h2 id="apt-get-install-list">apt-get install list</h2>
+<p>sudo apt-get install gcc make binutils gawk x11-utils rpm build-essential
+ libaio1 libaio-dev libmotif4 libtool expat alien ksh pdksh unixODBC 
+ unixODBC-dev sysstat elfutils libelf-dev binutils  lsb-cxx libstdc++5<br />
+ libmotif4 libmotif-common  libstdc++5 libmotif-dev expat pdksh  sysstat 
+ libtool  libmotif4 pcb-lesstif libdb4.6</p>
+
+<p><em>没有lesstif2 用 pcb-lesstif代替,libaio1不要用这个上面的，我自己是下的源
+ 包，而且版本是0.3.109</em></p>
+
+<p>在安装过程中，看到提示缺少某个库函数的时候，不要简单的中断退出来，根据问题
+ 的提示，利用google解决后，再retry下。</p>
+
+<h2 id="相关的脚本">相关的脚本</h2>
+
+<p>说明：在代码块中你可以看见”<code class="highlighter-rouge">","</code>“在开始和结尾处，这是一个shell文件，
+ 在debian上，
+ 直接使用:</p>
+
+<blockquote>
+  <p>sh xx.sh</p>
+</blockquote>
+
+<p>就可以使用了。当然，如果你想用手输入的话，找到对应的系统文件，敲进去就是了
+ 。</p>
+
+<p>相关脚本放在了<a href="https://github.com/yuzibo/configure_file.git">这里</a></p>
+
+<h3 id="创建oracle相关的用户">创建oracle相关的用户</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="sb">`</span>
+groupadd oinstall<span class="p">;</span>
+groupadd dba<span class="p">;</span>
+groupadd oper<span class="p">;</span>
+useradd <span class="nt">-m</span> <span class="nt">-s</span> /bin/bash <span class="nt">-g</span> oinstall <span class="nt">-G</span> dba,oper oracle<span class="p">;</span> <span class="c">#初始群组为 oinstall，有效群组为 dba、oper</span>
+passwd oracle<span class="p">;</span> 
+<span class="sb">`</span>
+</code></pre></div></div>
+<p>这里一定要有”-m”选项，否则在你安装的过程中以oracle用户无法登入系统。 “-s”是
+指定该用户使用的shell，在debian上，当然是bash了。</p>
+
+<h3 id="修改内核参数">修改内核参数</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">#!/bin/bash</span>
+
+<span class="nb">echo</span> <span class="s2">"#"</span><span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"# Oracle 11gR2 entries"</span><span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"fs.aio-max-nr=1048576"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"fs.file-max=6815744"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"kernel.shmall=2097152"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"kernel.shmmni=4096"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"kernel.sem=250 32000 100 128"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.ipv4.ip_local_port_range=9000 65500"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.core.rmem_default=262144"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.core.rmem_max=4194304"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.core.wmem_default=262144"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+<span class="nb">echo</span> <span class="s2">"net.core.wmem_max=1048586"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf 
+<span class="nb">echo</span> <span class="s2">"kernel.shmmax=1073741824"</span> <span class="o">&gt;&gt;</span> /etc/sysctl.conf
+
+
+sysctl <span class="nt">-p</span>
+
+</code></pre></div></div>
+<p>注意最后一个命令，这里是立即生效刚刚修改过的系统文件。同样，该命令我也放在了
+脚本中，请注意。
+在安装的过程中，有一步是检查所有的先决条件是否满足，有一个地方会说</p>
+
+<blockquote>
+  <p>kernel.sem fixable</p>
+</blockquote>
+
+<p>我在别的地方看见说这个警告没有影响，直到现在，我也是忽略它了，不知道有没有风
+险。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/04/07/install_oracle_on_jessie/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page20" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">21/36</span>
+          
+            <a href="/page22" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

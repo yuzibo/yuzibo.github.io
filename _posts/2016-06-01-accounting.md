@@ -1,6 +1,6 @@
 ---
 title: "流水账"
-layout: article
+layout: post
 category: mood
 ---
 

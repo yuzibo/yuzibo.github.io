@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "我的近期读书计划"
 category: book
 ---

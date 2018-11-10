@@ -1,7 +1,7 @@
 ---
 title: "python 数据可视化matplotlib简介"
 category: python
-layout: article
+layout: post
 ---
 
 

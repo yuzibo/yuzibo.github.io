@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "mysql每次不用密码登录的方法"
 category: mysql
 ---

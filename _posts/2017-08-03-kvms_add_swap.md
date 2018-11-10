@@ -1,7 +1,7 @@
 ---
 title: "linux扩充swap容量"
 category: kvms
-layout: article
+layout: post
 ---
 
 This is a new post and it is sister message for http://www.aftermath.cn/kvms-resize.html

@@ -1,7 +1,7 @@
 ---
 title: "python之文件操作"
 category: python
-layout: article
+layout: post
 ---
 
 使用`with`的打开方式更加符合python的变成习惯，希望你能喜欢这种编程风格。

@@ -1,13 +1,13 @@
 ---
 title: "bpf的简介"
 category: bpf
-layout: article
+layout: post
 ---
 
 # 声明
 这篇文章主要的聚焦点在BPF,经过2017年的快速发展后，现在到了eBPF阶段。
 
-首先，参考[这里](https://linux.cn/article-9507-1.html)
+首先，参考[这里](https://linux.cn/post-9507-1.html)
 
 # install
 If you install the bcc from source code,now i have some terrible question to resolve it.So, i recommended you install it from package manager.

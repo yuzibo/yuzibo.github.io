@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>常用算法归类</title>
+    <meta name="description" content="poj题目分类贪心算法(greed)贪心算法（又称贪婪算法）是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的局部最优解。贪心算法不是对所有问题都能得到整体最优解，关键是贪心策略的选择，选择的贪心策略必须具备无后效性，即某个状态以前的过程不会影响以后...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/07/20/algorithm-sum-up/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>常用算法归类</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-07-20
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#algorithm" title="Category: algorithm" rel="category">algorithm</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="http://www.cnblogs.com/kuangbin/archive/2011/07/29/2120667.html">poj题目分类</a></p>
+
+<h1 id="贪心算法greed">贪心算法(greed)</h1>
+
+<p>贪心算法（又称贪婪算法）是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的局部最优解。
+贪心算法不是对所有问题都能得到整体最优解，关键是贪心策略的选择，选择的贪心策略必须具备无后效性，即某个状态以前的过程不会影响以后的状态，只与当前状态有关</p>
+
+<p>摘自百度百科</p>
+
+<h3 id="题目">题目</h3>
+
+<p>[0-1背包问题]</p>
+
+<p>马踏棋盘</p>
+
+<p>最小生成树的prim和kruskal的算法</p>
+
+<h4 id="最大整数">最大整数</h4>
+
+<p>设有n个正整数，将它们连接成一排，组成一个最大的多位整数。
+例如：n=3时，3个整数13，312，343，连成的最大整数为34331213。
+又如：n=4时，4个整数7，13，4，246，连成的最大整数为7424613。
+输入：n
+N个数
+输出：连成的多位数
+算法分析：此题很容易想到使用贪心法，在考试时有很多同学把整数按从大到小的顺序连接起来，测试题目的例子也都符合，但最后测试的结果却不全对。按这种标准，我们很容易找到反例：12，121应该组成12121而非12112，那么是不是相互包含的时候就从小到大呢？也不一定，如12，123就是12312而非12123，这种情况就有很多种了。是不是此题不能用贪心法呢？
+其实此题可以用贪心法来求解，只是刚才的标准不对，正确的标准是：先把整数转换成字符串，然后在比较a+b和b+a，如果a+b&gt;=b+a，就把a排在b的前面，反之则把a排在b的后面。</p>
+
+<h1 id="递归与分治">递归与分治</h1>
+
+<p>思想： 对这k个子问题分别求解。如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。</p>
+
+<h4 id="排列问题">排列问题</h4>
+
+<p>设计一个递归算法生成n个元素{r1,r2,…,rn}的全排列。</p>
+
+<p>设R={r1,r2,…,rn}是要进行排列的n个元素，</p>
+
+<p>Ri=R-{ri}</p>
+
+<p><a href="https://github.com/yuzibo/DS/blob/master/algorithm/recursion/permut.c">code</a></p>
+
+<h1 id="回溯backtracking">回溯(backtracking)</h1>
+
+<h1 id="递归">递归</h1>
+
+<p>举一个具体的例子</p>
+
+<p>递归的理解是这样：</p>
+
+<h3 id="1-定义函数原型">1 定义函数原型</h3>
+
+<p>比如，计算一个数组的前n个元素：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">sum</span><span class="p">(</span><span class="kt">int</span> <span class="n">arr</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="2-写一个简单的函数调用">2 写一个简单的函数调用</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+<p>这里的参数不要写具体的值，比如10.</p>
+
+<h3 id="3-想出这个问题的最小情况">3 想出这个问题的最小情况</h3>
+
+<p>“最小情况” 是基本事实，也就是取一个特定的值对于n来说。</p>
+
+<p>这里就是递归中比较难的一部分了， 很多人确定不了基本事实。上面的例子中，有以下三个选择：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="n">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>这里，就得选第三个，因为加上第0个元素可以为加上一个0.</p>
+
+<h3 id="4-想出最小情况的函数调用">4 想出最小情况的函数调用</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>这样就计算了第n个元素，我们在一个比较小的情况下需要执行最小问题的”n-1”.</p>
+
+<p>所以，对于sum(arr, n) 就是用 sum(arr, n -1) 加上arr[ n - 1]</p>
+
+<h3 id="整合">整合</h3>
+
+<p>递归需要把基本事实和递归例子整合在一起。下面是递归的一般模板：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">if</span> <span class="p">(</span> <span class="n">base</span> <span class="k">case</span> <span class="p">)</span>
+   <span class="c1">// return some simple expression</span>
+<span class="k">else</span> <span class="c1">// recursive case</span>
+  <span class="err">{</span>
+     <span class="c1">// some work before</span>
+     <span class="c1">// recursive call</span>
+     <span class="c1">// some work after</span>
+  <span class="err">}</span>
+</code></pre></div></div>
+
+<p>更复杂的情况是：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span> <span class="n">base</span> <span class="k">case</span> <span class="mi">1</span> <span class="p">)</span>
+   <span class="c1">// return some simple expression</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">base</span> <span class="k">case</span> <span class="mi">2</span> <span class="p">)</span>
+   <span class="c1">// return some simple expression</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">base</span> <span class="k">case</span> <span class="mi">3</span> <span class="p">)</span>
+   <span class="c1">// return some simple expression</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">recursive</span> <span class="k">case</span> <span class="mi">1</span> <span class="p">)</span>
+  <span class="err">{</span>
+     <span class="c1">// some work before</span>
+     <span class="c1">// recursive call</span>
+     <span class="c1">// some work after</span>
+  <span class="err">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">recursive</span> <span class="k">case</span> <span class="mi">2</span> <span class="p">)</span>
+  <span class="err">{</span>
+     <span class="c1">// some work before</span>
+  <span class="c1">// recursive call</span>
+     <span class="c1">// some work after</span>
+  <span class="err">}</span>
+<span class="k">else</span> <span class="c1">// recursive case 3</span>
+  <span class="err">{</span>
+     <span class="c1">// some work before</span>
+     <span class="c1">// recursive call</span>
+     <span class="c1">// some work after</span>
+  <span class="err">}</span>
+</code></pre></div></div>
+
+<p>例子的代码在下面：</p>
+
+<p><a href="https://github.com/yuzibo/DS/blob/master/algorithm/recursion/sum_recur.c">code</a></p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/07/11/gcc-options/">gcc 编译过程解释</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/07/23/math-org/"> 向大家推荐博士数学论坛！</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Makefile简介</title>
+    <meta name="description" content="简介在linux下编程，最熟悉的不过是Makefile了。这个文件是用于自动连接和编译的，而且记录所有工程文件的修改信息，这样，这个工程在下次编译前会自动重新编译。特殊变量$@ 目标文件对应于target，”@” 是”argument”的简写。当你键入make foo的时候，”foo” 就是argument，也就...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/12/07/Makefile/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Makefile简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-12-07
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#make" title="Category: make" rel="category">make</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="简介">简介</h1>
+
+<p>在linux下编程，最熟悉的不过是Makefile了。这个文件是用于自动连接和编译的，而且记录所有工程文件的修改信息，这样，这个工程在下次编译前会自动重新编译。</p>
+
+<h1 id="特殊变量">特殊变量</h1>
+
+<h3 id="-目标文件">$@ 目标文件</h3>
+
+<p>对应于target，”@” 是”argument”的简写。当你键入make foo的时候，”foo” 就是
+argument，也就是@#(?).</p>
+
+<h3 id="-所有依赖文件">$^ 所有依赖文件</h3>
+<p>与”$&lt;”相类似，只不过它表示所有的的依赖的文件”^”记住嘛。</p>
+
+<h3 id="-第一个依赖文件">$&lt; 第一个依赖文件</h3>
+<p>在依赖条件列表中的第一个输入文件。帮助记忆，”&lt;”在shell中，这就是输入的”&lt;”.</p>
+
+<h3>$?</h3>
+<p>所有的比target新的依赖文件(input)，”你在干什么，哪些文件必须改变？”</p>
+
+<h3 id="-1">%</h3>
+<p>%的作用类似于”*“在shell的作用，也就是任意匹配</p>
+
+<p>以上会衍生出$(@D) $(@F),也就是目录和文件的区别</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	main: main.o mytool1.o mytool2.o
+		gcc <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$^</span>
+	main.o: main.c mytool1.h mytool2.h
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span> <span class="c"># -c 只输出目标文件，不产生可执行文件</span>
+	mytool1.o: mytool1.c mytool1.h
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+
+<h2 id="缺省规则">缺省规则</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	.c.o:
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+<p>这个规则表示所有的 .o文件都是依赖对应的.c文件的，简化以后的Makefile</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	main: main.o mytool1.o mytool2.o
+		gcc <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$^</span>
+	.c.o:
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+
+<h1 id="函数">函数</h1>
+
+<p>Makefile中有很多的函数，这里，将碰到的一一记录下来，做个完善。</p>
+
+<h3 id="wildcard">wildcard</h3>
+
+<p>这个函数拾取特定目录下的文件通配符.比如我要将一个头文件.h三个源文件.c编译成
+一个目标文件，那么，我就可以首先声明一个变量SRCS,然后将所有的源文件(包括头
+文件)一起赋给它.</p>
+
+<blockquote>
+  <p>SRCS = $(wildcard *.c)</p>
+</blockquote>
+
+<p>这样，变量SRCS就包括所有的源文件了</p>
+
+<p><em>update<em>
+高级一点的用法，</em></em></p>
+
+<blockquote>
+  <p>$(patsubst %.c,%.o,$(wildcard))</p>
+</blockquote>
+
+<p>这句话将所有文件名的后缀.c替换成.o，这样我们就可以得到当前目录下生成的可执行
+文件。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/12/06/NetCommandForlinux/">10个重要的linux网络命令</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/12/11/segmentforlinux/">linux中的段</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

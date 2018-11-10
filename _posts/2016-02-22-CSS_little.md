@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "css 小技巧"
 category: css
 ---

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 categroy: c
 title: "c语言的文件操作"
 ---

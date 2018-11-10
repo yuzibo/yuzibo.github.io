@@ -1,6 +1,6 @@
 ---
 title: "linux下/proc目录解析"
-layout: article
+layout: post
 category: kernel 
 ---
 # /proc/cmdline

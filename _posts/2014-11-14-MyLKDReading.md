@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "LKD读书笔记"
 category: "book"
 ---

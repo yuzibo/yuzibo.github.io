@@ -1,38 +1,63 @@
-#采用什么模板编写博客
-github: [metadata]
-#markdown: kramdown
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: vimer
+brief-intro: linux kernel 爱好者
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://www.aftermath.cn/" # the base hostname & protocol for your site
+
+permalink: /:year/:month/:day/:title/
+
+# other links
+twitter_username:
+facebook_username:
+github_username: yuzibo
+email: yuzibode@126.com
+weibo_username:
+zhihu_username:
+linkedIn_username:
+dribbble_username:
+
+description_footer: 技术笔记！
+
+# comments
+# two ways to comment, only choose one, and use your own short name
+# 两种评论插件，选一个就好了，使用自己的 short_name
+duoshuo_shortname: #hygblog
+disqus_shortname:
+
+# statistic analysis 统计代码
+# 百度统计 id，将统计代码替换为自己的百度统计id，即
+# hm.src = "//hm.baidu.com/hm.js?xxxxxxxxxxxx";
+# xxxxx字符串
+#baidu_tongji_id: cf8506e0ef223e57ff6239944e5d46a4
+#google_analytics_id: UA-72449510-4 # google 分析追踪id
+
+# Build settings
+markdown: kramdown
+
 kramdown:
   input: GFM
-  hard_wrap: false
-gems:
-  - jekyll-coffeescript
-  - jekyll-paginate
+  syntax_highlighter: rouge
 
-lsi: false
-safe: true
-source: http://www.aftermath.cn
-incremental: rouge
-gist:
-   noscript: false
+# port
+# port: 1234
+# url
+  source: https://www.aftermath.cn
 
-#是否有文件更新就需要更新站点
 auto: true
 
-#规定了博客的URL地址
-permalink: /:title.html
-url: http://www.aftermath.cn
-author: vimer
-email: yuzibode@126.com
+category_dir: category/
+tag_dir: tag/
 
-#禁用自定义插件
-safe: true
+# excerpt
+excerpt_separator: "\n\n\n\n"
 
-#分页数量
-paginate: 20
-
-#代码高亮
-highlighter: rouge
-comments:
-    provider:duoshuo
-#duoshuo:
-#       short_name: yuzibo
+# paginate
+plugins: [jekyll-paginate]
+paginate: 6

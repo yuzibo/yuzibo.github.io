@@ -1,6 +1,6 @@
 ---
 title: 线段树
-layout: article
+layout: post
 category: DS
 ---
 # 暂时不熟悉的用法
@@ -26,15 +26,6 @@ category: DS
 1. 下面是基于线段树结构的代码
 
 {% highlight c++ %}
-/*
-
-     File Name: hdu1166-4.cpp
-     Author: damit
-     Mail: yuzibode@126.com
-     Created Time: 2014年07月18日 星期五 19时55分04秒
-     学习重点:
-
-*/
 
 #include<cstring>
 #include<cstdio>
@@ -157,19 +148,9 @@ int main()
 
 这是树状数组的做法，参考了
 
-[树状数组](http://blog.csdn.net/lulipeng_cpp/article/details/7816527);
+[树状数组](http://blog.csdn.net/lulipeng_cpp/post/details/7816527);
 
-{% highlight c++ %}
 
-/*
-     File Name: hdu1166array.cpp
-     Author: damit
-     Mail: yuzibode@126.com
-     Created Time: 2014年07月19日 星期六 06时27分29秒
-     学习重点:
-*/
-//还要仔细推敲
-#include<cstring>
 #include<cstdio>
 #include<iostream>
 using namespace std;
@@ -221,23 +202,17 @@ int main()
 			update(i,x,n);
 		}
 
-	//	display(n);
 		while(scanf("%s",str)&&str[0]!='E'){
 			scanf("%d%d",&p,&q);
 			if(str[0]=='A'){
 
-			//	printf("Add %d %d\n",p,q);
 				update(p,q,n);
 
-		//display(n);
 			}
 			if(str[0]=='S'){
-		//		printf("Sub %d %d\n",p,q);
 				update(p,-q,n);
-		//display(n);
 			}
 			if(str[0]=='Q'){
-		//		printf("Query %d %d\n",p,q);
 				printf("%d\n",getsum(q)-getsum(p-1));
 			}
 		}
@@ -247,15 +222,14 @@ int main()
 	}
 }
 
-{% endhighlight %}
 
-{% highlight c++ %}
+这里有问题吗?
+
 int lowbit(int a)
 {
 	return a&(-a);
 }
 
-{% endhighlight %}
 
 一直不理解那个lowbit到底是干什么，上面的文章说可以向后衍生（更新结点）和向前（求和）
 向后主要是为了找到目前节点的父节点，比如要将C[4]+1，那么4+(4&(-4))=8，C[8]+1，8+(8&(-8))=16，

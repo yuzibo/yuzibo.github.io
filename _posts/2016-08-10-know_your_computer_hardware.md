@@ -1,6 +1,6 @@
 ---
 title: "查找系统的硬件信息"
-layout: article
+layout: post
 category: system
 ---
 

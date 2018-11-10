@@ -1,6 +1,6 @@
 ---
 title: "Makefile中后缀规则"
-layout: article
+layout: post
 category: make
 ---
 

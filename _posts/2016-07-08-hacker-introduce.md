@@ -1,6 +1,6 @@
 ---
 title: "1337 暗语"
-layout: article
+layout: post
 category: H4X0r
 ---
 

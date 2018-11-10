@@ -1,6 +1,6 @@
 ---
 title: "linux关闭防火墙"
-layout: article
+layout: post
 category: shell 
 ---
 # 问题

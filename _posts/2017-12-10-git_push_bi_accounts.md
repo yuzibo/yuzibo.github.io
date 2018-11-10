@@ -1,7 +1,7 @@
 ---
 title: "一台电脑绑定两个github账号"
 category: git
-layout: article
+layout: post
 ---
 
 ![截图_2018-01-09_13-15-15.png](http://yuzibo.qiniudn.com/截图_2018-01-09_13-15-15.png)

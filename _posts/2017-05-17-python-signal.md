@@ -1,7 +1,7 @@
 ---
 title: "python signal处理"
 category: python
-layout: article
+layout: post
 ---
 
 # Ctrl + c

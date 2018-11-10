@@ -1,6 +1,6 @@
 ---
 title: "unix终端控制模式"
-layout: article
+layout: post
 category: unix
 ---
 

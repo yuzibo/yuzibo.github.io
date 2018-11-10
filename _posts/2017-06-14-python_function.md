@@ -1,7 +1,7 @@
 ---
 title: "python函数知识点"
 category: python
-layout: article
+layout: post
 ---
 
 # 简介

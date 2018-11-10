@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "在虚拟机中解决 FreeDos与宿主机文件交换的问题"
 category: tools 
 tags: FreeDos

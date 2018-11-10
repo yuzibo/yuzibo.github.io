@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>10个重要的linux网络命令</title>
+    <meta name="description" content="最基础的linux网络命令hostname	hostname [none] display hostname	hostname -d #display machine belongs to the domain	hostname -f #display full name	hostname -i #display...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/12/06/NetCommandForlinux/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>10个重要的linux网络命令</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-12-06
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#shell" title="Category: shell" rel="category">shell</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="最基础的linux网络命令">最基础的linux网络命令</h1>
+
+<h3 id="hostname">hostname</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nb">hostname</span> <span class="o">[</span>none] display <span class="nb">hostname
+	hostname</span> <span class="nt">-d</span> <span class="c">#display machine belongs to the domain</span>
+	<span class="nb">hostname</span> <span class="nt">-f</span> <span class="c">#display full name</span>
+	<span class="nb">hostname</span> <span class="nt">-i</span> <span class="c">#display ip</span>
+</code></pre></div></div>
+
+<h3 id="ping">ping</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	ping <span class="o">[</span>ip/address]
+</code></pre></div></div>
+
+<h2 id="ifconfig">ifconfig</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	View network configure.
+</code></pre></div></div>
+
+<p>下面是我的ifconfig输出：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@debian:/home/yubo/test/tmp/unix# ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:9e:01:6d:08:4e
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>  TX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>
+          Interrupt:41 Base address:0x2000
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:44786 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:44786 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:22286992 <span class="o">(</span>21.2 MiB<span class="o">)</span>  TX bytes:22286992 <span class="o">(</span>21.2 MiB<span class="o">)</span>
+
+wlan0     Link encap:Ethernet  HWaddr 80:9b:20:5c:23:04
+          inet addr:192.168.0.117  Bcast:192.168.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::829b:20ff:fe5c:2304/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:94748 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:208467 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:92813171 <span class="o">(</span>88.5 MiB<span class="o">)</span>  TX bytes:22941747 <span class="o">(</span>21.8 MiB<span class="o">)</span>
+
+root@debian:/home/yubo/test/tmp/unix# route <span class="nt">-n</span>
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.0.1     0.0.0.0         UG    0      0        0 wlan0
+192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 wlan0
+root@debian:/home/yubo/test/tmp/unix#
+
+</code></pre></div></div>
+
+<p>注意，我这里配合着route命令。</p>
+
+<p>从上面的输出，我们可以了解到root主机上被激活的ip地址是wlan0,因为这是我在WIFI
+条件下连接上网的。lo可以暂时忽略。eth0是以太网的连接。</p>
+
+<p>由此说明，任何由root主机创建的IP包的源地址(source address) 是192.168.0.117.
+类似的，任何由root主机收到的IP包的目的地址是192.168.0.117</p>
+
+<h3 id="iwconfig">iwconfig</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>用于无线网卡
+</code></pre></div></div>
+
+<h3 id="nsloopup">nsloopup</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>从ip获得主机名或者从ip获得主机名
+nsloopup google.com
+</code></pre></div></div>
+
+<h3 id="traceroute">traceroute</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>查看数据包在提交到远程系统或者网站的时候所经过的ip,hoop,time
+</code></pre></div></div>
+
+<h3 id="finger">finger</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>查看用户信息。
+</code></pre></div></div>
+
+<h3 id="telent">telent</h3>
+<p>通过telnet协议连接目标主机，如果telnet连接可以在任一端口上完成即代表着两台主机间的连接良好。</p>
+
+<p>telnet hostname port - 使用指定的端口telnet主机名。这通常用来测试主机是否在线或者网络是否正常。</p>
+
+<h3 id="ethtool">ethtool</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 有的发行版不带这些工具，需要我们自己去下载。
+</code></pre></div></div>
+
+<h3 id="netstat">netstat</h3>
+
+<p>发现主机连接最有用最通用的Linux命令。你可以使用”netstat -g”查询该主机订阅的所有多播组（网络）</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  netstat -nap | grep port 将会显示使用该端口的应用程序的进程id
+  netstat -a  or netstat –all 将会显示包括TCP和UDP的所有连接
+  netstat --tcp  or netstat –t 将会显示TCP连接
+  netstat --udp or netstat –u 将会显示UDP连接
+  netstat -g 将会显示该主机订阅的所有多播网络。
+</code></pre></div></div>
+
+<h3 id="iptables">iptables</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-L</span> <span class="c">## 查看</span>
+
+iptables <span class="nt">-F</span> <span class="c">## 清空规则</span>
+
+</code></pre></div></div>
+
+<h4 id="链的类型">链的类型</h4>
+
+<h5 id="input">input</h5>
+
+<p>控制进来的链接</p>
+
+<h5 id="forward">forward</h5>
+
+<p>转发。</p>
+
+<h5 id="output">Output</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@debian:/home/yubo/test/tmp/unix# <span class="nb">sudo </span>iptables <span class="nt">-L</span> <span class="nt">-v</span>
+Chain INPUT <span class="o">(</span>policy ACCEPT 572K packets, 504M bytes<span class="o">)</span>
+ pkts bytes target     prot opt <span class="k">in     </span>out     <span class="nb">source               </span>destination
+
+Chain FORWARD <span class="o">(</span>policy ACCEPT 0 packets, 0 bytes<span class="o">)</span>
+ pkts bytes target     prot opt <span class="k">in     </span>out     <span class="nb">source               </span>destination
+
+Chain OUTPUT <span class="o">(</span>policy ACCEPT 1003K packets, 129M bytes<span class="o">)</span>
+ pkts bytes target     prot opt <span class="k">in     </span>out     <span class="nb">source               </span>destination
+
+</code></pre></div></div>
+
+<h4 id="链接一个特定的ip">链接一个特定的IP</h4>
+
+<p>阻塞所有来自10.10.10.10的链接。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-s</span> 10.10.10.10 <span class="nt">-j</span> DROP
+
+</code></pre></div></div>
+
+<p>阻塞一个范围的网址：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-s</span> 10.10.10.0/24 <span class="nt">-j</span> DROP
+</code></pre></div></div>
+
+<p>链接到一个特别的端口, 阻塞来自于10.10.10.10的ssh链接</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> input <span class="nt">-p</span> tcp <span class="nt">--dport</span> ssh <span class="nt">-s</span> 10.10.10.10 <span class="nt">-j</span> DROP
+</code></pre></div></div>
+
+<p>你可以使用其他协议将“ssh”或者其他端口号。”-p”是协议，如果你想阻塞UDP，则使用
+“-p udp”.</p>
+
+<p>如果你使用ssh链接主机，下面的命令慎用，危险！</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> ssh <span class="nt">-j</span> DROP
+</code></pre></div></div>
+
+<h5 id="保存ipatbles">保存ipatbles</h5>
+
+<p>ubuntu</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /sbin/iptables-save
+</code></pre></div></div>
+
+<p>Red Hat</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/sbin/service iptables save
+</code></pre></div></div>
+
+<p>或者</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/init.d/iptables save
+</code></pre></div></div>
+
+<p>向外转发链接</p>
+
+<h2 id="更新资源">更新资源</h2>
+
+<p>https://www.quora.com/What-is-the-best-way-to-learn-Linux-networking-concepts-and-practices</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/12/05/AssemblyForLinux/">linux下汇编小结</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/12/07/Makefile/">Makefile简介</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,7 +1,7 @@
 ---
 title: "申请专利简单记录"
 category: patent
-layout: article
+layout: post
 ---
 
 # 费减

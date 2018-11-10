@@ -1,6 +1,6 @@
 ---
 title: "perl-lwp简单应用"
-layout: article
+layout: post
 category: perl
 ---
 

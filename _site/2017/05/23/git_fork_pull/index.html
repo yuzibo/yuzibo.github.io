@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>git fork &amp;&amp; pull 工作流</title>
+    <meta name="description" content="创造一个Fork首先在github上创造一个fork，就是在你想要贡献的项目上的右上角，会有一个fork按钮。单击，就将这个项目fork到你的账户上了（fork俗称复制）然后，你在本地git clone你刚刚fork的项目，记住，是git clone你github上的项目。git clone https://gi...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/05/23/git_fork_pull/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>git fork && pull 工作流</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-05-23
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="创造一个fork">创造一个Fork</h1>
+
+<p>首先在github上创造一个fork，就是在你想要贡献的项目上的右上角，会有一个fork按钮。单击，就将这个项目fork到你的账户上了（fork俗称复制）</p>
+
+<p>然后，你在本地git clone你刚刚fork的项目，记住，是git clone你github上的项目。</p>
+
+<pre><code class="language-git">git clone https://github.com/yuzibo/neomutt.git
+</code></pre>
+
+<p>比如，我想fork <a href="https://github.com/neomutt/neomutt">neomutt</a>项目，frok后我的账户下面就会多了这个：<a href="https://github.com/yuzibo/neomutt">here</a>.</p>
+
+<h1 id="保持实时更新">保持实时更新</h1>
+
+<p>当然，你的commit不应该落后于upstream,否则你就会制造conflict.此时你就需要添加上游分支。</p>
+
+<pre><code class="language-git">git remote add upstream https://github.com/neomutt/neomutt.git
+</code></pre>
+<p>然后你就可以证实是否添加了上游分支。</p>
+
+<pre><code class="language-git">git remote -v
+</code></pre>
+
+<p>无论什么时候做开发工作，你需要将主分支上commit更新过来。</p>
+
+<pre><code class="language-git">git fetch upstream
+
+#then view all branch
+
+git branch -av
+</code></pre>
+
+<p>现在，切换到你的master分支and合并上游的主分支。</p>
+
+<pre><code class="language-git">git checkout master
+
+git merge upstream/master
+
+</code></pre>
+
+<h1 id="做你的工作">做你的工作</h1>
+
+<h2 id="创建一个分支">创建一个分支</h2>
+
+<p>这个工作有很多的益处，你自己所做的修改在自己的分支上，这样，很容易分离、独自管理，不会出现混乱。master是广播中的北京时间，自己的分支是你我自己手表上的时间，我们调整自己的时间，仅仅而且必须依靠北京时间。</p>
+
+<p>首先，确保你是从master分支创建其他分支，这还是类似于标准北京时间。</p>
+
+<pre><code class="language-git">git checkout master
+
+#创建一个新分支，名字要自己的
+# 或者使用git checkout -b new-fix 命令
+git branch new-fix
+
+#切换到你的新分支
+git checkout new-fix
+</code></pre>
+
+<h1 id="提交pull">提交pull</h1>
+
+<h2 id="清除你自己的工作">清除你自己的工作</h2>
+
+<p>在你想要提交自己的pull 请求时，或许做一些清理工作以便使上游维护者更容易测试、接受和合并你的工作。</p>
+
+<p>这里，首先，你的更新主分支上的commit。</p>
+
+<pre><code class="language-git">
+# first, fetch master(for your master &amp;&amp; upstream/master)
+git fetch upstream
+git checkout master
+git merge upstream/master
+
+# Rebase all commits on your branch
+
+git checkout new-fix
+git rebase master
+
+</code></pre>
+<h2 id="提交">提交</h2>
+
+<p>这里假设你了解commit和push的流程，可以参考<a href="http://www.aftermath.cn/GitTest.html">这里</a></p>
+
+<p>然后，返回你的github项目，选择你的开发branch。</p>
+
+<p><a href="https://gist.github.com/Chaser324/ce0505fbed06b947d962">参考</a></p>
+
+<h2 id="问题">问题</h2>
+
+<p>初次使用，难免会出现各种问题，下面是解决方法汇总。</p>
+
+<p><a href="https://stackoverflow.com/questions/10298291/cannot-push-to-github-keeps-saying-need-merge">merge</a></p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/05/22/linux_install_software_from_source/">linux下源码安装软件</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/05/24/manage_money_tips/">理财小视频</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

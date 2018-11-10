@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "你的世界，我来了"
 category: mood
 tags: She

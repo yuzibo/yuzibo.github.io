@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>qemu,busybox调试linux kernel</title>
+    <meta name="description" content="安装自己编译的内核基本上这篇文章就够了。1 安装busybox下载busybox源码，进行安装。最好使用git，这样可以进行最新的跟踪。https://busybox.net/source.html配置busybox,你可以使用 make menuconfig命令。这里，有几点是需要我们注意的。因为Linux运行...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/04/busybox_qemu_kernel/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>qemu,busybox调试linux kernel</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-04
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="安装自己编译的内核">安装自己编译的内核</h1>
+
+<p>基本上这篇<a href="http://www.cnblogs.com/senix/archive/2013/02/21/2921221.html">文章</a>就够了。</p>
+
+<h3 id="1-安装busybox">1 安装busybox</h3>
+
+<p>下载busybox源码，进行安装。最好使用git，这样可以进行最新的跟踪。</p>
+
+<p>https://busybox.net/source.html</p>
+
+<p>配置busybox,你可以使用 <code class="highlighter-rouge">make menuconfig</code>命令。这里，有几点是需要我们注意的。</p>
+
+<p>因为Linux运行环境当中是不带动态库的，所以必须以静态方式来编译BusyBox。修改</p>
+
+<ol>
+  <li>
+    <p>Busybox Settings —&gt;
+  Build Options —&gt;
+      [*] Build BusyBox as a static binary(no shared libs)</p>
+  </li>
+  <li>
+    <p>CONFIG_DESKTOP=n</p>
+  </li>
+</ol>
+
+<p>不需要配置DESKTOP。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>这样安装完成后，在busybox目录下有个_install目录，这里面就是创造root fs的源代码。</p>
+
+<ol>
+  <li>建立initial ramdisk</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>initramfs
+<span class="nb">cd </span>initramfs
+<span class="nb">mkdir</span> <span class="nt">-pv</span> bin lib dev etc mnt proc root sbin sys tmp
+
+<span class="nb">cd </span>dev
+<span class="nb">sudo mknod </span>ram0 b 1 0  <span class="c"># all one needs is ram0</span>
+<span class="nb">sudo mknod </span>ram1 b 1 1
+<span class="nb">ln</span> <span class="nt">-s</span> ram0 ramdisk
+<span class="nb">sudo mknod </span>initrd b 1 250
+<span class="nb">sudo mknod </span>mem c 1 1
+<span class="nb">sudo mknod </span>kmem c 1 2
+<span class="nb">sudo mknod </span>null c 1 3
+<span class="nb">sudo mknod </span>port c 1 4
+<span class="nb">sudo mknod </span>zero c 1 5
+<span class="nb">sudo mknod </span>core c 1 6
+<span class="nb">sudo mknod </span>full c 1 7
+<span class="nb">sudo mknod </span>random c 1 8
+<span class="nb">sudo mknod </span>urandom c 1 9
+<span class="nb">sudo mknod </span>aio c 1 10
+<span class="nb">sudo mknod </span>kmsg c 1 11
+<span class="nb">sudo mknod </span>sda b 8 0
+<span class="nb">sudo mknod </span>tty0 c 4 0
+<span class="nb">sudo mknod </span>ttyS0 c 4 64
+<span class="nb">sudo mknod </span>ttyS1 c 4 65
+<span class="nb">sudo mknod tty </span>c 5 0
+<span class="nb">sudo mknod </span>console c 5 1
+<span class="nb">sudo mknod </span>ptmx c 5 2
+<span class="nb">sudo mknod </span>ttyprintk c 5 3
+
+<span class="nb">ln</span> <span class="nt">-s</span> ../proc/self/fd fd
+<span class="nb">ln</span> <span class="nt">-s</span> ../proc/self/fd/0 stdin <span class="c"># process i/o</span>
+<span class="nb">ln</span> <span class="nt">-s</span> ../proc/self/fd/1 stdout
+<span class="nb">ln</span> <span class="nt">-s</span> ../proc/self/fd/2 stderr
+<span class="nb">ln</span> <span class="nt">-s</span> ../proc/kcore     kcore
+<span class="nb">cd</span> ..
+
+</code></pre></div></div>
+<p><a href="https://github.com/yuzibo/configure_file/blob/master/busybox/exe.sh">file</a>
+最后一条命令返回到了主目录，然后将busybox文件下的_install文件复制到initramfs的主目录下。</p>
+
+<p>由于我们已经将busybox构建为一个静态的库(static libs), 原作者所说的加载动态库的步骤已经不需要了。</p>
+
+<p>然后在initramfs文件夹下面新建init文件，这个文件是kernel启动后的第一个文件。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+/bin/mount <span class="nt">-t</span> proc none /proc
+/bin/mount <span class="nt">-t</span> sysfs sysfs /sys
+/sbin/mdev <span class="nt">-s</span>
+/sbin/ifconfig lo 127.0.0.1 netmask 255.0.0.0 up
+/sbin/ifconfig eth0 up 10.0.2.15 netmask 255.255.255.0 up
+/sbin/route add default gw 10.0.2.2
+
+<span class="nb">echo</span> <span class="s1">'Enjoy your Linux system!'</span>
+
+/usr/bin/setsid /bin/cttyhack /bin/sh
+<span class="nb">exec</span> /bin/sh
+</code></pre></div></div>
+<p><a href="https://github.com/yuzibo/configure_file/blob/master/busybox/init">file</a></p>
+
+<p>最后，将init文件执行以下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>755 init
+find <span class="nb">.</span> <span class="nt">-print0</span> | cpio <span class="nt">--null</span> <span class="nt">-ov</span> <span class="nt">--format</span><span class="o">=</span>newc <span class="o">&gt;</span> ../myinitrd.cpio
+</code></pre></div></div>
+
+<ol>
+  <li>编译内核</li>
+</ol>
+
+<p>对于编译内核，这里不会陌生，我看到这里的原作者编译进去了这些。</p>
+
+<p>CONFIG_64BIT=y
+CONFIG_EMBEDDED=n
+CONFIG_PRINTK=y
+CONFIG_PCI_QUIRKS=y
+CONFIG_BLK_DEV=y
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_INITRAMFS_SOURCE=/pathto/myinitrd.cpio
+CONFIG_BLOCK=y
+CONFIG_SMP=y
+CONFIG_PCI=y
+CONFIG_MTTR=y
+CONFIG_BINFMT_ELF=y
+CONFIG_BINFMT_SCRIPT=y
+CONFIG_EXT2_FS=y
+CONFIG_INOTIFY_USER=y
+CONFIG_NET=y
+CONFIG_PACKET=y
+CONFIG_UNIX=y
+CONFIG_INET=y
+CONFIG_WIRELESS=n
+CONFIG_ATA=y
+CONFIG_NETDEVICES=y
+CONFIG_NET_VENDOR_REALTEK=y
+CONFIG_8139TOO=y
+CONFIG_8139CP=y (unchecked all other Ethernet drivers)
+CONFIG_WLAN=n
+CONFIG_DEVKMEM=y
+CONFIG_TTY=y
+CONFIG_TTY_PRINTK=y
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_PROC_FS=y
+CONFIG_PROC_KCORE=y
+CONFIG_SYSFS=y
+CONFIG_X86_VERBOSE_BOOTUP=y
+CONFIG_EARLY_PRINTK=y</p>
+
+<p>尤其注意这里：</p>
+
+<p>CONFIG_INITRAMFS_SOURCE=/pathto/myinitrd.cpio</p>
+
+<p>这个路径是不能空缺的，否则内核是编译不过去的。
+最后可以执行</p>
+
+<p>make</p>
+
+<p>命令来生成bzImage镜像。</p>
+
+<ol>
+  <li>启动镜像</li>
+</ol>
+
+<p>执行命令，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+qemu-system-x86_64  <span class="nt">-kernel</span> /path-to/bzImage <span class="nt">-initrd</span> /path-to/myinitrd.cpio
+<span class="nt">-append</span> <span class="s2">"root=/dev/ram0 rootfstype=ramfs init=init console=ttyS0"</span>
+<span class="nt">-net</span> nic,model<span class="o">=</span>rtl8139 <span class="nt">-net</span> user  <span class="nt">-net</span> dump <span class="nt">-nographic</span>
+
+</code></pre></div></div>
+
+<p>我这里没有打开smp设置，原文章上有的。</p>
+
+<p>就可以打开qemu模拟器了。</p>
+
+<p><a href="https://techblog.lankes.org/2015/05/01/My-Memo-to-build-a-custom-Linux-Kernel-for-Qemu/">参考</a></p>
+
+<h1 id="后记">后记</h1>
+
+<p>下面的代码是针对<a href="http://www.aftermath.cn/qemu_debug_debian.html">这篇文章</a></p>
+
+<p>打开qemu终端，缺点是不能复制。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-x86_64 <span class="nt">-kernel</span> <span class="nb">arch</span>/x86/boot/bzImage <span class="se">\</span>
+<span class="nt">-initrd</span> ~/initramfs/rootfs.img.gz <span class="se">\</span>
+<span class="nt">-append</span> <span class="s2">"root=/dev/ram rdinit=sbin/init noapic"</span>
+</code></pre></div></div>
+<p>改进一下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hehe
+</code></pre></div></div>
+
+<h2 id="配置网络">配置网络</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig lo 127.0.0.1
+route add <span class="nt">-net</span> 127.0.0.0 netmask 255.255.255.0 lo
+ifconfig eth0 192.168.10.0
+route add <span class="nt">-net</span> 192.168.10.0 netmask 255.255.255.0 eth0
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/03/linux_command_about_wireless/">linux关于无线的命令</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/05/linux_automake_usage/">linux的automake使用方法-未完</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

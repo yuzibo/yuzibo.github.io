@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page5/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/22/python_matplotlib/">python 数据可视化matplotlib简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-22
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="install">install</h1>
+
+<p>python 2.7:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-apt install matplotlib
+</code></pre></div></div>
+
+<h2 id="小试牛刀">小试牛刀</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>这个代码段就打开了一个二维坐标图。我们首先导入模块pyplot,因为它有很多用于生成图表的函数。</p>
+
+<p>下面作为更详细的介绍.</p>
+
+<h2 id="修改标签文字和线条粗细">修改标签文字和线条粗细</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="n">zhfont1</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s">'/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'</span><span class="p">)</span>
+
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">squares</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># 　set title
+</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">u"平方数据"</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">zhfont1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">u"值"</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">zhfont1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">u"值的平方"</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">zhfont1</span><span class="p">)</span>
+
+<span class="c1"># set scale
+</span><span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s">'both'</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+<p>参数<em>linewidth</em>决定了plot()绘制的线条的粗细，像title, xlabel,ylabel这些就不用多说了吧，尤其第三个参数fontproperties这个下面就有介绍。</p>
+
+<p>plt.tick_params就是设置刻度的样式，其中指定的实参将影响x轴和y轴的刻度(axis=’both’)</p>
+
+<p>显示的效果如下：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/mat_1.png" alt="mat_1.png" /></p>
+
+<p>大家请注意第zhfont1,这个对象就是指定matplotlib使用的字体，这个不指明的话容易造成乱码，这里，有必要说一下fname的参数，这个传递不对的话也不行。</p>
+
+<p>怎么看你的系统支持哪一种字体呢？使用：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fc-list
+</code></pre></div></div>
+
+<p>然后指明字体路径即可。</p>
+
+<h2 id="校正图形">校正图形</h2>
+
+<p>不知道大家有没有注意到上面的图片中，有几个问题，那就是在4.0这个点指向了25，现在就得修复这个问题了。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">input_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">input_values</span><span class="p">,</span> <span class="n">squares</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+<p>效果如下图所示：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/mat_2.png" alt="mat_2.png" /></p>
+
+<p>这种方式是浅显易懂的，主要是因为有了输入数据，而不必需要matplotlib去猜。</p>
+
+<h2 id="分散点scatter">分散点(scatter)</h2>
+<p>上面的图像是连续的，如果使用分散点，那么就可以使用scatter()方法了。</p>
+
+<p>为了节省空间，下面的代码段中有很多的注释，这里就不一一讲解了。　</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># 一系列的点
+</span><span class="n">x_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">y_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1">#自己填充数字 及　确定刻度范围
+# 这样的填充点因为数据太密了，连成一条曲线了
+</span><span class="n">x_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1001</span><span class="p">))</span>
+<span class="n">y_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_values</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1100000</span><span class="p">])</span>
+
+<span class="c1"># edgecolor 删除点的轮廓和改变颜色
+</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s">'red'</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># 颜色映射colormap: 根据数据的变化规律用颜色展示出来。
+# c = y_values 就是将颜色索引值传递给c
+</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span>  <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'none'</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># 自动保存图像,这里需要注意的是将　plt.show()替换掉，否则就会显示为一张空白的图片
+</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'squares_plot.png'</span><span class="p">,</span> <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s">'tight'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>其他的代码不用改变，只是代替plt.plot()方法即可。</p>
+
+<h1 id="随机漫步">随机漫步</h1>
+
+<p>这个东西有点类似随机化算法，下面请看代码实现.</p>
+
+<p>code in random_walk.py:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+
+<span class="k">class</span> <span class="nc">RandomWalk</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_point</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">):</span>
+        <span class="s">""" 初始化随机漫步的属性"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_point</span> <span class="o">=</span> <span class="n">num_point</span>
+
+        <span class="c1"># 所有的随机漫步都始于(0,0)
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">x_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+    <span class="k">def</span> <span class="nf">fill_walk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># walk and up to length of
+</span>        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_point</span><span class="p">:</span>
+        <span class="c1"># decise direction and distance
+</span>            <span class="n">x_direction</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">x_distance</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+            <span class="n">x_step</span> <span class="o">=</span> <span class="n">x_direction</span> <span class="o">*</span> <span class="n">x_distance</span>
+
+            <span class="n">y_direction</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">y_distance</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">y_step</span> <span class="o">=</span> <span class="n">y_direction</span> <span class="o">*</span> <span class="n">y_distance</span>
+
+        <span class="c1"># refuse keep original
+</span>            <span class="k">if</span> <span class="n">x_step</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y_step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+        <span class="c1"># caluate next x and y, x_step add last element in x_values
+</span>            <span class="n">next_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">x_step</span>
+            <span class="n">next_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_step</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_x</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>上面的代码只是定义了一个使用的类，下面是使用的方法。</p>
+
+<p>code in rw_visual.py:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">mpl_squares</span> <span class="kn">import</span> <span class="n">RandomWalk</span>
+
+<span class="c1"># 创建一个RandomWalk（）实例
+</span>
+<span class="n">rw</span> <span class="o">=</span> <span class="n">RandomWalk</span><span class="p">()</span>
+<span class="n">rw</span><span class="o">.</span><span class="n">fill_walk</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rw</span><span class="o">.</span><span class="n">x_values</span><span class="p">,</span> <span class="n">rw</span><span class="o">.</span><span class="n">y_values</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p>效果如图所示：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/mat_3.png" alt="mat_3.png" /></p>
+
+<p>还可以使用循环，做一下好几次变化的输出：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	<span class="o">--</span><span class="p">[</span><span class="n">snip</span><span class="p">]</span><span class="o">--</span>
+
+	<span class="n">keep_running</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"make a another(y/n)?"</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">keep_running</span> <span class="o">==</span> <span class="s">'n'</span>
+	<span class="k">break</span>
+</code></pre></div></div>
+
+<p>还可以像前面那样使用颜色映射：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">point_numbers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">rw</span><span class="o">.</span><span class="n">num_point</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rw</span><span class="o">.</span><span class="n">x_values</span><span class="p">,</span> <span class="n">rw</span><span class="o">.</span><span class="n">y_values</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">point_numbers</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>还可以突出起点和终点:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rw</span><span class="o">.</span><span class="n">x_values</span><span class="p">,</span> <span class="n">rw</span><span class="o">.</span><span class="n">y_values</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">point_numbers</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="o">--</span><span class="p">[</span><span class="n">snip</span><span class="p">]</span><span class="o">--</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s">'green'</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rw</span><span class="o">.</span><span class="n">x_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">rw</span><span class="o">.</span><span class="n">y_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s">'red'</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="o">--</span><span class="p">[</span><span class="n">snip</span><span class="p">]</span><span class="o">--</span>
+</code></pre></div></div>
+<p>也就是说,plt.scatter方法是可以前后调用的，当你前面已经描绘出随机点的时候，后面的可以突出起点和终点.</p>
+
+<p>还可以隐藏坐标轴:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>实际上介绍到这里，还是希望大家能够阅读文档，这里的实质性的东西太少，并不能给你一个透彻的理解.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/22/python_matplotlib/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/21/python_requests/">python之Requests的使用笔记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-21
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h3 id="send-a-request">send a Request</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://api.github.com/events'</span><span class="p">)</span>
+
+<span class="n">re</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'http://httpbin.org/post'</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">'key'</span><span class="p">:</span><span class="s">'value'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">re</span>
+<span class="c1">## This is a HTTP POST
+</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s">'keys1'</span><span class="p">:</span> <span class="s">'val1'</span><span class="p">,</span><span class="s">'keys2'</span><span class="p">:</span> <span class="s">'val2'</span><span class="p">}</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'http://httpbin.org/get'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">url</span>
+<span class="c1">## http://httpbin.org/get?keys1=val1&amp;keys2=val2
+</span>
+</code></pre></div></div>
+
+<p>哈哈，不得不说这个库真的很厉害，一下子就解决我的问题了，所以我只能高兴的使用汉语表达我的喜悦之情了。</p>
+
+<h3 id="request-content">Request Content</h3>
+<p>这个库的使用和BS的用法差不多少，<a href="http://www.aftermath.cn/python_beautifulsoup.html">MY BS note</a>, 一开始都是依靠自己的猜测，当然，大多数是认为Unicode,看下面：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">re</span><span class="o">.</span><span class="n">text</span>
+</code></pre></div></div>
+
+<p>这里当然是指在你不知道网页源代码字符集的情况下默认编码为<em>Unicode</em>,如果，而且必须做的是，你知道正确的编码格式就得改正过来, 使用 <em>re.encoding=’’</em> 指明它：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">re</span><span class="o">.</span><span class="n">encoding</span>
+<span class="n">re</span><span class="o">.</span><span class="n">encoding</span>
+</code></pre></div></div>
+<p>所以，这里的思路应该是使用<em>re.content</em>去发现源代码的编码方式，然后使用<em>re.encoding</em>去定义原本的编码格式而不是考猜，最后使用<em>re.text</em>打印出你想使用的东西。</p>
+
+<h4 id="json-请求">JSON 请求</h4>
+<p>还是以上面的例子，比如：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h4 id="返回码">返回码</h4>
+<p>上面有几个的内容我忽略掉了，现在只需要几个我认为自己能够需要的，其他的后来慢慢补上。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re</span><span class="o">.</span><span class="n">status_code</span>
+
+<span class="c1">## @2
+</span><span class="n">re</span><span class="o">.</span><span class="n">headers</span>
+
+<span class="n">re</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'Content-Type'</span><span class="p">]</span>
+</code></pre></div></div>
+<p>嘿，有意思了，4xx是客户端错误然而5XX是服务端错误。</p>
+
+<h4 id="cookies">cookies</h4>
+
+<p>在一些含有cookie的网页中，你可以快速进入cookies:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">re</span><span class="o">.</span><span class="n">cookies</span><span class="p">[</span><span class="s">'example_cookie_name'</span><span class="p">]</span>
+
+<span class="c1">##  If you send your own cookies to the server, you can use the *cookies* parameter:
+</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">'http://httpbin.org/cookies'</span>
+    <span class="n">cookies</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cookies_are</span><span class="o">=</span><span class="s">'working'</span><span class="p">)</span>
+
+    <span class="n">re</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">cookies</span><span class="o">=</span><span class="n">cookies</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">re</span><span class="o">.</span><span class="n">text</span>
+<span class="c1">#{
+#  "cookies": {
+#      "cookies_are": "working"
+#	        }
+#}
+</span></code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/21/python_requests/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/20/python_beautifulsoup/">python爬虫之beautifulsoup用法</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-20
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="快速开始">快速开始</h1>
+
+<h2 id="软件安装">软件安装</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo pip install beautifulsoup
+</code></pre></div></div>
+
+<p>python的软件安装请参<a href="http://www.aftermath.cn/python_install_packets.html">参考</a></p>
+
+<p>详细教程请参考这里:</p>
+
+<p>提醒大家，使用这个库，一定做好字符编码这个坑的准备</p>
+
+<p>https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">html_doc</span> <span class="o">=</span> <span class="s">"""
+&lt;html&gt;&lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;p class="title" name="dromouse"&gt;&lt;b&gt;The Dormouse's story&lt;/b&gt;&lt;/p&gt;
+&lt;p class="story"&gt;Once upon a time there were three little sisters; and their names were
+&lt;a href="http://example.com/elsie" class="sister" id="link1"&gt;&lt;!-- Elsie --&gt;&lt;/a&gt;,
+&lt;a href="http://example.com/lacie" class="sister" id="link2"&gt;Lacie&lt;/a&gt; and
+&lt;a href="http://example.com/tillie" class="sister" id="link3"&gt;Tillie&lt;/a&gt;;
+and they lived at the bottom of a well.&lt;/p&gt;
+&lt;p class="story"&gt;...&lt;/p&gt;
+"""</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_doc</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+</code></pre></div></div>
+<p>当然，所有的用法是以上面的代码为基础的.
+效果如下:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/bs_1.png" alt="png" /></p>
+
+<h1 id="几个简单的用法">几个简单的用法</h1>
+
+<p>下面代码中的注释就是输出内容.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+<span class="c1">#&lt;title&gt;The Dormouse's story&lt;/title&gt;
+</span>
+<span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+<span class="c1">#&lt;class 'bs4.element.Tag'&gt;
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">name</span>
+<span class="c1">#title
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">string</span>
+<span class="c1">#The Dormouse's story
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span>
+<span class="c1">#head
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span>
+<span class="c1"># &lt;p class="title" name="dromouse"&gt;&lt;b&gt;The Dormouse's story&lt;/b&gt;&lt;/p&gt;
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="s">'class'</span><span class="p">]</span>
+<span class="c1">#['title']
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="c1">#&lt;a class="sister" href="http://example.com/elsie"
+#id="link1"&gt;&lt;!-- Elsie --&gt;&lt;/a&gt;
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+<span class="c1">#[class="sister" href="http://example.com/elsie" id="link1"&gt;&lt;!-- Elsie --&gt;&lt;/a&gt;,
+#&lt;a class="sister" href="http://example.com/lacie" id="link2"&gt;Lacie&lt;/a&gt;,
+#&lt;a class="sister" href="http://example.com/tillie" id="link3"&gt;Tillie&lt;/a&gt;]
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">"link3"</span><span class="p">)</span>
+<span class="c1">#&lt;a class="sister" href="http://example.com/tillie" id="link3"&gt;Tillie&lt;/a&gt;
+</span></code></pre></div></div>
+
+<p>实际上，那个主页上面的例子有些差错，我已经发邮件说了。</p>
+
+<p>大家可以先看看这个例子，慢慢地我会逐一讲解。</p>
+
+<p>这里可以使用loop将链接提取出来:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'href'</span><span class="p">))</span>
+<span class="c1">#http://example.com/elsie
+#http://example.com/lacie
+#http://example.com/tillie
+</span>
+</code></pre></div></div>
+
+<h1 id="对象类型">对象类型</h1>
+
+<h3 id="tag">Tag</h3>
+<p>在上面的代码中已经出现了这个，请看&lt;class ‘bs4.element.Tag’&gt;
+这个类型有很多的属性，这里，重点记住它的属性和名称.</p>
+<h4 id="name">name</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">'&lt;b class="boldest"&gt;Extremely bold&lt;/b&gt;'</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+<span class="n">tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">b</span>
+<span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span>
+<span class="c1"># 在这里你可以更改tag的名字，这样还可以将修改反应到原生的html
+</span>
+<span class="n">tag</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">'yubo'</span>
+<span class="k">print</span> <span class="n">tag</span>
+<span class="c1">#### 输出的内容:
+</span><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">bs4</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">Tag</span><span class="s">'&gt;</span><span class="err">
+</span><span class="s">b</span><span class="err">
+</span><span class="s">&lt;yubo class="boldest"&gt;Extremely bold&lt;/yubo&gt;</span><span class="err">
+</span></code></pre></div></div>
+
+<h4 id="attris">attris</h4>
+<p>对于上面的代码来说就是这样，这里的属性就是class,也就是标签的属性。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">tag</span><span class="p">[</span><span class="s">'class'</span><span class="p">]</span>
+
+<span class="c1"># 你可以直接访问,注意这是一个字典:
+</span>
+<span class="k">print</span> <span class="n">tag</span><span class="o">.</span><span class="n">attrs</span>
+<span class="p">{</span><span class="s">'class'</span><span class="p">:</span> <span class="p">[</span><span class="s">'boldest'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>这里有一个多值属性，就先不解释了</p>
+
+<h4 id="navigablestring">NavigableString</h4>
+<p>这个对象的含义就是一个tag对象所存储的文本内容,BeautifulSoup使用NavigableString这个类去存储文本。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">tag</span><span class="o">.</span><span class="n">string</span>
+<span class="c1">#Extremely bold
+</span>
+<span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+<span class="c1">#&lt;class 'bs4.element.NavigableString'&gt;
+</span></code></pre></div></div>
+<p>这里就涉及到令人烦恼的编码问题了。一个NavigableString对象就像Python Unicode字符串，你可以使用<em>unicode()</em>方法。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">unicode_string</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">unicode_string</span>
+<span class="c1">#Extremely bold
+</span>
+<span class="n">tag</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">replace_with</span><span class="p">(</span><span class="s">"hello, yubo"</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">tag</span>
+<span class="c1">#&lt;b class="boldest"&gt;hello, yubo&lt;/b&gt;
+</span></code></pre></div></div>
+<p>这里直接引用文档中的原文:
+If you want to use a NavigableString outside of Beautiful Soup, you should call unicode() on it to turn it into a normal Python Unicode string. If you don’t, your string will carry around a reference to the entire Beautiful Soup parse tree, even when you’re done using Beautiful Soup. This is a big waste of memory.</p>
+
+<h4 id="beautifulsoup">BeautifulSoup</h4>
+<p>因为之前有Tag的对象，这个对象就是整个页面的集合组成，基本上用的不多.</p>
+
+<h4 id="评论及其他">评论及其他</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">markup</span> <span class="o">=</span> <span class="s">"&lt;b&gt;&lt;!--Hey, buddy. Want to buy a used parser?--&gt;&lt;/b&gt;"</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">markup</span><span class="p">)</span>
+<span class="n">comment</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">string</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+<span class="c1"># &lt;class 'bs4.element.Comment'&gt;
+</span></code></pre></div></div>
+
+<p>还是以上面的例子，html_doc的内容不变， 测试以下实验例句.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_doc</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+<span class="c1"># 这个语句打印匹配出第一个合适的&lt;a&gt;标签
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+<span class="c1">#这个语句就是打印出所有的&lt;a&gt;标签，这明显就是一个列表。
+</span></code></pre></div></div>
+
+<h5 id="contents-和-children">.contents 和 .children</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">head_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">head</span>
+<span class="k">print</span> <span class="n">head_tag</span>
+<span class="c1">#&lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
+</span>
+<span class="k">print</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">contents</span>
+<span class="c1"># [&lt;title&gt;The Dormouse's story&lt;/title&gt;]
+# actually, you can see that soup.head is tag,
+# which contents is its sub-class and it is a list
+</span>
+
+<span class="k">print</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">#&lt;title&gt;The Dormouse's story&lt;/title&gt;
+# discard list
+</span>
+<span class="k">print</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contents</span>
+<span class="c1"># recursion... [u"The Dormouse's story"]
+</span></code></pre></div></div>
+
+<p>The “BeautifulSoup” object itself has children, in this case, the &lt;html&gt; is the child of the “BeautifulSoup”.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">head</span>
+<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">contents</span><span class="p">)</span>
+<span class="c1"># 1
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="c1"># html
+# You need to think the same useage like about
+</span>
+<span class="n">title_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+<span class="k">print</span> <span class="n">title_tag</span>
+<span class="c1"># &lt;title&gt;The Dormouse's story&lt;/title&gt;
+</span>
+<span class="k">print</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">contents</span>
+<span class="c1">#[u"The Dormouse's story"]
+</span>
+<span class="k">print</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">#The Dormouse's story
+</span></code></pre></div></div>
+
+<h5 id="descendants">.descendants</h5>
+
+<p>The <em>.contents</em> and <em>.children</em> attribute only consider a tag’s direct chilren. For instance, the &lt;head&gt; tag has a single direct child-the <title> tag:</title></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">head_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">head</span>
+<span class="k">print</span> <span class="n">head_tag</span>
+<span class="c1"># &lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
+</span>
+<span class="k">print</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">contents</span>
+<span class="c1">#[&lt;title&gt;The Dormouse's story&lt;/title&gt;]
+</span>
+</code></pre></div></div>
+<p>Above, please note: The <em>title</em> tag itself has a child: “The Dormouse’s story”, the <em>.descendants</em> attribute just is to use it.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">head_tag</span><span class="o">.</span><span class="n">descendants</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">child</span>
+<span class="c1">#&lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
+#&lt;title&gt;The Dormouse's story&lt;/title&gt;
+#The Dormouse's story
+</span></code></pre></div></div>
+
+<p>If a tags only one child,and that child is a <em>NavigableString</em>(??), the child is available as <em>.string</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">title_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+<span class="k">print</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">string</span>
+<span class="c1"># The Dormouse's story
+</span></code></pre></div></div>
+
+<h5 id="string-and-stripped_string">.string and stripped_string</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">strings</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+<span class="c1"># print a lot
+</span>
+<span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">stripped_string</span><span class="p">:</span>
+	<span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+<span class="c1"># discard "\n"
+</span></code></pre></div></div>
+
+<h3 id="going-up">Going up</h3>
+
+<h4 id="parent">.parent</h4>
+<p>You can access an elements parent with <em>.parnet</em>,for instance,</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">title_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">title</span>
+<span class="k">print</span> <span class="n">title_tag</span>
+<span class="c1">#&lt;title&gt;The Dormouse's story&lt;/title&gt;
+</span>
+<span class="k">print</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">parent</span>
+<span class="c1">#&lt;head&gt;&lt;title&gt;The Dormouse's story&lt;/title&gt;&lt;/head&gt;
+</span>
+</code></pre></div></div>
+
+<h4 id="parents">.parents</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span>
+
+<span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">link</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="c1"># p
+# body
+# html
+# [document]
+# None
+</span></code></pre></div></div>
+
+<p>This is a recursion usage to iterate over all elements’s parent.</p>
+
+<h4 id="sideways">Sideways</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">soup_sibling</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">"&lt;a&gt;&lt;b&gt;text1&lt;/b&gt;&lt;c&gt;Test2&lt;/c&gt;&lt;/b&gt;&lt;/a&gt;"</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">soup_sibling</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+<span class="c1">#&lt;html&gt;
+# &lt;body&gt;
+#  &lt;a&gt;
+#   &lt;b&gt;
+#    text1
+#   &lt;/b&gt;
+#   &lt;c&gt;
+#    Test2
+#   &lt;/c&gt;
+#  &lt;/a&gt;
+# &lt;/body&gt;
+#&lt;/html&gt;
+</span>
+</code></pre></div></div>
+<p>The <b> tag and <c> tag are at the same level: they're both direct children of the same tag.We call them *siblings*.</c></b></p>
+
+<h4 id="next_siblings-and-previous_sibling">.next_siblings and .previous_sibling</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">print</span> <span class="n">soup_sibling</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">next_sibling</span>
+<span class="c1"># &lt;c&gt;Test2&lt;/c&gt;
+</span>
+<span class="k">print</span> <span class="n">soup_sibling</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">previous_sibling</span>
+<span class="c1"># &lt;b&gt;text1&lt;/b&gt;
+</span>
+</code></pre></div></div>
+<p>Certainly, there is a <em>next_sibling</em></p>
+
+<p>Here, you should know <em>.next_elements</em>and <em>.previous_elements</em></p>
+
+<h3 id="searching-the-tree">Searching the tree</h3>
+
+<h4 id="a-string">A string</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'b'</span><span class="p">)</span>
+<span class="c1">#[&lt;b&gt;The Dormouse's story&lt;/b&gt;]
+# This is a list.
+</span></code></pre></div></div>
+<h4 id="a-regular-expression">A regular expression</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c1">### @1
+</span><span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"^b"</span><span class="p">)):</span>
+    <span class="k">print</span> <span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="c1">##body
+##b
+</span>
+<span class="c1">### @2
+</span><span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"t"</span><span class="p">)):</span>
+    <span class="k">print</span> <span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="c1">## html
+## title
+</span>
+<span class="c1">### @3
+</span><span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">([</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">])</span>
+
+<span class="c1">### @4
+</span><span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">print</span> <span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1">### @5
+</span><span class="k">def</span> <span class="nf">has_class_but_no_id</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tag</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">has_class_but_no_id</span><span class="p">)</span>
+
+
+<span class="c1">### @6
+</span><span class="k">def</span> <span class="nf">not_lacie</span><span class="p">(</span><span class="n">href</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">href</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"lacie"</span><span class="p">)</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">href</span><span class="o">=</span><span class="n">not_lacie</span><span class="p">))</span>
+</code></pre></div></div>
+<p>@1,here, this code finds all the <em>tags</em> whose names start with the letter “b”:in this case, the &lt;body&gt; tag and the <b> tag</b></p>
+
+<p>@2: this code is to find tag whose name contains “t”.</p>
+
+<p>@3: here is a list(arguments is and results is too)</p>
+
+<p>@4: The argument is bool, it will list all tags in html_doc.</p>
+
+<p>@5: You will pick up a tag &lt;p&gt; it contains “class”.This function only picks up the &lt;p&gt; tags. It doesn’t pick up the <a> tags, because those tags define both “class” and “id”. It doesn’t pick up tags like &lt;html&gt; and <title>, because those tags don’t define “class”.</title></a></p>
+
+<p>@6: You will note the call for function.It will output two elements in a list,it both are <a></a> tag.</p>
+
+<h4 id="find_all">find_all()</h4>
+<p>The above usage is mentioned.her, <em>name</em> <em>keywords</em> argument, in a words:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">"title"</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">'link2'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">href</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"elsie"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>You can’t use a keyword argument to search for HTML’s ‘name’ element, because Beautiful Soup uses the name argument to contain the name of the tag itself. Instead, you can give a value to ‘name’ in the attrs argument.Below is code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="s">'&lt;input name="email"/&gt;'</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+<span class="c1">## @1
+</span><span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"email"</span><span class="p">)</span>
+
+<span class="c1">## @2
+</span><span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">"name"</span><span class="p">:</span><span class="s">"email"</span><span class="p">})</span>
+<span class="c1">#[&lt;input name="email"/&gt;]
+</span></code></pre></div></div>
+
+<p>@1: it will print a empty list([]).</p>
+
+<p>@2: it will print right result.</p>
+
+<h2 id="css-class">CSS class</h2>
+<p>The <em>class</em> is a keyword in python, so you have to use <em>class_</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="n">class_</span> <span class="o">=</span> <span class="s">"sister"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.html#going-up">here</a></p>
+
+<h3 id="css-selector">CSS selector</h3>
+
+<p>Beautiful Soup supports the most commonly-used CSS selectors. Just pass a string into the .select() method of a Tag object or the BeautifulSoup object itself.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">"title"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>…</p>
+
+<h2 id="output">Output</h2>
+<p>The will turn BS into Unicode string.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+<span class="c1">## it will print Unicode
+</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">soup</span><span class="p">)</span>
+<span class="c1">## it will return UTF-8
+</span></code></pre></div></div>
+
+<h2 id="encodings">Encodings</h2>
+
+<p>Use <em>.original_encoding</em> to displays documents’s encoding</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">original_encoding</span>
+<span class="c1"># ascii
+</span>
+<span class="n">markup</span> <span class="o">=</span> <span class="n">b</span><span class="s">"&lt;h1&gt;</span><span class="se">\xed\xe5\xec\xf9</span><span class="s">&lt;/h1&gt;"</span>
+<span class="c1"># 这个编码是iso-8859-8
+# 如果你直接打印soup.original_encoding将会是 iso-8859-7
+</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">markup</span> <span class="p">,</span> <span class="s">'lxml'</span><span class="p">,</span> <span class="n">from_encoding</span><span class="o">=</span><span class="s">"iso-8859-8"</span><span class="p">)</span>
+<span class="c1"># 使用这个参数就会告诉BS正确的编码方式
+</span>
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">original_encoding</span>
+<span class="c1">#这样就会打印iso-8859-8
+</span>
+</code></pre></div></div>
+<p>这里才是我写这篇文章的目的，BS默认是把输入文档转化为Unicode,当然，输入时的文本编码是靠BS猜的，但是有可能猜错，所以这样你最好使用<em>from_encoding</em>参数指明输入的文本的编码格式。这里用汉语写出，以突出重点.</p>
+
+<h2 id="输出编码output-encoding">输出编码(output encoding)</h2>
+
+<p>BS输出时默认是UTF-8.请看下面的例子:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">html_doc</span> <span class="o">=</span> <span class="s">"""
+&lt;html&gt;
+    &lt;head&gt;
+     &lt;meta content="text/html; charset=ISO-Latin-1"
+     http-equiv="Content-type" /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Sacr</span><span class="se">\xe9</span><span class="s"> bleu!&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+"""</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_doc</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">soup</span><span class="o">.</span><span class="n">original_encoding</span>
+<span class="c1">#iso-latin-1
+</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+<span class="c1">#&lt;html&gt;
+#	&lt;head&gt;
+#		&lt;meta content="text/html;
+#		charset=utf-8" http-equiv="Content-type"/&gt;
+#	&lt;/head&gt;
+#	&lt;body&gt;
+#	&lt;p&gt;
+#		  Sacré bleu!
+#	&lt;/p&gt;
+#	&lt;/body&gt;
+#&lt;/html&gt;
+</span></code></pre></div></div>
+<p>请问能够看出什么东西来，对，就是这样的简单，BS可以根据&lt;html&gt;的字符集自动分析编码集，但是使用prettify()输出的时候就是”UTF-8”的编码。</p>
+
+<p>赶快拿出笔记本记重点：如果prettify()的  <em>UTF-8</em>不是你的菜，你可以使用prettify()的编码方法。</p>
+
+<h1 id="实例">实例</h1>
+
+<p><a href="http://paper.people.com.cn/rmrb/html/2017-11/15/nw.D110000renmrb_20171115_1-09.htm">以这篇文章为例</a></p>
+
+<p><img src="http://yuzibo.qiniudn.com/rmrb2.png" alt="rmrb2.png" /></p>
+
+<p>为了提取图中的文字，可以使用下面的代码：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">import</span> <span class="nn">chardet</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+<span class="c1">#    target = 'http://paper.people.com.cn/rmrb/html/2017-11/15/nbs.D110000renmrb_09.htm'
+</span>    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://paper.people.com.cn/rmrb/html/2017-11/15/nw.D110000renmrb_20171115_1-09.htm'</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">req</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">'utf-8'</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">bf</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span> <span class="p">,</span><span class="s">'lxml'</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">'postContent'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">bf</span><span class="o">.</span><span class="n">h1</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">print</span> <span class="n">context</span><span class="o">.</span><span class="n">text</span>
+</code></pre></div></div>
+
+<p>参考：https://jiayi.space/post/yong-beautifulsoupti-qu-wang-ye-xin-xi-shi-li</p>
+
+<h4 id="分行">分行</h4>
+<p>这个东西从一开始就困扰我，现在还好些了，请看效果:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/rmrb3.png" alt="rmrb3.png" /></p>
+
+<p>在这里，我们知道&lt;P&gt;&lt;/P&gt;标签就是分段的意思，同理，<br />也是同样的意思，你可以使用<em>.get_text</em>属性</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">bf</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span> <span class="p">,</span><span class="s">'lxml'</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">'postContent'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">context</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">separator</span> <span class="o">=</span> <span class="s">u'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Please to see the picture:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/rmrb4.png" alt="rmrb4.png" /></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/20/python_beautifulsoup/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/19/python_spider/">python之爬虫简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-19
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>基本的知识架构为python基础-&gt;urllib2库基本用法或者requests基本用法-&gt;正则表达式，这样你的爬虫的效果才会更好，更进一步。</p>
+
+<h1 id="urllib2">urllib2</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">"http://www.baidu.com"</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>将这段代码保存为demo.py,运行之后你就会看到满屏的内容，哈哈，这就是第一个爬虫代码.
+首先我们调用的是urllib2库里面的urlopen方法，传入一个URL，这个网址是百度首页，协议是HTTP协议，当然你也可以把HTTP换做FTP,FILE,HTTPS 等等，只是代表了一种访问控制协议，urlopen一般接受三个参数，它的参数如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>urlopen(url, data, timeout)
+</code></pre></div></div>
+
+<p>第二个参数data是访问URL时要传送的数据，第三个timeout是设置超时时间。第二三个参数是可以不传送的，data默认为空None，timeout默认为 socket._GLOBAL_DEFAULT_TIMEOUT.第一个参数URL是必须要传送的，在这个例子里面我们传送了百度的URL，执行urlopen方法之后，返回一个response对象，返回信息便保存在这里面。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print response.read()
+</code></pre></div></div>
+
+<p>response 对象有一个read方法，可以返回获取到的网页内容。</p>
+
+<p>这段代码可以改进一下:<em>构造Request</em>
+这里可以传入一个request请求，这就是一个Request类的实例，构造时需要传入Url,Data等等的内容，比如，上面的两行代码，我们可以这么改写:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">"http://www.aftermath.cn"</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="post-和get--方式">post 和　get  方式</h3>
+<p>[IMPORTANT]，这块后来补充
+先上一张正则表达式的图片</p>
+
+<p><img src="http://yuzibo.qiniudn.com/sp_1.png" alt="sp_1.png" /></p>
+
+<h1 id="requests-库的使用">requests 库的使用</h1>
+
+<p>requests的方法如下:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/reguests.png" alt="reguests.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://gitbook.cn/'</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>现在你可以看一下这个代码，这样你就将很多文本型的内容打印出来了.
+下面这段代码与上面的代码是一样的，我这里只是想探究一下字符编码的问题。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://www.biqukan.com/1_1094/5403177.html'</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">target</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
+<p>效果:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/requests_1.png" alt="requests_1.png" /></p>
+
+<p>注意源码中的编码字符集，这个对于以后的中文处理字符有很大的作用.
+也就是说从这里开始，requests得到的字符可以在我的电脑上显示出来，在你的电脑上不一定显示出来，这一点在我一开始处理代码时就这样。</p>
+
+<h1 id="beautiful-soup">Beautiful Soup</h1>
+
+<p>目前这种方法的编码有问题.(应该新开一篇单独讲这个问题)</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://www.biqukan.com/1_1094/5403177.html'</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">text</span>
+    <span class="c1">#html = urllib2.urlopen(target)
+</span>    <span class="c1">#content = html.read().decode('gbk', 'ignore')
+</span>    <span class="c1">#下面可以不指定fromEncoding，bs 可以自己搞定
+</span>    <span class="n">bf_1</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="s">'lxml'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"------------</span><span class="se">\n\n</span><span class="s">"</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">bf_1</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'div'</span><span class="p">,</span> <span class="n">class_</span> <span class="o">=</span> <span class="s">'showtxt'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"type(texts)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"len(texts)="</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">each_div</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"type(each_div)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">each_div</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">"each_div.string="</span><span class="p">,</span> <span class="n">each_div</span><span class="o">.</span><span class="n">string</span> <span class="c1"># 输出soup的属性
+</span>        <span class="k">print</span> <span class="s">"type(each_div.string)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">each_div</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">"each_div="</span><span class="p">,</span> <span class="n">each_div</span>
+        <span class="k">print</span> <span class="s">"each_div.renderContents()="</span><span class="p">,</span> <span class="n">each_div</span><span class="o">.</span><span class="n">renderContents</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">"each_div.__str__('GBK')="</span><span class="p">,</span> <span class="n">each_div</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+</code></pre></div></div>
+<p>为什么这么啰嗦呢，关键问题在于字符编码的问题影响了事情的发展。BeautifulSoup将输入的内容自己转换为unicode的编码了，需要我们在输出的时候，人为的指定输出格式.</p>
+
+<p>效果如下:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/sp_1.png" alt="sp_1.png" /></p>
+
+<p>参考这篇<a href="https://www.crifan.com/beautifulsoup_already_got_unicode_soup_but_print_messy_code/">文章</a></p>
+
+<p>在上面的效果中，你会发现还有<br />标签什么，下面是去掉<br />的代码，</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s">'gbk'</span><span class="p">)</span>
+<span class="c1"># 这一个对于编码的工作也是至关重要
+</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://www.biqukan.com/1_1094/5403177.html'</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">bf_1</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="s">'lxml'</span><span class="p">)</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">bf_1</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'div'</span><span class="p">,</span> <span class="n">class_</span> <span class="o">=</span> <span class="s">'showtxt'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"type(texts)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"len(texts)="</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\xa0</span><span class="s">'</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span><span class="s">'</span><span class="se">\n\n</span><span class="s">'</span><span class="p">))</span>
+</code></pre></div></div>
+<p>这一段代码与前面的代码的区别在哪里相信大家一定能够看出来，其实，上面的代码后面几行代码就是测试使用的。</p>
+
+<p>如果不加入最前面的三行代码，python会报出unicodedecodeerror error,这里面不知道大家有没有看出门道，就是你要抓取的网页源代码是什么样的编码格式，在最前面的sys.setdefaultencoding()就要指定python的编码格式，这样在传递给BeautifulSoup处理的时候就是gbk了(这里是我自己的推断，不一定正确)</p>
+
+<p>总结如下：</p>
+
+<p>不能再对Unicode编码再进行解码(decode)了，这时候你应该对其进行对应于你的终端上的编码格式进行编码(encode)</p>
+
+<p>效果如下：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/request_2.png" alt="request_2.png" /></p>
+
+<h3 id="关于编码的问题">关于编码的问题</h3>
+<p>这里有一篇好的文章，请参考一下<a href="http://www.cnblogs.com/huxi/archive/2010/12/05/1897271.html">here</a></p>
+
+<p>(ascii编码)[http://blog.csdn.net/songjinshi/post/details/7868866]</p>
+
+<p>正则表达式:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/04.png" alt="04.png" /></p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/19/python_spider/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/18/pygame_note/">pygame知识点总结</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-18
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h3 id="pygame中加载位图绘制位图">pygame中加载位图、绘制位图</h3>
+<p>pygame中有这些类和函数：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#1
+</span><span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">()</span>
+<span class="c1">#上面这个函数会返回一个Surface 对象,他是位图的一种.
+</span>
+<span class="c1">#2
+</span><span class="n">space</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">"xx.png"</span><span class="p">)</span>
+
+<span class="c1">#3, Surface对象有一个名为blit()的方法，它可以绘制位图
+</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="s">""" 第一个参数是加载完成的位图，第二个参数是绘制的起始坐标"""</span>
+</code></pre></div></div>
+
+<p>其实，没有代码的话直说函数有点空洞，现在我就将最重要的(至少我认为是)的重点列出来，以方便自己复习。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>keys = pygame.key.get_pressed()
+</code></pre></div></div>
+
+<p>这个函数就是在打开的界面中监听你的动作，顺便说一句，在python中，函数的返回值最好设为列表，这样就和绝大多数的库函数保持一致了。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">pygame.locals</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="nb">exit</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">random</span><span class="p">,</span> <span class="n">time</span>
+<span class="s">""" 这个函数是简单的打印文字的，需要总结一下"""</span>
+<span class="k">def</span> <span class="nf">print_text</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">)):</span>
+    <span class="n">imgText</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">imgText</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span>
+
+<span class="c1"># 主程序
+# 这样的程序最好分开写比较好
+</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="mi">600</span><span class="p">,</span><span class="mi">500</span><span class="p">))</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s">"Leyboard Demo"</span><span class="p">)</span>
+<span class="n">font1</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
+<span class="n">font2</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="n">white</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span>
+<span class="n">yellow</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span>
+<span class="n">color</span> <span class="o">=</span> <span class="mi">125</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">210</span>
+
+<span class="n">key_flag</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">correct_answer</span> <span class="o">=</span> <span class="mi">97</span>
+<span class="n">seconds</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">clock_start</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">game_over</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="c1"># 这是重点
+</span><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="nb">type</span> <span class="o">==</span> <span class="n">QUIT</span><span class="p">:</span>
+            <span class="nb">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="nb">type</span> <span class="o">==</span> <span class="n">KEYDOWN</span><span class="p">:</span>
+            <span class="n">key_flag</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="nb">type</span> <span class="o">==</span> <span class="n">KEYUP</span><span class="p">:</span>
+            <span class="n">key_flag</span> <span class="o">==</span> <span class="bp">False</span>
+
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">get_pressed</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">keys</span><span class="p">[</span><span class="n">K_ESCAPE</span><span class="p">]:</span>
+        <span class="nb">exit</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">keys</span><span class="p">[</span><span class="n">K_RETURN</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">game_over</span><span class="p">:</span>
+            <span class="n">game_over</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">seconds</span> <span class="o">=</span> <span class="mi">11</span>
+            <span class="n">clock_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
+
+    <span class="n">current</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">clock_start</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="n">score</span> <span class="o">*</span> <span class="mi">6</span>
+
+    <span class="k">if</span> <span class="n">seconds</span> <span class="o">-</span> <span class="n">current</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">game_over</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">elif</span> <span class="n">current</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">keys</span><span class="p">[</span><span class="n">correct_answer</span><span class="p">]:</span>
+            <span class="n">correct_answer</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">122</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1">#清屏
+</span>    <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">print_text</span><span class="p">(</span><span class="n">font1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s">"Try to keep up for 10 seconds..."</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">key_flag</span><span class="p">:</span>
+        <span class="n">print_text</span><span class="p">(</span><span class="n">font1</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"You are keying..."</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">game_over</span><span class="p">:</span>
+        <span class="n">print_text</span><span class="p">(</span><span class="n">font1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="s">"Time:"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">seconds</span> <span class="o">-</span> <span class="n">current</span><span class="p">)))</span>
+
+    <span class="n">print_text</span><span class="p">(</span><span class="n">font1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s">"speed: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">speed</span><span class="p">)</span> <span class="o">+</span> <span class="s">"letters/min"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">game_over</span><span class="p">:</span>
+        <span class="n">print_text</span><span class="p">(</span><span class="n">font1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="s">"Press Enter to start ..."</span><span class="p">)</span>
+
+    <span class="n">print_text</span><span class="p">(</span><span class="n">font2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="n">correct_answer</span> <span class="o">-</span> <span class="mi">32</span><span class="p">),</span> <span class="n">yellow</span><span class="p">)</span>
+
+    <span class="c1">#update
+</span>    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/18/pygame_note/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/16/python_file/">python之文件操作</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-16
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>使用<code class="highlighter-rouge">with</code>的打开方式更加符合python的变成习惯，希望你能喜欢这种编程风格。
+下面使用一个文件pi.txt 来测试一下这个问题。</p>
+
+<p>pi.txt:</p>
+
+<p>3.1415926535
+  8979323846
+  2643383279</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="s">""" 这是python打开文件的方法"""</span>
+<span class="s">""" 这里的文件名可以使用相对路径或者相对路径， windows使用(</span><span class="err">\</span><span class="s">)"""</span>
+<span class="s">""" 当然，file_path 可以事先定义"""</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'inherit.py'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_object</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_object</span><span class="p">:</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'inherit.py'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_object</span><span class="p">:</span>
+	<span class="n">contents</span> <span class="o">=</span> <span class="n">file_object</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+	<span class="s">"""除去空格"""</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">contents</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+
+
+<span class="s">""" 创建一个文件包含各行内容的列表"""</span>
+<span class="c1">#注意，使用with的方式，open()方法返回的对象只能在with代码块内使用，
+#如果想在其他地方使用代码，可以使用readlines()方法。
+</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">'pi.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+
+</code></pre></div></div>
+<p>为了更加美好的展现这个函数的特征，我们新建立一个代码段：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">'pi.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">pi_string</span> <span class="o">=</span> <span class="s">''</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">pi_string</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">pi_string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pi_string</span><span class="p">))</span>
+</code></pre></div></div>
+<p>他的输出是这样的:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3.1415926535  8979323846  2643383279
+36
+</code></pre></div></div>
+<p>我们看到这样的输出，也许并不完美，也许并不满足你的要求，现在，我们这样：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file_name</span> <span class="o">=</span> <span class="s">'pi.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">pi_string</span> <span class="o">=</span> <span class="s">''</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">pi_string</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">pi_string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pi_string</span><span class="p">))</span>
+</code></pre></div></div>
+<p>这样就会将好几行数字浓缩在一行之中。注意，python会将所有读取的内容视为文本内容，如果你的内容是数字，而且你还打算使用这个数字，就应该使用int()或者float()函数转化过来。</p>
+
+<h3 id="写入文件">写入文件</h3>
+<p>从文件读取，我们知道使用open(), 那么写入呢？对了，是write，但是，这个write只是一个文件的方法。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">filename</span> <span class="o">=</span> <span class="s">'name.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="nb">object</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"hello, world"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>这个东西与ｃ语言的open(),read(),close()…多么的相近。这里的open()后面的参数
+可以有’w’, ‘r’,’a’,’r+’,最后一种是即可读取也可写入。如果不是人为的指定参数，
+那么就是只读模式打开文件.</p>
+
+<p>同时，注意，python只能写入文本，所以像数字的内容写入文件的时候，必须使用str()
+函数转化，这样才可以</p>
+
+<p>当然在写入的同时可以使用制表符”\n”,”\t”等等。</p>
+
+<h3 id="file的基本操作">file的基本操作</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">root</span><span class="o">@</span><span class="n">yubo</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">python</span><span class="c1"># cat test.py
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"文件名"</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">name</span>
+<span class="k">print</span> <span class="s">"是否已经关闭："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">closed</span>
+<span class="k">print</span> <span class="s">"访问模式："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">mode</span>
+<span class="k">print</span> <span class="s">"末尾是否强制加空格："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">softspace</span>
+</code></pre></div></div>
+
+<h3 id="file对象的属性">File对象的属性</h3>
+
+<p>file.closed	返回true如果文件已被关闭，否则返回false。</p>
+
+<p>file.mode	返回被打开文件的访问模式。</p>
+
+<p>file.name	返回文件的名称。</p>
+
+<p>file.softspace	如果用print输出后，必须跟一个空格符，则返回false。否则返回true。</p>
+
+<p>记得在打开一个文件后需要 file-objection.close();</p>
+
+<h3 id="读写文件">读写文件</h3>
+
+<p>write()方法不会在字符串的后面添加’\n’.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"文件名"</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">name</span>
+<span class="k">print</span> <span class="s">"是否已经关闭："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">closed</span>
+<span class="k">print</span> <span class="s">"访问模式："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">mode</span>
+<span class="k">print</span> <span class="s">"末尾是否强制加空格："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">softspace</span>
+
+<span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"www.aftermath.cn</span><span class="se">\n</span><span class="s">Very good</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>read()方法读取一个参数</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"r+"</span><span class="p">)</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"读取的字符串是："</span><span class="p">,</span> <span class="nb">str</span>
+<span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+
+</code></pre></div></div>
+
+<p>这里的read参数是读取的字节数。</p>
+
+<p>seek()文件定位</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"r+"</span><span class="p">)</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"读取的字符串是："</span><span class="p">,</span> <span class="nb">str</span>
+
+<span class="c1"># 查看当前位置
+</span><span class="n">position</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">tell</span><span class="p">();</span>
+<span class="k">print</span> <span class="s">"当前文件位置："</span><span class="p">,</span> <span class="n">position</span>
+
+<span class="c1"># 把指针再次重新定位到文件开头
+</span>
+<span class="n">position</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"重新读取字符串："</span><span class="p">,</span> <span class="nb">str</span>
+
+<span class="c1"># 关闭打开的文件
+</span><span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+
+</code></pre></div></div>
+
+<h2 id="重命名和删除文件">重命名和删除文件</h2>
+
+<p>需要导入os模块。</p>
+
+<h3 id="重命名">重命名</h3>
+
+<p>os.rename(“file-name1”,”file-name2”);</p>
+
+<p>将文件1重命名为文件2。</p>
+
+<h3 id="删除文件">删除文件</h3>
+
+<p>os.remove(“file-name”);</p>
+
+<h1 id="目录操作">目录操作</h1>
+
+<h3 id="mkdir">mkdir()</h3>
+
+<p>这块文件类似于shell命令</p>
+
+<p>chdir(): 改变目录。</p>
+
+<p>getcwd(): 当前目录</p>
+
+<p>rmdir(): 删除目录</p>
+
+<p>这几个函数都有参数，必须注意。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/16/python_file/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page4" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">5/36</span>
+          
+            <a href="/page6" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

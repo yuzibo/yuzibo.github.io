@@ -1,7 +1,7 @@
 ---
 title: "快速搭建上网工具"
 category: tools
-layout: article
+layout: post
 ---
 
 # 提前声明

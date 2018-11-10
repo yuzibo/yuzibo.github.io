@@ -1,7 +1,7 @@
 ---
 title: "python之Requests的使用笔记"
 category: python
-layout: article
+layout: post
 ---
 
 ### send a Request

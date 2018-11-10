@@ -1,7 +1,7 @@
 ---
 title: "python新手注意的知识点"
 category: python
-layout: article
+layout: post
 ---
 
 # 复制对象和可改变行

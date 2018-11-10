@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page30/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/12/07/Makefile/">Makefile简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-12-07
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#make" title="Category: make" rel="category">make</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="简介">简介</h1>
+
+<p>在linux下编程，最熟悉的不过是Makefile了。这个文件是用于自动连接和编译的，而且记录所有工程文件的修改信息，这样，这个工程在下次编译前会自动重新编译。</p>
+
+<h1 id="特殊变量">特殊变量</h1>
+
+<h3 id="-目标文件">$@ 目标文件</h3>
+
+<p>对应于target，”@” 是”argument”的简写。当你键入make foo的时候，”foo” 就是
+argument，也就是@#(?).</p>
+
+<h3 id="-所有依赖文件">$^ 所有依赖文件</h3>
+<p>与”$&lt;”相类似，只不过它表示所有的的依赖的文件”^”记住嘛。</p>
+
+<h3 id="-第一个依赖文件">$&lt; 第一个依赖文件</h3>
+<p>在依赖条件列表中的第一个输入文件。帮助记忆，”&lt;”在shell中，这就是输入的”&lt;”.</p>
+
+<h3>$?</h3>
+<p>所有的比target新的依赖文件(input)，”你在干什么，哪些文件必须改变？”</p>
+
+<h3 id="-1">%</h3>
+<p>%的作用类似于”*“在shell的作用，也就是任意匹配</p>
+
+<p>以上会衍生出$(@D) $(@F),也就是目录和文件的区别</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	main: main.o mytool1.o mytool2.o
+		gcc <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$^</span>
+	main.o: main.c mytool1.h mytool2.h
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span> <span class="c"># -c 只输出目标文件，不产生可执行文件</span>
+	mytool1.o: mytool1.c mytool1.h
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+
+<h2 id="缺省规则">缺省规则</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	.c.o:
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+<p>这个规则表示所有的 .o文件都是依赖对应的.c文件的，简化以后的Makefile</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	main: main.o mytool1.o mytool2.o
+		gcc <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$^</span>
+	.c.o:
+		gcc <span class="nt">-c</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+
+<h1 id="函数">函数</h1>
+
+<p>Makefile中有很多的函数，这里，将碰到的一一记录下来，做个完善。</p>
+
+<h3 id="wildcard">wildcard</h3>
+
+<p>这个函数拾取特定目录下的文件通配符.比如我要将一个头文件.h三个源文件.c编译成
+一个目标文件，那么，我就可以首先声明一个变量SRCS,然后将所有的源文件(包括头
+文件)一起赋给它.</p>
+
+<blockquote>
+  <p>SRCS = $(wildcard *.c)</p>
+</blockquote>
+
+<p>这样，变量SRCS就包括所有的源文件了</p>
+
+<p><em>update<em>
+高级一点的用法，</em></em></p>
+
+<blockquote>
+  <p>$(patsubst %.c,%.o,$(wildcard))</p>
+</blockquote>
+
+<p>这句话将所有文件名的后缀.c替换成.o，这样我们就可以得到当前目录下生成的可执行
+文件。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/12/07/Makefile/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/12/06/NetCommandForlinux/">10个重要的linux网络命令</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-12-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#shell" title="Category: shell" rel="category">shell</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="最基础的linux网络命令">最基础的linux网络命令</h1>
+
+<h3 id="hostname">hostname</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nb">hostname</span> <span class="o">[</span>none] display <span class="nb">hostname
+	hostname</span> <span class="nt">-d</span> <span class="c">#display machine belongs to the domain</span>
+	<span class="nb">hostname</span> <span class="nt">-f</span> <span class="c">#display full name</span>
+	<span class="nb">hostname</span> <span class="nt">-i</span> <span class="c">#display ip</span>
+</code></pre></div></div>
+
+<h3 id="ping">ping</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	ping <span class="o">[</span>ip/address]
+</code></pre></div></div>
+
+<h2 id="ifconfig">ifconfig</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	View network configure.
+</code></pre></div></div>
+
+<p>下面是我的ifconfig输出：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@debian:/home/yubo/test/tmp/unix# ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:9e:01:6d:08:4e
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>  TX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>
+          Interrupt:41 Base address:0x2000
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:44786 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:44786 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:22286992 <span class="o">(</span>21.2 MiB<span class="o">)</span>  TX bytes:22286992 <span class="o">(</span>21.2 MiB<span class="o">)</span>
+
+wlan0     Link encap:Ethernet  HWaddr 80:9b:20:5c:23:04
+          inet addr:192.168.0.117  Bcast:192.168.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::829b:20ff:fe5c:2304/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:94748 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:208467 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:92813171 <span class="o">(</span>88.5 MiB<span class="o">)</span>  TX bytes:22941747 <span class="o">(</span>21.8 MiB<span class="o">)</span>
+
+root@debian:/home/yubo/test/tmp/unix# route <span class="nt">-n</span>
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.0.1     0.0.0.0         UG    0      0        0 wlan0
+192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 wlan0
+root@debian:/home/yubo/test/tmp/unix#
+
+</code></pre></div></div>
+
+<p>注意，我这里配合着route命令。</p>
+
+<p>从上面的输出，我们可以了解到root主机上被激活的ip地址是wlan0,因为这是我在WIFI
+条件下连接上网的。lo可以暂时忽略。eth0是以太网的连接。</p>
+
+<p>由此说明，任何由root主机创建的IP包的源地址(source address) 是192.168.0.117.
+类似的，任何由root主机收到的IP包的目的地址是192.168.0.117</p>
+
+<h3 id="iwconfig">iwconfig</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>用于无线网卡
+</code></pre></div></div>
+
+<h3 id="nsloopup">nsloopup</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>从ip获得主机名或者从ip获得主机名
+nsloopup google.com
+</code></pre></div></div>
+
+<h3 id="traceroute">traceroute</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>查看数据包在提交到远程系统或者网站的时候所经过的ip,hoop,time
+</code></pre></div></div>
+
+<h3 id="finger">finger</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>查看用户信息。
+</code></pre></div></div>
+
+<h3 id="telent">telent</h3>
+<p>通过telnet协议连接目标主机，如果telnet连接可以在任一端口上完成即代表着两台主机间的连接良好。</p>
+
+<p>telnet hostname port - 使用指定的端口telnet主机名。这通常用来测试主机是否在线或者网络是否正常。</p>
+
+<h3 id="ethtool">ethtool</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 有的发行版不带这些工具，需要我们自己去下载。
+</code></pre></div></div>
+
+<h3 id="netstat">netstat</h3>
+
+<p>发现主机连接最有用最通用的Linux命令。你可以使用”netstat -g”查询该主机订阅的所有多播组（网络）</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  netstat -nap | grep port 将会显示使用该端口的应用程序的进程id
+  netstat -a  or netstat –all 将会显示包括TCP和UDP的所有连接
+  netstat --tcp  or netstat –t 将会显示TCP连接
+  netstat --udp or netstat –u 将会显示UDP连接
+  netstat -g 将会显示该主机订阅的所有多播网络。
+</code></pre></div></div>
+
+<h3 id="iptables">iptables</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-L</span> <span class="c">## 查看</span>
+
+iptables <span class="nt">-F</span> <span class="c">## 清空规则</span>
+
+</code></pre></div></div>
+
+<h4 id="链的类型">链的类型</h4>
+
+<h5 id="input">input</h5>
+
+<p>控制进来的链接</p>
+
+<h5 id="forward">forward</h5>
+
+<p>转发。</p>
+
+<h5 id="output">Output</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@debian:/home/yubo/test/tmp/unix# <span class="nb">sudo </span>iptables <span class="nt">-L</span> <span class="nt">-v</span>
+Chain INPUT <span class="o">(</span>policy ACCEPT 572K packets, 504M bytes<span class="o">)</span>
+ pkts bytes target     prot opt <span class="k">in     </span>out     <span class="nb">source               </span>destination
+
+Chain FORWARD <span class="o">(</span>policy ACCEPT 0 packets, 0 bytes<span class="o">)</span>
+ pkts bytes target     prot opt <span class="k">in     </span>out     <span class="nb">source               </span>destination
+
+Chain OUTPUT <span class="o">(</span>policy ACCEPT 1003K packets, 129M bytes<span class="o">)</span>
+ pkts bytes target     prot opt <span class="k">in     </span>out     <span class="nb">source               </span>destination
+
+</code></pre></div></div>
+
+<h4 id="链接一个特定的ip">链接一个特定的IP</h4>
+
+<p>阻塞所有来自10.10.10.10的链接。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-s</span> 10.10.10.10 <span class="nt">-j</span> DROP
+
+</code></pre></div></div>
+
+<p>阻塞一个范围的网址：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-s</span> 10.10.10.0/24 <span class="nt">-j</span> DROP
+</code></pre></div></div>
+
+<p>链接到一个特别的端口, 阻塞来自于10.10.10.10的ssh链接</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> input <span class="nt">-p</span> tcp <span class="nt">--dport</span> ssh <span class="nt">-s</span> 10.10.10.10 <span class="nt">-j</span> DROP
+</code></pre></div></div>
+
+<p>你可以使用其他协议将“ssh”或者其他端口号。”-p”是协议，如果你想阻塞UDP，则使用
+“-p udp”.</p>
+
+<p>如果你使用ssh链接主机，下面的命令慎用，危险！</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> ssh <span class="nt">-j</span> DROP
+</code></pre></div></div>
+
+<h5 id="保存ipatbles">保存ipatbles</h5>
+
+<p>ubuntu</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /sbin/iptables-save
+</code></pre></div></div>
+
+<p>Red Hat</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/sbin/service iptables save
+</code></pre></div></div>
+
+<p>或者</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/init.d/iptables save
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/12/06/NetCommandForlinux/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/12/05/AssemblyForLinux/">linux下汇编小结</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-12-05
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#assembly" title="Category: assembly" rel="category">assembly</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="起因">起因</h1>
+<p>哪有什么起因啊，看着在linux kernel中大行其道的汇编代码，自己只能硬着头皮去找点资料来学习，不成想居然找到这么一个强悍的文章，如果你打算自己写一个编译器，那么这篇文章就是为你准备的，<a href="http://www3.nd.edu/~dthain/courses/cse40243/fall2008/ia32-intro.html">在这里</a></p>
+
+<h2 id="testc">test.c</h2>
+<p>我们借助一个简单的例子，试着揭开linux下的真面目。</p>
+<pre>
+int main()
+{
+	printf("hello,world\n");
+	return 0;
+}
+</pre>
+<p>在linux下使用 gcc -S test.c 就会产生test.s文件，我在自己机子上可能由于加了头文件，反正汇编后的代码和博客中的代码不太一样。</p>
+<pre>
+	.file	"test.c"
+	.section	.rodata
+.LC0:
+	.string	"hello,world!"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB0:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	andl	$-16, %esp
+	subl	$16, %esp
+	movl	$.LC0, (%esp)
+	call	puts
+	movl	$0, %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	main, .-main
+	.ident	"GCC: (Debian 4.7.2-5) 4.7.2"
+	.section	.note.GNU-stack,"",@progbits
+
+
+</pre>
+<p>现在我们只需要关注三个不同的元素：</p>
+
+<h3 id="directives">Directives</h3>
+<p>以__.<strong>开头的结构信息，</strong>.global main__说明main是一个全局符号可以被其他代码模块引用，.string 暗示一个可以插入到输出代码的字符常量。</p>
+
+<h3 id="labels">Labels</h3>
+<p>以<em>:</em>结尾。它描述了名字和位置的联系。只要调用.LCO立马找到下面的字符串。main:被调用后，立即执行push %ebp(原文是这样表达的，但是我的不一样)，在Labels前面用一个.开头的是一个由编译器临时产生的局部变量，其他的就是用户可见和全局变量，现在gcc默认是极大优化的)</p>
+
+<h3 id="instructions">Instructions</h3>
+
+<p>如果我们把汇编代码弄成可执行代码,使用以下命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -m32 test.s -o test
+</code></pre></div></div>
+
+<h1 id="ia32-and-data-type">IA32 and Data Type</h1>
+<p>六个通用寄存器</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%eax,%ebx,%ecx,%edx,%esi,%edi
+</code></pre></div></div>
+
+<p>两个堆栈寄存器</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%esp,%ebp
+</code></pre></div></div>
+
+<p>bits:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%ah=%al  ==&gt; 8 bits. %ax ==&gt;16 bits. %eax ==&gt; 32 bits.
+</code></pre></div></div>
+
+<h1 id="addressing-modes">Addressing Modes</h1>
+<p>IA-32是 complex instruction set(CISC),so MOV has many different variants that move different types of data between different cells.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Suffix	Name Size
+B	BYTE 8bits
+W	WORD 16 bits
+L	LONG 32 bits
+</code></pre></div></div>
+
+<h2 id="操作数">操作数</h2>
+<p>在这里分为</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>global value
+immediate value:($56)
+register value:(%ebx)
+indirect((%sp),也就是MASM中[bx]),
+base-relative:(-12(%ecx))(这个语句是说这个值在%ecx暗示的地址(%ecx)下面12字节的内存中). 
+-12(%esi,%ebx,4): refers to the value at the address -12+%esi+%ebx*4
+
+绝对跳转指令和返回指令需要加"*"
+</code></pre></div></div>
+
+<h2 id="需要注意的区别">需要注意的区别</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AT&amp;T	Intel	说明
+
+Cbtw	Cbw      把%al中的字节值符号扩展到%ax中
+
+Cwtl	Cwde	把%ax符号扩展到%eax中
+
+Cwtd	Cwd	把%ax符号扩展到%dx：%eax中
+
+Cltd	Cdq	把%eax符号扩展到%edx：%eaxAT&amp;T
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/12/05/AssemblyForLinux/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/12/04/Gitforkerenl/">git追踪linux kerenl技巧</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-12-04
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="先介绍点简单的">先介绍点简单的</h1>
+
+<ol>
+  <li>
+    <p>从linus那里pull,当然，前提是你先从linus那里clone一份代码树。</p>
+
+    <p><code class="highlighter-rouge">git pull</code></p>
+  </li>
+</ol>
+
+<h3 id="补充">补充</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>最好不用 `git pull`,使用`git fetch` 和 `git merge`来代替它.
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>撤销所有在本地的修改</p>
+
+    <p><code class="highlighter-rouge">git checkout -f</code></p>
+  </li>
+  <li>
+    <p>查看你所做的修改</p>
+
+    <p><code class="highlighter-rouge">git commit -a</code></p>
+  </li>
+  <li>
+    <p>撤销最近的提交</p>
+
+    <p><code class="highlighter-rouge">git reset HEAD~2</code></p>
+  </li>
+</ol>
+
+<p>5.List all changes in working dir,in diff format</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`git diff`
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Dispaly changes since last commit</p>
+
+    <p><code class="highlighter-rouge">git diff HEAD</code></p>
+  </li>
+  <li>
+    <p>List all changeset descriptions</p>
+
+    <p><code class="highlighter-rouge">git log</code></p>
+  </li>
+  <li>
+    <p>追踪特定文件的changesets</p>
+
+    <p><code class="highlighter-rouge">git log net/ieee80211/ieee80211_module.c</code></p>
+  </li>
+</ol>
+
+<h2 id="branches">Branches</h2>
+
+<ol>
+  <li>
+    <p>List all branches</p>
+
+    <p><code class="highlighter-rouge">git branch</code></p>
+  </li>
+  <li>
+    <p>Make desired branch current in working dur</p>
+
+    <p><code class="highlighter-rouge">git checkout $branch</code></p>
+  </li>
+  <li>
+    <p>Create a new branch, and make it current</p>
+
+    <p><code class="highlighter-rouge">git checkout -b my-new-branch master</code></p>
+  </li>
+  <li>
+    <p>Examine which branch is current</p>
+
+    <p><code class="highlighter-rouge">git status</code></p>
+  </li>
+  <li>
+    <p>Obtain a diff between <em>current</em> branch with <em>master</em> branch</p>
+
+    <p><code class="highlighter-rouge">git diff master master..HEAD</code></p>
+  </li>
+  <li>
+    <p>Obtain a list of changes between <em>current</em> branch with master branch</p>
+
+    <p><code class="highlighter-rouge">git log master..HEAD</code></p>
+  </li>
+  <li>
+    <p>A one line summary of each changes</p>
+
+    <p><code class="highlighter-rouge">git shortlog master..HEAD</code></p>
+  </li>
+</ol>
+
+<h2 id="合并分支">合并分支</h2>
+<p>假设你在分支A，分支B上完成了工作，你需要把你的工作放进主分支M，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout M
+git merge A
+git merge B
+</code></pre></div></div>
+
+<h2 id="check-out-an-older-kernel-version">Check out an older kernel version</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd linux-source
+git checkout -b tmp v2.6.22
+</code></pre></div></div>
+
+<h2 id="apply-all-patches-in-a-berkerey-mbox-format-file">Apply all patches in a Berkerey mbox-format file</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd linux-kernel-source
+git am --utf8 --signoff /path/to/mbox
+</code></pre></div></div>
+
+<p>The –signoff option 暗示git am 在最后加上</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Signed-off-by: Your Name &lt;your@email.com&gt;
+</code></pre></div></div>
+
+<p>The name and email are taken from the GIT_COMMITTER_NAME AND GIT_COMMITTER_EMAIL environment variables,(可以设定在.bash_profile 或者相似的文件)</p>
+
+<h3 id="download-tags">download tags</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch --tags $URL
+</code></pre></div></div>
+
+<p>Tag a partical commit</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd linux-tree
+git tag my-tag
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/12/04/Gitforkerenl/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/12/03/WhatisLove/">什么是爱情</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-12-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#mood" title="Category: mood" rel="category">mood</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>#什麼是愛情</p>
+
+<p>致我所有的朋友
+無論已婚與未婚</p>
+
+<p>這是篇很好的文章。
+如果你暫時沒有時間細細品味
+也請你有時間的時候將自己的心沉澱下來，
+用心的看。
+好的文章真的不多了……          <br />
+單身，有時不一定是貴族。
+單身也許會比較自由，
+但自由也有一個同義詞，叫作寂寞。
+因為人不是什麼時候都喜歡一個人獨處的；
+有時好東西需要跟人分享，
+有時候難過需要人安慰。
+單身貴族產生的原因，
+是因為經濟上的獨立、人格上的獨立以及感情上的獨立。
+獨立是什麼？
+獨立是需要而不依賴，
+一個獨立的人需要異性，而不依賴異性。
+做情人之前，她應該先是朋友。
+她成為你的朋友之後，出現在你的生活裡，
+才有可能認識你、了解你、
+知道你的長處而對你產生好感，進一步發展感情，
+變成情人、對象。
+世界上的顏色並非隻有白色和黑色，
+黑與白之間還有很漫長的灰色地帶。
+隻要多相處，便能發現對方的優點、產生好感，
+這才是發展感情的自然過程。
+『一見鍾情』以及『從一而終』的感情是不切實際的，
+我們需要的不是這種不切實際而虛幻的感情。
+有人形容跟異性交往，
+就好像在海邊撿石頭，大家都會撿喜歡的那一顆。
+一旦撿到一顆你最喜歡的石頭，便把它帶回家去，
+好好對待它，因為那是你唯一的石頭。
+而且要記住，從此後不要再到海邊去。
+永遠相信，
+我已經找到最大、最美、最適合我的那一顆。
+跟異性交往最重要的不是他有多好，
+而是他對你有多好。
+一個人如果條件很好，有一百分，
+可是這一百分之中，他隻給你三四十分，或一二十分；
+相反地，另一個人也許隻有七八十分，
+可是他卻是全心全意的對待你，
+那你應該選擇那一個？
+其實，每一個人的條件都是一樣的。
+不管你有多好，都還有人比你更好。
+你雖然做不到一個『最好的人』，
+可是你卻做得到一個『對對方最好的人』。
+每一個男孩子都可以說：
+『雖然我不是世界上最好的男人，但我是世界上對你最好的男人』。
+反過來女孩子也是一樣，這是每一個人都做得到的。</p>
+
+<p>感情最重要的是在於他對你的好，
+而不是他自己有多好。
+但是如果有一個人本身已經很好了，
+對你又是真心真意，真心愛你，
+那麼你真的可以把一生托付給他。</p>
+
+<p>現在女性考慮婚姻的唯一條件，
+應該就是你愛不愛他，他愛不愛你，
+是不是真心真意對你，
+跟他在一起會不會有壓力，會不會快樂，
+而非他有什麼！
+人間的真愛是很難得的。
+在人的一生中，
+很難找到一個你真正愛，
+真正可以跟他過一輩子的人。
+如果你怯於表達，
+或害怕會有什麼事，
+錯失一輩子可能隻有一次的真愛，
+那就太可惜了，
+所以一定要採取主動，把心裡的話說出來。
+如果一個男孩子
+因為女孩子對他採取主動而看不起她，
+那麼這個男孩子不是男生，而是畜生。
+更何況，幸福比面子重要，
+如果犧牲一時的面子可以換得一生的幸福，
+是非常值得的，勇敢把心裡的話說出來，
+不要隱藏自己的真心。
+千萬別說緣份未到，其實緣份到處都有，
+但卻是稍縱即逝，如果『緣』不及時把握，
+那就沒有『份』了。
+大多數的女性對感情是偏重於精神，
+男性則偏於物質。
+男孩子除了對女孩子殷勤體貼外，
+也要學會對女孩子負責任，
+要將對天下所有女孩子的殷勤體貼，
+全部用來對一個女孩子。
+另外，
+剛毅木納並不能討女孩歡心，
+所以要學習對女孩子甜言蜜語，多說好話。          <br />
+男人，為性而愛；
+女人，為愛而性。</p>
+
+<p>一個維持起來輕鬆、愉快的感情容易長久！          <br />
+一個維持起來艱難而痛苦的感情不易長久，
+這時後就應該有所選擇。
+我們都是凡夫俗子，
+要的是平凡而幸福並且快樂的愛情。
+對所有的感情而言，過程遠比結果重要。
+為什麼？因為所有的感情都是沒有結果的。
+什麼是結果？結婚嗎？
+結婚之後就過著幸福快樂的日子嗎？
+可見我們不以感情的結果來評斷它的價值感情，
+也不以時間的長短來論定它的價值。
+對感情而言，凡是發生過的都存在，
+凡是存在過的都有價值。
+世界上的感情每一段、每一分、每一秒
+都是值得珍惜的。
+婚姻是人生裡最大的一場賭局。
+在這無限長的時間裡，
+我們還要互相呈現最醜陋的一面給對方看。</p>
+
+<p>婚姻和戀愛不同的是：
+戀愛可以花二個小時打扮自己，
+精神奕奕的向對方獻殷勤、體貼，輕鬆完成任務。
+可是婚姻就無法隨時維持高亢的狀態。
+所以，婚姻是一場大賭注，
+需有萬全的準備、周詳的計劃、十足的信任，
+然後再去押它一把，即使是這樣都還有可能輸掉。
+因此如果在賭之前，就知道自己
+不是心甘情願、不是很愛他、並不想跟他過一輩子，
+那麼這一場賭注注定是要輸的。
+千萬不要
+為了愛情之外的任何一個理由結婚。
+感情的可貴
+不在於可從對方獲得什麼，
+一方面是一種被依賴、被需要的感覺。
+有人依賴我，需要我，
+我會得到滿足
+。
+面對感情，我們所要採取的就是三不政策：
+第一是不急：不要急著結婚。
+結婚雖然是很美好的事，但是不要著急，
+該是你的就是你的。
+第二是不怕：不要害怕付出。
+彼此必需一輩子努力，才能把感情維持好。
+你不可能『得到』一個美好的感情，
+你隻能找到一個你心愛的人，
+來共同經營、造就、完成一段美好的感情。
+如果你沒決心做好男人，那你就得不到好女人。</p>
+
+<p>世界上沒有一個壞男人會有一個好女人，
+壞男人隻會有可憐的女人；
+同樣的，也沒有一個壞女人會有一個好男人。
+何況感情中還有一個
+跟我們共同努力、想把它做好的人。
+這個合夥事業成功的機會是很大的，
+關鍵就在於你是否願意努力、付出而已。</p>
+
+<p>第三是不要放棄。
+當你受了打擊、挫折、傷害，
+當你感到灰心、失望時，
+有一個人無條件的、永遠站在你這一邊，
+支持你、鼓勵你、安慰你，
+讓你重新站起來面對這個世界。
+這個力量，是再親的父母不能給我們的，
+是再要好的朋友也不能給我們的，
+隻有在人生的旅程中所找到的心愛的伴侶，
+才能夠給我們。</p>
+
+<p>其實愛情是人生唯一的、真正珍貴的；
+也是唯一的、真正值得追求的東西。
+隻要你有一個心愛的人，
+你就有了原動力，
+你就能面對全世界。</p>
+
+<p>我們送上祝福,用心去找一個妻子(丈夫)!!</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/12/03/WhatisLove/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/11/29/vim/">vim插件-ctags&&cscope</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-11-29
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h2 id="ctags">ctags</h2>
+
+<p>原来ctags的功能这么强大，之前自己是蒙着眼使用的啊。</p>
+
+<h2 id="sudo-apt-get-install-ctags">sudo apt-get install ctags</h2>
+
+<p>有人说默认有这个插件，确实有，再下一次吧。</p>
+
+<h2 id="ctags--r-">$ctags -R *</h2>
+
+<p>在你的工作目录中，输入以上命令，$是shell的命令提示符，不是命令的一部分，这一点需要注意，这样就会在当前工作目录下产生ctags的标签文件。</p>
+
+<h2 id="vim--t-xx">vim -t xx</h2>
+
+<p>xx就是你要查找的变量和函数名</p>
+
+<p>It maybe acted on some impact using “SHIFT + K”</p>
+
+<h2 id="ts">:ts</h2>
+<p>在vim的命令行下输入__:ts__就会列出列表供用户选择满足的变量或者函数（tagslist）。</p>
+
+<h2 id="5--tp-and-tn">5.  :tp and :tn</h2>
+
+<p>display preview tags-file and display next tags-file.</p>
+
+<h2 id="ctrl--">Ctrl + ]</h2>
+
+<p>jump to the function or variable where whose were defined.</p>
+
+<h2 id="ctrl--t-or-ctrl--o">Ctrl + T or Ctrl + o</h2>
+
+<p>Return where jump from where</p>
+
+<h1 id="cscope">cscope</h1>
+
+<p>Waa…</p>
+
+<h1 id="sudo-apt-get-install-cscope">sudo apt-get install cscope</h1>
+
+<h1 id="gen-cscopeout-file">gen cscope.out file</h1>
+
+<p>command:</p>
+
+<p><code class="highlighter-rouge">cscope -Rbqk
+</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-R:表示把所有子目录里的文件也建立索引
+-b:仅仅建立符号数据库
+-q:生成cscope.in.out和cscope.po.out文件,加快cscope的索引
+-k: 在生成索引文件时,不搜索/usr/include目录
+</code></pre></div></div>
+
+<p>vim的normal模式下输入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:cs add cscope.out
+</code></pre></div></div>
+
+<p>就把索引文件加入到vim中.将以下命令放在.vimrc中,即可省去该命令:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if filereadable("cscope.out")
+cs add cscope.out
+endif
+</code></pre></div></div>
+
+<p>再试试把下面的内容复制到~/.vimrc里，这样就可以利用相应的快捷键进行不同的查找了.
+<a href="http://my.oschina.net/u/554995/blog/59927">原文1</a>
+<a href="http://easwy.com/blog/archives/advanced-vim-skills-cscope/">原文2</a>
+<strong>cscope add cscope.out</strong>
+##4. Commmand &amp; Options
+After adding the file that is called cscope.out ,we can call <strong>cscope find x</strong> 简写 <strong>cscope f x</strong></p>
+<pre>
+c:Find functions calling this function
+d:Find functions called by this function
+e:Find this egrep pattern
+f:Find this file
+g:Find this definition
+i:Find files #including this file
+s:Find this C symbol
+t:Find assignments to
+</pre>
+<p>#taglist
+将这三个工具用起来了,然后在命令窗口中键入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:TlistToggle
+</code></pre></div></div>
+
+<p>在关闭与打开之间转换.</p>
+
+<p>我的vimrc中定义了下面的映射，使用“,tl”键就可以打开/关闭taglist窗口：</p>
+
+<p>map <silent> <leader>tl :TlistToogle<cr></cr></leader></silent></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/11/29/vim/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page29" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">30/36</span>
+          
+            <a href="/page31" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

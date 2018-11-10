@@ -1,6 +1,6 @@
 ---
 title: "keep in mind about yours"
-layout: article
+layout: post
 category: mood
 ---
 

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "udev用户空间设备管理"
 category: kernel
 ---

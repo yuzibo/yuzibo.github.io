@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux 进程休眠</title>
+    <meta name="description" content="休眠规则      不要在原子上下文中休眠        禁止中断时,也不能休眠        要确保有进程能唤醒自己  4.休眠被唤醒之后仍要检查等待的条件是否为真,否则重新继续休眠.简单休眠我们休眠的代码必须能够唤醒(wake_up),我们需要维护一个称为等待队列的数据结构.等待队列就是一个进程链表,其中包含...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/02/21/linux_sleep_process/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux 进程休眠</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-02-21
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="休眠规则">休眠规则</h1>
+
+<ol>
+  <li>
+    <p>不要在原子上下文中休眠</p>
+  </li>
+  <li>
+    <p>禁止中断时,也不能休眠</p>
+  </li>
+  <li>
+    <p>要确保有进程能唤醒自己</p>
+  </li>
+</ol>
+
+<p>4.休眠被唤醒之后仍要检查等待的条件是否为真,否则重新继续休眠.</p>
+
+<h1 id="简单休眠">简单休眠</h1>
+<p>我们休眠的代码必须能够唤醒(wake_up),我们需要维护一个称为等待队列的数据结构.
+等待队列就是一个进程链表,其中包含了等待了某个特定事件的所有进程.
+linux维护一个”等待队列头”来管理,wait_queue_head_t,定义在&lt;linux/wait.h&gt;</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="p">{</span>
+	<span class="n">spinlock_t</span>		<span class="n">lock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">task_list</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="n">wait_queue_head_t</span><span class="p">;</span></code></pre></figure>
+
+<p>这里结构体前面的”__“是系统调用的函数.</p>
+
+<h1 id="初始化方法">初始化方法</h1>
+
+<h2 id="静态方法">静态方法</h2>
+
+<p><code class="highlighter-rouge">DECLARE_WAIT_QUEUE_HEAD(name)</code></p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cm">/* This is the method to initializer */</span>
+<span class="cp">#define DECLARE_WAIT_QUEUE_HEAD(name) {
+</span>	<span class="n">wait_queue_head_t</span> <span class="n">name</span> <span class="o">=</span> <span class="n">__WAIT_QUEUE_HEAD_INITIALIZER</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="cp">#define __WAIT_QUEUE_HEAD_INITIALIZER(name) {				\
+	.lock		= __SPIN_LOCK_UNLOCKED(name.lock)		\
+	.task_list	= { &amp;(name).task_list, &amp;(name).tsak_list}
+</span><span class="p">}</span>
+<span class="n">DECLARE_WAIT_QUEUE_HEAD</span><span class="p">(</span><span class="n">name</span><span class="p">);</span></code></pre></figure>
+
+<p>色块内的是方法,这里,我把相关的代码放在了一起,以便于理解.</p>
+
+<h2 id="动态方法">动态方法</h2>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"> <span class="n">wait_queue_head_t</span> <span class="n">my_queue</span><span class="p">;</span>
+ <span class="n">init_waitqueue_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_queue</span><span class="p">);</span>
+
+ <span class="cm">/* from here */</span>
+
+ <span class="k">struct</span> <span class="n">__wit_queue_head</span> <span class="p">{</span>
+	<span class="n">spinlock_t</span>		<span class="n">lock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">task_list</span><span class="p">;</span>
+ <span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="n">wait_queue_head_t</span><span class="p">;</span></code></pre></figure>
+
+<p>linux 中最简单的休眠方式是下面的宏:</p>
+
+<p>wait_event(queue, condition);	//uninterruptible sleep</p>
+
+<p>wait_event_interruptible(queue, condition); //返回非0值表示
+休眠被信号中断</p>
+
+<p>在这两个Macro实现中,分别有一个<code class="highlighter-rouge">might_sleep()</code>的使用.而且后者
+在实现上比前者多了个<code class="highlighter-rouge">int __ret = 0</code>;</p>
+
+<p>wait_event_timeout(queue, condition, timeout);</p>
+
+<p>wait_event_interruptible_timeout(queue, condition, timeout);</p>
+
+<h3 id="might_sleep">might_sleep()</h3>
+<p>不得不说一下这个宏,上面这四个宏中都牵扯上它了.代码注释是这么说的:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">might_sleep</span> <span class="o">-</span> <span class="n">annotation</span> <span class="k">for</span> <span class="n">function</span> <span class="n">that</span> <span class="n">can</span> <span class="n">sleep</span>
+</code></pre></div></div>
+
+<p>queue 是等待队列头,传值方式,condition是任意一个布尔表达式,在休眠前后多次
+对condition求值,为真则唤醒.</p>
+
+<h3 id="唤醒进程-wake_up">唤醒进程 wake_up</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">wake_up</span><span class="p">(</span><span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">queue</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">wake_up_interruptible</span><span class="p">(</span><span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">queue</span><span class="p">);</span>
+</code></pre></div></div>
+<p>实际上,一般是<code class="highlighter-rouge">wait_event</code>和wake_up<code class="highlighter-rouge">,</code>wait_event_interruptible<code class="highlighter-rouge">和</code>wake_
+u_interruptible`成对使用</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/02/21/linux_memory_1/">linux 内存管理</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/02/22/CSS_little/">css 小技巧</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

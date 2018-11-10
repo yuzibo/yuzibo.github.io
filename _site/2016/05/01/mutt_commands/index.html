@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>mutt&amp;&amp;lynx使用技巧</title>
+    <meta name="description" content="github删除某个邮箱的全部信件订阅了lkml,可是经常有很多的邮件看不了而删了。现在，强大的命令来了，请接招:首先，使用命令  mutt进入，接着按__c__, 选择邮箱，这里我是自己用的是IMAP，这个协议把你的mutt当作了终端。你在邮箱服务器上有几个文件夹或者标签，在mutt上就会有几个信箱。假如你没有...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/05/01/mutt_commands/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>mutt&&lynx使用技巧</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-05-01
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="https://github.com/yuzibo/configure_file/tree/master/mutt">github</a></p>
+
+<h1 id="删除某个邮箱的全部信件">删除某个邮箱的全部信件</h1>
+
+<p>订阅了lkml,可是经常有很多的邮件看不了而删了。现在，强大的命令来了，请接招:</p>
+
+<p>首先，使用命令</p>
+
+<blockquote>
+  <p>mutt</p>
+</blockquote>
+
+<p>进入，接着按__c__, 选择邮箱，这里我是自己用的是IMAP，这个协议把你的mutt当作
+了终端。你在邮箱服务器上有几个文件夹或者标签，在mutt上就会有几个信箱。假如
+你没有使用mutt，那么可以忽略这一步。</p>
+
+<p>接着，在当前的邮箱下，键入：shift D</p>
+
+<blockquote>
+  <p>shift d</p>
+</blockquote>
+
+<p>它会提示</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Delete</span> <span class="n">messages</span> <span class="n">matching</span><span class="o">:</span>
+</code></pre></div></div>
+<p>汉语就是</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">删除符合此样式的信件：</span>
+</code></pre></div></div>
+
+<p>接着使用:</p>
+
+<blockquote>
+  <p>~s .*</p>
+</blockquote>
+
+<p>回车，所有的邮件被标记上了D，这就是你单封删除邮件的作用。或者，还可以使用</p>
+
+<blockquote>
+  <p>~A</p>
+</blockquote>
+
+<p>也可以达到以上相同的效果</p>
+
+<h2 id="打开邮件内的网页">打开邮件内的网页</h2>
+
+<p>这个功能更是geek,首先新建一个<code class="highlighter-rouge">.mailcap</code>的文件在主目录下：</p>
+
+<p>更新： mutt只是一个管理邮箱的软件，并不会显示很复杂的邮件内容，
+比如，网页类型的及非ascii编码类型的。如果想使用以上效果，那么就需要
+其他软件配合了。</p>
+
+<p>我首先使用的lynx文本网页浏览器，有一点我是开始没有理会
+的，无法显示中文的邮件内容，lynx的配置在.mailcap的配置如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text/html<span class="p">;</span> lynx <span class="nt">-dump</span> <span class="nt">-width</span><span class="o">=</span>78 <span class="nt">-nolist</span> %s | <span class="nb">sed</span> <span class="s1">'s/^  //'</span><span class="p">;</span>
+sopiousoutput<span class="p">;</span> needsterminal<span class="p">;</span><span class="nv">nametemplate</span><span class="o">=</span>%s.html
+
+</code></pre></div></div>
+
+<p>这样mutt就会将mail中html格式的信息转化为PLAIN/TEXT格式，方便阅读。</p>
+
+<h2 id="查看中文编码问题">查看中文编码问题</h2>
+
+<p>mutt对于英语的支持那是相当不错，可是在浏览由中文邮箱发过来的邮件
+时便会遇到可恶的乱码问题，如今，你可以使用w3m这个对中文支持好的。</p>
+
+<p>将上面.mailcap文件的注释掉，使用下面的语句：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>text/html<span class="p">;</span> w3m <span class="nt">-dump</span> <span class="nt">-ppc</span> 9 <span class="nt">-I</span> %<span class="o">{</span>charset<span class="o">}</span> <span class="nt">-T</span> text/html %s|uniq<span class="p">;</span> copiousoutput
+</code></pre></div></div>
+
+<p>这样子你就可以看见你亲切的汉字邮件了。</p>
+
+<h2 id="打开邮件内的url">打开邮件内的url</h2>
+
+<p><del>
+在<code class="highlighter-rouge">.muttrc</code>内新建命令绑定</del></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 设置键绑定 ,为了使用urlview.</span>
+macro pager <span class="se">\c</span>b &lt;pipe-entry&gt;<span class="s1">'urlview'</span>&lt;enter&gt; <span class="s1">'Follow links with urlview'</span>
+</code></pre></div></div>
+
+<p>前提是你要安装<code class="highlighter-rouge">urlview</code>这个软件。</p>
+
+<p>然后使用命令<code class="highlighter-rouge">ctrl-b</code>就可以打开链接了
+&lt;/del&gt;</p>
+
+<p>现在使用<code class="highlighter-rouge">urlscan</code>命令，同样，在<code class="highlighter-rouge">.muttrc</code>配置文件中写入man手册的语句。</p>
+
+<h1 id="neomutt">neomutt</h1>
+<p>现在，这几大发行版本已经把NeoMutt作为默认的版本了，但是使用源码安装的时候会遇上各种各样的包依赖，这时候，你要熟悉你的发行版的搜索软件的命令，以debian为例，那就是这样：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-cache search xx
+</code></pre></div></div>
+
+<p>将源代码包下载下来后，使用如下的编译选项：</p>
+
+<p>这个软件首先安装字符库或者图形界面的需要，推荐使用slang。当完成以后，使用<em>./configure.autosetup   –help</em>,因为下面的命令已经不适用了。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./configure <span class="nt">--with-slang</span><span class="o">=</span>/usr/local/src/slang-2.2.4
+<span class="nt">--ssl</span> <span class="nt">--disable-doc</span> <span class="nt">--debug</span>
+</code></pre></div></div>
+
+<p>接着使用</p>
+
+<blockquote>
+  <p>make</p>
+</blockquote>
+
+<blockquote>
+  <p>make install</p>
+</blockquote>
+
+<h1 id="lynx使用记录">lynx使用记录</h1>
+
+<p>这也是一个unix的神器，学会使用的话，收益匪浅。</p>
+
+<h3 id="-帮助"><em>?</em> 帮助</h3>
+
+<h3 id="使用空格键进行翻页">使用空格键进行翻页</h3>
+<p>不要使用箭头，慢的要死</p>
+
+<h3 id="标签">标签</h3>
+<p>按下<em>a</em>键，接着按<em>d</em>,就添加了一个书签.查看书签需要<code class="highlighter-rouge">v</code></p>
+
+<h3 id="输入rul">输入rul</h3>
+<p>按下_g_即可输入url。</p>
+
+<h3 id="中断没有回应的">中断没有回应的</h3>
+<p>_Ctrl-g_即可。</p>
+
+<h3 id="查看源代码">查看源代码</h3>
+<p>使用__即可查看源代码，还可以再次使用返回页面</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/05/01/LWP-Simple/">perl-lwp简单应用</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/05/02/binary-tree/">二叉树的性质和使用</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

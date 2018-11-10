@@ -1,6 +1,6 @@
 ---
 title: "perl关于编码的问题"
-layout: article
+layout: post
 category: perl
 ---
 

@@ -1,5 +1,5 @@
 ----
-layout: article
+layout: post
 category: network
 title: "虚拟机与主机的连接方式"
 ---

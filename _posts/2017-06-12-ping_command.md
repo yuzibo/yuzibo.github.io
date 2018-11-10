@@ -1,7 +1,7 @@
 ---
 title: "ping命令自己实现"
 category:
-layout: article
+layout: post
 ---
 [这篇](http://www.aftermath.cn/icmp.html)文章从内核的角度来看ICMP的，现在，ping命令就是利用icmp实现的。
 

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "windows上安装git"
 category: tools
 ---

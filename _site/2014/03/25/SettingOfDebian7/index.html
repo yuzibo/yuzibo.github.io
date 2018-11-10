@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Debian7设置</title>
+    <meta name="description" content="本配置适用于debian7，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。其中$、#是提示符，表示当前终端账户是普通还是root,并不需要输入。以下所有操作均使用root权限。在终端下输入并回车$ su root然后输入root的密码（安装debian时设定的，区别于普通用户密码）设...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/03/25/SettingOfDebian7/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Debian7设置</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-03-25
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#debian" title="Category: debian" rel="category">debian</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>本配置适用于debian7，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。
+其中$、#是提示符，表示当前终端账户是普通还是root,并不需要输入。</p>
+
+<p>以下所有操作均使用<code class="highlighter-rouge">root</code>权限。
+在终端下输入并回车</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ su root
+</code></pre></div></div>
+
+<p>然后输入root的密码（安装debian时设定的，区别于普通用户密码）</p>
+
+<h2 id="设定更新源">设定更新源</h2>
+
+<p>编辑使用图形界面下的文本编辑器如xfce下的mousepad.如果使用其他的，则将mousepad换成别的即可。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mousepad /etc/apt/sources.list
+</code></pre></div></div>
+
+<p>在文件最前面添加以下条目</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#######主要，开源，闭源
+deb http://mirrors.163.com/debian wheezy main non-free contrib
+deb-src http://mirrors.163.com/debian wheezy main non-free contrib
+
+#######wheezy-proposed-updates建议更新
+deb http://mirrors.163.com/debian wheezy-proposed-updates main contrib non-free
+deb-src http://mirrors.163.com/debian wheezy-proposed-updates main contrib non-free
+
+#######wheezy-updates推荐更新
+deb http://mirrors.163.com/debian wheezy-updates main contrib non-free
+deb-src http://mirrors.163.com/debian wheezy-updates main contrib non-free
+
+#######wheezy/updates安全更新
+deb http://mirrors.163.com/debian-security wheezy/updates main contrib non-free
+deb-src http://mirrors.163.com/debian-security wheezy/updates main contrib non-free
+deb http://http.us.debian.org/debian wheezy main contrib non-free
+deb http://security.debian.org wheezy/updates main contrib non-free
+</code></pre></div></div>
+
+<p>关闭文本编辑器，然后在终端中输入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get update
+</code></pre></div></div>
+
+<h2 id="安装中文字体">安装中文字体</h2>
+
+<p>安装文泉宋体</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install xfonts-wqy ttf-wqy-zenhei ttf-wqy-microhei
+</code></pre></div></div>
+
+<p>安装uming宋体</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> aptitude install fonts-arphic-uming ttf-arphic-uming
+</code></pre></div></div>
+
+<p>安装外来字体</p>
+
+<p>把字体文件（比如simsun.ttc）直接cp 到 ~/.fonts下，即可。</p>
+
+<h2 id="中文编码">中文编码</h2>
+
+<p>要支持区域设置，首先要安装locales软件包：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install locales
+</code></pre></div></div>
+
+<p>然后配置locales软件包：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dpkg-reconfigure locales
+</code></pre></div></div>
+
+<p>在界面中钩选上 <code class="highlighter-rouge">zh_CN.UTF-8</code> ,确定，在接下来的选项中也选择 <code class="highlighter-rouge">zh_CN.UTF-8</code>
+然后重启，到这里应该就可以显示中文了</p>
+
+<h2 id="为普通用户安装sudo">为普通用户安装sudo</h2>
+
+<p>sudo可以让非root用户具有管理员的权限，安装好的Debian后还不能使用sudo,需要使用root用户登陆后安装sudo命令。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install sudo
+</code></pre></div></div>
+
+<p>安装后，就可以给你的帐号设置管理员权限了</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mousepda /etc/sudoers
+</code></pre></div></div>
+
+<p>在 root ALL=(ALL:ALL) ALL 的下一行，添加一行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>username ALL=(ALL:ALL) ALL
+</code></pre></div></div>
+
+<p>这里的username就是你要给予一定权限的用户
+然后保存，退出root，然后使用username用户登陆。应该就有sudo权限了。</p>
+
+<h2 id="安装nvidia显卡">安装NVIDIA显卡</h2>
+
+<p>确定电脑是使用的NVDIA卡再装,因为NVDIA的驱动之前一直是闭源的,近期才向开源社区提供,所以不能保证百分百的支持所有显卡.如果安装完后无法进入桌面的话就说明不支持你的显卡,还是重装使用默认的驱动好了.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install nvidia-glx nvidia-kernel-dkms nvidia-xconfig nvidia-settings
+
+ nvidia-xconfig
+</code></pre></div></div>
+
+<h2 id="解决笔记本无法调节亮度">解决笔记本无法调节亮度</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mousepad /etc/X11/xorg.conf
+</code></pre></div></div>
+
+<p>找到这一段。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "Screen"
+Identifier "Screen0"
+Device "Device0"
+……
+Option "RegistryDwords" "EnableBrightnessControl=1"
+EndSection
+</code></pre></div></div>
+
+<p>即在EndSection前添加<code class="highlighter-rouge">“Option "RegistryDwords" "EnableBrightnessControl=1"”</code>这一行，最好加在指定行！！！不然可能无效
+然后保存，退出，重启之后，你就会发现可以调节屏幕背光亮度了。</p>
+
+<h2 id="解决触摸板无法点击">解决触摸板无法点击</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mousepad /usr/share/X11/xorg.conf.d/10-evdev.conf
+</code></pre></div></div>
+
+<p>修改这里（里面的配置很像、主要Identifier部分来辨别到底改哪的部分）</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "InputClass"
+Identifier "evdev touchpad catchall"
+MatchIsTouchpad "on"
+MatchDevicePath "/dev/input/event*"
+Driver "synaptics"
+Option "TapButton1" "1"
+Option "TapButton2" "2"
+Option "TapButton2" "3"
+EndSection
+</code></pre></div></div>
+
+<h2 id="解决硬盘loadload问题">解决硬盘load/load问题</h2>
+
+<p>安装laptop-mode-tools</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install laptop-mode-tools
+</code></pre></div></div>
+
+<p>编辑配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mousepad /etc/hdparm.conf
+</code></pre></div></div>
+
+<p>将后面的配置修改为下面配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/hda {
+mult_sect_io = 16
+write_cache = off
+dma = on
+apm = 255
+apm_battery = 127
+}
+</code></pre></div></div>
+
+<h2 id="安装中文输入法">安装中文输入法</h2>
+
+<p>安装fcitx</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install fcitx fcitx fcitx-googlepinyin
+</code></pre></div></div>
+
+<p>安装im-switch</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install im-switch
+</code></pre></div></div>
+
+<h2 id="安装源码工具">安装源码工具：</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install  build-essential linux-headers-$(uname -r)
+</code></pre></div></div>
+
+<h2 id="安装chrome两种方法任选一">安装Chrome（两种方法任选一）</h2>
+
+<h3 id="adeb包安装法">A.deb包安装法：</h3>
+
+<p>1.切换到deb包目录下</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dpkg -i google-chrome-stable_amd64.deb
+</code></pre></div></div>
+
+<p>这时会提示错误，依赖关系没有满足，无法安装。</p>
+
+<p>2.接下来，我们解决依赖关系。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get -f install
+</code></pre></div></div>
+
+<p>这样，就会先自动安装依赖的软件包，然后自动安装好deb包.</p>
+
+<p>3.如果想卸载deb安装的包，先要确定安装的名字，如Chrome就是在终端中可以执行的名字</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dpkg -r chrmoe
+</code></pre></div></div>
+
+<h3 id="bapt-get安装法">B.apt-get安装法：</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install chromium-browser chromium-browser-l10n
+</code></pre></div></div>
+
+<h2 id="安装iceweasel中文包">安装iceweasel中文包</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install iceweasel-l10n-zh-cn
+</code></pre></div></div>
+
+<p>运行浏览器，然后点击
+浏览器菜单 ===&gt; 编辑 ===&gt; 首选项 ===&gt; 内容
+设置浏览器字体</p>
+
+<h2 id="安装flash插件">安装Flash插件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install gnash browser-plugin-gnash
+</code></pre></div></div>
+
+<h2 id="安装解压缩软件">安装解压缩软件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install unrar unzip p7zip-full
+</code></pre></div></div>
+
+<h2 id="安装版本控制软件">安装版本控制软件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install git bzr mercurial
+</code></pre></div></div>
+
+<h2 id="安装读写ntfs分区">安装读写ntfs分区</h2>
+
+<p>对ntfs分区有危险，常常让ntfs分区的文件损坏.慎重使用。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install ntfs-3g
+</code></pre></div></div>
+
+<h2 id="启用i386使64位系统兼容32位软件">启用i386，使64位系统兼容32位软件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dpkg --add-architecture i386
+</code></pre></div></div>
+
+<p>安装后 apt 会把 i386 的软件包一起 cache 起来，执行：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get update
+</code></pre></div></div>
+
+<p>完成后就可以安装 ia32-libs 了：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install ia32-libs ia32-libs-gtk
+</code></pre></div></div>
+
+<p>安装后只要依赖关系满足，32 位的程序就能正常运行了。</p>
+
+<p>如果以后不想要 i386 支持了，只要运行：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dpkg --remove-architecture i386
+</code></pre></div></div>
+
+<h2 id="安装foxitreader">安装FoxitReader</h2>
+
+<p>在http://www.foxitsoftware.cn/downloads/中-&gt;福昕阅读器 -&gt; Desktop Linux  -&gt; bz2
+下载 FoxitReader-1.1.0.tar.bz2
+解压到 /usr/local 中</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> tar -jxvf FoxitReader-1.1.0.tar.bz2 -C /usr/local
+</code></pre></div></div>
+
+<p>重命名文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mv /usr/local/1.1-release /usr/local/FoxitReader
+</code></pre></div></div>
+
+<p>在 /usr/local/bin 中添加访问路径</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ln -s /usr/local/bin /usr/local/FoxitReader/FoxitReader
+</code></pre></div></div>
+
+<h2 id="笔记本外接显示器">笔记本外接显示器：</h2>
+
+<p>外接显示器在右侧拓展:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> xrandr --output LVDS-0 --auto --left-of VGA-0
+</code></pre></div></div>
+
+<p>外接显示器在左侧拓展:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> xrandr --output VGA-0 --auto --left-of LVDS-0
+</code></pre></div></div>
+
+<p>也可以使用arandr通过图形界面来配置双屏幕</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install arandr
+</code></pre></div></div>
+
+<h2 id="安装音频软件">安装音频软件</h2>
+
+<p>这里使用audacious软件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install audacious
+</code></pre></div></div>
+
+<h2 id="安装截屏软件">安装截屏软件</h2>
+
+<p>这里使用shutter软件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apt-get install shutter
+</code></pre></div></div>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/03/19/HowToLearnEnglish/">基础差应该如何学习英语</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/04/30/InstallArchlinuxInThinkpadEdge/">在Thinkpad E130上安装Archlinux</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,6 +1,6 @@
 ---
 title: "qemu调试kernel"
-layout: article
+layout: post
 category: tools
 ---
 

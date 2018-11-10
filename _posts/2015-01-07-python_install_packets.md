@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "python安装软件"
 category: python
 ---

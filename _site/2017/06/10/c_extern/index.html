@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>c语言中关键字extern简介</title>
+    <meta name="description" content="参考这篇1.声明外部变量用法： 在变量定义之前如果使用该变量，则在使用之前加上extern关键词，作用域从声明开始，到本文件结束。但有一点注意，还得定义一遍，只不过前面加上了关键词。#include &lt;stdio.h&gt;int mysum(int x, int y);int main(int argc,...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/10/c_extern/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>c语言中关键字extern简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-10
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="http://www.swanlinux.net/2013/05/14/c_extern/">参考这篇</a></p>
+
+<h1 id="1声明外部变量">1.声明外部变量</h1>
+
+<p>用法： 在变量定义之前如果使用该变量，则在使用之前加上<code class="highlighter-rouge">extern</code>关键词，作用域从声明开始，到本文件结束。但有一点注意，还得定义一遍，只不过前面加上了关键词。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="n">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="k">extern</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="cm">/* 这里的类型名字可以去掉,但是会有警告产生 */</span>
+	<span class="k">extern</span> <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">mysum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The max number is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h1 id="2在多个文件中声明外部变量">2.在多个文件中声明外部变量</h1>
+
+<p>如果整个工程由多个文件组成，在一个文件中可以引用另外一个文件中已经定义的外部变量时，则只需使用关键字<code class="highlighter-rouge">extern</code>加以声明即可，可见，这时的变量作用域从一个文件扩展到了多个文件。</p>
+
+<p>测试的例子：</p>
+
+<p>a.c:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="k">extern</span> <span class="kt">int</span> <span class="n">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">mysum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Here, our result from extern mysum is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>b.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>注意编译的命令为： gcc a.c b.c -o test
+还有利用这种方法去定义接口，在上面的例子中就是a.c中，再一次定义一个变量，在b.c中，使用<code class="highlighter-rouge">extern</code>关键字来声明变量即可，然后因为你在a.c中调用的函数，所以你就可以改变传递给函数的参数了。
+那么，这种方法与通过函数形参传递变量的区别在哪里？如果仅仅是传值，估计是起不到作用的，你会想到传地址的方法，这样可以，但是在一个大型项目中，可能有很多程序同时调用函数，这里就会涉及到竞态的问题。使用extern的方式就比较安全。</p>
+
+<h1 id="3在多个文件中声明外部结构体变量">3.在多个文件中声明外部结构体变量</h1>
+<p>我一开始也有误解，现在看来，结构体的有些不同。</p>
+
+<p>a.c :</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span>
+<span class="cp">#include "b.h"
+#include "c.h" </span><span class="cm">/*引入 print() */</span><span class="cp">
+</span>
+<span class="n">A_class</span> <span class="n">local_post</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+<span class="n">A_class</span> <span class="n">next_post</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">A_class</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"first point"</span><span class="p">,</span> <span class="n">local_post</span><span class="p">);</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"second point"</span><span class="p">,</span> <span class="n">next_post</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">local_post</span><span class="p">,</span> <span class="n">next_post</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The vector is (%d %d %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ret</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ret</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ret</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Or print with function(print) from c.h:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"After two array"</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>b.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include "b.h"
+</span><span class="cm">/* 配合b.h，*/</span>
+<span class="n">A_class</span> <span class="nf">function</span><span class="p">(</span><span class="n">A_class</span> <span class="n">first</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">next</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">A_class</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">ret</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">next</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">first</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+	<span class="n">ret</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">next</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">first</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+	<span class="n">ret</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">next</span><span class="p">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">first</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>b.h:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __B_H
+#define __B_H
+</span>
+<span class="cp">#if 1
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">A_class</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="k">extern</span> <span class="n">A_class</span> <span class="n">local_post</span><span class="p">;</span> <span class="cm">/* 外部结构体声明*/</span>
+<span class="k">extern</span> <span class="n">A_class</span> <span class="n">function</span><span class="p">(</span><span class="n">A_class</span> <span class="n">x</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">y</span><span class="p">);</span> <span class="cm">/* 接口函数声明*/</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+<p>c.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include "b.h"
+</span>
+<span class="kt">int</span> <span class="nf">print</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">post</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s: (%d, %d, %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">post</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">post</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">post</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>c.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __C_H
+#define __C_H
+</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="n">print</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">post</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+<p>之所以还贴这么多代码，主要是觉得这个例子在内核中大量存在。除了extern关键字外，还有预定义符号，多复习。</p>
+
+<p>#4 用extern声明函数
+记住两点：</p>
+
+<ol>
+  <li>
+    <p>定义函数时，需要声明函数值返回值为extern，表示这个函数是外部函数，可以供外部文件使用。</p>
+  </li>
+  <li>
+    <p>调用函数事，也要使用<code class="highlighter-rouge">extern</code>关键字。</p>
+  </li>
+</ol>
+
+<p>代码就先不贴了。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/07/nftables_howto/">nftables简介</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/11/unix_system_header/">unix中系统头文件的位置(sys/socket.h)</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

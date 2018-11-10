@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>kernel进程管理API</title>
+    <meta name="description" content="#函数__task_pid_nr_ns(struct task_struct *task,enum pid_type type,struct pid_namespace *ns)#文件包含#include&lt;linux/sched.h&gt;#函数定义##在内核源代码的位置 linux-3.2.64/kern...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/21/kernelPMAPI/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>kernel进程管理API</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-21
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>#函数
+__task_pid_nr_ns(struct task_struct *task,enum pid_type type,struct pid_namespace *ns)
+#文件包含
+#include&lt;linux/sched.h&gt;
+#函数定义
+##在内核源代码的位置 linux-3.2.64/kernel/pid.c
+##函数定义格式:</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="n">pid_t</span> <span class="nf">__task_pid_nr_ns</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span> <span class="k">enum</span> <span class="n">pid_type</span> <span class="n">type</span><span class="p">,</span>
+		<span class="k">struct</span> <span class="n">pid_namespace</span> <span class="o">*</span><span class="n">ns</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pid_t</span> <span class="n">nr</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ns</span><span class="p">)</span>
+		<span class="n">ns</span> <span class="o">=</span> <span class="n">current</span><span class="o">-&gt;</span><span class="n">nsproxy</span><span class="o">-&gt;</span><span class="n">pid_ns</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">pid_alive</span><span class="p">(</span><span class="n">task</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">type</span> <span class="o">!=</span> <span class="n">PIDTYPE_PID</span><span class="p">)</span>
+			<span class="n">task</span> <span class="o">=</span> <span class="n">task</span><span class="o">-&gt;</span><span class="n">group_leader</span><span class="p">;</span>
+		<span class="n">nr</span> <span class="o">=</span> <span class="n">pid_nr_ns</span><span class="p">(</span><span class="n">task</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">[</span><span class="n">type</span><span class="p">].</span><span class="n">pid</span><span class="p">,</span><span class="n">ns</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+	<span class="k">return</span> <span class="n">nr</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYSBOL</span><span class="p">(</span><span class="n">__task_pid_nr_ns</span><span class="p">);</span></code></pre></figure>
+
+<p>#函数功能描述
+此函数用于获取进程的进程号，但应该满足以下几个条件。
+1.参数type如果不等于PIDTYPE_PID，则参数task用其所属任务组的第一个任务赋值，否则保持task不变。</p>
+
+<p>2.此进程是参数task任务描述符的进程。</p>
+
+<p>3.保证进程描述符和pid_namespaces和参数ns相同。</p>
+
+<p>#参数补充(未写)</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cm">/*linux/pid.h*/</span>
+<span class="k">enum</span> <span class="n">pid_type</span>
+<span class="p">{</span>
+	<span class="n">PIDTYPE_PID</span><span class="p">,</span> <span class="c1">//进程的进程号</span>
+	<span class="n">PIDTYPE_PGID</span><span class="p">,</span> <span class="c1">//process group' leader process ID</span>
+	<span class="n">PIDTYPE_SID</span><span class="p">,</span>  <span class="c1">//session' leader process ID</span>
+	<span class="n">PIDTYPE_MAX</span>
+<span class="p">};</span>
+<span class="cm">/*
+ *linux/pid_namespace.h
+ */</span>
+<span class="k">struct</span> <span class="n">pidmap</span> <span class="p">{</span>
+	<span class="n">atomic_t</span> <span class="n">nr_free</span><span class="p">;</span>
+	<span class="kt">void</span> <span class="o">*</span><span class="n">page</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">struct</span> <span class="n">pid_namespace</span> <span class="p">{</span>
+	<span class="cm">/*kerf is reference count,代表此命名空间在多少进程中被使用*/</span>
+	<span class="k">struct</span> <span class="n">kref</span> <span class="n">kref</span><span class="p">;</span>
+	<span class="cm">/*current system PID */</span>
+	<span class="k">struct</span> <span class="n">pidmap</span> <span class="n">pidmap</span><span class="p">[</span><span class="n">PIDMAP_ENTRIES</span><span class="p">];</span>
+	<span class="cm">/*上一次分配给进程的PID的值*/</span>
+	<span class="kt">int</span> <span class="n">last_pid</span><span class="p">;</span>
+	<span class="cm">/*保存指向该进程的struct_task的指针*/</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">child_reaper</span><span class="p">;</span>
+	<span class="cm">/*指向该进程在cache中的分配空间*/</span>
+	<span class="k">struct</span> <span class="n">kmem_cache</span> <span class="o">*</span><span class="n">pid_cachep</span><span class="p">;</span>
+	<span class="cm">/*初始化为0,从level内核可知进程关联多少ID*/</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">level</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">pid_namespace</span> <span class="o">*</span><span class="n">parent</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_PROC_FS
+</span>	<span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">proc_mnt</span><span class="p">;</span>
+<span class="cp">#endif
+#ifdef CONFIG_BSD_PROCESS_ACCT
+</span>	<span class="k">struct</span> <span class="n">bsd_acct_struct</span> <span class="o">*</span><span class="n">bacct</span><span class="p">;</span>
+<span class="cp">#endif
+</span><span class="p">};</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">pid_namespace</span> <span class="n">init_pid_ns</span><span class="p">;</span></code></pre></figure>
+
+<p>#举例</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cm">/*
+ *include head file
+ */</span>
+<span class="cp">#include &lt;linux/module.h&gt;
+#include &lt;linux/sched.h&gt;
+#include &lt;linux/pid.h&gt;
+</span><span class="cm">/*
+ *per 
+ */</span>
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="cm">/*
+ *define subprocess function  
+ */</span>
+<span class="kt">int</span> <span class="nf">my_function</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">argc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt;in the kernel thread function</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">__task_pid_nr_ns_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; into __task_pid_nr_ns_init.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*
+	 *Create a new process
+	 */</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">kernel_thread</span><span class="p">(</span><span class="n">my_function</span><span class="p">,</span><span class="nb">NULL</span><span class="p">,</span><span class="n">CLONE_KERNEL</span><span class="p">);</span>
+	<span class="cm">/*
+	 *get subprocess pid
+	 */</span>
+	<span class="k">struct</span> <span class="n">pid</span> <span class="o">*</span><span class="n">kpid</span> <span class="o">=</span> <span class="n">find_get_pid</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+	<span class="cm">/*
+	 *get 进程所属的任务描述符
+	 */</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">task</span> <span class="o">=</span> <span class="n">pid_task</span><span class="p">(</span><span class="n">kpid</span><span class="p">,</span> <span class="n">PIDTYPE_PID</span><span class="p">);</span>
+	<span class="cm">/*
+	 *获取任务对应进程的进程描述符
+	 */</span>
+	<span class="n">pid_t</span> <span class="n">result1</span> <span class="o">=</span> <span class="n">__task_pid_nr_ns</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">PIDTYPE_PID</span><span class="p">,</span> <span class="n">kpid</span><span class="o">-&gt;</span><span class="n">numbers</span><span class="p">[</span><span class="n">kpid</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">].</span><span class="n">ns</span><span class="p">);</span>
+	<span class="cm">/*
+	 *显示返回值的进程号
+	 *
+	 */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the pid of the find_get_pid is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">kpid</span><span class="o">-&gt;</span><span class="n">numbers</span><span class="p">[</span><span class="n">kpid</span> <span class="o">-&gt;</span> <span class="n">level</span><span class="p">].</span><span class="n">nr</span><span class="p">);</span>
+	<span class="cm">/*
+	 *显示函数find_get_pid()返回值的进程描述符
+	 */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the result of __task_pid_nr_ns is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">result1</span><span class="p">);</span>
+	<span class="cm">/*
+	*显示函数kernel_thread()的返回值
+	*/</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the result of kernel_thread is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">result</span><span class="p">);</span>
+	<span class="cm">/*显示当前进程号
+	   */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the pid of current thread is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; out __task_pid_nr_ns_init.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__exit</span> <span class="nf">__task_pid_nr_ns_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; Goobye __task_pid_nr_ns</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cm">/*
+ *load and exit
+ */</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">__task_pid_nr_ns_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">__task_pid_nr_ns_exit</span><span class="p">);</span></code></pre></figure>
+
+<p>结合以前的知识，写出Makefile，执行</p>
+
+<p><strong>make</strong></p>
+
+<p>然后，键入</p>
+
+<p>insmod __task_pid_nr_ns.ko</p>
+
+<p>这时一般终端就会有消息产出，如果没有可以接着使用 __dmesg -c__命令
+##终端信息</p>
+<pre>
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.244921]  into __task_pid_nr_ns_init.
+
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.244971]  the pid of the find_get_pid is :2915
+
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.244980]  the result of __task_pid_nr_ns is :2915
+
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.244988]  the result of kernel_thread is :2915
+
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.244995]  the pid of current thread is :2914
+
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.245002]  out __task_pid_nr_ns_init.
+
+Message from syslogd@debian at Nov 21 15:28:12 ...
+ kernel:[  458.245964] in the kernel thread function
+dmesg -c
+dmesg: klogctl failed: 不允许的操作
+yubo@debian:~/linux/process$ 
+</pre>
+<p>#find_get_pid()
+定义:struct pid *find_get_pid(int nr)
+##功能
+此函数根据提供的进程号获取对应的进程描述符，并使进程描述符的count的值加1即此进程的用户数加1</p>
+
+<p>##参数说明
+nr即为进程号
+##返回参数
+返回与参数提供的进程号对应的进程描述符，进程描述符定义如下：</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">pid</span> <span class="p">{</span>
+	<span class="cm">/*此进程的任务数*/</span>
+	<span class="n">atomic_t</span> <span class="n">count</span><span class="p">;</span>
+	<span class="cm">/*level对应成员number[]的下标，一般取值为0*/</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">level</span><span class="p">;</span>
+	<span class="cm">/*此进程的任务列表*/</span>
+	<span class="k">struct</span> <span class="n">hlist_head</span> <span class="n">tasks</span><span class="p">[</span><span class="n">PIDTYPE_MAX</span><span class="p">];</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span> <span class="n">rcu</span><span class="p">;</span>
+	<span class="cm">/*struct upid类型的数组*/</span>
+	<span class="k">struct</span> <span class="n">upid</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">uoid</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">nr</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">pid_namespace</span> <span class="o">*</span><span class="n">ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span> <span class="n">pid_chain</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">pid</span> <span class="n">init_struct_pid</span><span class="p">;</span></code></pre></figure>
+
+<p>##find_get_pid()应用举例</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;linux/module.h&gt;
+#include &lt;linux/sched.h&gt;
+#include &lt;linux/pid.h&gt;
+</span><span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="cm">/*
+ * define subprocess
+ */</span>
+<span class="kt">int</span> <span class="nf">my_function</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">argc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; in the kerenl thread function!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*
+ * load module function
+ *
+ */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">find_get_pid_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; into the find_get_pid_init.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*
+	 * create a new process, the value of return is a int num,also called 
+	 * process id  
+	 */</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">kernel_thread</span><span class="p">(</span><span class="n">my_function</span><span class="p">,</span><span class="nb">NULL</span><span class="p">,</span><span class="n">CLONE_KERNEL</span><span class="p">);</span>
+	<span class="cm">/*
+	 * According to process id,call zhe function,get the process descriptor
+	 * information, wait ...atomc_t？
+	 */</span>
+	<span class="k">struct</span> <span class="n">pid</span> <span class="o">*</span><span class="n">kpid</span> <span class="o">=</span> <span class="n">find_get_pid</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+	<span class="cm">/*
+	 * how many time use the function
+	 */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the count of the pid is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">kpid</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">);</span>
+	<span class="cm">/*
+	 * level
+	 */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the level of the pid is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">kpid</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">);</span>
+
+	<span class="cm">/*
+	 * display PID
+	 */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the pid of the find_get_pid is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">kpid</span><span class="o">-&gt;</span><span class="n">numbers</span><span class="p">[</span><span class="n">kpid</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">].</span><span class="n">nr</span><span class="p">);</span>
+	<span class="cm">/*
+	 * display kernel_thread's return value
+	 */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; the result of the kernel_thread is :%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">result</span><span class="p">);</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; out find_get_pid_init.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>	
+<span class="p">}</span>
+<span class="cm">/*
+ * quit module define
+ */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__exit</span> <span class="nf">find_get_pid_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"&lt;0&gt; Goodbye find_get_pid"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">find_get_pid_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">find_get_pid_exit</span><span class="p">);</span></code></pre></figure>
+
+<p>##输出结果</p>
+<pre>
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689851]  into the find_get_pid_init.
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689863]  the count of the pid is :2
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689864]  the level of the pid is :0
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689866]  the pid of the find_get_pid is :3554
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689867]  the result of the kernel_thread is :3554
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.689868]  out find_get_pid_init.
+
+Message from syslogd@debian at Nov 23 05:42:16 ...
+ kernel:[ 3162.690635]  in the kerenl thread function!
+</pre>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/20/StartBusiness/">创业</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/24/LinuxDeveicsDriver/">LDD读书笔记(1-4)</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "linux 内存管理"
 category: kernel
 ---

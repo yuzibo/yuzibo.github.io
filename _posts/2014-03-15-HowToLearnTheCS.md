@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "如何学好计算机科学与技术"
 category: experience
 tags: [experience,CS]

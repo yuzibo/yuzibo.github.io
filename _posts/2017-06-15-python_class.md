@@ -1,7 +1,7 @@
 ---
 title: "python中类的用法"
 category: python
-layout: article
+layout: post
 ---
 
 # python 中类的用法

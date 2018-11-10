@@ -1,6 +1,6 @@
 ---
 title: "自动上传图片、文章返回url"
-layout: article
+layout: post
 category: tools
 ---
 

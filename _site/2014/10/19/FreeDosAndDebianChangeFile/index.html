@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>在虚拟机中解决 FreeDos与宿主机文件交换的问题</title>
+    <meta name="description" content="最近在看于渊编写的«自己动手写操作系统»，里面编写基于 IA32的保护模式下 COM文件，于是乎下载FreeDos iso并在 VirtualBox 安装，其详细手册请参阅使用网络在活动界面下，键入 auto 打开	AUTOEXEC.BAT找到REM LH PCNTPK INT=0X60,将REM去掉，只剩下后面...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/10/19/FreeDosAndDebianChangeFile/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>在虚拟机中解决 FreeDos与宿主机文件交换的问题</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-10-19
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#FreeDos" title="Tag: FreeDos" rel="tag">FreeDos</a-->
+        <a href="/tag/#FreeDos" title="Tag: FreeDos" rel="tag">FreeDos</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>最近在看于渊编写的«自己动手写操作系统»，里面编写基于 IA32的保护模式下 COM文件，于是乎下载FreeDos iso并在 VirtualBox 安装，其<a href="http://www.freedos.org/wiki/index.php/Main_Page">详细手册请参阅</a></p>
+
+<p><strong>使用网络</strong></p>
+
+<p>在活动界面下，键入 auto 打开	AUTOEXEC.BAT
+找到REM LH PCNTPK INT=0X60,将REM去掉，只剩下后面的其他</p>
+
+<p><strong>配置 FTP服务</strong></p>
+
+<p>`copy C:\FDOS\DOC\MTCP\SAMPLE.CFG C:\FDOS\MTCP.CFG</p>
+
+<p>edit C:\fdos\mtcp.cfg`</p>
+
+<p>激活以下选项</p>
+
+<p>`MTU 1472</p>
+
+<p>ftpsrv_password_file c:\fdos\ftppass.txt</p>
+
+<p>ftpsrv_log_file c:\fdos\ftpsrv.log</p>
+
+<p>FTPSRV_FILEBUFFER_SIZE 16</p>
+
+<p>FTPSRV_TCPBUFFER_SIZE 16</p>
+
+<p>FTPSRV_PACKETS_PER_POLL 2`</p>
+
+<p>然后创建FTP服务器的密码</p>
+
+<p><code class="highlighter-rouge">edit C:\fdos\ftppass.txt</code></p>
+
+<p>编写这个文件时应该按照以下格式
+ user  password [none] [any] all
+ 我的就是
+  xx   xx [none] [any] all</p>
+
+<p>顺便提一下;
+ 我的虚拟机里 FreeDos的ftp的端口是 21
+ 这里用的是NAT连接方式real ip is 10.0.2.15，
+并且这种方式在后来的 ftpsrv不可用，至于为什么我
+也是暂不得知。
+后来我改用 桥连 ftpsrv 居然可用，真是不可思议。
+后来的ip是 192.168.1.103,我第一次用 桥连 没有成功，当时是在
+CMCC-EDU的环境下开启的，后来我在实验室连接路由器可以，是不是和
+这个有关呢？</p>
+
+<p><strong>开始DHCP客户端</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>首先用auto打开
+然后去除"DHCP"前的REM。
+一般的ip地址就在 C:\fdos\mtcp.cfg中
+</code></pre></div></div>
+
+<p><strong>开始FTP服务</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ftpsrv
+然后在 宿主机 上就可以使用 ftp软件进行文件传输了。
+</code></pre></div></div>
+
+<p>本着够用即可的原则，就 freedos的文件交换先介绍到这。
+至于安装FreeDos，还是到官网上找帮助手册。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/10/18/IMeetMyLuck/">你的世界，我来了</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/10/30/DebianInstallFTP/">Debian 安装FTP</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

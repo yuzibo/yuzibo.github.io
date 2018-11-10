@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Debian编译linux内核</title>
+    <meta name="description" content="终于成功一次了之前重新编译了好多次，可惜没有一次成功的，说实话，借助Debian强大的dpkg软件包管理，使得重新编译内核仅仅像安装软件一样简单，我都觉得这不是正宗的编译内核，好了，废话不多说，马上进入主题。下载内核源代码(1)我没有使用最新的内核源代码，用的 3.2.64,我们可以在http://www.lkm...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/11/DebianBuildKernel/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Debian编译linux内核</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-11
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="终于成功一次了">终于成功一次了</h1>
+<p>之前重新编译了好多次，可惜没有一次成功的，说实话，借助Debian强大的dpkg软件包管理，使得重新编译内核仅仅像安装软件一样简单，我都觉得这不是正宗的编译内核，好了，废话不多说，马上进入主题。</p>
+
+<h2 id="下载内核源代码1">下载内核源代码(1)</h2>
+<p>我没有使用最新的内核源代码，用的 3.2.64,我们可以在<a href="http://www.lkml.org">http://www.lkml.org</a>下载，注意这里我们下载的是.xz文件,需要解压两次。至于源代码放在哪里，完全取决于你自己，你想放在哪里就放在哪里，我直接放在在用户主目录都可以啊。</p>
+
+<h2 id="解压">解压</h2>
+
+<blockquote>
+  <p>xz -d linux-xx</p>
+</blockquote>
+
+<p>(xx就是你下载的内核源代码的版本)，这时生成.tar文件，然后</p>
+
+<blockquote>
+  <p>tar -xvf linux-xx</p>
+</blockquote>
+
+<h2 id="安装所需的软件包">安装所需的软件包</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install kernel-package libncurses5-dev fakeroot build-essential bc
+</code></pre></div></div>
+
+<h2 id="使用git">使用git</h2>
+
+<p>利用git得到linus的最新 kernel,然后执行 <code class="highlighter-rouge">make clean</code>,接下来执行</p>
+
+<p><code class="highlighter-rouge">make menuconfig</code></p>
+
+<h3 id="tips">tips</h3>
+<p>如果你想单独编译某个模块,可以单独地编译那个模块(不建立镜像)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make drivers/usb/serial
+</code></pre></div></div>
+
+<p>下面可以建立镜像</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make M=drivers/usb/serial
+</code></pre></div></div>
+
+<p>如果你想把内核镜像编译在别处,那么则可以使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make O=~/linux-kernel-image-dir
+</code></pre></div></div>
+
+<h2 id="配置内核">配置内核</h2>
+<p>这个怎么说呢，在你没有对内核配置选项有个清醒的认识之前，我的建议是使用你本机的默认配置吧，我之前配置失败就是想弄清楚配置选项的每一个，结果备受挫折，先看看编译内核是什么样的，以后我们再说这些也不错啊。</p>
+
+<blockquote>
+  <p>cd linux-XX</p>
+</blockquote>
+
+<p>先进入目录，我们如使用默认配置的话，</p>
+
+<p><strong>“cp /boot/config-<code class="highlighter-rouge">uname -r</code> .config”</strong>,如果我们自己一定要配置，我建议使用 <strong>make menuconfig</strong></p>
+
+<h2 id="使用git获取源代码2">使用git获取源代码(2)</h2>
+
+<h2 id="编译内核1">编译内核1</h2>
+<p>首先,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make-kpkg clean
+</code></pre></div></div>
+
+<p>稍微等一会，我们接着使用命令</p>
+
+<blockquote>
+  <p>fakeroot make-kpkg –initrd –revesion=1.0.xx  kernel_image</p>
+</blockquote>
+
+<h1 id="update">Update:</h1>
+<p>不用debian的软件包,自己完全可以手动解决问题:配置完config后,就可以执行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+
+make modules_install install
+</code></pre></div></div>
+
+<h2 id="再更新请参阅下面的make-dep-pkg">再更新,请参阅下面的make dep-pkg</h2>
+
+<h1>===================================</h1>
+<p>舍不得del，但是这段真的没有多大的用处
+===================================
+===================================</p>
+
+<p>现在，在我的机子上，上面的方法已经不好使了。我重新按照原来的方法在安装新的 kernel
+我们有必要讲讲make-kpkg与fakeroot这两个软件包，前者是可以自动替换</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make dep<span class="p">;</span>
+make clean<span class="p">;</span>
+make bzImage<span class="p">;</span>
+make modules
+</code></pre></div></div>
+
+<p>命令序列的脚本，而–append-to-version就是让我们来指定一个额外的内核版本，这个版本是成为内核名的一部分，我们可以使用数字，“+”，“,”,但是不能使用“_”,在这里的用法我借鉴网上同学的例子，使用当天日期来解决不同的版本号问题。内核模块位于/lib/modules子目录下，每一个内核都有它自己的子目录，所以每次我们创建新内核时使用新的内核名字，这个包安装程序就会在/lib/modules目录下创建一个新的子目录来保存它自己的模块。</p>
+
+<p>注意，–revesion只会影响Debian软件包本身的名字而不是内核的名字，Debian kernel-image文件的名字格式如下：</p>
+
+<p>kernel-image-(kernel-version)(–append-to-version)<em>(–version)</em>(architecture).deb.至于什么是fakeroot这一点我也不是很清楚，好像是模拟root环境来创建一个kernel-image软件包。</p>
+
+<h2 id="创建ramdisk">创建Ramdisk</h2>
+
+<p>经过漫长的等待后，我们在代码目录的上一层目录就得到一个linux-image-3.2.64.141111_3.2.64.141111-10.00.Custom_i386.deb的软件包，别急，我们还有一步工作需要完善。</p>
+
+<p>下面是废话，可以忽略。我们有一个问题是boot过程中mount根文件系统的“先有鸡还是先有蛋的问题”，一般来说，根文件在形形色色的存储设备上，不同的设备又要不同的硬件厂商的驱动，比如intel的ide/sata驱动，VIA的南桥需要VIA的ide/sata驱动，根文件系统也不同的文件系统的可能，假如把所有的驱动/模块都编译进内核，那自然没问题，可现实（内核的精神或本质）是我们把驱动/模块都驻留在根文件系统本身/lib/modules/xxx,那么“鸡蛋”问题就就来了，要mount根文件系统却需要根文件系统上的文件系统，怎么办？于是，就想出了下面的ramdisk,内核总是能安装ramdisk的(__因为ramdisk临时文件和内核一样，也是由bootloader通过低级读写命令（uboot用nand read，而不用通过系统层提供的高级读写接口）加载进内存，因此内核可以挂载ramdisk文件系统），然后把所有要使用到的驱动/模块都放在ramdisk上，首先，让内核将ramdisk当作根文件来安装，然后再利用这个根文件系统上的驱动来真正安装根文件系统，就将这个问具体解决了。补充，有时间你可以到/boot文件目录下看看，会有一个initrd.img的文件，initrd大体上就是 包含根文件系统的ramdisk。说了这么多，重点还没有解决，也就是我们需要创建这么一个文件-initrd，将我们新编译的内核在根文件系统挂载前能装进内存，那么，我们该怎么样解决这个问题呢？</p>
+
+<p>首先，使用vi编辑/boot/config-3.2.64.141111文件，将代码__CONFIG_DEFCONFIG_LIST=”/lib/modules/$UNAME_RELEASE/.config”__这句话注释掉（在句首用#），否则我们就不会成功。接下来执行</p>
+
+<blockquote>
+  <p>mkinitramfs -o /boot/initrd.img-3.2.64.141111  3.2.64.141111</p>
+</blockquote>
+
+<p>直观上我们可以理解生成目标文件initrd.img-3.2.64.141111,我们做的所有工作你最后在/boot目录下会发现的。</p>
+
+<h1 id="-1">===================================</h1>
+<p>舍不得del，但是这段真的没有多大的用处
+===================================
+===================================</p>
+
+<h1 id="make-deb-pkg">make deb-pkg</h1>
+
+<p>在执行下面的命令前，首先执行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install dpkg-dev
+</code></pre></div></div>
+
+<p>这个命令能解决诸多dpkg-*的错误，比如： <code class="highlighter-rouge">dpkg-buildpackage</code>: command not found</p>
+
+<p>如果说在debian中，最能体现debian的特色了，莫过于debian的软件包管理了。上面删除线的内容，在几年前可能是真实的，但是现在，不知道为什么会出现这样那样的问题
+，而debian的维护者又开发了一种新的编译内核的方法，相对来说，简单不少。</p>
+
+<p><a href="https://debian-handbook.info/browse/stable/sect.kernel-compilation.html">请参考</a></p>
+
+<p>在完成内核的配置后，在linux kernel tree代码目录中键入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make deb-pkg
+</code></pre></div></div>
+
+<p>这条命令会在tree的父目录产生5个*.deb,这样的条件下，你只需要使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dpkg -i xx,
+</code></pre></div></div>
+
+<p>依我的为例，产生了：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>inux-firmware-image-4.10.0-rc8+_4.10.0-rc8+-1_i386.deb
+linux-headers-4.10.0-rc8+_4.10.0-rc8+-1_i386.deb
+linux-image-4.10.0-rc8+_4.10.0-rc8+-1_i386.deb
+linux-image-4.10.0-rc8+-dbg_4.10.0-rc8+-1_i386.deb
+linux-libc-dev_4.10.0-rc8+-1_i386.deb
+</code></pre></div></div>
+
+<p>还有一个 .tar文件，先使用 <strong>dpkg</strong> 安装<em>_headers_</em>包，接着安装镜像文件。</p>
+
+<p>当然，你还可以使用 dpkg命令去删除他们，这和你使用 apt-get命令去装软件是一样的，维护了软件包之间的关系完整性。</p>
+
+<h2 id="更新grub">更新grub</h2>
+
+<p>我又安装了grub2,使用命令</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update-grub2
+</code></pre></div></div>
+
+<h2 id="感谢">感谢</h2>
+<p>首先感谢我女友春春的理解和支持，有她在背后，我感觉很幸福;这篇文章我重点参考了<a href="http://www.blog.csdn.mylxiaoyi/post/details/1499397">The blog</a></p>
+
+<h3 id="最后更新">最后更新</h3>
+
+<p>这篇文章需要重写，步骤有很多的过时的。</p>
+
+<p>说白了，在安装完了新的内核后，之后主要的问题就是grub的配置了。</p>
+
+<p>我需要记一篇关于grub的文章。这里先简单的说下我的问题。</p>
+
+<p>之前使用 kernel自带的万用的的 make &amp;&amp; make install modules_insatll,然后直接改写 /boot/grub/grub.cfg,这明显是针对的 grub v2,说明的grub是v2。怎么改呢，就是copy  menuentry,将initrd-xx和image-xx的路径写正确，但是最近几次，在启动的时候报 uuid的错误，搜寻了n多网页，实在没辙了。偶然间，发现：</p>
+
+<p>/boot/grub/grub.cfg 这个文件是系统生成的，不能手动改写 （但是我已经动了），，这个文件的构建基于/etc/default/grub 和/etc/grub.d/*,而且只要 update-grub(其实应该是update-grub2),会自动写入/boot/grub/grub.cfg.但是我的不能，这次启动新的内核，是由于修改了/etc/default/grub 的 GRUB_DISABLE_UUID=true,然后手动改写了/boot/grub/grub.cfg,这才成功的。</p>
+
+<p>也就说，你得知道你的grub是什么版本的。这里我只是说一下 grub2.安装grub2会重写
+grub的引导项，因为我是在一个硬盘安装了双系统，所以在安装的过程中会问你引导项安装到什么地方，我选择的是整块硬盘。</p>
+
+<p>执行 <strong>update-grub2</strong> 即可发现了新的kernel.</p>
+
+<p>最后总结一点，就是，如果你的grub是v1,在启动的时候遇到了麻烦，那么可以直接试着修改   /boot/grub/grub.cfg,如果遇到了uuid的错误，那么就将/etc/default/grub中的GRUB_DISABLE_UUID=true.</p>
+
+<p>上面是不提倡的一种做法，还要使用debian的官方提倡的做法，使用grub2,这样，安装内核就像安装普通的软件包一样可以那样。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/06/LinuxModuleProgram1/">模块编程(1)Hello,World</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/14/MyBookPlan/">我的近期读书计划</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

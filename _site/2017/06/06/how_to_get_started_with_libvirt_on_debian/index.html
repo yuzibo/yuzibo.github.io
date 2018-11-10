@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>用libvirt安装debian</title>
+    <meta name="description" content="这篇文章主要聚焦于debian系统，其他的linux发行版的用法应该是一致的。SetupYou start by installing the needed tools, So, on my debian:sudo apt-get install libvirt-dev virtinst libvirt-daem...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/06/how_to_get_started_with_libvirt_on_debian/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>用libvirt安装debian</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-06
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>这篇文章主要聚焦于debian系统，其他的linux发行版的用法应该是一致的。</p>
+
+<h1 id="setup">Setup</h1>
+<p>You start by installing the needed tools, So, on my debian:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>libvirt-dev virtinst libvirt-daemon libvirt-daemon-system
+</code></pre></div></div>
+<p>如果没有找到相应的软件包，你可以尝试一下<code class="highlighter-rouge">apt-cache</code>命令。
+(If you cant found these softwares, you can try it : apt-cache)
+系统提示你缺少什么软件就安装什么软件。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-cache search libvirt
+</code></pre></div></div>
+<p>你还可以使用通配符进行模糊查找。
+(You can fuzzy search with wildcard)</p>
+
+<p>Then you got a <code class="highlighter-rouge">libvirtd</code> process running on your machine:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>ps u <span class="nt">-C</span> libvirtd
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root     4470  1.4  0.7 787416 30212 ?        Ssl  20:38   0:00 /usr/sbin/libvi
+
+</code></pre></div></div>
+
+<p>The role of <code class="highlighter-rouge">libvirtd</code> is quite important. It takes care of managing the VMSrunning on your host.You can control it with command <code class="highlighter-rouge">virsh</code>.</p>
+
+<h1 id="first-few-steps-with-libvirt">First few steps with libvirt</h1>
+
+<p>Before anything else, you should know that libvirt and <code class="highlighter-rouge">virsh</code> not only allow you to control VMs running on your own system, but can control VMs running on the remote systems or a cluster of physical machines. Every time you use <code class="highlighter-rouge">virsh</code>, With qemu,you need type it looks like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu://xxx/system
+qemu://xxx/session
+</code></pre></div></div>
+
+<p>I will introduce more details about virsh in another post,now i am focus on the libvirt-vms.</p>
+
+<h1 id="managing-system-vms">Managing system VMS</h1>
+
+<p>Here, <code class="highlighter-rouge">libvirtd</code> is listening the command send to <code class="highlighter-rouge">/var/run/libvirt</code>,so you may add a credential user for libvirt, and you have opportunity to write socket, which needs a user to belong to the <code class="highlighter-rouge">libvirt</code> group.</p>
+
+<p>If you edit <code class="highlighter-rouge">/etc/libvirt/libvirtd.conf</code>, you can configure libvirt to wait for a commands using a variety of different mechanisms, including for example SSL encrypted TCP sockets.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>usermod <span class="nt">-a</span> <span class="nt">-G</span> libvirt yubo
+
+</code></pre></div></div>
+
+<p>Add my user name into libvirt group.</p>
+
+<h1 id="defining-a-network">Defining a network</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system net-list
+ Name                 State      Autostart     Persistent
+ <span class="nt">----------------------------------------------------------</span>
+</code></pre></div></div>
+<p>This means that there are no active virtual networks, Try one more time adding <code class="highlighter-rouge">--all</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system net-list <span class="nt">--all</span>
+ Name                 State      Autostart     Persistent
+ <span class="nt">----------------------------------------------------------</span>
+  default              inactive   no            <span class="nb">yes</span>
+
+</code></pre></div></div>
+
+<h4 id="note">note</h4>
+
+<p>Now your network’s is <code class="highlighter-rouge">default</code>.</p>
+
+<p>And notice the default network, If you want to inspect or change the configure file of the network, you can use either <code class="highlighter-rouge">net-dumpxml</code> or <code class="highlighter-rouge">net-edit</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+h <span class="nt">-c</span> qemu:///system net-dumpxml default
+&lt;network&gt;
+  &lt;name&gt;default&lt;/name&gt;
+  &lt;uuid&gt;e46e2c1b-5263-4428-b8fc-bfa4805a2ebc&lt;/uuid&gt;
+  &lt;forward <span class="nv">mode</span><span class="o">=</span><span class="s1">'nat'</span>/&gt;
+  &lt;bridge <span class="nv">name</span><span class="o">=</span><span class="s1">'virbr0'</span> <span class="nv">stp</span><span class="o">=</span><span class="s1">'on'</span> <span class="nv">delay</span><span class="o">=</span><span class="s1">'0'</span>/&gt;
+  &lt;mac <span class="nv">address</span><span class="o">=</span><span class="s1">'52:54:00:34:36:d3'</span>/&gt;
+  &lt;ip <span class="nv">address</span><span class="o">=</span><span class="s1">'192.168.122.1'</span> <span class="nv">netmask</span><span class="o">=</span><span class="s1">'255.255.255.0'</span><span class="o">&gt;</span>
+	&lt;dhcp&gt;
+	  &lt;range <span class="nv">start</span><span class="o">=</span><span class="s1">'192.168.122.2'</span> <span class="nv">end</span><span class="o">=</span><span class="s1">'192.168.122.254'</span>/&gt;
+	&lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre></div></div>
+
+<p>I guess you could understand what is meaning above.Now your VM bridge name is virbbr0…</p>
+
+<p>You can configure networking in many different ways, with nat, with bridging,with simple gateway fowarding… You can find all parameters <a href="http://libvirt.org/formatnetwork.html">on the page</a>.</p>
+
+<p>And you can change the definition by using <code class="highlighter-rouge">net-edit</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net-undefine default <span class="c"># forever eliminate the default network</span>
+net-define file.xml <span class="c">#to define a new network starting from an .xml file</span>
+<span class="c">#you can</span>
+virsh ... net-dumpxml default <span class="o">&gt;</span> file.xml
+<span class="k">then </span>edit and <span class="k">then
+</span>virsh ... net-define file.xml
+</code></pre></div></div>
+
+<h1 id="starting-and-stopping-networks">Starting and stopping networks</h1>
+
+<p><code class="highlighter-rouge">net-start default</code>, to start the named <code class="highlighter-rouge">default</code> network
+<code class="highlighter-rouge">net-destory default</code>, to stop the named <code class="highlighter-rouge">default</code>network,with the ability of starting it again in the future.</p>
+
+<p><code class="highlighter-rouge">net-autostart default</code>, to automatically start the default network at boot.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system net-start default
+Network default started
+
+yubo@debian:~/git<span class="nv">$ </span>ps aux | <span class="nb">grep </span>libvirt
+
+root      4470  0.0  0.7 1377240 30292 ?     Ssl  20:38   0:00 /usr/sbi..
+nobody    5155  0.0  0.0  52228   408 ?     S    21:40   0:00 /usr/sb..
+root      5156  0.0  0.0  52200   408 ?  S   21:40   0:00 /usr/sbin/dnsmasq
+<span class="nt">----------------</span>
+yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>netstat <span class="nt">-nulp</span>
+Active Internet connections <span class="o">(</span>only servers<span class="o">)</span>
+Proto Recv-Q Send-Q Local Address  Foreign Address State  PID/Program name
+udp   0       0    192.168.122.1:53      0.0.0.0:<span class="k">*</span>         5155/dnsmasq
+udp  0        0     0.0.0.0:67           0.0.0.0:<span class="k">*</span>          5155/dnsmasq
+<span class="nt">-----------------</span>
+yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>netstat <span class="nt">-ntlp</span>
+Active Internet connections <span class="o">(</span>only servers<span class="o">)</span>
+Proto Recv-Q Send-Q Local Address Foreign Address  State PID/Program name
+tcp   0      0      192.168.122.1:53   0.0.0.0:<span class="k">*</span>   LISTEN     5155/dnsmasq
+tcp   0      0       0.0.0.0:22        0.0.0.0:<span class="k">*</span>   LISTEN      546/sshd
+
+</code></pre></div></div>
+
+<p>libvirt started <code class="highlighter-rouge">dnsmasq</code>, which is a simple dhcp server with ability to also provide DNS.So you can try:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>ip address show
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    <span class="nb">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+    valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+    valid_lft forever preferred_lft forever
+2: enp1s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast
+state UP group default qlen 1000
+      <span class="nb">link</span>/ether 94:c6:91:04:e6:91 brd ff:ff:ff:ff:ff:ff
+      inet 222.195.244.235/24 brd 222.195.244.255 scope global dynamic
+      enp1s0
+      valid_lft 2670sec preferred_lft 2670sec
+     inet6 fe80::96c6:91ff:fe04:e691/64 scope <span class="nb">link
+	            </span>valid_lft forever preferred_lft forever
+3: virbr0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue
+state DOWN group default qlen 1000
+   <span class="nb">link</span>/ether 52:54:00:34:36:d3 brd ff:ff:ff:ff:ff:ff
+   inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+   valid_lft forever preferred_lft forever
+4: virbr0-nic: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast master
+virbr0 state DOWN group default qlen 1000
+   <span class="nb">link</span>/ether 52:54:00:34:36:d3 brd ff:ff:ff:ff:ff:ff
+</code></pre></div></div>
+
+<p>you can use iptables to see what happened:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-nvL</span>
+<span class="o">&amp;&amp;</span>
+<span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-nvL</span>
+
+</code></pre></div></div>
+
+<h1 id="managing-storage">Managing storage</h1>
+
+<p>Now we have a network running for our VMs,we need to worry about storage.This is similar to lvm, On this post, i just dedicated a directory  to storing images and volums.</p>
+
+<p>But, you should mdkir needed dir with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /opt/kvms/pools/devel
+</code></pre></div></div>
+<p>and try it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system <span class="se">\</span>
+		<span class="o">&gt;</span> pool-define-as devel <span class="se">\</span>
+		<span class="o">&gt;</span> <span class="nb">dir</span> <span class="nt">--target</span> /opt/kvms/pools/devel
+		Pool devel defined
+
+</code></pre></div></div>
+
+<p>Here, we create a pool called devel in a directory , we can see this pool with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-list <span class="nt">--all</span>
+ Name                 State      Autostart
+ <span class="nt">-------------------------------------------</span>
+  devel                inactive   no
+
+</code></pre></div></div>
+<p><code class="highlighter-rouge">--all</code> as before, now we need to start it automatically with command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-autostart devel
+Pool devel marked as autostarted
+
+</code></pre></div></div>
+<p>and start it with(must):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-start devel
+</code></pre></div></div>
+
+<p>And you can see it again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-list <span class="nt">--all</span>
+ Name                 State      Autostart
+ <span class="nt">-------------------------------------------</span>
+  devel                active     <span class="nb">yes</span>
+
+</code></pre></div></div>
+<p>To create and manage volumes, you can use <code class="highlighter-rouge">vol-create</code>,<code class="highlighter-rouge">vol-delete</code>,<code class="highlighter-rouge">vol-resize</code>,all the <code class="highlighter-rouge">vol-*</code> can be used.</p>
+
+<p>For examole:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system vol-list devel
+ Name                 Path
+ <span class="nt">------------------------------------------------------</span>
+
+</code></pre></div></div>
+
+<h1 id="installing-a-virtual-machine">Installing a virtual machine</h1>
+
+<p>With <code class="highlighter-rouge">virt-install</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virt-install <span class="nt">-n</span> debian-9 <span class="nt">--ram</span> 2048 <span class="nt">--vcpus</span><span class="o">=</span>2 <span class="se">\</span>
+<span class="nt">--cpu</span><span class="o">=</span>host <span class="nt">-c</span> ~/software/debian-9.1.0-amd64-xfce-CD-1.iso <span class="se">\</span>
+<span class="nt">--os-type</span><span class="o">=</span>linux <span class="nt">--os-variant</span><span class="o">=</span>debian <span class="se">\</span>
+<span class="nt">--disk</span><span class="o">=</span><span class="nv">pool</span><span class="o">=</span>devel,size<span class="o">=</span>10,format<span class="o">=</span>qcow2 <span class="se">\</span>
+<span class="nt">-w</span> <span class="nv">network</span><span class="o">=</span>default <span class="nt">--graphics</span><span class="o">=</span>vnc
+</code></pre></div></div>
+
+<p>You must use <code class="highlighter-rouge">sudo</code> command to execute the command,next, you will enter into linux’s installing procession.</p>
+
+<p><code class="highlighter-rouge">-n</code> just a name.</p>
+
+<p><code class="highlighter-rouge">-c</code> is your debian-iso where it is located. Remember here, you just define a pool named devel, however, you not have ‘create it’</p>
+
+<p><code class="highlighter-rouge">--disk=pool=devel,size=10,format=qcow2</code> means it have 10GB space disk to support your VMs.</p>
+
+<h1 id="managing-a-vitual-machine">Managing a vitual machine</h1>
+<p>This is my first wrong step to try it.I missed it.</p>
+
+<p>After installing VMs, you would better to use <code class="highlighter-rouge">virt-viewer</code> to start it.</p>
+
+<p>Frist,you can start it with virsh:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>virsh start my-vms <span class="c">#my vms-name is debian-9 or:</span>
+virsh autostart my-vms <span class="c"># debian-9.</span>
+</code></pre></div></div>
+
+<p>So, you type <code class="highlighter-rouge">virsh</code> into virsh’s world.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span><span class="nb">sudo </span>virsh
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> yubo 的密码：
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  <span class="s1">'help'</span> <span class="k">for </span><span class="nb">help </span>with commands
+       <span class="s1">'quit'</span> to quit
+
+       virsh <span class="c"># list</span>
+        Id    Name                           State
+	<span class="nt">----------------------------------------------------</span>
+	 8     debian-9                       running
+
+</code></pre></div></div>
+
+<p>Remember, you use it with sudo.Here, you can see your vms’s  id is 8,</p>
+
+<h1 id="how-to-start-vm-with-virsh">how to start vm with virsh</h1>
+<p>Again, your vm-id is 8,so next:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>virt-viewer <span class="nt">--connect</span> qemu:///system 8
+
+</code></pre></div></div>
+
+<p>Congratulations! Enjoy it:)</p>
+
+<h1 id="后记">后记</h1>
+<p>For example, when you in trouble reboot the virtual machine,how to do?
+In my case, after shutdown the system installed, now i want to reboot,
+But, the libvirt warn me: failed to match domain ““.I don’t’ know to do.
+Until i have googled: first, use <code class="highlighter-rouge">define</code> to edit the configure file with XML type.Yes, when you installed a system, you will get a XML file in /etc/libvirt/qemu/(or somewhere). My way to slove the problem is <code class="highlighter-rouge">cp</code> the xml file to a directory and then <code class="highlighter-rouge">sudo virsh define xx.xml</code>.If get any errors you can disappear it according to hints.</p>
+
+<p>I will post a new blog to show how to resize the pool size in KVMS.See you!</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/05/linux_automake_usage/">linux的automake使用方法-未完</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/07/nftables_howto/">nftables简介</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

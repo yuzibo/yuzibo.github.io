@@ -1,7 +1,7 @@
 ---
 title: "linux/unix 安装软件过程"
 category: unix
-layout: article
+layout: post
 ---
 
 做一次文章的搬运工吧！

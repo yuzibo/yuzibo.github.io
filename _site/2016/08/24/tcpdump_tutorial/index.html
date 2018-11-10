@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>tcpdump教程</title>
+    <meta name="description" content="WHY TCPDUMPTcpdump is the premier network analysis tool for information security professionals. Having a solid grasp of this user-space appalication is manda...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/08/24/tcpdump_tutorial/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>tcpdump教程</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-24
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="why-tcpdump">WHY TCPDUMP</h1>
+
+<p>Tcpdump is the premier network analysis tool for information security professionals. Having a solid grasp of this user-space appalication is mandatory for anyone desiring a thorough understanding of TCP/IP.</p>
+
+<h1 id="introduction">INTRODUCTION</h1>
+
+<h2 id="dispaly-available-interfaces">Dispaly available Interfaces</h2>
+
+<blockquote>
+  <p>tcpdump -D</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+yubo@debian:~/login<span class="nv">$ </span><span class="nb">sudo </span>tcpdump <span class="nt">-D</span>
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>yubo:
+1.eth0
+2.wlan0
+3.nflog <span class="o">(</span>Linux netfilter log <span class="o">(</span>NFLOG<span class="o">)</span> interface<span class="o">)</span>
+4.any <span class="o">(</span>Pseudo-device that captures on all interfaces<span class="o">)</span>
+5.lo
+</code></pre></div></div>
+
+<h2 id="capture-packets-from-specific-interface">Capture packets from Specific Interface</h2>
+
+<blockquote>
+  <p>tcpdump -i eth0</p>
+</blockquote>
+
+<h2 id="capture-only-n-number-of-packet">Capture Only N number of Packet</h2>
+
+<blockquote>
+  <p>tcpdump -c 2 -i event0</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~# tcpdump <span class="nt">-c</span> 2 <span class="nt">-i</span> venet0
+tcpdump: verbose output suppressed, use <span class="nt">-v</span> or <span class="nt">-vv</span> <span class="k">for </span>full protocol decode
+listening on venet0, link-type LINUX_SLL <span class="o">(</span>Linux cooked<span class="o">)</span>, capture size 65535 bytes
+00:06:39.197531 IP yubo-2.ssh <span class="o">&gt;</span> 112.250.100.205.46493: Flags <span class="o">[</span>P.], <span class="nb">seq </span>1776389372:1776389580, ack 2267257061, win 292, options <span class="o">[</span>nop,nop,TS val 1163336703 ecr 2017454], length 208
+00:06:39.197997 IP yubo-2.40698 <span class="o">&gt;</span> 181.41.222.18.domain: 14384+ PTR? 205.100.250.112.in-addr.arpa. <span class="o">(</span>46<span class="o">)</span>
+2 packets captured
+5 packets received by filter
+0 packets dropped by kernel
+</code></pre></div></div>
+
+<h2 id="print-captured-packets-in-ascii">Print captured packets in ASCII</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@yubo-2:~# tcpdump <span class="nt">-c</span> 2 <span class="nt">-A</span> <span class="nt">-i</span> venet0
+tcpdump: verbose output suppressed, use <span class="nt">-v</span> or <span class="nt">-vv</span> <span class="k">for </span>full protocol decode
+listening on venet0, link-type LINUX_SLL <span class="o">(</span>Linux cooked<span class="o">)</span>, capture size 65535 bytes
+00:09:50.581560 IP yubo-2.ssh <span class="o">&gt;</span> 112.250.100.205.46493: Flags <span class="o">[</span>P.], <span class="nb">seq </span>1776393404:1776393612, ack 2267259285, win 292, options <span class="o">[</span>nop,nop,TS val 1163528086 ecr 2065321], length 208
+E.....@.@..<span class="s2">".e	.p.d.....i....#.....</span><span class="nv">$.</span><span class="s2">......
+EZ......H.x.5.^i"</span>.........+4.?...G.@..E..Ez<span class="k">*</span>..&gt;...#6.!:.B...Zz.<span class="o">}</span>.0.M..5..S!...1.y..~...M......5..n..<span class="o">{</span>..zO.2..u..5.FX..b<span class="nv">$iJ</span>...@....v..<span class="o">=</span>E~R.....9...,x?..&lt;...!..&gt;.....x..HU/...&gt;XzK.....A.Z.&lt;.]...%.........1ax...a.U..&amp;P.
+00:09:50.581992 IP yubo-2.50899 <span class="o">&gt;</span> 181.41.222.18.domain: 32128+ PTR? 205.100.250.112.in-addr.arpa. <span class="o">(</span>46<span class="o">)</span>
+E..J..@.@....e	..<span class="o">)</span>.....5.6v.<span class="o">}</span>............205.100.250.112.in-addr.arpa.....
+2 packets captured
+6 packets received by filter
+0 packets dropped by kernel
+</code></pre></div></div>
+
+<h2 id="display-captured-packets-in-hex-and-ascii">Display captured packets in HEX and ASCII</h2>
+
+<p><img src="http://yuzibo.qiniudn.com/tcp.png" alt="tcp.png" /></p>
+
+<h2 id="capture-and-save-packets-in-a-file">Capture and save packets in a file</h2>
+
+<p>The tcpdump generate a .pcap file, then you can read it with tcpdump command</p>
+
+<p><img src="http://yuzibo.qiniudn.com/tcp2.png" alt="tcp2.png" /></p>
+
+<h2 id="read-captured-packets-file">Read Captured Packets File</h2>
+
+<p><img src="http://yuzibo.qiniudn.com/tcp3.png" alt="tcp3.png" /></p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/08/23/misc_program/">linux下的misc编程</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/01/01/unix_timer/">unix中计时器的应用</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

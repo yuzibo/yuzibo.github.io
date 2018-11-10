@@ -1,6 +1,6 @@
 ---
 title: "unix中计时器的应用"
-layout: article
+layout: post
 category: unix
 ---
 

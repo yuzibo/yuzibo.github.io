@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "10个重要的linux网络命令"
 category: shell
 ---

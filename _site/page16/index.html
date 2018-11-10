@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page16/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/22/leetcode-344-reversestring/">leetcode-344 字符反转</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-22
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#leetcode" title="Category: leetcode" rel="category">leetcode</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="题目">题目</h1>
+
+<p><a href="!https://leetcode.com/problems/reverse-string/">题目</a></p>
+
+<p>这道题应该说很简单的，如果不按照给定的函数原型去编写。但是，我的想法是用c语
+言，那么，问题来了，关于字符串指针的概念和运用再一次出现在面前。</p>
+
+<p>先看一下函数原型：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">*</span> <span class="nf">reverseString</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>那么，返回一个(char *)类型的函数，那么你先必须首先定义一个(char *)的指针用于
+接收返回值。OK，char *str；关键参数里也是(char *s),你应该如何处理？我一开始
+想申请一个strlen(s)长得字符数组，结果老是报告段错误，所以，不得不参考别人的
+代码。</p>
+
+<p>https://leetcode.com/problems/reverse-string/</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+</span><span class="kt">char</span> <span class="o">*</span><span class="n">reverseString</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">len</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="k">do</span> <span class="p">{</span>
+			<span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">len</span><span class="p">];</span>
+			<span class="n">str</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">len</span><span class="o">--</span><span class="p">);</span>
+		<span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="n">str</span> <span class="o">=</span> <span class="n">str</span> <span class="o">-</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="n">s</span> <span class="o">=</span> <span class="n">str</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<h1 id="注意的地方">注意的地方</h1>
+
+<h3 id="字符串的长度">字符串的长度</h3>
+
+<p>字符串的长度，不包括结尾的标识符’\0’,例如下面：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The length of str is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>则显示的结果为</p>
+
+<blockquote>
+  <p>The length of str is 5</p>
+</blockquote>
+
+<p>那么，你在复制字符串时要特别留意这一点。</p>
+
+<h3 id="如何给一个字符串指针赋值">如何给一个字符串指针赋值</h3>
+
+<p>这里你要注意，指针变量赋给指针变量，并不是把变量所包含的内容赋给左值，而是将
+变量的地址传递给对方。比如：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">str2</span><span class="p">;</span>
+<span class="n">str2</span> <span class="o">=</span> <span class="n">str1</span><span class="p">;</span>
+</code></pre></div></div>
+<p>这里str2的内容并不是hello，或者字母”h”,而是字符串”hello”的首字母的地址。所以
+，如果你想用字符指针来接受字符串，你得首先申请一个足够大的变量。</p>
+
+<p>有了这个变量还不够，如何一个一个字符的赋值？</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="p">{</span>
+	<span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">len</span><span class="p">];</span>
+	<span class="n">str</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">len</span><span class="o">--</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<h3 id="malloc函数">malloc函数</h3>
+
+<p>这个函数在c语言中很重要，主要在用法上。我的浅显经验是：你想分配什么类型的，
+前面就是什么类型。比如：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// 给'\0'留给空</span>
+</code></pre></div></div>
+
+<h3 id="其他事项">其他事项</h3>
+
+<p>这里注意一点，str最后一次已经指向了最后一位，要自动的添加个”\0”.</p>
+
+<p>还有一点把我给搞蒙圈了，其实归根结底还是基础不牢靠。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">str</span> <span class="o">=</span> <span class="n">str</span> <span class="o">-</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="n">s</span> <span class="o">=</span> <span class="n">str</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>这里的s是参数，可以作为返回值。那么，为什么要有第一个式子呢？str的指针指向了
+最后，如果不把指针回送到字符串首部，那样只会给s一个空的字符。str的加减操作就是移动的指针。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/22/leetcode-344-reversestring/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/20/apue_ch4/">unix之文件和目录</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-20
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="https://github.com/yuzibo/Apue/tree/master/ch4_file-and-dir">code</a></p>
+
+<p><a href="http://yuzibo.github.io/ls_commands.html">这篇文章</a></p>
+
+<p>这两篇文章是有共同点的。</p>
+
+<h1 id="stat-fstat-lstat">stat fstat lstat</h1>
+
+<p>这三个函数的作用是类似的。区别只是在参数上的不同。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">stat</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">pathname</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">buf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">fstat</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="n">buf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">lstat</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">pathname</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">buf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">fstatat</span><span class="p">(....)</span>
+</code></pre></div></div>
+
+<p>fstat 是传递的文件描述符，lstat是符号链接。这几个函数统一都返回stat结构体，这个结构体的
+内容如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">struct</span> <span class="n">stat</span> <span class="p">{</span>
+               <span class="n">dev_t</span>     <span class="n">st_dev</span><span class="p">;</span>     <span class="cm">/* ID of device containing file */</span>
+               <span class="n">ino_t</span>     <span class="n">st_ino</span><span class="p">;</span>     <span class="cm">/* inode number */</span>
+               <span class="n">mode_t</span>    <span class="n">st_mode</span><span class="p">;</span>    <span class="cm">/* protection */</span>
+               <span class="n">nlink_t</span>   <span class="n">st_nlink</span><span class="p">;</span>   <span class="cm">/* number of hard links */</span>
+               <span class="n">uid_t</span>     <span class="n">st_uid</span><span class="p">;</span>     <span class="cm">/* user ID of owner */</span>
+               <span class="n">gid_t</span>     <span class="n">st_gid</span><span class="p">;</span>     <span class="cm">/* group ID of owner */</span>
+               <span class="n">dev_t</span>     <span class="n">st_rdev</span><span class="p">;</span>    <span class="cm">/* device ID (if special file) */</span>
+               <span class="kt">off_t</span>     <span class="n">st_size</span><span class="p">;</span>    <span class="cm">/* total size, in bytes */</span>
+               <span class="n">blksize_t</span> <span class="n">st_blksize</span><span class="p">;</span> <span class="cm">/* blocksize for file system I/O */</span>
+               <span class="n">blkcnt_t</span>  <span class="n">st_blocks</span><span class="p">;</span>  <span class="cm">/* number of 512B blocks allocated */</span>
+               <span class="kt">time_t</span>    <span class="n">st_atime</span><span class="p">;</span>   <span class="cm">/* time of last access */</span>
+               <span class="kt">time_t</span>    <span class="n">st_mtime</span><span class="p">;</span>   <span class="cm">/* time of last modification */</span>
+               <span class="kt">time_t</span>    <span class="n">st_ctime</span><span class="p">;</span>   <span class="cm">/* time of last status change */</span>
+           <span class="p">};</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>尤其注意 st_mode位</p>
+</blockquote>
+
+<h3 id="access-faccessat">access faccessat</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">access</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">faccessat</span><span class="p">(</span><span class="n">ing</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flag</span><span class="p">);</span>
+</code></pre></div></div>
+<p>access - check real user’’s permissions for a file</p>
+
+<p>确定文件和目录的访问权限。</p>
+
+<p>参数1是文件或者文件夹的路径。</p>
+
+<p>参数2是要判断的模式,可能值是一个或者多个R_OK、W_OK、X_OK和F_OK(文件是否存在)的组合体。</p>
+
+<p>在<unistd.h>中定义如下：</unistd.h></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define R_OK 4 </span><span class="cm">/* Test for read permission */</span><span class="cp">
+#define W_OK 2 </span><span class="cm">/* Test for write permission */</span><span class="cp">
+#define X_OK 1 </span><span class="cm">/* Test for execute permission */</span><span class="cp">
+</span></code></pre></div></div>
+<p>返回说明，成功为0，失败返回-1，errno被设定为以下的某个值。<a href="!http://fushijieabc.blog.163.com/blog/static/49677316201231814624291/">参考</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EINVAL： 模式值无效   
+EACCES： 文件或路径名中包含的目录不可访问 
+ELOOP ： 解释路径名过程中存在太多的符号连接 
+ENAMETOOLONG：路径名太长 
+ENOENT：  路径名中的目录不存在或是无效的符号连接 
+ENOTDIR： 路径名中当作目录的组件并非目录 
+EROFS： 文件系统只读 
+EFAULT： 路径名指向可访问的空间外 
+EIO：  输入输出错误 
+ENOMEM： 不能获取足够的内核内存 
+ETXTBSY：对程序写入出错 
+</code></pre></div></div>
+<p>相关的代码放在了github上。</p>
+
+<h3 id="chmod-fchmodfchmodat">chmod, fchmod,fchmodat</h3>
+
+<p>这里主要是利用 “或”的关系将那几个模式选中或者删除。</p>
+
+<h3 id="file-truncatioh">file Truncatioh</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">truncate</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">ftruncate</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>这两个函数截取length长得bytes在相应的文件中。</p>
+
+<h1 id="许可位与特殊属性位">许可位与特殊属性位</h1>
+
+<h3 id="1建立文件的模式">1.建立文件的模式</h3>
+
+<blockquote>
+  <p>fd = creat(“newfile”, 0744);</p>
+</blockquote>
+
+<p>指定新创建文件的许可位为</p>
+
+<blockquote>
+  <p>rwxr–r–;</p>
+</blockquote>
+
+<p>这个参数只是请求，而不是命令， 内核会通过”新建文件掩码”来得到文件的最终模式
+，啥是”新建文件掩码”呢，简单地说，就是，比如说，你要一个文件不能被同组用户和
+其他用户修改，那么，你的原意就是将文件的许可位关掉：</p>
+
+<blockquote>
+  <p>—-w–w-</p>
+</blockquote>
+
+<p>这样即可达到目的。</p>
+
+<p>我们使用</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">umask</span><span class="p">(</span><span class="mo">022</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>实现了同样的目的。</p>
+
+<h3 id="2改变文件的模式">2.改变文件的模式</h3>
+
+<p>程序可以通过系统调用chmod来改变文件的模式。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chmod</span> <span class="p">(</span><span class="s">"/tmp/myfile"</span><span class="p">,</span> <span class="mo">04764</span><span class="p">);</span>
+<span class="n">chmod</span> <span class="p">(</span><span class="s">"/tmp/myfile"</span><span class="p">,</span> <span class="n">S_ISUID</span> <span class="o">|</span> <span class="n">S_IRWXU</span> <span class="o">|</span> <span class="n">S_IRGRP</span> <span class="o">|</span> <span class="n">S_IRGRP</span> <span class="o">|</span> <span class="n">S_IROTH</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="3文件所有者与组">3.文件所有者与组</h3>
+
+<p>文件所有者就是创建文件的用户，用户通过creat 建立文件时，内核把文件所有者设为
+运行程序的用户，如果程序具有set-user-ID位，那么新文件所有者就是程序的文件所
+有者。</p>
+
+<p>修改文件所有者和组</p>
+
+<blockquote>
+  <p>chown(“file1”, 200,40);</p>
+</blockquote>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/20/apue_ch4/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/19/who_and_more/">c下实现who和more命令-time</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-19
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="代码不是重点重点是陌生的东西">代码不是重点，重点是陌生的东西</h1>
+
+<p><a href="https://github.com/yuzibo/linux-programming/blob/master/unix_linux_programming/who1.c">who</a></p>
+
+<p>首先，推荐一本好书：«understanding unix-linux programming»,以下所有的灵感来自于这本书。</p>
+
+<p>这里，重点记忆如下：</p>
+
+<h3 id="如何寻找有用的信息">如何寻找有用的信息</h3>
+
+<p>充分利用man的联机文档，技巧有</p>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>man -k key-word</td>
+        <td>grep “xx”</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<p>这样可以有效抓取你想要的联机帮助。运气好的话可能会有code,要多多阅读、仔细阅读。</p>
+
+<p>例如在这段代码中，首先 man who,结果可以知道，这个命令读取的是/var/run/utmp文件，接下来，使用</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man <span class="nt">-k</span> utmp 
+</code></pre></div></div>
+
+<p>可以看到一大堆的东西，学会甄别。</p>
+
+<h3 id="open和close-read">open和close read</h3>
+
+<p>其实光知道概念意义不大，必须还会使用，这些命令的实现的价值也在于此。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="k">struct</span> <span class="n">utmp</span> <span class="n">current_record</span><span class="p">;</span>
+	<span class="kt">int</span>	<span class="n">utmpfd</span><span class="p">;</span>
+	<span class="kt">int</span>	<span class="n">reclen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">current_record</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span> <span class="p">(</span> <span class="n">utmpfd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">UTMP_FILE</span><span class="p">,</span><span class="n">O_RDONLY</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+		<span class="n">perror</span><span class="p">(</span><span class="n">UTMP_FILE</span><span class="p">);</span> <span class="cm">/* UTMP_FILE is in utmp.h*/</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">utmpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">current_record</span><span class="p">,</span><span class="n">reclen</span><span class="p">)</span> <span class="o">==</span> <span class="n">reclen</span><span class="p">)</span>
+		<span class="n">show_info</span><span class="p">(</span><span class="o">&amp;</span><span class="n">current_record</span><span class="p">);</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">utmpfd</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>令人震撼的是read的实现，因为你不必实现知道要写入的结构、类型,只需要事先将结构定义好，然后按照read的使用要求就可以了。</p>
+
+<h1 id="time-相关">time 相关</h1>
+
+<h3 id="time">time</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;time.h&gt;
+</span>
+<span class="kt">time_t</span> <span class="n">time</span><span class="p">(</span><span class="kt">time_t</span> <span class="o">*</span><span class="n">t</span><span class="p">);</span>
+
+
+</code></pre></div></div>
+
+<p>功能： 以秒(seconds)为单位得到自从the Epoch的时间。</p>
+
+<p>If t  is non-null, the return value is also stored in the memory pointed to by t.</p>
+
+<h3 id="time_t">time_t</h3>
+
+<p>这里是有很多的坑要填的。相关的代码<a href="https://github.com/yuzibo/linux-programming/tree/master/unix_linux_programming/time">在</a></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+  <span class="k">struct</span> <span class="p">{</span>
+                   <span class="kt">int32_t</span> <span class="n">tv_sec</span><span class="p">;</span>           <span class="cm">/* Seconds */</span>
+                   <span class="kt">int32_t</span> <span class="n">tv_usec</span><span class="p">;</span>          <span class="cm">/* Microseconds */</span>
+               <span class="p">}</span> <span class="n">ut_tv</span><span class="p">;</span>                      <span class="cm">/* Time entry was made */</span>
+</code></pre></div></div>
+
+<h3 id="timeval">timeval</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
+               <span class="kt">time_t</span>      <span class="n">tv_sec</span><span class="p">;</span>     <span class="cm">/* seconds */</span>
+               <span class="n">suseconds_t</span> <span class="n">tv_usec</span><span class="p">;</span>    <span class="cm">/* microseconds */</span>
+           <span class="p">};</span>
+</code></pre></div></div>
+<h3 id="tm">tm</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">tm</span> <span class="p">{</span>
+               <span class="kt">int</span> <span class="n">tm_sec</span><span class="p">;</span>        <span class="cm">/* seconds */</span>
+               <span class="kt">int</span> <span class="n">tm_min</span><span class="p">;</span>        <span class="cm">/* minutes */</span>
+               <span class="kt">int</span> <span class="n">tm_hour</span><span class="p">;</span>       <span class="cm">/* hours */</span>
+               <span class="kt">int</span> <span class="n">tm_mday</span><span class="p">;</span>       <span class="cm">/* day of the month */</span>
+               <span class="kt">int</span> <span class="n">tm_mon</span><span class="p">;</span>        <span class="cm">/* month */</span>
+               <span class="kt">int</span> <span class="n">tm_year</span><span class="p">;</span>       <span class="cm">/* year */</span>
+               <span class="kt">int</span> <span class="n">tm_wday</span><span class="p">;</span>       <span class="cm">/* day of the week */</span>
+               <span class="kt">int</span> <span class="n">tm_yday</span><span class="p">;</span>       <span class="cm">/* day in the year */</span>
+               <span class="kt">int</span> <span class="n">tm_isdst</span><span class="p">;</span>      <span class="cm">/* daylight saving time */</span>
+           <span class="p">};</span>
+
+</code></pre></div></div>
+<p>需要特别注意的是，年份是从1970年01月01日0:00:00开始计算的。</p>
+
+<p>这就是在处理有关时间的问题时，经常打交道的三个结构体。</p>
+
+<h1 id="相关的时间函数">相关的时间函数</h1>
+
+<p>接下来是几个比较容易常用的有关时间的函数：</p>
+
+<h3 id="char-strptime">char *strptime()</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;time.h&gt;
+</span><span class="kt">char</span> <span class="o">*</span><span class="n">strptime</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">format</span><span class="p">,</span><span class="k">struct</span>	<span class="n">tm</span> <span class="o">*</span><span class="n">tm</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p>功能： 将一个字符串的时间表达式转化进tm结构体。</p>
+
+<p>这里要注意一下第二个参数，因为有些麻烦，所以最好是需要用的时候man一下。
+这个函数在使用的时候，必须首先初始化一下tm。</p>
+
+<h3 id="size_t-strftime">size_t strftime()</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">strftime</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">max</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">format</span><span class="p">,</span>
+		        <span class="k">const</span> <span class="k">struct</span> <span class="n">tm</span> <span class="o">*</span><span class="n">tm</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>功能： 格式化日期和时间(format data and time),其相关的信息来自于tm，第三个参
+数和strptime函数类似，用的时候联机man 一下。</p>
+
+<p>举个例子测试下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ *          $ ./a.out '%m'
+ *          Result string is "11"
+ *          $ ./a.out '%5m'
+ *          Result string is "00011"
+ *          $ ./a.out '%_5m'
+ *          Result string is "   11"
+ */</span>
+       <span class="n">Here</span> <span class="n">is</span>  <span class="n">the</span> <span class="n">program</span> <span class="n">source</span><span class="o">:</span>
+
+       <span class="cp">#include &lt;time.h&gt;
+</span>       <span class="cp">#include &lt;stdio.h&gt;
+</span>       <span class="cp">#include &lt;stdlib.h&gt;
+</span>
+       <span class="kt">int</span>
+       <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+       <span class="p">{</span>
+           <span class="kt">char</span> <span class="n">outstr</span><span class="p">[</span><span class="mi">200</span><span class="p">];</span>
+           <span class="kt">time_t</span> <span class="n">t</span><span class="p">;</span>
+           <span class="k">struct</span> <span class="n">tm</span> <span class="o">*</span><span class="n">tmp</span><span class="p">;</span>
+
+           <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+           <span class="n">tmp</span> <span class="o">=</span> <span class="n">localtime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t</span><span class="p">);</span>
+           <span class="k">if</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+               <span class="n">perror</span><span class="p">(</span><span class="s">"localtime"</span><span class="p">);</span>
+               <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+           <span class="p">}</span>
+
+           <span class="k">if</span> <span class="p">(</span><span class="n">strftime</span><span class="p">(</span><span class="n">outstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">outstr</span><span class="p">),</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tmp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+               <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"strftime returned 0"</span><span class="p">);</span>
+               <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+           <span class="p">}</span>
+
+           <span class="n">printf</span><span class="p">(</span><span class="s">"Result string is </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"\n</span><span class="s">"</span><span class="p">,</span> <span class="n">outstr</span><span class="p">);</span>
+           <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+       <span class="p">}</span>
+</code></pre></div></div>
+<p>上面的注释将这段代码的功能描述的很清楚，也就是用’%Y’等格式化来当前时间关键
+ 字段的输出。</p>
+
+<p>将这两段程序综合起来看，就明白了</p>
+
+<p>```c
+ #define _XOPEN_SOURCE
+       #include <stdio.h>
+       #include <stdlib.h>
+       #include <string.h>
+       #include <time.h></time.h></string.h></stdlib.h></stdio.h></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   int
+   main(void)
+   {
+       struct tm tm;
+       char buf[255];
+
+       memset(&amp;tm, 0, sizeof(struct tm));
+       strptime("2016-07-06 18:31:01", "%Y-%m-%d %H:%M:%S", &amp;tm);
+       strftime(buf, sizeof(buf), "%d %b %Y %H:%M", &amp;tm);
+       puts(buf);
+       exit(EXIT_SUCCESS);
+   }
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/19/who_and_more/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/18/linux_kernel_buffer/">linux之提高文件I/O效率</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-18
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="缓冲区的大小对性能的影响">缓冲区的大小对性能的影响</h1>
+
+<p>对大小是2500字节的文件进行copy操作，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>如果缓冲区大小是100字节，需要25次read()和write()；
+
+如果缓冲区大小是1000字节，需要3次read() 和write()
+</code></pre></div></div>
+
+<h1 id="系统调用的影响">系统调用的影响</h1>
+
+<p>缓冲区之所以对文件I/O性能有着显著的影响，这是因为每一次的read()、write()操作
+必须经过系统调用，也就是内核访问。用户空间的程序每次必须经过内核才可以访问位
+于 磁盘上的文件。</p>
+
+<h1 id="思路">思路</h1>
+
+<p>引入缓冲区，就是不必每次访问系统呼叫，只需一次调用，将内容放入缓冲区，每次用
+户空间的程序可以访问缓冲区的内容，直至缓冲区的内容被消耗掉。</p>
+
+<p><a href="!https://github.com/yuzibo/linux-programming/blob/master/unix_linux_programming/ch1/utmplib.c">举个例子</a></p>
+
+<h1 id="内核使用缓冲技术吗">内核使用缓冲技术吗</h1>
+
+<p>使用。磁盘是数据块集合，内核会对磁盘上的数据块作缓冲。内核将磁盘上的数据块复
+制到内核缓冲区中，当一个用户空间中的进程要从磁盘上读取数据时，内核一般不直接
+读磁盘，而是将内核缓冲区中的数据复制到进程的缓冲区中。</p>
+
+<p>当进程所要求的数据块不在内核缓冲区中，内核会把相应的数据块加入到请求数据列表中，然后把该进程挂起，接着为其他进程服务。</p>
+
+<p>一段时间后，内核把相应的数据块从磁盘读到内核缓冲区，然后再把数据复制到进程的缓冲区中，最后唤醒被挂起的进程。</p>
+
+<h1 id="openreadwrite-和fopenfreadfwirte">open/read/write 和fopen/fread/fwirte</h1>
+
+<p>大约不久前，我突然接触open的时候，也在想之前是不是接触过一个fopen函数，这两
+个函数有什么区别，或者为什么有两个形式？看了上面的铺垫，想必你也有想法了，对
+，或者说，这是很重要的一方面。</p>
+
+<p>open系列函数与fopen系列的区别可以简单概括为：</p>
+
+<pre>
+open系列函数										 fopen系列函数
+一般用于打开设备文件（少数情况）          一般用于打开普通文件（大多数情况）
+
+利用文件描述符操纵文件(int)							 利用文件指针操作文件
+open返回一个文件描述符							fopen返回一个文件指针
+POSIX系统调用										ANSI C库函数
+低层次IO										高层次IO，对open的扩展和封装
+只能在POSIX操作系统上 
+可移植到任何操作系统
+非缓冲IO			     							 缓冲IO
+只能读取二进制或普通文   						可以读取一个结构
+可以指定要创建文件的访 限					不能指定要创建文件的访问权限
+</pre>
+
+<p>注: 文件指针的类型为 F *fp;</p>
+
+<p>总结一下，就是带f前缀的是库函数，操作对象是file stream，不带f的原生态的
+操作是unix下的系统调用。</p>
+
+<p>用C标准I/O库函数要时刻注意I/O缓冲区和实际文件有可能不一致，在必要时需调用fflush(3)。</p>
+
+<p>又因为c标准库函数是C标准的一部分，而Unbuffered I/O函数是UNIX标准的一部分，前者放在<stdio.h>文件中，后者放在<unistd.h>,从文字上你就可以知道什么意义了。</unistd.h></stdio.h></p>
+
+<p>其实还有一个函数也是比较重要的，尤其是确保内核内的数据写入磁盘，这个函数就是</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;unistd.h&gt;
+</span><span class="kt">void</span> <span class="n">sync</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</code></pre></div></div>
+<p>还有一个函数也是非常重要的</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">fsync</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">fdatasync</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/18/linux_kernel_buffer/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/17/leetcode_367_valid_perfect_square/">leetcode 367 valid perfect square</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-17
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#leetcode" title="Category: leetcode" rel="category">leetcode</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>/**</p>
+<ul>
+  <li>思路： 一开始我使用的枚举，结果说我运行超时，肯定是</li>
+  <li>效率不高</li>
+  <li>@1: 牛顿迭代法目前还没有掌握，那个求一个的平方根比较简单</li>
+  <li>但是如何呢；</li>
+  <li>@2： 使用二分法 L = 1. R = num/2 + 1;
+ */</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">isPerfectSquare</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">){</span>
+	<span class="kt">long</span> <span class="kt">long</span>  <span class="n">L</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">(</span><span class="n">num</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">L</span> <span class="o">&lt;=</span> <span class="n">R</span><span class="p">){</span>
+		<span class="kt">long</span> <span class="kt">long</span> <span class="n">middle</span> <span class="o">=</span> <span class="n">L</span> <span class="o">+</span> <span class="p">((</span><span class="n">R</span> <span class="o">-</span> <span class="n">L</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">);</span>
+		<span class="kt">long</span> <span class="kt">long</span> <span class="n">value</span> <span class="o">=</span> <span class="n">middle</span> <span class="o">*</span> <span class="n">middle</span><span class="p">;</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="n">num</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="n">num</span><span class="p">)</span>
+			<span class="n">R</span> <span class="o">=</span> <span class="n">middle</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">else</span>
+			<span class="n">L</span> <span class="o">=</span> <span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>各方面来说，目前的编程状态属于一种特别混乱。不过，自己还好涉猎面比较广泛，
+竞赛算法类的编程，还可以拿的起来；linux系统级别的，需要自己钻时间挖掘知识点</p>
+
+<p>这个系列肯定不完整，以后再加上其他语言版本的。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/17/leetcode_367_valid_perfect_square/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/16/leetcode_168/">leetcode 168  Excel Sheet Column Title</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-16
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#leetcode" title="Category: leetcode" rel="category">leetcode</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>虽然已经这么的菜了，我就先不要发表自己的负面情绪了。</p>
+
+<p>和前几年的状态一样，编程的思路还是不怎么正确，或者说c/c++的基础还是太low,不
+过，现在到时有一点能稳定住。</p>
+
+<p>其实这样也好，那边有linux kernel的大头维持着，这边你可以继续着算法方面的研修</p>
+
+<p>这一次一定要坚持下去，不然真的要和计算机说再见了。</p>
+
+<h1>….</h1>
+
+<p><a href="!https://leetcode.com/problems/excel-sheet-column-title/">168</a></p>
+
+<p>这道题目真的很简单，我也可以写到测试几个简单的数据，结果数据一大就错误了。</p>
+
+<p>还有没有搞明白题目的含义，比如，测试数据</p>
+
+<blockquote>
+  <p>1001</p>
+</blockquote>
+
+<p>我认为是有多少个26,就是多少个A，结果人家的答案是”ALM”,我的思路完全是错误的。</p>
+
+<p>先把我的错误代码放上来，好好看看自己的弱点</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">convertToTitle</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="mi">26</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'A'</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="n">last_num</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">n</span><span class="o">/</span><span class="mi">26</span><span class="o">*</span><span class="mi">26</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)(</span><span class="n">last_num</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+	<span class="n">str</span><span class="p">[</span><span class="n">len</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/16/leetcode_168/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page15" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">16/36</span>
+          
+            <a href="/page17" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ping命令自己实现</title>
+    <meta name="description" content="这篇文章从内核的角度来看ICMP的，现在，ping命令就是利用icmp实现的。首先看一个大概。```c/* */#include #include #include &lt;arpa/inet.h&gt;#include &lt;sys/types.h&gt;#include &lt;sys/socket.h&g...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/12/ping_command/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>ping命令自己实现</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-12
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="http://www.aftermath.cn/icmp.html">这篇</a>文章从内核的角度来看ICMP的，现在，ping命令就是利用icmp实现的。</p>
+
+<p>首先看一个大概。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="cm">/*
+ */</span>
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;netinet/ip.h&gt;
+#include &lt;netinet/ip_icmp.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;setjmp.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;signal.h&gt;
+</span>
+
+<span class="cp">#define MAX_WAIT_TIME	5
+#define MAX_NO_PACKETS 3
+#define PACKET_SIZE	4096
+</span><span class="kt">char</span> <span class="n">sendpacket</span><span class="p">[</span><span class="n">PACKET_SIZE</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">recvpacket</span><span class="p">[</span><span class="n">PACKET_SIZE</span><span class="p">];</span>
+
+
+
+<span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="n">datalen</span> <span class="o">=</span> <span class="mi">56</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">dest_addr</span><span class="p">;</span>
+<span class="n">pid_t</span> <span class="n">pid</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">nsend</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nreceive</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">from</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">timeval</span> <span class="n">tvrecv</span><span class="p">;</span>
+
+<span class="cm">/* 校验和算法 */</span>
+<span class="kt">unsigned</span> <span class="kt">short</span> <span class="nf">cal_chksum</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">nleft</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="n">w</span> <span class="o">=</span> <span class="n">addr</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/* 将 ICMP报头二进制为单位累加起来 */</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">nleft</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">){</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="o">*</span><span class="n">w</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">nleft</span> <span class="o">-=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="cm">/* 这个校验和算法真的不明白 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">nleft</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+		<span class="o">*</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">answer</span><span class="p">)</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">w</span><span class="p">;</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="n">answer</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">sum</span> <span class="o">=</span> <span class="p">(</span><span class="n">sum</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">sum</span><span class="o">&amp;</span><span class="mh">0xffff</span><span class="p">);</span>
+	<span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">sum</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">);</span>
+	<span class="n">answer</span> <span class="o">=~</span> <span class="n">sum</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cm">/* 设置ICMP 报头
+ * @pack_no 应该是packet seq
+ * */</span>
+<span class="kt">int</span> <span class="nf">pack</span><span class="p">(</span><span class="kt">int</span> <span class="n">pack_no</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">packsize</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">icmp</span> <span class="o">*</span><span class="n">icmp</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">tval</span><span class="p">;</span>
+	<span class="n">icmp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">icmp</span><span class="o">*</span><span class="p">)</span><span class="n">sendpacket</span><span class="p">;</span>
+	<span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_type</span> <span class="o">=</span> <span class="n">ICMP_ECHO</span><span class="p">;</span>
+	<span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_code</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_cksum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_seq</span> <span class="o">=</span> <span class="n">pack_no</span><span class="p">;</span>
+	<span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_id</span> <span class="o">=</span> <span class="n">pid</span><span class="p">;</span>
+	<span class="n">packsize</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">+</span> <span class="n">datalen</span><span class="p">;</span>
+	<span class="n">tval</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="p">)</span><span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_data</span><span class="p">;</span>
+	<span class="n">gettimeofday</span><span class="p">(</span><span class="n">tval</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="cm">/*记录发送时间*/</span>
+	<span class="cm">/* 校验算法 */</span>
+	<span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_cksum</span> <span class="o">=</span> <span class="n">cal_chksum</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="p">)</span><span class="n">icmp</span><span class="p">,</span> <span class="n">packsize</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">packsize</span><span class="p">;</span>
+
+
+<span class="p">}</span>
+
+<span class="cm">/* 发送三个ICMP报文 */</span>
+<span class="kt">void</span> <span class="nf">send_packet</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">packetsize</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">nsend</span> <span class="o">&lt;</span> <span class="n">MAX_NO_PACKETS</span><span class="p">){</span>
+		<span class="n">nsend</span><span class="o">++</span><span class="p">;</span>
+		<span class="cm">/* 设置ICMP报头 */</span>
+		<span class="n">packetsize</span> <span class="o">=</span> <span class="n">pack</span><span class="p">(</span><span class="n">nsend</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">sendto</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">sendpacket</span><span class="p">,</span> <span class="n">packetsize</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+			<span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dest_addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">dest_addr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"sendto error"</span><span class="p">);</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="cm">/*每隔一秒发送一个ICMP报文*/</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="cm">/* 统计信息*/</span>
+<span class="kt">void</span> <span class="nf">statistics</span><span class="p">(</span><span class="kt">int</span> <span class="n">signo</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">--------PING statistics----------</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d packets transmitted, %d received, %%%d lost</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+			<span class="n">nsend</span><span class="p">,</span> <span class="n">nreceive</span><span class="p">,</span> <span class="p">(</span><span class="n">nsend</span> <span class="o">-</span> <span class="n">nreceive</span><span class="p">)</span><span class="o">/</span><span class="n">nsend</span> <span class="o">*</span> <span class="mi">100</span><span class="p">);</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+
+<span class="p">}</span>
+<span class="cm">/*两个timeval 结构相减*/</span>
+<span class="kt">void</span> <span class="nf">tv_sub</span><span class="p">(</span><span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">out</span><span class="p">,</span> <span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">in</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">((</span><span class="n">out</span><span class="o">-&gt;</span><span class="n">tv_usec</span> <span class="o">-=</span> <span class="n">in</span><span class="o">-&gt;</span><span class="n">tv_usec</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="o">--</span><span class="n">out</span><span class="o">-&gt;</span><span class="n">tv_sec</span><span class="p">;</span>
+		<span class="n">out</span><span class="o">-&gt;</span><span class="n">tv_usec</span> <span class="o">+=</span> <span class="mi">1000000</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">out</span><span class="o">-&gt;</span><span class="n">tv_sec</span> <span class="o">-=</span> <span class="n">in</span><span class="o">-&gt;</span><span class="n">tv_sec</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* 剥去ICMP报头，这是理解ip结构的精彩一步 */</span>
+<span class="kt">int</span> <span class="nf">unpack</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">iphdrlen</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ip</span> <span class="o">*</span><span class="n">ip</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">icmp</span> <span class="o">*</span><span class="n">icmp</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">tvsend</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">rtt</span><span class="p">;</span>
+	<span class="n">ip</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">ip</span> <span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">;</span>
+	<span class="cm">/* 求ip报头长度，用ip报头长度标志乘以4*/</span>
+	<span class="n">iphdrlen</span> <span class="o">=</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_hl</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="cm">/* 越过ip报头，指向ICMP报头*/</span>
+	<span class="n">icmp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">icmp</span> <span class="o">*</span><span class="p">)(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">iphdrlen</span><span class="p">);</span>
+	<span class="cm">/* * ICMP 报头及ICMP数据报的总长度*/</span>
+	<span class="n">len</span> <span class="o">-=</span> <span class="n">iphdrlen</span><span class="p">;</span>
+	<span class="cm">/*小于 * ICMp报头长度不合理*/</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">len</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"ICMP packets</span><span class="se">\'</span><span class="s">s length is less than 8"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="cm">/*确保所接受的是我所发的ICMP的回应*/</span>
+	<span class="k">if</span><span class="p">((</span><span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_type</span> <span class="o">==</span> <span class="n">ICMP_ECHOREPLY</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_id</span> <span class="o">==</span> <span class="n">pid</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="n">tvsend</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="p">)</span><span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_data</span><span class="p">;</span>
+		<span class="cm">/* 接受和发送时间差*
+		 */</span>
+		<span class="n">tv_sub</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tvrecv</span><span class="p">,</span> <span class="n">tvsend</span><span class="p">);</span>
+		<span class="cm">/*以毫秒为单位计算rtt*/</span>
+		<span class="n">rtt</span> <span class="o">=</span> <span class="n">tvrecv</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">+</span> <span class="n">tvrecv</span><span class="p">.</span><span class="n">tv_usec</span><span class="o">/</span><span class="mi">1000</span><span class="p">;</span>
+		<span class="cm">/*显示相关信息*/</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d bytes from %s: icmp_seq=%u ttl=%d rtt=%.3f ms</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">inet_ntoa</span><span class="p">(</span><span class="n">from</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">),</span> <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_seq</span><span class="p">,</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_ttl</span><span class="p">,</span> <span class="n">rtt</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*接受所有的
+ * ICMP报文 */</span>
+<span class="kt">void</span> <span class="nf">recv_packet</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">fromlen</span><span class="p">;</span>
+	<span class="k">extern</span> <span class="kt">int</span> <span class="n">errno</span><span class="p">;</span>
+	<span class="cm">/* 调用 statistics 函数*/</span>
+	<span class="n">signal</span><span class="p">(</span><span class="n">SIGALRM</span><span class="p">,</span> <span class="n">statistics</span><span class="p">);</span>
+	<span class="n">fromlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">from</span><span class="p">);</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">nreceive</span> <span class="o">&lt;</span> <span class="n">nsend</span><span class="p">){</span>
+		<span class="n">alarm</span><span class="p">(</span><span class="n">MAX_WAIT_TIME</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">recvfrom</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">recvpacket</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">recvpacket</span><span class="p">),</span>
+				<span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">from</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fromlen</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EINTR</span><span class="p">)</span>
+				<span class="k">continue</span><span class="p">;</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"recvfrom error"</span><span class="p">);</span>
+				<span class="k">continue</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tvrecv</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">unpack</span><span class="p">(</span><span class="n">recvpacket</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="n">nreceive</span><span class="o">++</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hostent</span> <span class="o">*</span><span class="n">host</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">protoent</span> <span class="o">*</span><span class="n">protocol</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">inaddr</span> <span class="o">=</span> <span class="mi">0l</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">waittime</span> <span class="o">=</span> <span class="n">MAX_WAIT_TIME</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">50</span><span class="o">*</span><span class="mi">1024</span><span class="p">;</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"usage: %s hostname/IP address</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">((</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">getprotobyname</span><span class="p">(</span><span class="s">"icmp"</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"getprotobyname"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="o">-&gt;</span><span class="n">p_proto</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"socket error"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="cm">/* 回收root权限，设置当前权限 */</span>
+	<span class="n">setuid</span><span class="p">(</span><span class="n">getuid</span><span class="p">());</span>
+	<span class="cm">/* 扩大套接字接收缓冲区到50K,不过，对于，下面的参数我是很不了解 */</span>
+	<span class="n">setsockopt</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_RCVBUF</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">size</span><span class="p">));</span> <span class="n">bzero</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dest_addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">dest_addr</span><span class="p">));</span> <span class="n">dest_addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+	<span class="cm">/* 判断是主机名还是ip地址 */</span>
+	<span class="k">if</span><span class="p">((</span><span class="n">inaddr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">==</span> <span class="n">INADDR_NONE</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">((</span><span class="n">host</span> <span class="o">=</span> <span class="n">gethostbyname</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="cm">/*是主机名*/</span>
+		<span class="p">{</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"gethostbyname error"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="n">memcpy</span><span class="p">((</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dest_addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">host</span><span class="o">-&gt;</span><span class="n">h_addr</span><span class="p">,</span> <span class="n">host</span><span class="o">-&gt;</span><span class="n">h_length</span><span class="p">);</span>
+
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="cm">/*  是ip地址 */</span>
+	<span class="p">{</span>
+
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Here is wrong?:%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+		<span class="n">memcpy</span><span class="p">((</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dest_addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">inaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]));</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* 获取main的进程id，用于设置ICMP的标识符 */</span>
+	<span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"PING %s(%s): %d bytes data in ICMP packets.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+			<span class="n">inet_ntoa</span><span class="p">(</span><span class="n">dest_addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">),</span> <span class="n">datalen</span><span class="p">);</span>
+	<span class="n">send_packet</span><span class="p">();</span> <span class="cm">/* 发送所有ICMP报文*/</span>
+	<span class="n">recv_packet</span><span class="p">();</span> <span class="cm">/*接受所有的ICMP报文*/</span>
+	<span class="n">statistics</span><span class="p">(</span><span class="n">SIGALRM</span><span class="p">);</span> <span class="cm">/*进行统计*/</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>首先介绍实现这个命令需要的结构体。</p>
+
+<h3 id="hostent">hostent</h3>
+
+<p>These structures are located in /usr/include/netdb.h
+首先了解一下这个结构体：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* Description of data base entry for a single host.  */</span>
+<span class="k">struct</span> <span class="n">hostent</span>
+<span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">h_name</span><span class="p">;</span>			<span class="cm">/* Official name of host.  */</span>
+  <span class="kt">char</span> <span class="o">**</span><span class="n">h_aliases</span><span class="p">;</span>		<span class="cm">/* Alias list.  */</span>
+  <span class="kt">int</span> <span class="n">h_addrtype</span><span class="p">;</span>		<span class="cm">/* Host address type.  */</span>
+  <span class="kt">int</span> <span class="n">h_length</span><span class="p">;</span>			<span class="cm">/* Length of address.  */</span>
+  <span class="kt">char</span> <span class="o">**</span><span class="n">h_addr_list</span><span class="p">;</span>		<span class="cm">/* List of addresses from name server.  */</span>
+<span class="cp">#ifdef __USE_MISC
+# define	h_addr	h_addr_list[0] </span><span class="cm">/* Address, for backward compatibility.*/</span><span class="cp">
+#endif
+</span><span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="protoent">protoent</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Description of data base entry for a single service.  */</span>
+<span class="k">struct</span> <span class="n">protoent</span>
+<span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">p_name</span><span class="p">;</span>			<span class="cm">/* Official protocol name.  */</span>
+  <span class="kt">char</span> <span class="o">**</span><span class="n">p_aliases</span><span class="p">;</span>		<span class="cm">/* Alias list.  */</span>
+  <span class="kt">int</span> <span class="n">p_proto</span><span class="p">;</span>			<span class="cm">/* Protocol number.  */</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="getprotobyname">getprotobyname</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">protoent</span> <span class="o">*</span><span class="n">getprotobyname</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">__name</span><span class="p">);</span>
+
+<span class="cm">/* Return entry from protocol data base which number is PROTO.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */</span>
+</code></pre></div></div>
+
+<h3 id="setsockopt">setsockopt</h3>
+
+<p>位于&lt;sys/socket.h&gt;</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Set socket FD's option OPTNAME at protocol level LEVEL
+   to *OPTVAL (which is OPTLEN bytes long).
+   Returns 0 on success, -1 for errors.  */</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="n">setsockopt</span> <span class="p">(</span><span class="kt">int</span> <span class="n">__fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">__level</span><span class="p">,</span> <span class="kt">int</span> <span class="n">__optname</span><span class="p">,</span>
+		       <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">__optval</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">__optlen</span><span class="p">)</span> <span class="n">__THROW</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="struct-sockaddr_in">struct sockaddr_in</h3>
+
+<p>这个结构体定义在/usr/include/netinet/in.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Structure describing an Internet socket address.  */</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span>
+  <span class="p">{</span>
+    <span class="n">__SOCKADDR_COMMON</span> <span class="p">(</span><span class="n">sin_</span><span class="p">);</span>
+    <span class="n">in_port_t</span> <span class="n">sin_port</span><span class="p">;</span>			<span class="cm">/* Port number.  */</span>
+    <span class="k">struct</span> <span class="n">in_addr</span> <span class="n">sin_addr</span><span class="p">;</span>		<span class="cm">/* Internet address.  */</span>
+
+    <span class="cm">/* Pad to size of `struct sockaddr'.  */</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">sin_zero</span><span class="p">[</span><span class="k">sizeof</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="p">)</span> <span class="o">-</span>
+			   <span class="n">__SOCKADDR_COMMON_SIZE</span> <span class="o">-</span>
+			   <span class="k">sizeof</span> <span class="p">(</span><span class="n">in_port_t</span><span class="p">)</span> <span class="o">-</span>
+			   <span class="k">sizeof</span> <span class="p">(</span><span class="k">struct</span> <span class="n">in_addr</span><span class="p">)];</span>
+  <span class="p">};</span>
+
+<span class="cp">#if !__USE_KERNEL_IPV6_DEFS
+</span><span class="cm">/* Ditto, for IPv6.  */</span>
+<span class="k">struct</span> <span class="n">sockaddr_in6</span>
+  <span class="p">{</span>
+    <span class="n">__SOCKADDR_COMMON</span> <span class="p">(</span><span class="n">sin6_</span><span class="p">);</span>
+    <span class="n">in_port_t</span> <span class="n">sin6_port</span><span class="p">;</span>	<span class="cm">/* Transport layer port # */</span>
+    <span class="kt">uint32_t</span> <span class="n">sin6_flowinfo</span><span class="p">;</span>	<span class="cm">/* IPv6 flow information */</span>
+    <span class="k">struct</span> <span class="n">in6_addr</span> <span class="n">sin6_addr</span><span class="p">;</span>	<span class="cm">/* IPv6 address */</span>
+    <span class="kt">uint32_t</span> <span class="n">sin6_scope_id</span><span class="p">;</span>	<span class="cm">/* IPv6 scope-id */</span>
+  <span class="p">};</span>
+<span class="cp">#endif </span><span class="cm">/* !__USE_KERNEL_IPV6_DEFS */</span><span class="cp">
+</span></code></pre></div></div>
+
+<h3 id="bzero">bzero</h3>
+
+<p>这个函数也很常见，你猜它在哪里？–&gt;<strings.h></strings.h></p>
+
+<h3 id="inet_addr">inet_addr</h3>
+
+<p>这个文件位于/usr/include/arpa/inet.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Convert Internet host address from numbers-and-dots notation in CP
+   into binary data in network byte order.  */</span>
+<span class="k">extern</span> <span class="n">in_addr_t</span> <span class="n">inet_addr</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">__cp</span><span class="p">)</span> <span class="n">__THROW</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>它的返回值是</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Address to accept any incoming messages.  */</span>
+<span class="cp">#define	INADDR_ANY		((in_addr_t) 0x00000000)
+</span><span class="cm">/* Address to send to all hosts.  */</span>
+<span class="cp">#define	INADDR_BROADCAST	((in_addr_t) 0xffffffff)
+</span><span class="cm">/* Address indicating an error return.  */</span>
+<span class="cp">#define	INADDR_NONE		((in_addr_t) 0xffffffff)
+</span>
+<span class="cm">/* Network number for local host loopback.  */</span>
+<span class="cp">#define	IN_LOOPBACKNET		127
+</span><span class="cm">/* Address to loopback in software to local host.  */</span>
+<span class="cp">#ifndef INADDR_LOOPBACK
+# define INADDR_LOOPBACK	((in_addr_t) 0x7f000001) </span><span class="cm">/* Inet 127.0.0.1.  */</span><span class="cp">
+#endif
+</span>
+<span class="cm">/* Defines for Multicast INADDR.  */</span>
+<span class="cp">#define INADDR_UNSPEC_GROUP	((in_addr_t) 0xe0000000) </span><span class="cm">/* 224.0.0.0 */</span><span class="cp">
+#define INADDR_ALLHOSTS_GROUP	((in_addr_t) 0xe0000001) </span><span class="cm">/* 224.0.0.1 */</span><span class="cp">
+#define INADDR_ALLRTRS_GROUP    ((in_addr_t) 0xe0000002) </span><span class="cm">/* 224.0.0.2 */</span><span class="cp">
+#define INADDR_MAX_LOCAL_GROUP  ((in_addr_t) 0xe00000ff) </span><span class="cm">/* 224.0.0.255 */</span><span class="cp">
+</span>
+</code></pre></div></div>
+<h3 id="gethostbyname">gethostbyname</h3>
+
+<p>这个文件位于 /usr/include/netdb.h</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Return entry from host data base for host with NAME.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">hostent</span> <span class="o">*</span><span class="n">gethostbyname</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">__name</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="inet_ntoa">inet_ntoa</h3>
+
+<p>这个文件位于 /usr/include/arpa/inet.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Convert Internet number in IN to ASCII representation.  The return value
+   is a pointer to an internal array containing the string.  */</span>
+<span class="k">extern</span> <span class="kt">char</span> <span class="o">*</span><span class="n">inet_ntoa</span> <span class="p">(</span><span class="k">struct</span> <span class="n">in_addr</span> <span class="n">__in</span><span class="p">)</span> <span class="n">__THROW</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="struct-icmp">struct icmp</h3>
+
+<p>这个结构位于 /usr/include/netinet/ip_icmp.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/*
+ * Internal of an ICMP Router Advertisement
+ */</span>
+<span class="k">struct</span> <span class="n">icmp_ra_addr</span>
+<span class="p">{</span>
+  <span class="n">u_int32_t</span> <span class="n">ira_addr</span><span class="p">;</span>
+  <span class="n">u_int32_t</span> <span class="n">ira_preference</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">icmp</span>
+<span class="p">{</span>
+  <span class="n">u_int8_t</span>  <span class="n">icmp_type</span><span class="p">;</span>	<span class="cm">/* type of message, see below */</span>
+  <span class="n">u_int8_t</span>  <span class="n">icmp_code</span><span class="p">;</span>	<span class="cm">/* type sub code */</span>
+  <span class="n">u_int16_t</span> <span class="n">icmp_cksum</span><span class="p">;</span>	<span class="cm">/* ones complement checksum of struct */</span>
+  <span class="k">union</span>
+  <span class="p">{</span>
+    <span class="n">u_char</span> <span class="n">ih_pptr</span><span class="p">;</span>		<span class="cm">/* ICMP_PARAMPROB */</span>
+    <span class="k">struct</span> <span class="n">in_addr</span> <span class="n">ih_gwaddr</span><span class="p">;</span>	<span class="cm">/* gateway address */</span>
+    <span class="k">struct</span> <span class="n">ih_idseq</span>		<span class="cm">/* echo datagram */</span>
+    <span class="p">{</span>
+      <span class="n">u_int16_t</span> <span class="n">icd_id</span><span class="p">;</span>
+      <span class="n">u_int16_t</span> <span class="n">icd_seq</span><span class="p">;</span>
+    <span class="p">}</span> <span class="n">ih_idseq</span><span class="p">;</span>
+    <span class="n">u_int32_t</span> <span class="n">ih_void</span><span class="p">;</span>
+
+    <span class="cm">/* ICMP_UNREACH_NEEDFRAG -- Path MTU Discovery (RFC1191) */</span>
+    <span class="k">struct</span> <span class="n">ih_pmtu</span>
+    <span class="p">{</span>
+      <span class="n">u_int16_t</span> <span class="n">ipm_void</span><span class="p">;</span>
+      <span class="n">u_int16_t</span> <span class="n">ipm_nextmtu</span><span class="p">;</span>
+    <span class="p">}</span> <span class="n">ih_pmtu</span><span class="p">;</span>
+
+    <span class="k">struct</span> <span class="n">ih_rtradv</span>
+    <span class="p">{</span>
+      <span class="n">u_int8_t</span> <span class="n">irt_num_addrs</span><span class="p">;</span>
+      <span class="n">u_int8_t</span> <span class="n">irt_wpa</span><span class="p">;</span>
+      <span class="n">u_int16_t</span> <span class="n">irt_lifetime</span><span class="p">;</span>
+    <span class="p">}</span> <span class="n">ih_rtradv</span><span class="p">;</span>
+  <span class="p">}</span> <span class="n">icmp_hun</span><span class="p">;</span>
+<span class="cp">#define	icmp_pptr	icmp_hun.ih_pptr
+#define	icmp_gwaddr	icmp_hun.ih_gwaddr
+#define	icmp_id		icmp_hun.ih_idseq.icd_id
+#define	icmp_seq	icmp_hun.ih_idseq.icd_seq
+#define	icmp_void	icmp_hun.ih_void
+#define	icmp_pmvoid	icmp_hun.ih_pmtu.ipm_void
+#define	icmp_nextmtu	icmp_hun.ih_pmtu.ipm_nextmtu
+#define	icmp_num_addrs	icmp_hun.ih_rtradv.irt_num_addrs
+#define	icmp_wpa	icmp_hun.ih_rtradv.irt_wpa
+#define	icmp_lifetime	icmp_hun.ih_rtradv.irt_lifetime
+</span>  <span class="k">union</span>
+  <span class="p">{</span>
+    <span class="k">struct</span>
+    <span class="p">{</span>
+      <span class="n">u_int32_t</span> <span class="n">its_otime</span><span class="p">;</span>
+      <span class="n">u_int32_t</span> <span class="n">its_rtime</span><span class="p">;</span>
+      <span class="n">u_int32_t</span> <span class="n">its_ttime</span><span class="p">;</span>
+    <span class="p">}</span> <span class="n">id_ts</span><span class="p">;</span>
+    <span class="k">struct</span>
+    <span class="p">{</span>
+      <span class="k">struct</span> <span class="n">ip</span> <span class="n">idi_ip</span><span class="p">;</span>
+      <span class="cm">/* options and then 64 bits of data */</span>
+    <span class="p">}</span> <span class="n">id_ip</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">icmp_ra_addr</span> <span class="n">id_radv</span><span class="p">;</span>
+    <span class="n">u_int32_t</span>   <span class="n">id_mask</span><span class="p">;</span>
+    <span class="n">u_int8_t</span>    <span class="n">id_data</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span> <span class="n">icmp_dun</span><span class="p">;</span>
+<span class="cp">#define	icmp_otime	icmp_dun.id_ts.its_otime
+#define	icmp_rtime	icmp_dun.id_ts.its_rtime
+#define	icmp_ttime	icmp_dun.id_ts.its_ttime
+#define	icmp_ip		icmp_dun.id_ip.idi_ip
+#define	icmp_radv	icmp_dun.id_radv
+#define	icmp_mask	icmp_dun.id_mask
+#define	icmp_data	icmp_dun.id_data
+</span><span class="p">};</span>
+
+<span class="cm">/*
+ * Lower bounds on packet lengths for various types.
+ * For the error advice packets must first insure that the
+ * packet is large enough to contain the returned ip header.
+ * Only then can we do the check to see if 64 bits of packet
+ * data have been returned, since we need to check the returned
+ * ip header length.
+ */</span>
+<span class="cp">#define	ICMP_MINLEN	8				</span><span class="cm">/* abs minimum */</span><span class="cp">
+#define	ICMP_TSLEN	(8 + 3 * sizeof (n_time))	</span><span class="cm">/* timestamp */</span><span class="cp">
+#define	ICMP_MASKLEN	12				</span><span class="cm">/* address mask */</span><span class="cp">
+#define	ICMP_ADVLENMIN	(8 + sizeof (struct ip) + 8)	</span><span class="cm">/* min */</span><span class="cp">
+#ifndef _IP_VHL
+#define	ICMP_ADVLEN(p)	(8 + ((p)-&gt;icmp_ip.ip_hl &lt;&lt; 2) + 8)
+</span>	<span class="cm">/* N.B.: must separately check that ip_hl &gt;= 5 */</span>
+<span class="cp">#else
+#define	ICMP_ADVLEN(p)	(8 + (IP_VHL_HL((p)-&gt;icmp_ip.ip_vhl) &lt;&lt; 2) + 8)
+</span>	<span class="cm">/* N.B.: must separately check that header length &gt;= 5 */</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+
+<h3 id="sendto">sendto</h3>
+
+<p>位于/sys/socket.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Send N bytes of BUF on socket FD to peer at address ADDR (which is
+   ADDR_LEN bytes long).  Returns the number sent, or -1 for errors.
+
+   This function is a cancellation point and therefore not marked with
+   __THROW.  */</span>
+<span class="k">extern</span> <span class="kt">ssize_t</span> <span class="n">sendto</span> <span class="p">(</span><span class="kt">int</span> <span class="n">__fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">__buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">__n</span><span class="p">,</span>
+		       <span class="kt">int</span> <span class="n">__flags</span><span class="p">,</span> <span class="n">__CONST_SOCKADDR_ARG</span> <span class="n">__addr</span><span class="p">,</span>
+		       <span class="n">socklen_t</span> <span class="n">__addr_len</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="recvfrom">recvfrom</h3>
+
+<p>该结构体位于 /sys/socket.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Read N bytes into BUF through socket FD.
+   If ADDR is not NULL, fill in *ADDR_LEN bytes of it with tha address of
+   the sender, and store the actual size of the address in *ADDR_LEN.
+   Returns the number of bytes read or -1 for errors.
+
+   This function is a cancellation point and therefore not marked with
+   __THROW.  */</span>
+<span class="k">extern</span> <span class="kt">ssize_t</span> <span class="n">recvfrom</span> <span class="p">(</span><span class="kt">int</span> <span class="n">__fd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="kr">__restrict</span> <span class="n">__buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">__n</span><span class="p">,</span>
+			 <span class="kt">int</span> <span class="n">__flags</span><span class="p">,</span> <span class="n">__SOCKADDR_ARG</span> <span class="n">__addr</span><span class="p">,</span>
+			 <span class="n">socklen_t</span> <span class="o">*</span><span class="kr">__restrict</span> <span class="n">__addr_len</span><span class="p">);</span>
+
+
+</code></pre></div></div>
+
+<h3 id="ip">ip</h3>
+
+<p>这是一个重要的结构体，可以说，这里面的东西都是围绕着这个结构行动，位于
+/usr/include/netinet/ip.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/*
+ * Structure of an internet header, naked of options.
+ */</span>
+<span class="k">struct</span> <span class="n">ip</span>
+  <span class="p">{</span>
+<span class="cp">#if __BYTE_ORDER == __LITTLE_ENDIAN
+</span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ip_hl</span><span class="o">:</span><span class="mi">4</span><span class="p">;</span>		<span class="cm">/* header length */</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ip_v</span><span class="o">:</span><span class="mi">4</span><span class="p">;</span>		<span class="cm">/* version */</span>
+<span class="cp">#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+</span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ip_v</span><span class="o">:</span><span class="mi">4</span><span class="p">;</span>		<span class="cm">/* version */</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ip_hl</span><span class="o">:</span><span class="mi">4</span><span class="p">;</span>		<span class="cm">/* header length */</span>
+<span class="cp">#endif
+</span>    <span class="n">u_int8_t</span> <span class="n">ip_tos</span><span class="p">;</span>			<span class="cm">/* type of service */</span>
+    <span class="n">u_short</span> <span class="n">ip_len</span><span class="p">;</span>			<span class="cm">/* total length */</span>
+    <span class="n">u_short</span> <span class="n">ip_id</span><span class="p">;</span>			<span class="cm">/* identification */</span>
+    <span class="n">u_short</span> <span class="n">ip_off</span><span class="p">;</span>			<span class="cm">/* fragment offset field */</span>
+<span class="cp">#define	IP_RF 0x8000			</span><span class="cm">/* reserved fragment flag */</span><span class="cp">
+#define	IP_DF 0x4000			</span><span class="cm">/* dont fragment flag */</span><span class="cp">
+#define	IP_MF 0x2000			</span><span class="cm">/* more fragments flag */</span><span class="cp">
+#define	IP_OFFMASK 0x1fff		</span><span class="cm">/* mask for fragmenting bits */</span><span class="cp">
+</span>    <span class="n">u_int8_t</span> <span class="n">ip_ttl</span><span class="p">;</span>			<span class="cm">/* time to live */</span>
+    <span class="n">u_int8_t</span> <span class="n">ip_p</span><span class="p">;</span>			<span class="cm">/* protocol */</span>
+    <span class="n">u_short</span> <span class="n">ip_sum</span><span class="p">;</span>			<span class="cm">/* checksum */</span>
+    <span class="k">struct</span> <span class="n">in_addr</span> <span class="n">ip_src</span><span class="p">,</span> <span class="n">ip_dst</span><span class="p">;</span>	<span class="cm">/* source and dest address */</span>
+  <span class="p">};</span>
+
+
+</code></pre></div></div>
+
+<h3 id="gettimeofday">gettimeofday</h3>
+
+<p>这个结构体位于 &lt;sys/time.h&gt;</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Get the current time of day and timezone information,
+   putting it into *TV and *TZ.  If TZ is NULL, *TZ is not filled.
+   Returns 0 on success, -1 on errors.
+   NOTE: This form of timezone information is obsolete.
+   Use the functions and variables declared in &lt;time.h&gt; instead.  */</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="n">gettimeofday</span> <span class="p">(</span><span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="kr">__restrict</span> <span class="n">__tv</span><span class="p">,</span>
+	<span class="n">__timezone_ptr_t</span> <span class="n">__tz</span><span class="p">)</span> <span class="n">__THROW</span> <span class="n">__nonnull</span> <span class="p">((</span><span class="mi">1</span><span class="p">));</span>
+
+<span class="cm">/*其中timeval结构体如下：*/</span>
+<span class="k">struct</span> <span class="n">timeval</span><span class="p">{</span>
+			<span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span>
+			<span class="kt">long</span> <span class="n">tv_usec</span><span class="p">;</span>
+		<span class="p">}</span>
+</code></pre></div></div>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/11/unix_system_header/">unix中系统头文件的位置(sys/socket.h)</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/13/python_struct_operation/">python之列表、元组的基本操作</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

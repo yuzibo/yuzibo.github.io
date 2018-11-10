@@ -1,7 +1,7 @@
 ---
 title: "网络最新研究入门"
 category: network
-layout: article
+layout: post
 ---
 
 # Good links

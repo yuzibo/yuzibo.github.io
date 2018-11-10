@@ -1,7 +1,7 @@
 ---
 title: "nftables简介"
 category: nft
-layout: article
+layout: post
 ---
 
 # howtos
@@ -52,9 +52,9 @@ http://git.netfilter.org/libnftnl/tree/examples
 
 http://people.netfilter.org/pablo/nf-ideas-2018.txt
 
-Here are some articles records the educational:
+Here are some posts records the educational:
 
-[article](https://github.com/ecklm/gsoc-blog/blob/master/_posts/2018-04-30-blog-intro.md)
+[post](https://github.com/ecklm/gsoc-blog/blob/master/_posts/2018-04-30-blog-intro.md)
 
 # Basic concept
 With nft, you can create `table/chain/rule/set` and families include `ipv4/ipv6/arp/inet/bridge/netdev/`

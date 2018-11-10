@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python之列表、元组的基本操作</title>
+    <meta name="description" content="list基本操作列表的基本操作。比如构造一个1、3、5、7...的列表，使用什么方法呢。这是比较笨的方法。L = []i = 1while i &lt;= 99:    L.append(i)    i = i + 2print (L)# orj = 1k = 0while j &lt;= 99:    L[k]...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/13/python_struct_operation/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>python之列表、元组的基本操作</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-13
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="list">list</h1>
+
+<h2 id="基本操作">基本操作</h2>
+
+<p>列表的基本操作。</p>
+
+<p>比如构造一个<code class="highlighter-rouge">1、3、5、7...</code>的列表，使用什么方法呢。这是比较笨的方法。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">99</span><span class="p">:</span>
+    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+<span class="c1"># or
+</span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="mi">99</span><span class="p">:</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">L</span><span class="p">)</span>
+</code></pre></div></div>
+<p>效果虽然一样，但是还是有点问题的。问题之一就是效率，写的太啰嗦了。</p>
+
+<h3 id="切片">切片</h3>
+
+<p>切片就是在列表中，以下标的方式读取元素的方法。举个例子</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="s">"1"</span><span class="p">,</span><span class="s">'2'</span><span class="p">,</span> <span class="s">'3'</span><span class="p">,</span> <span class="s">'4'</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># 打印从第0个到第2个的元素
+# 等价于
+</span><span class="k">print</span> <span class="n">L</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">#  还可以
+</span><span class="k">print</span> <span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># 从第1个元素到第2个元素
+# 还可以
+</span><span class="k">print</span> <span class="n">L</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 这个打印的是倒数第一个元素 4
+</span></code></pre></div></div>
+
+<p>请看下面的例子：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="s">'1'</span><span class="p">,</span><span class="s">'2'</span><span class="p">,</span><span class="s">'3'</span><span class="p">,</span><span class="s">'4'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="mi">4</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">l</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 从正数第一个取到倒数第一个(但是并不会取到)。
+</span><span class="p">[</span><span class="s">'1'</span><span class="p">,</span> <span class="s">'2'</span><span class="p">,</span> <span class="s">'3'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># 从倒数第一个取，取到最后，只有他自己
+</span><span class="p">[</span><span class="s">'4'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 从倒数第一取到倒数第1，
+</span><span class="p">[</span><span class="s">'2'</span><span class="p">,</span> <span class="s">'3'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="c1"># 从倒数第2取到最后
+</span><span class="p">[</span><span class="s">'3'</span><span class="p">,</span> <span class="s">'4'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<p>首先新建一个包含100个元素的列表。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">yubo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">yubo</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="添加插入删除">添加、插入、删除</h3>
+
+<p>详情可以参考注释。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span> <span class="o">=</span> <span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span><span class="s">'hehe'</span><span class="p">,</span><span class="s">'haha'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span> <span class="s">'hehe'</span><span class="p">,</span> <span class="s">'haha'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span> <span class="s">'hehe'</span><span class="p">,</span> <span class="s">'haha'</span><span class="p">,</span> <span class="mi">123</span><span class="p">]</span>
+<span class="c1"># 在指定位置插入元素
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">'csl'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span> <span class="s">'csl'</span><span class="p">,</span> <span class="s">'hehe'</span><span class="p">,</span> <span class="s">'haha'</span><span class="p">,</span> <span class="mi">123</span><span class="p">]</span>
+<span class="c1"># 删除指定元素,其元素已不在list中
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">hechun</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span> <span class="s">'hehe'</span><span class="p">,</span> <span class="s">'haha'</span><span class="p">,</span> <span class="mi">123</span><span class="p">]</span>
+<span class="c1"># 使用pop方法，并可以继续访问这个值
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">hechun</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="c1">#默认是最后一个元素
+</span><span class="mi">123</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">hechun</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">#可以指定元素位置
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<span class="n">yubo</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'hehe'</span><span class="p">,</span> <span class="s">'haha'</span><span class="p">,</span> <span class="s">'123'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">'haha'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'hehe'</span><span class="p">,</span> <span class="s">'123'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h3 id="组织列表">组织列表</h3>
+
+<p>这里有排序、打印、长度等操作</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 排序
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'hehe'</span><span class="p">,</span> <span class="s">'123'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hehe'</span><span class="p">]</span>
+<span class="c1">#反序
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'hehe'</span><span class="p">,</span> <span class="s">'123'</span><span class="p">]</span>
+<span class="c1">#使用sorted（）可以保存原来列表的内容，你可以将新的列表
+#复制给新的列表
+</span>
+<span class="c1">### 倒序打印列表
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'hehe'</span><span class="p">,</span> <span class="s">'123'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hehe'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h3 id="操作列表">操作列表</h3>
+<p>操作列表，就是在列表上执行某一特定操作。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 复制A，全复制
+# 你对原列表的改动，可以影响复制后的列表
+</span><span class="o">&gt;&gt;</span> <span class="n">yubo</span> <span class="o">=</span> <span class="p">[</span><span class="s">'123'</span><span class="p">,</span><span class="s">'hello'</span><span class="p">,</span><span class="s">'world'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hechun</span> <span class="o">=</span> <span class="n">yubo</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">yubo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'456'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">yubo</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">,</span> <span class="s">'world'</span><span class="p">,</span> <span class="s">'456'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">hechun</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">,</span> <span class="s">'world'</span><span class="p">,</span> <span class="s">'456'</span><span class="p">]</span>
+<span class="c1"># 复制列表，但对于复制后的不影响
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="n">yubo</span><span class="p">[:]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">yubo</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">,</span> <span class="s">'world'</span><span class="p">,</span> <span class="s">'456'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">yubo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'789'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">yubo</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">,</span> <span class="s">'world'</span><span class="p">,</span> <span class="s">'456'</span><span class="p">,</span> <span class="s">'789'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'123'</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">,</span> <span class="s">'world'</span><span class="p">,</span> <span class="s">'456'</span><span class="p">]</span>
+
+</code></pre></div></div>
+
+<h1 id="字典">字典</h1>
+<p>字典里面可以储存更多的信息，理解它后，你就可以更加准确的为各种真实物体建模了。字典是一系列<code class="highlighter-rouge">键-值</code>对，</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 访问元素
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">alien_0</span> <span class="o">=</span> <span class="p">{</span><span class="s">'color'</span><span class="p">:</span> <span class="s">'green'</span><span class="p">,</span><span class="s">'point'</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ptinr</span><span class="p">(</span><span class="n">alien_0</span><span class="p">[</span><span class="s">'color'</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">alien_0</span><span class="p">[</span><span class="s">'color'</span><span class="p">])</span>
+<span class="n">green</span>
+<span class="c1"># 加入有这么一个游戏，是你现在获得的point
+# 注意str函数，这是将列表、元组或者字典里面的字符转化为字符串
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">new_point</span> <span class="o">=</span> <span class="n">alien_0</span><span class="p">[</span><span class="s">'point'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="s">"You just earned"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_point</span><span class="p">)</span> <span class="o">+</span> <span class="s">"points!"</span> <span class="p">)</span>
+<span class="n">You</span> <span class="n">just</span> <span class="n">earned5points</span><span class="err">!</span>
+
+<span class="c1"># 添加元素,注意，字典添加元素使用[]添加进去的
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">alien_0</span><span class="p">[</span><span class="s">'x_position'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">alien_0</span><span class="p">[</span><span class="s">'y_position'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">alien_0</span><span class="p">)</span>
+<span class="p">{</span><span class="s">'color'</span><span class="p">:</span> <span class="s">'green'</span><span class="p">,</span> <span class="s">'y_position'</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s">'x_position'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'point'</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="c1"># 修改某一键值
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">alien_0</span><span class="p">[</span><span class="s">'color'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'yellow'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">alien_0</span><span class="p">)</span>
+<span class="p">{</span><span class="s">'color'</span><span class="p">:</span> <span class="s">'yellow'</span><span class="p">,</span> <span class="s">'y_position'</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s">'x_position'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'point'</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="c1"># 删除键, 注意，永远消失
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">alien_0</span><span class="p">[</span><span class="s">'point'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">alien_0</span><span class="p">)</span>
+<span class="p">{</span><span class="s">'color'</span><span class="p">:</span> <span class="s">'yellow'</span><span class="p">,</span> <span class="s">'y_position'</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s">'x_position'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="c1"># 遍历字典 items()
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">alien_0</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">[(</span><span class="s">'color'</span><span class="p">,</span> <span class="s">'yellow'</span><span class="p">),</span> <span class="p">(</span><span class="s">'y_position'</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="p">(</span><span class="s">'x_position'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="c1">#使用for, 分别得到键、值.注意，对于数值型的字符，注意转换
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">alien_0</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> attr: "</span> <span class="o">+</span> <span class="n">attr</span><span class="p">)</span>
+<span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> value: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+<span class="o">...</span>
+
+<span class="n">attr</span><span class="p">:</span> <span class="n">color</span>
+<span class="n">value</span><span class="p">:</span> <span class="n">yellow</span>
+<span class="n">attr</span><span class="p">:</span> <span class="n">y_position</span>
+<span class="n">value</span><span class="p">:</span> <span class="mi">25</span>
+<span class="n">attr</span><span class="p">:</span> <span class="n">x_position</span>
+<span class="n">value</span><span class="p">:</span> <span class="mi">0</span>
+<span class="c1"># 只得到键, 实际上，它得到一个列表
+</span><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">alien_0</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+<span class="o">...</span>
+<span class="n">color</span>
+<span class="n">y_position</span>
+<span class="n">x_position</span>
+
+<span class="c1">#只得到值，返回一个列表
+</span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">alien_0</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+
+<span class="c1"># 多个字典在一个字典中
+# 注意这里，将三个字典放入一个字典中，使用列表包围起来
+</span><span class="n">alien_0</span> <span class="o">=</span> <span class="p">{</span><span class="s">'color'</span><span class="p">:</span> <span class="s">'green'</span><span class="p">,</span> <span class="s">'point'</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
+<span class="n">alien_1</span> <span class="o">=</span> <span class="p">{</span><span class="s">'color'</span><span class="p">:</span> <span class="s">'yellow'</span><span class="p">,</span><span class="s">'point'</span><span class="p">:</span><span class="mi">10</span><span class="p">}</span>
+<span class="n">alien_2</span> <span class="o">=</span> <span class="p">{</span><span class="s">'color'</span><span class="p">:</span><span class="s">'red'</span><span class="p">,</span> <span class="s">'point'</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+<span class="n">aliens</span> <span class="o">=</span> <span class="p">[</span><span class="n">alien_0</span><span class="p">,</span> <span class="n">alien_1</span><span class="p">,</span> <span class="n">alien_2</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">alines</span><span class="p">)</span>
+
+<span class="c1"># 字典里储存列表
+</span>
+<span class="n">pizza</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'crust'</span><span class="p">:</span> <span class="s">'thick'</span><span class="p">,</span>
+        <span class="s">'toppings'</span><span class="p">:</span> <span class="p">[</span><span class="s">'mushroom'</span><span class="p">,</span> <span class="s">'extra sheese'</span><span class="p">],</span>
+        <span class="p">}</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"You ordered a "</span> <span class="o">+</span> <span class="n">pizza</span><span class="p">[</span><span class="s">'crust'</span><span class="p">]</span> <span class="o">+</span> <span class="s">"-crust pizza"</span> <span class="o">+</span>
+        <span class="s">" with the following the topping:"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">topping</span> <span class="ow">in</span> <span class="n">pizza</span><span class="p">[</span><span class="s">'toppings'</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span> <span class="o">+</span> <span class="n">topping</span><span class="p">)</span>
+<span class="c1"># 再看一个简单的例子
+</span><span class="n">favorite_languages</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'yubo'</span> <span class="p">:</span> <span class="p">[</span><span class="s">'c,'</span><span class="p">,</span><span class="s">'python'</span><span class="p">],</span>
+        <span class="s">'hechun'</span> <span class="p">:</span> <span class="p">[</span><span class="s">'math'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'shell'</span><span class="p">],</span>
+        <span class="s">'hecheng'</span> <span class="p">:</span> <span class="p">[</span><span class="s">'shell'</span><span class="p">],</span>
+        <span class="p">}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">favorite_languages</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Person's name is "</span> <span class="o">+</span> <span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">lan</span> <span class="ow">in</span> <span class="n">language</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lan</span><span class="p">)</span> <span class="o">+</span> <span class="s">" "</span><span class="p">)</span>
+
+<span class="c1"># 字典里面嵌套字典
+</span>
+</code></pre></div></div>
+
+<p>下面这段代码综合利用了上面的知识：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 注意字典的这样输入法
+</span><span class="n">favorite_languages</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'yubo'</span><span class="p">:</span> <span class="s">'pytthon'</span><span class="p">,</span>
+        <span class="s">'hechun'</span><span class="p">:</span> <span class="s">'math'</span><span class="p">,</span>
+        <span class="s">'xiaoxiao'</span><span class="p">:</span> <span class="s">'c'</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">friends</span> <span class="o">=</span> <span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span> <span class="s">'hechun'</span><span class="p">]</span>
+<span class="c1"># 可以使用sorted(favorite_languages.keys())进行排序后的输出
+</span><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">favorite_languages</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">friends</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">" Hi "</span> <span class="o">+</span> <span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span>
+                <span class="s">", i see you favorite languages is "</span> <span class="o">+</span>
+                <span class="n">favorite_languages</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span> <span class="s">"!"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>用户输入填充字典， 有些东西需要raw_input()函数实现。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">responses</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">polling_active</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">while</span> <span class="n">polling_active</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> What is your name? "</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"Which mountain would you like to climb someday?"</span><span class="p">)</span>
+    <span class="c1"># 将答案存在字典中, 我自己这里写错了
+</span>    <span class="n">responses</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span>
+    <span class="c1"># 看看是否还有其他人参与调查问卷
+</span>    <span class="n">repeat</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"Would you like to let another people response?"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">repeat</span> <span class="o">==</span> <span class="s">'no'</span><span class="p">:</span>
+        <span class="n">polling_active</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">-----[pull]-------</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">person</span> <span class="p">,</span><span class="n">mount</span> <span class="ow">in</span> <span class="n">responses</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">person</span> <span class="o">+</span> <span class="s">" Would like to climb "</span> <span class="o">+</span> <span class="n">mount</span> <span class="o">+</span> <span class="s">"."</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/12/ping_command/">ping命令自己实现</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/14/python_function/">python函数知识点</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

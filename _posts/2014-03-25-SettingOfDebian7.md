@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "Debian7设置"
 category: debian
 ---

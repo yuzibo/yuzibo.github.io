@@ -1,7 +1,7 @@
 ---
 title: "最近一段时间的总结"
 category: mood
-layout: article
+layout: post
 ---
 
 # 〇

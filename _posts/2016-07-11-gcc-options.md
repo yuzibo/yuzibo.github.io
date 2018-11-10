@@ -1,6 +1,6 @@
 ---
 title: "gcc 编译过程解释"
-layout: article
+layout: post
 category: system
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "libvirt问题汇总"
 category: tools
-layout: article
+layout: post
 ---
 
 # 源码安装

@@ -1,6 +1,6 @@
 ---
 title: "leetcode-344 字符反转"
-layout: article
+layout: post
 category: leetcode
 ---
 

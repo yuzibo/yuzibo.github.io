@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "git追踪linux kerenl技巧"
 category: git
 ---

@@ -1,7 +1,7 @@
 ---
 title: "虚拟机扩充容量"
 category: kvms
-layout: article
+layout: post
 ---
 # 一
 好不容易使用libvirt库结合qemu把虚拟机装起来，但是没有想到在跑项目的时候居然dik　space 太小了，看来是自己当初安装虚拟机的时候把容量给小了，想办法在整回去呗.

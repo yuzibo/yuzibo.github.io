@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Debian安装Bochs</title>
+    <meta name="description" content="#问题阐述最近安装了很多的软件，总是为了折腾linux而为的，今天晚上不小心把Bochs安装完毕，在此发文纪念一下了。由于安装这个这个bochs中间因为网站的问题而搁置了好几天，但在linux系统下安装bochs总不能少了那几个软件包的支持，具体是哪几个我忘了。#步骤1.首先到bochs.sourceforge....">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/04/DebianInstallBochs/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Debian安装Bochs</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-04
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>#问题阐述
+最近安装了很多的软件，总是为了折腾linux而为的，今天晚上不小心把Bochs安装完毕，在此发文纪念一下了。</p>
+
+<p>由于安装这个这个bochs中间因为网站的问题而搁置了好几天，但在linux系统下安装bochs总不能少了那几个软件包的支持，具体是哪几个我忘了。
+#步骤</p>
+
+<p>1.首先到bochs.sourceforge.net下载bochs源代码包并解压缩。</p>
+
+<p>2.然后要安装五个软件，否则make，make install时会失败。</p>
+
+<p><strong>apt-get nstall build-essential xorg-dev bison libgtk2.0-dev libtool libx11-dev xserver-xorg-dev</strong></p>
+
+<p>3.进入所在目录，开始配置</p>
+
+<p><strong>./configure –enable-debugger –enable-disasm</strong></p>
+
+<p>两个enable分别表示启用bochs调试和反汇编。</p>
+
+<p>4.<strong>make</strong></p>
+
+<p>5.<strong>make install</strong></p>
+
+<p>这只是把软件安装上了，最重要的一步还没做：配置bochs的文件。
+由于我把bochs文件解压到用户目录下，所以该配置文件.bochsrc就可以放在用户目录下</p>
+
+<p>##tips
+网上有教程说配置liunx0.11内核，关键是我不知道这有什么作用，下面是linux0.11网址
+<a href="http://www.oldlinux.org/Linux.old/images/bootimage-0.11-20040305">linux 0.11</a></p>
+
+<p>6.配置bochs启动文件</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#how much memory the emulated will have</span>
+megs: 32
+<span class="c">#filename of ROM images</span>
+romimage: <span class="nv">file</span><span class="o">=</span>/home/yubo/bochs/bios/BIOS-bochs-latest
+
+vgaromimage: <span class="nv">file</span><span class="o">=</span>/home/yubo/bochs/bios/VGABIOS-lgpl-latest
+
+<span class="c">#vga: extension=vbe</span>
+<span class="c">#what disk image will be used</span>
+floppya: <span class="nv">1_44</span><span class="o">=</span>/home/yubo/a.img,status<span class="o">=</span>inserted  <span class="c">#注意路径一定要写全,我这里把镜像文件放在了用户目录下的中，下同</span>
+
+<span class="c">#floppyb: 1_44=/home/yubo/bochs/linux0.11/rootimage-0.11-20040305,status=inserted  #注意路径一定要写全</span>
+<span class="c">#choose the boot disk</span>
+boot: floppy
+
+log: bochsout.txt
+<span class="c">#disable mouse</span>
+mouse: <span class="nv">enabled</span><span class="o">=</span>0
+
+</code></pre></div></div>
+
+<p>看到没，我们对Bochs的控制全在这里，包括映像文件的路径和启动顺序，至于a.img是在怎么来的，请看下面的东东，我们将配置文件写好以后，使用命令</p>
+
+<p><strong>bochs</strong></p>
+
+<p>会出来选项，直接回车(就是选择6),然后弹出一个窗口，在原来窗口的提示内键入</p>
+
+<p><strong>c</strong></p>
+
+<p>这时你再看模拟器窗口，啊，整个世界开朗了。
+#Bochs的使用
+其实在上面的安装过程中，我可能遗漏了很多组建，默认安装Bochs及其组件可以使用以下命令：</p>
+
+<p>sudo apt-get install vgabios bochs bochs-x bximage</p>
+
+<p>当然，首先推荐使用源码安装这样可以设置一些自己想要的功能，比如调试。</p>
+
+<p>“计算机”安装好了，我们接下来应该怎么办呢？对了，安装硬盘或者软盘，你总得让计算机启动吧，就是使用__bximage__命令。</p>
+
+<p>bximage：</p>
+
+<p>出现以下界面，</p>
+<pre>
+yubo@debian:~$ bximage
+========================================================================
+                                bximage
+  Disk Image Creation / Conversion / Resize and Commit Tool for Bochs
+         $Id: bximage.cc 12364 2014-06-07 07:32:06Z vruppert $
+========================================================================
+
+1. Create new floppy or hard disk image
+2. Convert hard disk image to other format (mode)
+3. Resize hard disk image
+4. Commit 'undoable' redolog to base image
+5. Disk image info
+
+0. Quit
+
+Please choose one [0] 1
+Create image
+
+Do you want to create a floppy disk image or a hard disk image?
+Please type hd or fd. [hd] fd
+
+Choose the size of floppy disk image to create, in megabytes.
+Please type 160k, 180k, 320k, 360k, 720k, 1.2M, 1.44M, 1.68M, 1.72M, or 2.88M.
+ [1.44M]
+
+What should be the name of the image?
+[a.img]
+
+Creating floppy image 'a.img' with 2880 sectors
+
+The following line should appear in your bochsrc:
+  floppya: image="a.img", status=inserted
+</pre>
+<p>这时在当前目录下产生了一个 a.img,这就是我们需要的软盘映像(自己想把img文件的格式学习一下，结果网上的资料不是很多)，书上说映像文件是按字节复制，记住，a
+.img只是一个软盘，没有任何东西，我们接下来要把编译的二进制文件(引导扇区)写进软盘里</p>
+<pre>
+yubo@debian:~$ dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc
+记录了1+0 的读入
+记录了1+0 的写出
+512字节(512 B)已复制，9.3823e-05 秒，5.5 MB/秒
+</pre>
+<p>稍微解释一下这个命令，if是input file的缩写，of是out file的缩写，也就是目标文件，bs是文件的大小，count不是很清楚，conv=notrune是不要截断.
+注意路径问题就行</p>
+
+<h2 id="下面是bootasm文件我们使用命令">下面是boot.asm文件，我们使用命令</h2>
+
+<p><strong>nasm boot.asm -o boot.bin</strong></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">org</span> <span class="mo">07</span><span class="n">c00h</span> <span class="p">;</span><span class="n">load</span> <span class="n">first</span> <span class="n">instructor</span> <span class="n">notify</span> <span class="n">compile</span>
+
+<span class="n">mov</span> <span class="n">ax</span><span class="p">,</span><span class="n">cs</span>
+<span class="n">mov</span> <span class="n">ds</span><span class="p">,</span><span class="n">ax</span>
+<span class="n">mov</span> <span class="n">es</span><span class="p">,</span><span class="n">ax</span>
+
+<span class="n">call</span> <span class="n">DispStr</span> <span class="p">;</span><span class="n">call</span> <span class="kt">char</span> <span class="n">functions</span>
+
+<span class="n">jmp</span> <span class="err">$</span><span class="p">;</span> <span class="n">loop</span>
+
+<span class="n">DispStr</span><span class="o">:</span>
+	<span class="n">mov</span> <span class="n">ax</span><span class="p">,</span><span class="n">BootMessage</span>
+	<span class="n">mov</span> <span class="n">bp</span><span class="p">,</span><span class="n">ax</span>
+	<span class="n">mov</span> <span class="n">cx</span><span class="p">,</span><span class="mi">16</span>
+	<span class="n">mov</span> <span class="n">ax</span><span class="p">,</span><span class="mo">01301</span><span class="n">h</span>
+	<span class="n">mov</span> <span class="n">bx</span><span class="p">,</span><span class="mo">000</span><span class="n">ch</span>
+	<span class="n">mov</span> <span class="n">dl</span><span class="p">,</span><span class="mi">0</span>
+	<span class="kt">int</span> <span class="mi">10</span><span class="n">h</span>
+	<span class="n">ret</span>
+	<span class="n">BootMessage</span><span class="o">:</span> <span class="n">db</span> <span class="s">"hello,OS world!"</span>
+	<span class="n">times</span> <span class="mi">510</span><span class="o">-</span><span class="p">(</span><span class="err">$</span><span class="o">-</span><span class="err">$$</span><span class="p">)</span> <span class="n">db</span> <span class="mi">0</span>
+	<span class="n">dw</span> <span class="mh">0xaa55</span>
+</code></pre></div></div>
+
+<p>简单介绍下这个文件的意思，引导扇区，是从0面0磁道1扇区到0xAA55,之间应包含少于512字节的执行码，一旦BIOS发现了引导扇区，就会将这512字节的内容装载到内存地址0000:7c00处，然后跳转到0000:7c00处将控制权交给这段引导代码。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/02/AllKindOfPeriod/">周期概念辨析</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/06/LinuxModuleProgram1/">模块编程(1)Hello,World</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

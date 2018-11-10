@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>unix中计时器的应用</title>
+    <meta name="description" content="简介在«Unix/Linux编程实践»中第7章中，介绍了计时器的简单应用。简单的介绍下。三种计时器ITIMER_REAL这个计时器是真实计时器，也就是程序不管在用户态还是核心态用了多少处理器时间它都记录，当这个计时器用尽，发送SIGALRM信号。ITIMER_VIRTUAL这个计时器仅仅记录程序在用户态运行时的空...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/01/01/unix_timer/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>unix中计时器的应用</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-01-01
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="简介">简介</h1>
+<p>在«Unix/Linux编程实践»中第7章中，介绍了计时器的简单应用。简单的介绍下。</p>
+
+<h1 id="三种计时器">三种计时器</h1>
+
+<h3 id="itimer_real">ITIMER_REAL</h3>
+
+<p>这个计时器是真实计时器，也就是程序不管在用户态还是核心态用了多少处理器时间它都记录，
+当这个计时器用尽，发送SIGALRM信号。</p>
+
+<h3 id="itimer_virtual">ITIMER_VIRTUAL</h3>
+
+<p>这个计时器仅仅记录程序在用户态运行时的空间，类似于我们在篮球比赛中看到的，死球期间的
+时间不记录在比赛时间内。这个计时器用完发送SIGVTALRM信号。</p>
+
+<h3 id="itimer_prof">ITIMER_PROF</h3>
+
+<p>这个计时器在这本书里被描绘成睡眠时态(用户+核心态),并不是核心态，（？）当这个计时器用尽，
+会发送SIGPROF信号。</p>
+
+<h1 id="设置">设置</h1>
+
+<p>函数alarm只能设置到以秒为单位的，想要使用更精确的时间，要精通以上时间计时器的精通</p>
+
+<h2 id="两种间隔">两种间隔</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">itimeival</span><span class="p">{</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="n">it_interval</span><span class="p">;</span> <span class="cm">/* next value 重复间隔 */</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="n">it_value</span><span class="p">;</span> <span class="cm">/* current value 初始时间  */</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
+	<span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span> <span class="cm">/* seconds */</span>
+	<span class="kt">long</span> <span class="n">tv_usec</span><span class="p">;</span> <span class="cm">/* 微妙 */</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+<p>解释一下这个用法。当你在等待公交车的时候，第一辆到站的时间是上午5点半(it_value)，以后每隔半小时(it_interval) 就会有一辆公交车准时到达车站。这就是上面的结构体的简单的一句话总结。</p>
+
+<p>请看下面的例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;sys/time.h&gt;
+#include&lt;signal.h&gt;
+</span>
+<span class="cm">/* 信号处理函数 */</span>
+<span class="cm">/*
+ *  也就是收到SIGALRM信号后执行的操作
+ *
+ */</span>
+<span class="kt">void</span> <span class="nf">countdown</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d.. "</span><span class="p">,</span> <span class="n">num</span><span class="o">--</span><span class="p">);</span>
+	<span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"DONE!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="cm">/**
+ * 以 毫秒(milliseconds)为参数，转化为整秒和微妙(microseconds)
+ *
+ */</span>
+<span class="kt">int</span> <span class="nf">set_ticker</span><span class="p">(</span><span class="kt">int</span> <span class="n">n_msecs</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">itimerval</span> <span class="n">new_timeset</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">n_sec</span><span class="p">,</span> <span class="n">n_usecs</span><span class="p">;</span>
+
+	<span class="n">n_sec</span> <span class="o">=</span> <span class="n">n_msecs</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">;</span> <span class="cm">/* 整数部分 */</span>
+	<span class="n">n_usecs</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_msecs</span> <span class="o">%</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000L</span><span class="p">;</span> <span class="cm">/* 余数部分 */</span>
+
+	<span class="n">new_timeset</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">n_sec</span><span class="p">;</span> <span class="cm">/* 设置间隔的整秒 */</span>
+	<span class="n">new_timeset</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="n">n_usecs</span><span class="p">;</span> <span class="cm">/* 设置间隔的微妙 */</span>
+
+	<span class="n">new_timeset</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">n_sec</span><span class="p">;</span> <span class="cm">/* 第一次到达的时间 */</span>
+	<span class="n">new_timeset</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="n">n_usecs</span><span class="p">;</span> <span class="cm">/* 保存 计时值*/</span>
+
+	<span class="k">return</span> <span class="n">setitimer</span><span class="p">(</span><span class="n">ITIMER_REAL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_timeset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+	<span class="n">signal</span><span class="p">(</span><span class="n">SIGALRM</span><span class="p">,</span> <span class="n">countdown</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">set_ticker</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"set_ticker"</span><span class="p">);</span>
+	<span class="k">else</span> <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">pause</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这里的<code class="highlighter-rouge">set_ticker</code>函数的参数500是us(you 秒)， 注意是怎么转换的。</p>
+
+<p>再看些其他的例子：</p>
+
+<h3 id="1-设置一个定时器每25秒产生一个sigalrm信号">1. 设置一个定时器，每2.5秒产生一个SIGALRM信号。</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">struct</span> <span class="n">itimeival</span> <span class="n">value</span><span class="p">;</span>
+	
+	<span class="n">value</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="n">value</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">500000</span><span class="p">;</span> <span class="cm">/* 注意单位的转化*/</span>
+	
+	<span class="n">value</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="n">value</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">500000</span><span class="p">;</span>
+
+	<span class="n">setitimer</span><span class="p">(</span><span class="n">ITIMER_REAL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<h3 id="2设置一个定时器进程在用户状态下执行1秒钟发出首次信号-以后进程每在用户态执行3秒发送一个信号">2.设置一个定时器，进程在用户状态下执行1秒钟发出首次信号， 以后进程每在用户态执行3秒，发送一个信号</h3>
+
+<p>将itimerval结构的it_value赋值为1秒，将it_interval赋值为3秒即可</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">struct</span> <span class="n">itimerval</span> <span class="n">timer</span><span class="p">;</span>
+
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">setitimer</span><span class="p">(</span><span class="n">ITIMER_VIRTUAL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">timer</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="3-取消一个itimer_prof类的定时器">3. 取消一个ITIMER_PROF类的定时器</h3>
+
+<p>将itimerval结构的成员it_value均赋值为0即可。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">struct</span> <span class="n">itimerval</span> <span class="n">timer</span><span class="p">;</span>
+	
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">setitimer</span><span class="p">(</span><span class="n">ITIMER_PROF</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">timer</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+<h3 id="4-设置一个定时15秒的真实时间定时器它仅发送一次信号就自动取消">4. 设置一个定时1.5秒的真实时间定时器，它仅发送一次信号就自动取消。</h3>
+
+<p>将itimerval结构的成员it_value均赋值为1.5秒，成员it_interval赋值为0秒即可</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">struct</span> <span class="n">itimerval</span> <span class="n">timer</span><span class="p">;</span>
+
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_value</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">500000</span><span class="p">;</span>
+
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">timer</span><span class="p">.</span><span class="n">it_interval</span><span class="p">.</span><span class="n">tv_usec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">setitimer</span><span class="p">(</span><span class="n">ITIMER_REAL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">timer</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="注意结构体内的微秒第一个程序处理的规范">注意结构体内的微秒，第一个程序处理的规范</h4>
+
+<h1 id="总结">总结</h1>
+
+<p>一个计时器是内核的机制，一个Unix程序用计时器来挂起和调度将要发生的动作。通过这种方式，内核在一定的时间之后向进程发送SIGALRM,alarm系统调用在特定的实际秒数之后发送SIGALRM给进程.</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/08/24/tcpdump_tutorial/">tcpdump教程</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/01/08/debian_install_django/">debian安装django</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

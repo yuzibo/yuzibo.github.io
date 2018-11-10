@@ -1,6 +1,6 @@
 ---
 title: "linux下动态连接库的问题"
-layout: article
+layout: post
 category: system
 ---
 

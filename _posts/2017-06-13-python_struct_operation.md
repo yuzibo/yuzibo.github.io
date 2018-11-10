@@ -1,7 +1,7 @@
 ---
 title: "python之列表、元组的基本操作"
 category: python
-layout: article
+layout: post
 ---
 
 # list

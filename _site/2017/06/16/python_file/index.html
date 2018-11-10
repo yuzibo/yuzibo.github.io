@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python之文件操作</title>
+    <meta name="description" content="使用with的打开方式更加符合python的变成习惯，希望你能喜欢这种编程风格。下面使用一个文件pi.txt 来测试一下这个问题。pi.txt:3.1415926535  8979323846  2643383279#!/usr/bin/python# -*- coding: UTF-8 -*-""" 这是pyt...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/16/python_file/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>python之文件操作</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-16
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>使用<code class="highlighter-rouge">with</code>的打开方式更加符合python的变成习惯，希望你能喜欢这种编程风格。
+下面使用一个文件pi.txt 来测试一下这个问题。</p>
+
+<p>pi.txt:</p>
+
+<p>3.1415926535
+  8979323846
+  2643383279</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="s">""" 这是python打开文件的方法"""</span>
+<span class="s">""" 这里的文件名可以使用相对路径或者相对路径， windows使用(</span><span class="err">\</span><span class="s">)"""</span>
+<span class="s">""" 当然，file_path 可以事先定义"""</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'inherit.py'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_object</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_object</span><span class="p">:</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'inherit.py'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_object</span><span class="p">:</span>
+	<span class="n">contents</span> <span class="o">=</span> <span class="n">file_object</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+	<span class="s">"""除去空格"""</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">contents</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+
+
+<span class="s">""" 创建一个文件包含各行内容的列表"""</span>
+<span class="c1">#注意，使用with的方式，open()方法返回的对象只能在with代码块内使用，
+#如果想在其他地方使用代码，可以使用readlines()方法。
+</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">'pi.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+
+</code></pre></div></div>
+<p>为了更加美好的展现这个函数的特征，我们新建立一个代码段：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">'pi.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">pi_string</span> <span class="o">=</span> <span class="s">''</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">pi_string</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">pi_string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pi_string</span><span class="p">))</span>
+</code></pre></div></div>
+<p>他的输出是这样的:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3.1415926535  8979323846  2643383279
+36
+</code></pre></div></div>
+<p>我们看到这样的输出，也许并不完美，也许并不满足你的要求，现在，我们这样：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file_name</span> <span class="o">=</span> <span class="s">'pi.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">pi_string</span> <span class="o">=</span> <span class="s">''</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">pi_string</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">pi_string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pi_string</span><span class="p">))</span>
+</code></pre></div></div>
+<p>这样就会将好几行数字浓缩在一行之中。注意，python会将所有读取的内容视为文本内容，如果你的内容是数字，而且你还打算使用这个数字，就应该使用int()或者float()函数转化过来。</p>
+
+<h3 id="写入文件">写入文件</h3>
+<p>从文件读取，我们知道使用open(), 那么写入呢？对了，是write，但是，这个write只是一个文件的方法。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">filename</span> <span class="o">=</span> <span class="s">'name.txt'</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="nb">object</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"hello, world"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>这个东西与ｃ语言的open(),read(),close()…多么的相近。这里的open()后面的参数
+可以有’w’, ‘r’,’a’,’r+’,最后一种是即可读取也可写入。如果不是人为的指定参数，
+那么就是只读模式打开文件.</p>
+
+<p>同时，注意，python只能写入文本，所以像数字的内容写入文件的时候，必须使用str()
+函数转化，这样才可以</p>
+
+<p>当然在写入的同时可以使用制表符”\n”,”\t”等等。</p>
+
+<h3 id="file的基本操作">file的基本操作</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">root</span><span class="o">@</span><span class="n">yubo</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">python</span><span class="c1"># cat test.py
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"文件名"</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">name</span>
+<span class="k">print</span> <span class="s">"是否已经关闭："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">closed</span>
+<span class="k">print</span> <span class="s">"访问模式："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">mode</span>
+<span class="k">print</span> <span class="s">"末尾是否强制加空格："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">softspace</span>
+</code></pre></div></div>
+
+<h3 id="file对象的属性">File对象的属性</h3>
+
+<p>file.closed	返回true如果文件已被关闭，否则返回false。</p>
+
+<p>file.mode	返回被打开文件的访问模式。</p>
+
+<p>file.name	返回文件的名称。</p>
+
+<p>file.softspace	如果用print输出后，必须跟一个空格符，则返回false。否则返回true。</p>
+
+<p>记得在打开一个文件后需要 file-objection.close();</p>
+
+<h3 id="读写文件">读写文件</h3>
+
+<p>write()方法不会在字符串的后面添加’\n’.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"文件名"</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">name</span>
+<span class="k">print</span> <span class="s">"是否已经关闭："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">closed</span>
+<span class="k">print</span> <span class="s">"访问模式："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">mode</span>
+<span class="k">print</span> <span class="s">"末尾是否强制加空格："</span><span class="p">,</span> <span class="n">fo</span><span class="o">.</span><span class="n">softspace</span>
+
+<span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"www.aftermath.cn</span><span class="se">\n</span><span class="s">Very good</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>read()方法读取一个参数</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"r+"</span><span class="p">)</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"读取的字符串是："</span><span class="p">,</span> <span class="nb">str</span>
+<span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+
+</code></pre></div></div>
+
+<p>这里的read参数是读取的字节数。</p>
+
+<p>seek()文件定位</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span> <span class="s">"r+"</span><span class="p">)</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"读取的字符串是："</span><span class="p">,</span> <span class="nb">str</span>
+
+<span class="c1"># 查看当前位置
+</span><span class="n">position</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">tell</span><span class="p">();</span>
+<span class="k">print</span> <span class="s">"当前文件位置："</span><span class="p">,</span> <span class="n">position</span>
+
+<span class="c1"># 把指针再次重新定位到文件开头
+</span>
+<span class="n">position</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"重新读取字符串："</span><span class="p">,</span> <span class="nb">str</span>
+
+<span class="c1"># 关闭打开的文件
+</span><span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+
+</code></pre></div></div>
+
+<h2 id="重命名和删除文件">重命名和删除文件</h2>
+
+<p>需要导入os模块。</p>
+
+<h3 id="重命名">重命名</h3>
+
+<p>os.rename(“file-name1”,”file-name2”);</p>
+
+<p>将文件1重命名为文件2。</p>
+
+<h3 id="删除文件">删除文件</h3>
+
+<p>os.remove(“file-name”);</p>
+
+<h1 id="目录操作">目录操作</h1>
+
+<h3 id="mkdir">mkdir()</h3>
+
+<p>这块文件类似于shell命令</p>
+
+<p>chdir(): 改变目录。</p>
+
+<p>getcwd(): 当前目录</p>
+
+<p>rmdir(): 删除目录</p>
+
+<p>这几个函数都有参数，必须注意。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/15/python_web/">python web开发框架</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/18/pygame_note/">pygame知识点总结</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: kernel
 title: "在lkml上学到的"
 ---

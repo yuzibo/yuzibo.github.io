@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "struct和字节对齐的一些东西"
 category: c
 ---

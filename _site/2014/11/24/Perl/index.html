@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>perl学习笔记(1)</title>
+    <meta name="description" content="前言我的学习过程中有一个很明显的特点，先知道是什么，最后才知道为什么，不知道这样好不好？学习perl的网站http://faq.perl.org/booksProgramming Perl(Camel book)Perl 5 Pocket ReferenceOffical Perl newsgroups is c...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/24/Perl/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>perl学习笔记(1)</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-24
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#perl" title="Category: perl" rel="category">perl</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="前言">前言</h1>
+<p>我的学习过程中有一个很明显的特点，先知道是什么，最后才知道为什么，不知道这样好不好？</p>
+
+<h1 id="学习perl的网站">学习perl的网站</h1>
+<p>http://faq.perl.org/</p>
+
+<h1 id="books">books</h1>
+<p>Programming Perl(Camel book)</p>
+
+<p>Perl 5 Pocket Reference</p>
+
+<h1 id="offical-perl-newsgroups-is-complangperl">Offical Perl newsgroups is comp.lang.perl</h1>
+<p>其实，perl语言是这么一个流程：在内存中保存他的输出;更新内存;并且打印它</p>
+
+<h1 id="基本语法day01">基本语法day01</h1>
+<p>1.scalar : a number,a string,You can act on a scalar value with operators(like additioon or concatenation),You can read scalars from file and devices and write to them as well.</p>
+
+<p>2.在整数常量中，如果数字特别巨大，可以使用 21_323_123_987_365表示</p>
+
+<p>3.Others Nondecimal
+0377	#377 octal
+0xff	#FF hex,
+0b11111111	#also 255 decimal</p>
+
+<p>4.如果在程序中使用utf-8,这样
+use utf8;</p>
+
+<p>5.在字符串的使用中，需要注意’ ‘的内容，里面除了“‘”和“"，其余的都代表
+他们自己本身，如果想得到一个“\”,那么就使用“\”,为了表示”’“，同样使用“\“转义;
+与此对应的是，双引号的使用，你可以想象成c语言中的双引号</p>
+
+<p>6.使用 “.”符号进行链接剪切等操作 For example:</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"hello"</span> <span class="o">.</span> <span class="s">"world"</span> <span class="c1">#same as "helloworld"</span>
+<span class="s">"hello"</span> <span class="s">' '</span> <span class="o">.</span> <span class="s">"world"</span> <span class="c1"># same as 'hello world'</span>
+<span class="s">'hello world'</span> <span class="o">.</span> <span class="s">"\n"</span> <span class="c1">#same as "hello world\n"</span>
+</code></pre></div></div>
+
+<p>7.重复字符串”x”，对，你没看错，就是小写字母x,</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"yubo"</span> <span class="nv">x</span> <span class="mi">3</span>
+<span class="s">"yubo"</span> <span class="nv">x</span> <span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>5 x 4.8 #same as “5555”
+最后一个需要说明一下，在操作符 “x”的左边，我们称之为左值，你可以看成源操作数
+，符号右边是右值，你可以看成是目的操作数，4.8被自动转换为4.</p>
+
+<p>8.在数字和字符串之间自由转换，这只是取决于你自己用在标量的的操作符，
+比如，“+”系统默认为左值和右值为数字，“.”左右值默认为字符串 ，
+比如，”12” * “3”就是36,即便在“12yubo34” * 3的结果依旧是36</p>
+
+<h2 id="day02">day02</h2>
+<p>1.变量</p>
+
+<p>用$表示，$name,…还可以用于数组</p>
+
+<p>2.变量赋值</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$bin</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+<span class="nv">$asd</span> <span class="o">=</span> <span class="nv">$bin</span> <span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>另外需要注意的是在perl变量中，“ ”与shell中的“ ”一样，
+在比较多的变量中，使用${varible}调用其值</p>
+
+<p>3.打印特殊符号，先找到ascii码，然后使用 chr()函数，$alef = chr(0x05D0);
+即可。</p>
+
+<p>4.有关perl的运算符的优先级和结合性（结合性依次降低）</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">结合性</span>	<span class="err">运算符</span>
+<span class="nv">left</span>	<span class="o">-&gt;</span>
+	<span class="o">++</span> <span class="o">--</span>
+<span class="nv">right</span>	<span class="o">**</span>
+<span class="nv">right</span> <span class="o">\</span> <span class="o">!</span> <span class="o">~</span> <span class="o">+</span> <span class="o">-</span><span class="p">(</span><span class="nv">unary</span> <span class="nv">operators</span><span class="p">)</span>
+<span class="nv">left</span> 	<span class="o">=~</span> <span class="o">!~</span><span class="p">(?)</span>
+<span class="nv">left</span>	<span class="o">*/%</span><span class="nv">x</span>
+<span class="nv">left</span>	<span class="o">=-.</span><span class="p">(</span><span class="nv">binary</span> <span class="nv">operations</span><span class="p">)</span>
+<span class="nv">left</span>	<span class="o">&lt;&lt;&gt;&gt;</span>
+	<span class="o">&lt;</span> <span class="o">&lt;=</span> <span class="o">&gt;</span> <span class="o">&gt;=</span>
+	<span class="o">==</span> <span class="o">!=</span> <span class="o">&lt;=&gt;</span>
+<span class="nv">left</span> 	<span class="o">&amp;</span>
+<span class="nv">left</span>	<span class="o">|</span> <span class="o">^</span>
+<span class="nv">left</span>	<span class="o">&amp;&amp;</span>
+	<span class="o">..</span> <span class="o">...</span><span class="p">(?)</span>
+<span class="nv">right</span>	<span class="p">?:(</span><span class="nv">conditional</span> <span class="nv">operator</span><span class="p">)</span>
+<span class="nv">right</span>	<span class="o">=</span> <span class="o">+=</span> <span class="o">-=</span> <span class="o">.=</span><span class="p">(</span><span class="ow">and</span> <span class="nv">similar</span> <span class="nv">assignment</span> <span class="nv">operators</span> <span class="p">)</span>
+<span class="nv">left</span>	<span class="p">,</span> <span class="o">=&gt;</span>
+<span class="nv">right</span>	<span class="ow">not</span>
+<span class="nv">left</span>	<span class="ow">and</span>
+<span class="nv">left</span> <span class="ow">or</span> <span class="nv">xor</span>
+</code></pre></div></div>
+
+<p>没有必要记住上面的这些东西，如果你找不到你想要的运算顺序，尽管加上括
+号即可(parenthses),the same time:</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Numeric</span>	<span class="nv">String</span>
+<span class="o">==</span>		<span class="ow">eq</span>
+<span class="o">!=</span>		<span class="ow">ne</span>
+<span class="o">&lt;</span>		<span class="ow">lt</span>
+<span class="o">&gt;</span>		<span class="ow">gt</span>
+<span class="o">&lt;=</span>		<span class="ow">le</span>
+<span class="o">&gt;=</span>		<span class="ow">ge</span>
+</code></pre></div></div>
+
+<p>##perl中的bool类型
+1.如果返回的值是0为false,其他为true;</p>
+
+<p>2.如果返回的是一个字符串，‘ ’意味着false;其他意味着成功</p>
+
+<p>3.如果还有其他情况，请转化为这两种情况。</p>
+
+<p>1.1,Getting User Input</p>
+
+<p>For example:</p>
+
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span class="nv">$line</span> <span class="o">=</span> <span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$line</span> <span class="ow">eq</span> <span class="s">"\n"</span><span class="p">)</span>
+	<span class="p">{</span> <span class="k">print</span> <span class="s">"That was just a blank line!\n"</span><span class="p">;}</span>
+<span class="k">else</span> <span class="p">{</span> <span class="k">print</span> <span class="s">"The line of input was: $line"</span><span class="p">;}</span></code></pre></figure>
+
+<p>这样就是用户从屏幕标准输入了。</p>
+
+<p>1.2
+The chomp Operator
+它的作用简单说就是作用于一个变量(输入的值)，把结束符（newline）去掉，
+这一步在以后的编程中很有用的，上面的例子，我们一般情况下这样做：
+chomp($text = <STDIN>);</STDIN></p>
+
+<p>如果你以这样的方式写出这样的程序，那么就没有换行输出了，因为它自动将换行符去掉了。</p>
+
+<p>1.3
+in short,chomp也是一个简单的函数，也有返回值，他的返回值就是清除字符的个数，但是这种用法和我们上面不太一样，是这样</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$yubo</span> <span class="o">=</span> <span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="nv">$NAME</span> <span class="o">=</span> <span class="nb">chomp</span> <span class="nv">$yubo</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>输出的结果是1.</p>
+
+<p>1.4 The while control construction
+同c语言的一样，很简单的。</p>
+
+<p>1.5使用defined function</p>
+
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span class="nv">$yubo</span> <span class="o">=</span> <span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span><span class="p">(</span><span class="nv">$yubo</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+<span class="k">print</span> <span class="s">"The input was  $yubo\n"</span><span class="p">;}</span>
+<span class="k">else</span> <span class="p">{</span> <span class="k">print</span> <span class="s">"No input available\n"</span><span class="p">;}</span></code></pre></figure>
+
+<h2 id="lists-and-array">lists and array</h2>
+<p>1.</p>
+<pre>
+	$fred[0] = "yubo";
+	print $fred[0];
+	#perl的数组没有限制，随便用
+</pre>
+<p>2.列表</p>
+<pre>
+（1,2,3）
+（"yubo",4.5）
+ (1..100)
+</pre>
+
+<p>2.2 The qw Shortcut</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sx">qw( fred yubo hechun wilma dino )</span><span class="c1"># 等同于有双引号的列表</span>
+<span class="sx">qw! yahoo\!</span> <span class="nv">google</span> <span class="nv">ask</span> <span class="sr">msn ! #include yahho! as</span> <span class="nv">an</span> <span class="nv">element</span>
+</code></pre></div></div>
+
+<p>2.3 List Assignment</p>
+<ol>
+  <li>($fred, $yubo, $hechun) = (“yubo”, “hechun”, undef)</li>
+  <li>($rocks[0], $rocks[1], $rocks[2], $rocks[3]) = qw/yubo hechun mica yubo/;</li>
+</ol>
+
+<p>3.在给数组赋值的时候，可以在数组前面加上@,这样就全部赋值了。例如，</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">@rocks</span> <span class="o">=</span> <span class="sx">qw/ bedrock slate lava /</span><span class="p">;</span>
+<span class="nv">@tiny</span> <span class="o">=</span> <span class="p">();</span><span class="c1"># the empty list</span>
+<span class="nv">@giant</span> <span class="o">=</span> <span class="mi">1</span><span class="o">..</span><span class="mf">1e5</span><span class="p">;</span> <span class="c1"># a list with 100000 elements</span>
+</code></pre></div></div>
+
+<ol>
+  <li>pop and push</li>
+</ol>
+
+<p>The pop operator takes the last element off of an array and returns it
+@array = 5..9;</p>
+
+<p>$yubo = pop(@array); #$yubo gets 9,@array now has (5,6,7,8)</p>
+
+<p>$barney = pop @array;#barney gets 8,@array now has (5, 6, 7)</p>
+
+<h3 id="push-operator">push operator</h3>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">push</span><span class="p">(</span><span class="nv">@array</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># @array now has (5,6,0)</span>
+
+<span class="nb">push</span> <span class="nv">@array</span><span class="p">,</span><span class="mi">8</span> <span class="c1"># @array now has (5,6,0,8)</span>
+
+<span class="nb">push</span> <span class="nv">@array</span><span class="p">,</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">;</span> <span class="c1"># @array now has those 10 new elements</span>
+</code></pre></div></div>
+
+<ol>
+  <li>The shift and unshift operators
+这shift运算符就是将数组内的元素按从左到右的位置依次取出，
+剩下的数组去掉这个元素，取没时用0填充。
+    <div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">@yubo</span> <span class="o">=</span> <span class="sx">qw# hechun wuhan wangyang #</span><span class="p">;</span>
+ <span class="nv">$m</span> <span class="o">=</span> <span class="nb">shift</span> <span class="p">(</span><span class="nv">@yubo</span><span class="p">);</span>
+ <span class="nv">$n</span> <span class="o">=</span> <span class="nb">shift</span> <span class="nv">@yubo</span><span class="p">;</span>
+<span class="nb">unshift</span> <span class="nv">play</span> <span class="nv">an</span> <span class="nv">oppose</span> <span class="nv">play</span> <span class="nv">vs</span> <span class="nb">shift</span><span class="p">,</span><span class="ow">and</span> <span class="nv">it</span> <span class="nv">used</span> <span class="nv">to</span> <span class="nv">be</span> <span class="nv">filled</span> <span class="nv">with</span> <span class="nv">elements</span><span class="o">.</span>
+ <span class="nb">unshift</span><span class="p">(</span><span class="nv">@yubo</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+ <span class="nb">unshift</span> <span class="nv">@yubo</span><span class="p">,</span> <span class="mi">5</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>6.分离数组</p>
+
+<p>1.splice就是分离数组的符号，有4个参数，其中</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@yubo = qw(apple, dino, hechun, love);
+@removed = splice @yubo, 2; #remove everything after hechun
+			 #@removed is qw(hechun,love)
+			#@yubo is qw(apple, dino)
+</code></pre></div></div>
+
+<p>2.第三个参数就是要删除元素的个数</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nv">@removed</span> <span class="o">=</span> <span class="nb">splice</span> <span class="nv">@yubo</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">#@removed is qw(dino, hechun)</span>
+					<span class="c1">#@yubo is qw(apple, love)</span>
+</code></pre></div></div>
+
+<p>3.这第四个参数就是你放置要取代的元素，这个数不必和你取出去的相同。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@removed = splice @yubo, 1, 2, qw(wilma);
+当然，你可以不用去掉任何元素，只要使第三个参数变0即可。
+</code></pre></div></div>
+
+<p>7.@和$
+当变量中含有@(list-var)时要注意使用”"转义，还有注意数组的使用。</p>
+
+<p>8.foreach
+一个loop的控制变量，一个普遍的用法是用$var读取list的内容，如下：</p>
+<pre>
+@yubo = qw(yu hechun hehe);
+foreach $num (@yubo){
+	print "$num\m";
+}
+</pre>
+<p>注意这时的$num不是简单的@yubo的元素的复制，而是实实在在的东西，
+你只要改变$num的内容，也能影响@yubo的内容。我们可以使用$_作为foreach的
+默认控制变量，打印语句可以直接使用print;</p>
+
+<ol>
+  <li>reverse</li>
+</ol>
+
+<p>以反序输出内容，如果是单词，按首字母排序。</p>
+
+<ol>
+  <li>sort</li>
+</ol>
+
+<p>如果是单词，按首字母排序;如果是数字，也是按照首位的大小排序。</p>
+
+<p>以上几个内建函数的对象是list(我觉得)，使用的时候注意，
+scalar和list的混用的情况，注意内容与类型的对应要正确。
+作者说了，这部分的理解决定了你这一辈子是否使用perl的关键因素，
+没有之一。</p>
+
+<h2 id="define">define</h2>
+<pre>
+sub subroutine-name{
+
+}
+</pre>
+
+<h2 id="perl-automatically">perl automatically</h2>
+<p>stores the parameter list in the special array named @_,
+you can access it to get number of argument and the value of
+those arguments. For example,$_[0],$_[1]…</p>
+
+<h2 id="check-number-of-paraments">check number of paraments</h2>
+<p>在函数内部使用 <code class="highlighter-rouge">@_</code> 就是参数个数</p>
+<pre>
+sub max{
+	if (@_ != 2){
+		print "wrong\n";
+	} else {
+		print "yes\n";
+	}
+}
+$n = &amp;max(19,23);
+</pre>
+<p>下面的例子，把函数的规则总结的不错</p>
+<pre>
+$maxinum = &amp;max(3, 5, 10, 4, 6);
+sub max {
+	my($max_so_far) = shift @_; # private variable
+	foreach (@_){		#look at the remaining arguments
+		if ($_ &gt; $max_so_far){
+			$max_so_far = $_;
+		}
+	}
+	$max_so_far;
+}
+print "The maxinum is $maxinum\n";
+</pre>
+
+<p>my(var)也叫Lexical(my) Variables,这个变量位于最小的块中，可以是代码块
+或者文件。利用关键词my去声明局部变量。</p>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">foreach</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">){</span>
+	<span class="k">my</span><span class="p">(</span><span class="nv">$square</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$_</span> <span class="o">*</span> <span class="nv">$_</span><span class="p">;</span>
+	<span class="k">print</span> <span class="s">"$_  square is $square\n"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="use-strict">use strict;</h2>
+<p>在代码中你只要使用了这条语句，在使用变量的时候就必须先声明后使用，
+不然编译器就报告失败.当然对于内建变量是不会报错的，
+please use it possiblely.
+此时感觉perl真是非同一般，你只要使用了strict，那么程序中的变量就要使用
+my去声明。</p>
+
+<h2 id="return-value">return value</h2>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nv">strict</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">@name</span> <span class="o">=</span> <span class="sx">qw(yubo hechun xixi qianqian)</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$result</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">which_element_is</span><span class="p">(</span><span class="s">"xixi"</span><span class="p">,</span><span class="nv">@name</span><span class="p">);</span>
+<span class="k">sub </span><span class="nf">which_element_is</span> <span class="p">{</span>
+	<span class="k">my</span><span class="p">(</span><span class="nv">$what</span><span class="p">,</span> <span class="nv">@array</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+	<span class="k">foreach</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="nv">$#array</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nv">$what</span> <span class="ow">eq</span> <span class="nv">$array</span><span class="p">[</span><span class="nv">$_</span><span class="p">]){</span>
+			<span class="k">return</span> <span class="nv">$_</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="use-state">use state</h2>
+<p>What is state?Please see example follwing:</p>
+
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span class="c1">#!/use/bin/perl</span>
+<span class="k">use</span> <span class="nv">strict</span><span class="p">;</span>
+<span class="k">sub </span><span class="nf">marine</span> <span class="p">{</span>
+	<span class="k">my</span> <span class="nv">$n</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">print</span> <span class="s">"$n\n"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+	<span class="o">&amp;</span><span class="nv">marine</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>output:五个1。原因在这里很简单，就是my把变量局限于子函数内，
+请不疑惑，尽管我们的$n 在sub marine内，但是，在foreach的调用中，
+整体已经过去了，所以只会输出五个1(??)</p>
+
+<h1 id="stardard-input-and-output">Stardard Input And Output</h1>
+
+<h2><STDIN></STDIN></h2>
+
+<p>典型例子</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="nb">defined</span><span class="p">(</span><span class="nv">$line</span> <span class="o">=</span> <span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">)){</span>
+	<span class="k">print</span> <span class="s">"I saw $line"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>同样的表达可以是</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">){</span>
+	<span class="k">print</span> <span class="s">"I saw $_"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">){</span>
+	<span class="k">print</span> <span class="s">"I saw $_"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1"># Ctrl + D</span>
+</code></pre></div></div>
+
+<h2 id="-1">&lt;&gt;</h2>
+<p>Reading variables from <strong>input</strong>,</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">chmop</span><span class="p">;</span>
+	<span class="k">print</span> <span class="s">"It was $_ that i saw"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="filehandle">Filehandle</h2>
+<p>名字最好使用大写字母，这样有好几个优势。</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">open</span> <span class="nv">CONFIG</span><span class="p">,</span> <span class="s">'dino'</span><span class="p">;</span> <span class="c1"># dino is filename</span>
+<span class="nb">open</span> <span class="nv">config</span><span class="p">,</span> <span class="s">'&lt;dino'</span><span class="p">;</span>
+<span class="nb">open</span> <span class="nv">BEDROCK</span><span class="err">，</span><span class="s">'&gt;fred'</span>
+</code></pre></div></div>
+
+<p>you can use a “three-argument” open:</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nb">open</span> <span class="nv">CONFIG</span><span class="p">,</span> <span class="s">'&lt;'</span><span class="p">,</span> <span class="s">'dino'</span><span class="p">;</span>
+	<span class="nb">open</span> <span class="nv">BEDROCK</span><span class="p">,</span> <span class="s">'&gt;'</span><span class="p">,</span> <span class="s">'$file_name'</span><span class="p">;</span>
+	<span class="nb">open</span> <span class="nv">CONFIG</span><span class="err">，</span><span class="s">'&lt;:encoding(UTF-8)'</span><span class="p">,</span> <span class="s">'dino'</span><span class="p">;</span>
+	<span class="nb">open</span> <span class="nv">LOG</span><span class="p">,</span> <span class="s">'&gt;&gt;:encoding(UTF-8)'</span><span class="p">,</span> <span class="o">&amp;</span><span class="nv">logfile_name</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h2 id="die-statement">die statement</h2>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nb">open</span> <span class="nv">LOG</span><span class="p">,</span> <span class="s">'&gt;&gt;'</span><span class="p">,</span> <span class="s">'logfile'</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nb">die</span> <span class="s">"Cannot create logfile: $!"</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这个判断语句就是判断是否能创建logfile文件，不能的话返回一个数值，
+这个值就是不能的含义，在这里，可以把die和pirnt联系起来，共同报错。</p>
+
+<h2 id="filehandle-补充">filehandle 补充</h2>
+<p>Recently i thought sth deeply,English is my shortcut to learn
+linux kernel and others, and lack of indpendent of thinking.</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">use</span> <span class="nv">strict</span><span class="p">;</span>
+	<span class="k">use</span> <span class="nv">warnings</span><span class="p">;</span>
+
+	<span class="nb">open</span> <span class="p">(</span><span class="k">my</span> <span class="nv">$yubo</span><span class="p">,</span> <span class="s">'&gt;'</span><span class="p">,</span> <span class="s">'log'</span><span class="p">);</span>
+	<span class="k">print</span> <span class="nv">$yubo</span> <span class="s">"My first report generated by perl\n"</span><span class="p">;</span>
+	<span class="nb">close</span> <span class="nv">$yubo</span><span class="p">;</span>
+	<span class="k">print</span> <span class="s">"done\n"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>这就是一个典型的文件句柄。open函数可以传入3个参数。</p>
+
+<p>第一个， $yubo,是在 open()调用中定义的标量，第二个参数是读写文件的方式，第三个是文件路径。</p>
+
+<p>文件的内容仍在磁盘上，并不在$yubo变量中，可能你往句柄中写入内容，
+东西就会在文件中保存。</p>
+
+<p>这个$yubo就可以类推c语言中的文件描述符（fd），有意思吧！</p>
+
+<h3 id="open-or-die">open or die</h3>
+
+<blockquote>
+  <p>open(my $yubo, ‘&gt;’, ‘no_exist/file’) or die;</p>
+</blockquote>
+
+<p>下面这种用法结合前面几种的方法</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span> <span class="nv">$filename</span> <span class="o">=</span> <span class="s">'No_exist_file'</span><span class="p">;</span>
+	<span class="nb">open</span><span class="p">(</span><span class="k">my</span> <span class="nv">$yubo</span><span class="p">,</span> <span class="s">'&gt;'</span><span class="p">,</span> <span class="nv">$filename</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">"could not open $filename $!"</span><span class="p">;</span>
+	<span class="c1"># return error information</span>
+</code></pre></div></div>
+
+<h3 id="argv">@ARGV</h3>
+<p>当时偷懒了，只是简单的记录下来，并不知道什么意思。现在再重新整理整理。
+顾名思义，@ARGV就是一个参数，这个参数接受外部变量，这里，这个变量就是某个路径上的文件，将该文件上的内容输出。</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nv">@ARGV</span> <span class="o">=</span> <span class="p">(</span><span class="s">"file1"</span><span class="p">,</span><span class="s">"file2"</span><span class="p">);</span>
+	<span class="k">while</span> <span class="p">(</span><span class="nv">$line</span> <span class="o">=</span> <span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"$line\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>上面的东西，一看就是菜鸟写的，应该简单一点是这样</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nv">@ARGV</span> <span class="o">=</span> <span class="p">(</span><span class="s">"file1"</span><span class="p">);</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"$_"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="hash">hash</h2>
+<p>For example:</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nv">$family_name</span><span class="p">{</span><span class="s">'yubo'</span><span class="p">}</span> <span class="o">=</span> <span class="s">'flintstone'</span><span class="p">;</span>
+	<span class="nv">$family_name</span><span class="p">{</span><span class="s">'hechun'</span><span class="p">}</span> <span class="o">=</span> <span class="s">'love'</span><span class="p">;</span>
+	<span class="k">foreach</span> <span class="k">my</span> <span class="nv">$person</span> <span class="p">(</span><span class="sx">qw &lt;yubo </span><span class="nv">hechun</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"I've heard of $person $family_name{$person}.\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="hash-assignment">Hash Assignment</h3>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span> <span class="o">%</span><span class="nv">new_hash</span> <span class="o">=</span> <span class="o">%</span><span class="nv">old_hash</span><span class="p">;</span>
+	<span class="k">my</span> <span class="o">%</span><span class="nv">last_name</span> <span class="o">=</span> <span class="p">(</span>
+		<span class="s">'Yu'</span> <span class="o">=&gt;</span> <span class="s">'bo'</span><span class="p">,</span>
+		<span class="s">'He'</span> <span class="o">=&gt;</span> <span class="s">'chun'</span><span class="p">,</span>
+	<span class="p">);</span>
+
+	<span class="k">foreach</span> <span class="k">my</span> <span class="nv">$first</span> <span class="p">(</span><span class="sx">qw &lt;Yu </span><span class="nv">He</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"$first in @last_name{$first}.\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>上面的hash赋值完后还可以使用 $hash{“d”} = 1; 的方式解决。
+还有一种方式可以赋值：</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span> <span class="o">%</span><span class="nv">last_name</span><span class="p">;</span>
+	<span class="nv">$last_name</span><span class="p">{</span><span class="s">"fred"</span><span class="p">}</span> <span class="o">=</span> <span class="s">"hehe"</span><span class="p">;</span>
+	<span class="nv">$last_name</span><span class="p">{</span><span class="s">"yubo"</span><span class="p">}</span> <span class="o">=</span> <span class="s">"bo"</span><span class="p">;</span>
+	<span class="nv">$last_name</span><span class="p">{</span><span class="s">"he"</span><span class="p">}</span> <span class="o">=</span> <span class="s">"chun"</span><span class="p">;</span>
+</code></pre></div></div>
+<p>注意，赋值的时候使用%，使用的时候却是$</p>
+
+<p>下面这句话改变了 key 和 value 的位置。</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span> <span class="o">%</span><span class="nv">inverse_hash</span> <span class="o">=</span> <span class="nb">reverse</span> <span class="o">%</span><span class="nv">any_hash</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="hash-functions-keys-and-values">Hash functions: keys and values</h3>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span> <span class="o">%</span><span class="nv">hash</span> <span class="o">=</span> <span class="p">(</span><span class="s">'a'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'b'</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'c'</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">);</span>
+	<span class="k">my</span> <span class="nv">@k</span> <span class="o">=</span> <span class="nb">keys</span> <span class="o">%</span><span class="nv">hash</span><span class="p">;</span>
+	<span class="k">my</span> <span class="nv">@v</span> <span class="o">=</span> <span class="nb">values</span> <span class="o">%</span><span class="nv">hash</span><span class="p">;</span>
+	<span class="k">foreach</span> <span class="p">(</span><span class="nv">@k</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"$_\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+<p>这样就会打印hash的key，但是有一点请注意，perl不保证输出的顺序，
+也就是你最好不要期望得到你想要的顺序。又但是，keys 和 values函数
+可以保证此时的值相对应，例如，上面的例子@k会打印出c b a,那么打印
+的@v一定是3 1 2</p>
+
+<p>There is another function:</p>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span> <span class="nv">$count</span> <span class="o">=</span> <span class="nb">keys</span> <span class="o">%</span><span class="nv">hash</span><span class="p">;</span>
+</code></pre></div></div>
+<p>$count的值就是hash函数中的对数。</p>
+
+<h3 id="hash-function-each">Hash function: each</h3>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">while</span> <span class="p">(</span> <span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=</span> <span class="nb">each</span> <span class="o">%</span><span class="nv">hash</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"$key =&gt; $value\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>After sorted hash</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">foreach</span> <span class="nv">$key</span> <span class="p">(</span><span class="nb">sort</span> <span class="nb">keys</span> <span class="o">%</span><span class="nv">hash</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$value</span> <span class="o">=</span> <span class="nv">$hash</span><span class="p">{</span><span class="nv">$key</span><span class="p">};</span>
+		<span class="k">print</span> <span class="s">"$key =&gt; $value\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The exists Function,to see whether a key exists in the hash, use the exists function,if true</p>
+
+<p>以上面的代码为例：</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">if</span> <span class="p">(</span><span class="nb">exists</span> <span class="nv">$hash</span><span class="p">{</span><span class="s">"a"</span><span class="p">})</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"Hey, there exist\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">exists</span> <span class="nv">$hash</span><span class="p">{</span><span class="s">"d"</span><span class="p">})</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"NO exist!\n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>不知道我的思路是否有问题，$hash,@hash,%hash三者之间有着某种联系,
+虽说hash是用来定义的，但它仅仅是定义吗？在其他的外部调用中，我们
+反而使用的是$hash{“”},在当时学习@hash和$hash也有同样的问题。</p>
+
+<h3 id="the-env-hash">The %ENV hash</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	print "PATH is $ENV{path}\n";
+</code></pre></div></div>
+<h3 id="exercises">Exercises</h3>
+
+<p>write a perl file, output the times of that have read from terminal.
+For example, input “yubo,hechun,yubo,hechun” output the
+numbers”yubo 2…hechun 2”</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">my</span><span class="p">(</span><span class="nv">@words</span><span class="p">,</span> <span class="o">%</span><span class="nv">count</span><span class="p">,</span> <span class="nv">$word</span><span class="p">);</span> <span class="c1"># declare</span>
+	<span class="nb">chomp</span><span class="p">(</span><span class="nv">@words</span> <span class="o">=</span> <span class="o">&lt;</span><span class="bp">STDIN</span><span class="o">&gt;</span><span class="p">);</span> <span class="c1"># input</span>
+
+	<span class="k">foreach</span> <span class="nv">$word</span> <span class="p">(</span><span class="nv">@words</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$count</span><span class="p">{</span><span class="nv">$word</span><span class="p">}</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">foreach</span> <span class="nv">$word</span> <span class="p">(</span><span class="nb">keys</span> <span class="o">%</span><span class="nv">count</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">print</span> <span class="s">"$word was seen $count{$word} time . \n"</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>自己从这个程序中稍微理解了hash的原理,其中最后一个比较有意思,
+在count hash中$word作为keys,so the value is $count{$word}.</p>
+
+<p>下面的例子与上面的很类似</p>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nv">$longest</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">foreach</span> <span class="k">my</span> <span class="nv">$key</span> <span class="p">(</span><span class="nb">keys</span> <span class="o">%</span><span class="nv">ENV</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">my</span> <span class="nv">$key_long</span> <span class="o">=</span> <span class="nb">length</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+		<span class="nv">$longest</span> <span class="o">=</span> <span class="nv">$key_long</span> <span class="k">if</span> <span class="nv">$key_long</span> <span class="o">&gt;</span> <span class="nv">$longest</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">foreach</span> <span class="k">my</span> <span class="nv">$key</span> <span class="p">(</span><span class="nb">sort</span> <span class="nb">keys</span> <span class="o">%</span><span class="nv">ENV</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nb">printf</span> <span class="s">"%-s{longest} %s \n.$key, $ENV{$key}"</span><span class="p">;</span>
+	<span class="p">}</span>
+
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/24/LinuxDeveicsDriver2/">LDD读书笔记(2)</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/27/SetUp/">操作系统启动过程</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

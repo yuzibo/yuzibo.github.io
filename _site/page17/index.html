@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page17/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/15/ls_commands/">ls命令的实现</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-15
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>关于对单个文件的操作，应该关注这篇<a href="http://yuzibo.github.io/apue_ch4.html">文章</a></p>
+
+<h1 id="如何读取目录的内容">如何读取目录的内容</h1>
+
+<p>首先在联机帮助中寻找关键字direct来查找。</p>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>man -k direct</td>
+        <td>grep read</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<p>这样就被指引到了readdir这个函数中，在这里面的说明文档，有以下内容</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="cp">#include &lt;dirent.h&gt;
+</span>
+       <span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="n">readdir</span><span class="p">(</span><span class="kt">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">);</span>
+
+       <span class="kt">int</span> <span class="n">readdir_r</span><span class="p">(</span><span class="kt">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="n">entry</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dirent</span> <span class="o">**</span><span class="n">result</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>这个函数返回DIR *dir记录中的下一条目录项。</p>
+
+<p>在linux上，dirent结构体的内容如下:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">dirent</span> <span class="p">{</span>
+               <span class="n">ino_t</span>          <span class="n">d_ino</span><span class="p">;</span>       <span class="cm">/* inode number */</span>
+               <span class="kt">off_t</span>          <span class="n">d_off</span><span class="p">;</span>       <span class="cm">/* offset to the next dirent */</span>
+               <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">d_reclen</span><span class="p">;</span>    <span class="cm">/* length of this record */</span>
+               <span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">d_type</span><span class="p">;</span>      <span class="cm">/* type of file; not supported
+                                              by all file system types */</span>
+               <span class="kt">char</span>           <span class="n">d_name</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span> <span class="cm">/* filename */</span>
+           <span class="p">};</span>
+
+
+</code></pre></div></div>
+
+<p>其中的d_type的选项为:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       <span class="n">DT_BLK</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">block</span> <span class="n">device</span><span class="p">.</span>
+
+       <span class="n">DT_CHR</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">character</span> <span class="n">device</span><span class="p">.</span>
+
+       <span class="n">DT_DIR</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">directory</span><span class="p">.</span>
+
+       <span class="n">DT_FIFO</span>     <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">named</span> <span class="n">pipe</span> <span class="p">(</span><span class="n">FIFO</span><span class="p">).</span>
+
+       <span class="n">DT_LNK</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">symbolic</span> <span class="n">link</span><span class="p">.</span>
+
+       <span class="n">DT_REG</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">regular</span> <span class="n">file</span><span class="p">.</span>
+
+       <span class="n">DT_SOCK</span>     <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">Unix</span> <span class="n">domain</span> <span class="n">socket</span><span class="p">.</span>
+		 
+	   <span class="n">DT_UNKNOWN</span>  <span class="n">The</span> <span class="n">file</span> <span class="n">type</span> <span class="n">is</span> <span class="n">unknown</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>那么，与文件的操作相比较，还得有opendir，closedir等操作。</p>
+
+<h1 id="ls-的实现">ls 的实现</h1>
+
+<p>那么，ls的算法如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">main</span><span class="p">()</span>
+	<span class="n">opendir</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">readdir</span><span class="p">)</span>
+		<span class="n">print</span> <span class="n">d_name</span>
+	<span class="n">closedir</span>
+</code></pre></div></div>
+
+<p>那么，先看看v1.0是怎么实现的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * ls.c: implement of ls command
+ */</span>
+
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;dirent.h&gt;
+</span>
+<span class="kt">void</span> <span class="n">do_ls</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">argc</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">do_ls</span><span class="p">(</span><span class="s">"."</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="k">while</span><span class="p">(</span><span class="o">--</span><span class="n">argc</span><span class="p">){</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s:</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="o">*++</span><span class="n">argv</span><span class="p">);</span>
+			<span class="n">do_ls</span><span class="p">(</span><span class="o">*</span><span class="n">argv</span><span class="p">);</span>
+
+		<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">do_ls</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">dirname</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*
+	 * list files in directory called dirname
+	 */</span>
+	<span class="kt">DIR</span> <span class="o">*</span><span class="n">dir_ptr</span><span class="p">;</span> <span class="cm">/* the directory */</span>
+	<span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="n">direntp</span><span class="p">;</span> <span class="cm">/* each entry */</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">dir_ptr</span> <span class="o">=</span> <span class="n">opendir</span><span class="p">(</span><span class="n">dirname</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"ls1;cannot open %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">dirname</span><span class="p">);</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="k">while</span><span class="p">((</span><span class="n">direntp</span> <span class="o">=</span> <span class="n">readdir</span><span class="p">(</span><span class="n">dir_ptr</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">direntp</span><span class="o">-&gt;</span><span class="n">d_name</span><span class="p">);</span>
+		<span class="n">closedir</span><span class="p">(</span><span class="n">dir_ptr</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>结果只是把所有的文件展示出来，但是还有很多的信息没有展示，比如：ls -l命令，
+输出结果的排序等等。</p>
+
+<p>想实现<code class="highlighter-rouge">ls -l</code> 的效果， 需要读取文件的信息状态，那么，这个信息由stst结构体提
+供，相关的代码还是得看上面连接的部分</p>
+
+<h2 id="如何把模式的数字转化为数字">如何把模式的数字转化为数字</h2>
+
+<p>st_mode是一个16位的二进制数，<a href="http://pan.baidu.com/s/1pLD153P">图</a>.</p>
+
+<p>为了提取有效的数字，我们使用掩码技术。什么是掩码呢？就是好像带上面具将其他没
+有的数据隐藏起来。</p>
+
+<p>(1)掩码(masking) 会将不需要的字段置为0，需要的字段不发生变化。</p>
+
+<p>(2)我们还知道整数在计算机中的表示也是二进制。这样一个普通的整数也就有了意义。</p>
+
+<p>(3)与0做位与(&amp;)操作可以将相应的bit为置为0，</p>
+
+<p>(4) 使用8进制</p>
+
+<p>介绍完了掩码，还必须介绍子域编码。</p>
+
+<p>在 &lt;bits/stat.h&gt;中，有以下定义：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define	__S_IFMT	0170000	</span><span class="cm">/* These bits determine file type.  */</span><span class="cp">
+</span>
+<span class="cm">/* File types.  */</span>
+<span class="cp">#define	__S_IFDIR	0040000	</span><span class="cm">/* Directory.  */</span><span class="cp">
+#define	__S_IFCHR	0020000	</span><span class="cm">/* Character device.  */</span><span class="cp">
+#define	__S_IFBLK	0060000	</span><span class="cm">/* Block device.  */</span><span class="cp">
+#define	__S_IFREG	0100000	</span><span class="cm">/* Regular file.  */</span><span class="cp">
+#define	__S_IFIFO	0010000	</span><span class="cm">/* FIFO.  */</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">((</span><span class="n">info</span><span class="p">.</span><span class="n">st_mode</span> <span class="o">&amp;</span> <span class="mo">0170000</span><span class="p">)</span> <span class="o">==</span> <span class="mo">0040000</span><span class="p">)</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"This is a directory"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>然而在&lt;sys/stat.h&gt;中，又定义了上面的宏，有__X_IFXXX前面的__去掉了。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;bits/stat.h&gt;
+</span>
+<span class="cp">#if defined __USE_MISC || defined __USE_XOPEN
+# define S_IFMT		__S_IFMT
+# define S_IFDIR	__S_IFDIR
+# define S_IFCHR	__S_IFCHR
+# define S_IFBLK	__S_IFBLK
+# define S_IFREG	__S_IFREG
+# ifdef __S_IFIFO
+#  define S_IFIFO	__S_IFIFO
+# endif
+# ifdef __S_IFLNK
+#  define S_IFLNK	__S_IFLNK
+# endif
+# if (defined __USE_MISC || defined __USE_UNIX98) \
+     &amp;&amp; defined __S_IFSOCK
+#  define S_IFSOCK	__S_IFSOCK
+# endif
+#endif
+</span>
+</code></pre></div></div>
+
+<p>更简单的方法是使用&lt;sys/stat.h&gt;中的macro,注意，这里版本的不同文件所处的位置也
+不同的.
+下面,具体的宏实现如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Test macros for file types.	*/</span>
+
+<span class="cp">#define	__S_ISTYPE(mode, mask)	(((mode) &amp; __S_IFMT) == (mask))
+</span>
+<span class="cp">#define	S_ISDIR(mode)	 __S_ISTYPE((mode), __S_IFDIR)
+#define	S_ISCHR(mode)	 __S_ISTYPE((mode), __S_IFCHR)
+#define	S_ISBLK(mode)	 __S_ISTYPE((mode), __S_IFBLK)
+#define	S_ISREG(mode)	 __S_ISTYPE((mode), __S_IFREG)
+#ifdef __S_IFIFO
+# define S_ISFIFO(mode)	 __S_ISTYPE((mode), __S_IFIFO)
+#endif
+#ifdef __S_IFLNK
+# define S_ISLNK(mode)	 __S_ISTYPE((mode), __S_IFLNK)
+#endif
+</span>
+<span class="cp">#if defined __USE_MISC &amp;&amp; !defined __S_IFLNK
+# define S_ISLNK(mode)  0
+#endif
+</span>
+</code></pre></div></div>
+<p>这里，还可以定义如下宏：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define S_ISFIFO(m) (((m)&amp;(0170000)) == 0010000)
+</span></code></pre></div></div>
+
+<h3 id="解决用户组问题">解决用户/组问题</h3>
+
+<p>先提供struct passwd 的源码：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* defined in pwd/pwd.h */</span>
+<span class="cm">/* The passwd structure.  */</span>
+<span class="k">struct</span> <span class="n">passwd</span>
+<span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_name</span><span class="p">;</span>		<span class="cm">/* Username.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_passwd</span><span class="p">;</span>		<span class="cm">/* Password.  */</span>
+  <span class="n">__uid_t</span> <span class="n">pw_uid</span><span class="p">;</span>		<span class="cm">/* User ID.  */</span>
+  <span class="n">__gid_t</span> <span class="n">pw_gid</span><span class="p">;</span>		<span class="cm">/* Group ID.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_gecos</span><span class="p">;</span>		<span class="cm">/* Real name.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_dir</span><span class="p">;</span>			<span class="cm">/* Home directory.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_shell</span><span class="p">;</span>		<span class="cm">/* Shell program.  */</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/15/ls_commands/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/05/aix_commands/">AIX命令使用</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-05
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#shell" title="Category: shell" rel="category">shell</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="主要命令的补全">主要命令的补全</h1>
+
+<p>补全命令：</p>
+
+<p>大多数unix默认的shell是 ksh， ksh要用连续两次 ESC 来补全命令，HPUX默认的Shell是Posix shell</p>
+
+<p>上条命令、下条命令：
+同   vi   操作一模一样，先按   ESC键   进入命令模式</p>
+
+<p>k     上一条 
+j     下一条 
+h     左移 
+l     右移 
+x     删除</p>
+
+<p>开启AIX KSH 自动补全功能
+AIX系统下默认的Shell是ksh，不同于Linux下的bash，ksh不直接支持dos-key的便捷操作，如果没有找到途径，每条命令都要重新敲入，实在是很麻烦。Ksh还不支持文件名自动补全，这也是另外一个遗憾。
+实现方法:
+#set -o vi
+上滚一条命令是ESC+k
+下滚一条命令是ESC+j
+ESC +    ESC -</p>
+
+<p>自动补全是ESC+\</p>
+
+<p>例如,想要自动补全,就先按ESC,再按\ 
+<a href="http://ericbao.blog.sohu.com/198437033.html">参考</a></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/05/aix_commands/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/01/accounting/">流水账</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-01
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#mood" title="Category: mood" rel="category">mood</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h2 id="201607">2016/07</h2>
+
+<p>07/04 吃货 54.00
+07/05 买书<unix-linux编程实践> 23.00</unix-linux编程实践></p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/01/accounting/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/05/21/huffman-coding/">哈夫曼编码简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-05-21
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#DS" title="Category: DS" rel="category">DS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>我自己都感觉这样下去得出事，分类做的扩展性不好。</p>
+
+<p>到时候DS下面肯定很臃肿。先写吧，总比没有强。</p>
+
+<h1 id="几个概念">几个概念</h1>
+
+<p>哈夫曼树是一种最有二叉树，二叉树的【性质】也同样适用于它。</p>
+
+<h3 id="路径长度">路径长度</h3>
+
+<p>从书中一个结点到另一个结点的分支数称作路径长度。假设计算一个叶子结点的路径长
+度，就是将叶子结点到根节点的结点数目减一。</p>
+
+<h3 id="树的路径长度">树的路径长度</h3>
+
+<p>从树根到每一个结点的路径长度之和。</p>
+
+<h3 id="树的带权路径长度wpl">树的带权路径长度WPL</h3>
+
+<p>树的所有叶子结点的带权路径长度之和。</p>
+
+<h3 id="前缀编码">前缀编码</h3>
+
+<p>假设A、B、C、D的编码分别为0,00，1,01，则字符串’‘000011010’就有多种译法，所以，这里设计长度不同的编码，则必须是任何一个字符的编码不是另一个字符的前缀，这
+种编码称之为_前缀编码_。这里我省略了一个概念。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/05/21/huffman-coding/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/05/20/callback/">回调函数的使用方法</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-05-20
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>[来自](<BS>http://stackoverflow.com/questions/142789/what-is-a-callback-in-c-and-how-are-they-implemented)</BS></p>
+
+<p>这里没有回调在c中，这里使用函数指针实现,举个例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">void</span> <span class="nf">populate_array</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">arraySize</span><span class="p">,</span> <span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">getNextValue</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">arraySize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getNextValue</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">getNextRandomValue</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">rand</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">myarray</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+    <span class="n">populate_array</span><span class="p">(</span><span class="n">myarray</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">getNextRandomValue</span><span class="p">);</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<BS>Here, the populate_array function takes a function pointer as its third parameter, and calls it to get the values to populate the array with. We've written the callback getNextRandomValue, which returns a random-ish value, and passed a pointer to it to populate_array. populate_array will call our callback function 10 times and assign the returned values to the elements in the given array.
+
+</BS>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/05/20/callback/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/05/18/sort/">sort排序</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-05-18
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#DS" title="Category: DS" rel="category">DS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="一-摘要">一 摘要</h1>
+<p>排序算法是很重要的在计算机科学中。</p>
+
+<h1 id="二-各种排序算法的实现">二 各种排序算法的实现</h1>
+<p>这里，性能的分析最后补上，因为自己的数学实在差劲。
+尤其注意一下需排序数组的下标从0开始还是从1开始，这两者在实现上有很大的不同。
+本文所有的排序都是从0开始的，尽管自己因为这个标准吃尽了苦头</p>
+
+<h2 id="21合并排序">2.1合并排序</h2>
+
+<p><a href="https://github.com/yuzibo/DS/blob/master/sort/merge.c">code</a>
+这里的合并排序只是简单的使用一个数组，没有考虑两个数组的情况，其实是一样的。
+请记住，在执行完两个子数组的其中任何一个接下来执行的操作，这才是重点。参数
+为你要排序的数组、起始位、中间位、结尾。</p>
+
+<h2 id="22交换排序">2.2交换排序</h2>
+
+<h3 id="bubble-sort">bubble sort</h3>
+<p>所谓的冒泡排序大家都听说过，这里直接上代码，不过你要注意那个标志符的作用。我
+还是在老地方犯错：先是一个while、接着for，之间填一个sorted=1;这样效率上会有
+提升。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/a865ffcbjw1f468eknkp6j20hv053wet.jpg" alt="图片" /></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*我的困难局限于标志变量的位置*/</span>
+<span class="kt">void</span> <span class="n">bubblesort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span><span class="n">sorted</span><span class="p">;</span>
+	<span class="n">i</span> <span class="o">=</span> <span class="n">sorted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">!</span><span class="n">sorted</span><span class="p">)){</span>
+		<span class="n">sorted</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">){</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span>
+				<span class="n">temp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+				<span class="n">sorted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="23-插入排序">2.3 插入排序</h2>
+<p>插入排序分为直接插入排序和希尔排序</p>
+
+<h3 id="插入排序">插入排序</h3>
+<p>将一个记录插入到已排序良好的有序表中，从而得到一个记录数增加1的新表，直到整
+个表有序为止。</p>
+
+<h4 id="要点">要点：</h4>
+<p>设立哨兵，作为临时存储和判断数组边界之用。
+最难的是确定插入的位置，在思维上的模糊感还是特别强。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">version</span> <span class="mi">1</span><span class="o">:</span>
+<span class="kt">void</span> <span class="n">insert_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tmp</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span> <span class="c1">// 只需注意后一项比前一项大的即可</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span>
+			<span class="n">t</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>	<span class="c1">// 先前移一个元素？这里快想透了</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">tmp</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="p">]){</span> <span class="c1">//寻找在有序表插入的位置</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+				<span class="n">t</span><span class="o">--</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span> <span class="c1">//将哨兵元素放入其中</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>我自己写的时候的模糊点：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 首先前移一位；
+2. 寻找在有序表的位置及移动的方法及将哨兵放入排序后的空缺位置
+</code></pre></div></div>
+
+<p>下面是严蔚敏版数据结构的代码</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">insert</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tmp</span><span class="p">;</span><span class="c1">//我没用哨兵，使用的是临时变量</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">){</span> <span class="c1">//..</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span> <span class="c1">//说明需要插入有序表</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+			<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">tmp</span><span class="p">;</span> <span class="o">--</span><span class="n">j</span><span class="p">){</span> <span class="c1">// 移动,</span>
+							<span class="c1">//这里我把比较符号</span>
+							<span class="c1">//搞反了。</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+			<span class="p">}</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+
+<p>效率: O(n^2).</p>
+
+<h3 id="折半插入排序">折半插入排序</h3>
+<p>利用插入排序的基本操作是在一个有序表中进行查找和插入。所以，我们的查找使用折
+半.</p>
+
+<h3 id="shell-排序">shell 排序</h3>
+<p>先将整个待排序的记录序列分割成若干子序列分别进行直接插入排序。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/a865ffcbjw1f468a6a6xig207p09kgsu.gif" alt="维基百科" /></p>
+
+<blockquote>
+  <p>1 确定一个递增序列t1,t2,….tk,最后tk=1；</p>
+</blockquote>
+
+<blockquote>
+  <p>2 按递增序列个数k，对序列进行k趟排序</p>
+</blockquote>
+
+<p>这里我们需要处理的序列：增量序列d={n/2,n/4,n/8…1}n为要排序的个数。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">shell_insert</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">dk</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">dk</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">dk</span><span class="p">]){</span>  <span class="c1">//思路上是有些怪诞</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">dk</span><span class="p">;</span>
+			<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">dk</span><span class="p">];</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]){</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">dk</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+				<span class="n">j</span> <span class="o">-=</span> <span class="n">dk</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">dk</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">//插入排序的最后一步要将空</span>
+		<span class="p">}</span>				<span class="c1">//缺的值填补上</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">shell_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">dk</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">dk</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">){</span>
+		<span class="n">shell_insert</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">dk</span><span class="p">);</span>
+		<span class="n">dk</span> <span class="o">/=</span><span class="mi">2</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>影响shell排序的一个重要因素就是dk的选取，最好的效率是nlogn目前。</p>
+
+<h2 id="24-选择排序">2.4 选择排序</h2>
+
+<h3 id="简单选择排序">简单选择排序</h3>
+
+<p>基本思想：就是在要排序的一组数中，选出最小（或者最大的）的一个数与第一个数字
+交换，以此类推，直到最后一个元素和倒数第二个元素比较位置。注意，是两个元素相
+互交互。</p>
+
+<p>比如有以下几个乱序数字：</p>
+
+<p>3 1 5 7 2 4 9 6 8</p>
+
+<p>第一趟排序为1 3 5 7 2 4 9 6 8</p>
+
+<p>第二趟排序为1 2 5 7 3 4 9 6 8</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * 之所以传递给一个i，主要也是为了降低
+ * 复杂度
+ */</span>
+<span class="kt">int</span> <span class="n">select_min_key</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">i</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">k</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">select_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">key</span><span class="p">,</span><span class="n">tmp</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">){</span>
+		<span class="n">key</span> <span class="o">=</span> <span class="n">select_min_key</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="n">i</span><span class="p">){</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>其实我的本意是将两个函数合并在一起的，没有成功呢！这样的思路很熟悉，但是自己
+写不出来。</p>
+
+<p>简单选择排序的改进：</p>
+
+<p>在每次的比较中确定最大值和最小值，这样只需要[n/2]次选择即可。</p>
+
+<h3 id="折半插入排序没有成功">[折半插入排序没有成功]</h3>
+
+<h3 id="堆排序">堆排序</h3>
+
+<p>首先是堆的定义：n个元素的序列{k1,k2,…kn}当且仅当满足下列关系时，称之为堆。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Ki &lt;= K2i
+ Ki &lt;= K2i-1.
+</code></pre></div></div>
+
+<p>而且是一棵完全二叉树，或者说反过来也对.非终端节点的值不大于(或者不小于)左右子节点，所以根节点是最大的元素，这像完全二叉树。所谓的堆排序就是找出其中一个的最值，在其余n-1个数
+列中重建堆。如此反复，便能得到一个有序序列，这个过程称之为堆排序。</p>
+
+<p>为此，实现堆排序需要两个解决两个问题：(1)如何构建一个堆(2)如何输出一个堆顶元
+素后，调整剩余元素为一个新的堆。</p>
+
+<p><a href="http://yuzibo.github.io/binary-tree.html">性质</a>在一个模拟堆的数组中，下标为(floor(A[n/2])..n)(其中的括号是向下取整)全都是叶子。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include "test_data.h"
+</span>
+<span class="kt">int</span> <span class="n">A</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
+
+<span class="cm">/*
+ *	start: 相当于root,start对于数组的观点来说直观
+ *		从srart到end选取最大的数
+ *	root: 相对于tree来说直观
+ *		为了方便数组下标从0开始，end应该为个数减1
+ *		尤其注意这点
+ */</span>
+<span class="kt">void</span> <span class="n">maxheap_down</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">start</span><span class="p">,</span><span class="kt">int</span> <span class="n">end</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">current</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">start</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">current</span><span class="p">];</span>   <span class="cm">/*从根节点、左右子孩子中选择一个最大的*/</span>
+	<span class="k">for</span><span class="p">(;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">;</span> <span class="n">current</span> <span class="o">=</span> <span class="n">left</span><span class="p">,</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">current</span> <span class="o">+</span> <span class="mi">1</span><span class="p">){</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+			<span class="n">left</span><span class="o">++</span><span class="p">;</span>  <span class="c1">//右孩子大</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tmp</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>   <span class="c1">//这一句包含了两种情况</span>
+		<span class="k">else</span><span class="p">{</span>		<span class="c1">// 调整tmp与大的孩子的值</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">current</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">heap_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">temp</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">){</span>
+		<span class="n">maxheap_down</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="c1">//看你从主函数调用时传递的参数</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"MAX is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+	<span class="cm">/*从最后一个元素开始，不断缩小范围直至最后一个元素*/</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">){</span>
+		<span class="n">temp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+		<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+		<span class="cm">/*从堆头开始往下再次调整*/</span>
+		<span class="n">maxheap_down</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+</code></pre></div></div>
+<p>堆排序的时间复杂度和稳定性：</p>
+
+<p>因为有N的数列需要遍历，所以遍历一趟的时间复杂度为O(N).</p>
+
+<p>堆排序采用的是二叉堆进行排序的，二叉堆就是一棵完全二叉树，它需要遍历的次数就
+是二叉树的深度。则完全二叉树的深度至少是lg(n+1),最多为lg(2n),二者结合的时间复杂度为O(N*lgN).</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/05/18/sort/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page16" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">17/36</span>
+          
+            <a href="/page18" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

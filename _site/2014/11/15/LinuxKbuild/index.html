@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>kbuild学习心得</title>
+    <meta name="description" content="起因最近想写linux设备驱动，发现不同参考书上的Makefile文件风格不一致，不一致是小事，我自己对这方面知识的欠缺总感觉穿着很重的鞋子走路。当然，网上的资料也是良莠不齐，自己看内核代码Document/kbuild中的文件算是做一下读书笔记，有错误的话还请谅解。简介“kbuild” is build sys...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/15/LinuxKbuild/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>kbuild学习心得</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-15
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="起因">起因</h1>
+<p>最近想写linux设备驱动，发现不同参考书上的Makefile文件风格不一致，不一致是小事，我自己对这方面知识的欠缺总感觉穿着很重的鞋子走路。当然，网上的资料也是良莠不齐，自己看内核代码Document/kbuild中的文件算是做一下读书笔记，有错误的话还请谅解。</p>
+
+<h2 id="简介">简介</h2>
+<p>“kbuild” is build system used by the linux kernel.Modules must use kbuild to stay compatible with GCC. Modules programming is consist of in-tree and out-of-tree</p>
+
+<h2 id="系统命令">系统命令</h2>
+
+<blockquote>
+  <p>$make -C <path_to_kerenl_src> M=$PWD
+$make -C /lib/modules/\`uname -r\`/build M=$PWD</path_to_kerenl_src></p>
+</blockquote>
+
+<p><strong>target</strong>:</p>
+
+<p><strong>modules_install</strong></p>
+
+<blockquote>
+  <p>$make -C /lib/modules/`uname -r`/build modules_install</p>
+</blockquote>
+
+<h2 id="选项">选项</h2>
+
+<p>tips: $KDIR is short of path of the kernel source directory</p>
+
+<p><strong>-C $KDIR</strong>
+	make命令会自动改变到这个特殊的kernel source目录</p>
+
+<p><strong>M=$PWD</strong>
+	通知kbuild一个外部模块已经被建立,”M”是这个外部模块（kbuild file）所在的绝对路径</p>
+
+<h2 id="target">target</h2>
+<blockquote>
+  <p>make -C $KDIR M=$PWD [target]</p>
+</blockquote>
+
+<p>模块默认在这个文件夹生成（哪个？），所有的文件都会在这个文件夹中</p>
+
+<h3 id="modules">modules:</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>同上
+</code></pre></div></div>
+
+<h3 id="modules_install">modules_install:</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>同上
+</code></pre></div></div>
+
+<h3 id="clean">clean:</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>仅仅删除在模块目录中生成的所有文件
+</code></pre></div></div>
+
+<h3 id="help">help:</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>从来没用过
+</code></pre></div></div>
+
+<h2 id="建立分离文件">建立分离文件</h2>
+<p>最简单的例子：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obj-m := &lt;module_name&gt;.o
+</code></pre></div></div>
+
+<p>这kbuild系统将会根据<module_name>.c文件建立<module_name>.o，经过链接后，将后生成<module_name>.ko</module_name></module_name></module_name></p>
+
+<p>如果模块是由多个文件构建而来，则是一下格式</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;module_name&gt;-y := &lt;src1&gt;.o &lt;src2&gt;.o
+</code></pre></div></div>
+
+<h2 id="例子">例子</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">	ifneq <span class="o">(</span><span class="k">$(</span>KERNELRELEASE<span class="k">)</span>,<span class="o">)</span>
+	<span class="c">#kbuid part of Makefile</span>
+		obj-m :<span class="o">=</span> 8123.o
+		8123-y :<span class="o">=</span> 8123_if.o 8123_pci.o 8123_bin.o
+	<span class="k">else</span>
+	<span class="c">#normal makefile</span>
+		KDIR ?<span class="o">=</span>/lib/modules/<span class="sb">`</span><span class="nb">uname</span> <span class="nt">-r</span><span class="sb">`</span>/build
+	default:
+		<span class="k">$(</span>MAKE<span class="k">)</span> <span class="nt">-C</span> <span class="k">$(</span>KDIR<span class="k">)</span> <span class="nv">M</span><span class="o">=</span><span class="nv">$$</span>PWD
+	genbin:
+		<span class="nb">echo</span> <span class="s2">"x"</span> <span class="o">&gt;</span> 8123_bin.o_shipped
+	endif</code></pre></figure>
+
+<h2 id="makefile样本">Makefile样本</h2>
+<p>经过本人亲自测试，下面的Makefile文件真实有效，其来源与LDD（Linux Decives Drives）</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">	ifneq <span class="o">(</span><span class="k">$(</span>KERNELRELEASE<span class="k">)</span>,<span class="o">)</span>
+		obj-m :<span class="o">=</span> __task_pid_nr_ns.o
+	<span class="k">else
+		</span>PWD :<span class="o">=</span> <span class="k">$(</span>shell <span class="nb">pwd</span><span class="k">)</span>
+		KVER :<span class="o">=</span> <span class="k">$(</span>shell <span class="nb">uname</span> <span class="nt">-r</span><span class="k">)</span>
+		KDIR :<span class="o">=</span> /lib/modules/<span class="k">$(</span>KVER<span class="k">)</span>/build
+	default:
+		<span class="k">$(</span>MAKE<span class="k">)</span> <span class="nt">-C</span> <span class="k">$(</span>KDIR<span class="k">)</span> <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span>	modules
+	endif</code></pre></figure>
+
+<p>我们的源文件取名为task_pid_nr_ns.c，一会我会把代码写上来，看来linux编程真的是博大精深啊。</p>
+
+<h1 id="update">update</h1>
+
+<p>==========2017-11-26=uodate=========</p>
+
+<p>First you have downloaded the source code from www.kernel.org with git or other tools.then you can <em>make menuconfig<strong>make -j8</strong>make modules_install install</em> and update grub,you reboot your machine.please refer to <a href="http://www.aftermath.cn/DebianBuildKernel.html">here</a></p>
+
+<p>But, if you like source code and output separated:</p>
+
+<p>you would better use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">KBUILD_OUTPOT</span><span class="o">=</span><span class="nv">$HOME</span>/src/kernel-build
+</code></pre></div></div>
+
+<p>Even you type ‘make menuconfig &amp;&amp; make ‘ in source file, the output will put into  <em>KBUILD_OUTPOT</em>, then , you <em>must</em> move into <em>KBUILD_OUTPOT</em> dir type”make modules_install install” command.</p>
+
+<p>But, if i modify some code, how to i did?</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/15/GitTest/">git教程</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/19/StructInC/">struct和字节对齐的一些东西</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

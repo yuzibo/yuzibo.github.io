@@ -1,6 +1,6 @@
 ---
 title: "linux之提高文件I/O效率"
-layout: article
+layout: post
 category: kernel
 ---
 

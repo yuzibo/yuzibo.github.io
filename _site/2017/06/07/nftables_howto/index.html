@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>nftables简介</title>
+    <meta name="description" content="howtosinstallFirst :Needed librarieslibmnl:libnftnllibmnl: git://git.netfilter.org/libmnllibnftnl: git://git.netfilter.org/libnftnl./autogen.sh./configuremak...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/07/nftables_howto/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>nftables简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-07
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#nft" title="Category: nft" rel="category">nft</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="howtos">howtos</h1>
+<h2 id="install">install</h2>
+
+<p>First :</p>
+
+<h1 id="needed-libraries">Needed libraries</h1>
+<p>libmnl:
+libnftnl
+libmnl: git://git.netfilter.org/libmnl
+libnftnl: git://git.netfilter.org/libnftnl</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./autogen.sh
+./configure
+make
+make <span class="nb">install
+</span>ldconfig
+</code></pre></div></div>
+
+<p>If you have error as below:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./configure: line 3960: syntax error near unexpected token <span class="sb">`</span>LIBMNL,<span class="s1">'
+./configure: line 3960: `PKG_CHECK_MODULES(LIBMNL, libmnl &gt;= 1.0.0)'</span>
+</code></pre></div></div>
+
+<p>please refer to here:</p>
+
+<p>http://blog.anarey.info/2014/08/pkg_check_moduleslibmnl-libmnl-1-0-0-error/</p>
+
+<h1 id="nftables">nftables</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>libgmp-dev libreadline-dev
+</code></pre></div></div>
+
+<p>首先在安装之前，请参考这篇<a href="https://home.regit.org/netfilter-en/nftables-quick-howto/">文章</a>，这篇文章还是比较好的。</p>
+
+<p>How to use the code:
+http://git.netfilter.org/libnftnl/tree/examples</p>
+
+<p>#GSoC for nft</p>
+
+<p>http://people.netfilter.org/pablo/nf-ideas-2018.txt</p>
+
+<p>Here are some posts records the educational:</p>
+
+<p><a href="https://github.com/ecklm/gsoc-blog/blob/master/_posts/2018-04-30-blog-intro.md">post</a></p>
+
+<h1 id="basic-concept">Basic concept</h1>
+<p>With nft, you can create <code class="highlighter-rouge">table/chain/rule/set</code> and families include <code class="highlighter-rouge">ipv4/ipv6/arp/inet/bridge/netdev/</code></p>
+
+<p>If this is your first time to run it, yiu can try it(in nftable git):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nft -f files/examples/ipv4-filter.nft
+</code></pre></div></div>
+
+<p>then</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nft list table filter
+</code></pre></div></div>
+
+<p>The result is below:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/nft_list_tables-2018-03-12.png" alt="nft_list_tables-2018-03-12.png" /></p>
+
+<h2 id="tables">Tables</h2>
+<p>Via the output above, we know, in nftables, a table is at the top of the ruleset, It consists of chains, which are containers for rules, in a word, Table-&gt;Chains-&gt;Rules</p>
+
+<p>You can <code class="highlighter-rouge">add/delete/list/flush</code> table.(flush is mean to empty table)</p>
+
+<h2 id="rules">Rules</h2>
+<p>You can list the rules that are contained by a table with the following command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nft list table filter
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>table ip filter <span class="o">{</span>
+	chain input <span class="o">{</span>
+		<span class="nb">type </span>filter hook input priority 0<span class="p">;</span> policy accept<span class="p">;</span>
+	<span class="o">}</span>
+
+	chain forward <span class="o">{</span>
+		<span class="nb">type </span>filter hook forward priority 0<span class="p">;</span> policy accept<span class="p">;</span>
+	<span class="o">}</span>
+
+	chain output <span class="o">{</span>
+		<span class="nb">type </span>filter hook output priority 0<span class="p">;</span> policy accept<span class="p">;</span>
+		ip daddr 1.2.3.4 drop
+		ip protocol tcp
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/06/how_to_get_started_with_libvirt_on_debian/">用libvirt安装debian</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/10/c_extern/">c语言中关键字extern简介</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

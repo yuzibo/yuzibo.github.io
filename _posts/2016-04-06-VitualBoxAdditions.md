@@ -1,6 +1,6 @@
 ---
 title: "VitualBox共享文件夹"
-layout: article
+layout: post
 category: tools 
 ---
 

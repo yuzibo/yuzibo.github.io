@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "linux 进程休眠"
 category: kernel 
 ---

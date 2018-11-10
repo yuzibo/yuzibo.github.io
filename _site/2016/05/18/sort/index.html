@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>sort排序</title>
+    <meta name="description" content="一 摘要排序算法是很重要的在计算机科学中。二 各种排序算法的实现这里，性能的分析最后补上，因为自己的数学实在差劲。尤其注意一下需排序数组的下标从0开始还是从1开始，这两者在实现上有很大的不同。本文所有的排序都是从0开始的，尽管自己因为这个标准吃尽了苦头2.1合并排序code这里的合并排序只是简单的使用一个数组，没...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/05/18/sort/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>sort排序</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-05-18
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#DS" title="Category: DS" rel="category">DS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="一-摘要">一 摘要</h1>
+<p>排序算法是很重要的在计算机科学中。</p>
+
+<h1 id="二-各种排序算法的实现">二 各种排序算法的实现</h1>
+<p>这里，性能的分析最后补上，因为自己的数学实在差劲。
+尤其注意一下需排序数组的下标从0开始还是从1开始，这两者在实现上有很大的不同。
+本文所有的排序都是从0开始的，尽管自己因为这个标准吃尽了苦头</p>
+
+<h2 id="21合并排序">2.1合并排序</h2>
+
+<p><a href="https://github.com/yuzibo/DS/blob/master/sort/merge.c">code</a>
+这里的合并排序只是简单的使用一个数组，没有考虑两个数组的情况，其实是一样的。
+请记住，在执行完两个子数组的其中任何一个接下来执行的操作，这才是重点。参数
+为你要排序的数组、起始位、中间位、结尾。</p>
+
+<h2 id="22交换排序">2.2交换排序</h2>
+
+<h3 id="bubble-sort">bubble sort</h3>
+<p>所谓的冒泡排序大家都听说过，这里直接上代码，不过你要注意那个标志符的作用。我
+还是在老地方犯错：先是一个while、接着for，之间填一个sorted=1;这样效率上会有
+提升。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/a865ffcbjw1f468eknkp6j20hv053wet.jpg" alt="图片" /></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*我的困难局限于标志变量的位置*/</span>
+<span class="kt">void</span> <span class="n">bubblesort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span><span class="n">sorted</span><span class="p">;</span>
+	<span class="n">i</span> <span class="o">=</span> <span class="n">sorted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">!</span><span class="n">sorted</span><span class="p">)){</span>
+		<span class="n">sorted</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">){</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span>
+				<span class="n">temp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+				<span class="n">sorted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="23-插入排序">2.3 插入排序</h2>
+<p>插入排序分为直接插入排序和希尔排序</p>
+
+<h3 id="插入排序">插入排序</h3>
+<p>将一个记录插入到已排序良好的有序表中，从而得到一个记录数增加1的新表，直到整
+个表有序为止。</p>
+
+<h4 id="要点">要点：</h4>
+<p>设立哨兵，作为临时存储和判断数组边界之用。
+最难的是确定插入的位置，在思维上的模糊感还是特别强。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">version</span> <span class="mi">1</span><span class="o">:</span>
+<span class="kt">void</span> <span class="n">insert_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tmp</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span> <span class="c1">// 只需注意后一项比前一项大的即可</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span>
+			<span class="n">t</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>	<span class="c1">// 先前移一个元素？这里快想透了</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">tmp</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="p">]){</span> <span class="c1">//寻找在有序表插入的位置</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+				<span class="n">t</span><span class="o">--</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span> <span class="c1">//将哨兵元素放入其中</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>我自己写的时候的模糊点：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 首先前移一位；
+2. 寻找在有序表的位置及移动的方法及将哨兵放入排序后的空缺位置
+</code></pre></div></div>
+
+<p>下面是严蔚敏版数据结构的代码</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">insert</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tmp</span><span class="p">;</span><span class="c1">//我没用哨兵，使用的是临时变量</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">){</span> <span class="c1">//..</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span> <span class="c1">//说明需要插入有序表</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+			<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">tmp</span><span class="p">;</span> <span class="o">--</span><span class="n">j</span><span class="p">){</span> <span class="c1">// 移动,</span>
+							<span class="c1">//这里我把比较符号</span>
+							<span class="c1">//搞反了。</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+			<span class="p">}</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+
+<p>效率: O(n^2).</p>
+
+<h3 id="折半插入排序">折半插入排序</h3>
+<p>利用插入排序的基本操作是在一个有序表中进行查找和插入。所以，我们的查找使用折
+半.</p>
+
+<h3 id="shell-排序">shell 排序</h3>
+<p>先将整个待排序的记录序列分割成若干子序列分别进行直接插入排序。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/a865ffcbjw1f468a6a6xig207p09kgsu.gif" alt="维基百科" /></p>
+
+<blockquote>
+  <p>1 确定一个递增序列t1,t2,….tk,最后tk=1；</p>
+</blockquote>
+
+<blockquote>
+  <p>2 按递增序列个数k，对序列进行k趟排序</p>
+</blockquote>
+
+<p>这里我们需要处理的序列：增量序列d={n/2,n/4,n/8…1}n为要排序的个数。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">shell_insert</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">dk</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">dk</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">dk</span><span class="p">]){</span>  <span class="c1">//思路上是有些怪诞</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">dk</span><span class="p">;</span>
+			<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">dk</span><span class="p">];</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]){</span>
+				<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">dk</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+				<span class="n">j</span> <span class="o">-=</span> <span class="n">dk</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">dk</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">//插入排序的最后一步要将空</span>
+		<span class="p">}</span>				<span class="c1">//缺的值填补上</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">shell_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">dk</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">dk</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">){</span>
+		<span class="n">shell_insert</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">dk</span><span class="p">);</span>
+		<span class="n">dk</span> <span class="o">/=</span><span class="mi">2</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>影响shell排序的一个重要因素就是dk的选取，最好的效率是nlogn目前。</p>
+
+<h2 id="24-选择排序">2.4 选择排序</h2>
+
+<h3 id="简单选择排序">简单选择排序</h3>
+
+<p>基本思想：就是在要排序的一组数中，选出最小（或者最大的）的一个数与第一个数字
+交换，以此类推，直到最后一个元素和倒数第二个元素比较位置。注意，是两个元素相
+互交互。</p>
+
+<p>比如有以下几个乱序数字：</p>
+
+<p>3 1 5 7 2 4 9 6 8</p>
+
+<p>第一趟排序为1 3 5 7 2 4 9 6 8</p>
+
+<p>第二趟排序为1 2 5 7 3 4 9 6 8</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * 之所以传递给一个i，主要也是为了降低
+ * 复杂度
+ */</span>
+<span class="kt">int</span> <span class="n">select_min_key</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">i</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">k</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">select_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">key</span><span class="p">,</span><span class="n">tmp</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">){</span>
+		<span class="n">key</span> <span class="o">=</span> <span class="n">select_min_key</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="n">i</span><span class="p">){</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>其实我的本意是将两个函数合并在一起的，没有成功呢！这样的思路很熟悉，但是自己
+写不出来。</p>
+
+<p>简单选择排序的改进：</p>
+
+<p>在每次的比较中确定最大值和最小值，这样只需要[n/2]次选择即可。</p>
+
+<h3 id="折半插入排序没有成功">[折半插入排序没有成功]</h3>
+
+<h3 id="堆排序">堆排序</h3>
+
+<p>首先是堆的定义：n个元素的序列{k1,k2,…kn}当且仅当满足下列关系时，称之为堆。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Ki &lt;= K2i
+ Ki &lt;= K2i-1.
+</code></pre></div></div>
+
+<p>而且是一棵完全二叉树，或者说反过来也对.非终端节点的值不大于(或者不小于)左右子节点，所以根节点是最大的元素，这像完全二叉树。所谓的堆排序就是找出其中一个的最值，在其余n-1个数
+列中重建堆。如此反复，便能得到一个有序序列，这个过程称之为堆排序。</p>
+
+<p>为此，实现堆排序需要两个解决两个问题：(1)如何构建一个堆(2)如何输出一个堆顶元
+素后，调整剩余元素为一个新的堆。</p>
+
+<p><a href="http://yuzibo.github.io/binary-tree.html">性质</a>在一个模拟堆的数组中，下标为(floor(A[n/2])..n)(其中的括号是向下取整)全都是叶子。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include "test_data.h"
+</span>
+<span class="kt">int</span> <span class="n">A</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
+
+<span class="cm">/*
+ *	start: 相当于root,start对于数组的观点来说直观
+ *		从srart到end选取最大的数
+ *	root: 相对于tree来说直观
+ *		为了方便数组下标从0开始，end应该为个数减1
+ *		尤其注意这点
+ */</span>
+<span class="kt">void</span> <span class="n">maxheap_down</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">start</span><span class="p">,</span><span class="kt">int</span> <span class="n">end</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">current</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">start</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">current</span><span class="p">];</span>   <span class="cm">/*从根节点、左右子孩子中选择一个最大的*/</span>
+	<span class="k">for</span><span class="p">(;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">;</span> <span class="n">current</span> <span class="o">=</span> <span class="n">left</span><span class="p">,</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">current</span> <span class="o">+</span> <span class="mi">1</span><span class="p">){</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+			<span class="n">left</span><span class="o">++</span><span class="p">;</span>  <span class="c1">//右孩子大</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tmp</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>   <span class="c1">//这一句包含了两种情况</span>
+		<span class="k">else</span><span class="p">{</span>		<span class="c1">// 调整tmp与大的孩子的值</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">current</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+			<span class="n">a</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">heap_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">temp</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">){</span>
+		<span class="n">maxheap_down</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="c1">//看你从主函数调用时传递的参数</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"MAX is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+	<span class="cm">/*从最后一个元素开始，不断缩小范围直至最后一个元素*/</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">){</span>
+		<span class="n">temp</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+		<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+		<span class="cm">/*从堆头开始往下再次调整*/</span>
+		<span class="n">maxheap_down</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+</code></pre></div></div>
+<p>堆排序的时间复杂度和稳定性：</p>
+
+<p>因为有N的数列需要遍历，所以遍历一趟的时间复杂度为O(N).</p>
+
+<p>堆排序采用的是二叉堆进行排序的，二叉堆就是一棵完全二叉树，它需要遍历的次数就
+是二叉树的深度。则完全二叉树的深度至少是lg(n+1),最多为lg(2n),二者结合的时间复杂度为O(N*lgN).</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/05/16/Makefile-suffix/">Makefile中后缀规则</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/05/20/callback/">回调函数的使用方法</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

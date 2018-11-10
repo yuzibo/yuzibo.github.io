@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page7/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/10/c_extern/">c语言中关键字extern简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-10
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="http://www.swanlinux.net/2013/05/14/c_extern/">参考这篇</a></p>
+
+<h1 id="1声明外部变量">1.声明外部变量</h1>
+
+<p>用法： 在变量定义之前如果使用该变量，则在使用之前加上<code class="highlighter-rouge">extern</code>关键词，作用域从声明开始，到本文件结束。但有一点注意，还得定义一遍，只不过前面加上了关键词。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="n">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="k">extern</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="cm">/* 这里的类型名字可以去掉,但是会有警告产生 */</span>
+	<span class="k">extern</span> <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">mysum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The max number is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h1 id="2在多个文件中声明外部变量">2.在多个文件中声明外部变量</h1>
+
+<p>如果整个工程由多个文件组成，在一个文件中可以引用另外一个文件中已经定义的外部变量时，则只需使用关键字<code class="highlighter-rouge">extern</code>加以声明即可，可见，这时的变量作用域从一个文件扩展到了多个文件。</p>
+
+<p>测试的例子：</p>
+
+<p>a.c:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="k">extern</span> <span class="kt">int</span> <span class="n">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">mysum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Here, our result from extern mysum is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>b.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">mysum</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>注意编译的命令为： gcc a.c b.c -o test
+还有利用这种方法去定义接口，在上面的例子中就是a.c中，再一次定义一个变量，在b.c中，使用<code class="highlighter-rouge">extern</code>关键字来声明变量即可，然后因为你在a.c中调用的函数，所以你就可以改变传递给函数的参数了。
+那么，这种方法与通过函数形参传递变量的区别在哪里？如果仅仅是传值，估计是起不到作用的，你会想到传地址的方法，这样可以，但是在一个大型项目中，可能有很多程序同时调用函数，这里就会涉及到竞态的问题。使用extern的方式就比较安全。</p>
+
+<h1 id="3在多个文件中声明外部结构体变量">3.在多个文件中声明外部结构体变量</h1>
+<p>我一开始也有误解，现在看来，结构体的有些不同。</p>
+
+<p>a.c :</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span>
+<span class="cp">#include "b.h"
+#include "c.h" </span><span class="cm">/*引入 print() */</span><span class="cp">
+</span>
+<span class="n">A_class</span> <span class="n">local_post</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+<span class="n">A_class</span> <span class="n">next_post</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">A_class</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"first point"</span><span class="p">,</span> <span class="n">local_post</span><span class="p">);</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"second point"</span><span class="p">,</span> <span class="n">next_post</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">local_post</span><span class="p">,</span> <span class="n">next_post</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The vector is (%d %d %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ret</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ret</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ret</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Or print with function(print) from c.h:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"After two array"</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>b.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include "b.h"
+</span><span class="cm">/* 配合b.h，*/</span>
+<span class="n">A_class</span> <span class="nf">function</span><span class="p">(</span><span class="n">A_class</span> <span class="n">first</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">next</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">A_class</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">ret</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">next</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">first</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+	<span class="n">ret</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">next</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">first</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+	<span class="n">ret</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">next</span><span class="p">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">first</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>b.h:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __B_H
+#define __B_H
+</span>
+<span class="cp">#if 1
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">A_class</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="k">extern</span> <span class="n">A_class</span> <span class="n">local_post</span><span class="p">;</span> <span class="cm">/* 外部结构体声明*/</span>
+<span class="k">extern</span> <span class="n">A_class</span> <span class="n">function</span><span class="p">(</span><span class="n">A_class</span> <span class="n">x</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">y</span><span class="p">);</span> <span class="cm">/* 接口函数声明*/</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+<p>c.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include "b.h"
+</span>
+<span class="kt">int</span> <span class="nf">print</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">post</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s: (%d, %d, %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">post</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">post</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">post</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>c.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef __C_H
+#define __C_H
+</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="n">print</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">,</span> <span class="n">A_class</span> <span class="n">post</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+<p>之所以还贴这么多代码，主要是觉得这个例子在内核中大量存在。除了extern关键字外，还有预定义符号，多复习。</p>
+
+<p>#4 用extern声明函数
+记住两点：</p>
+
+<ol>
+  <li>
+    <p>定义函数时，需要声明函数值返回值为extern，表示这个函数是外部函数，可以供外部文件使用。</p>
+  </li>
+  <li>
+    <p>调用函数事，也要使用<code class="highlighter-rouge">extern</code>关键字。</p>
+  </li>
+</ol>
+
+<p>代码就先不贴了。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/10/c_extern/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/07/nftables_howto/">nftables简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-07
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#nft" title="Category: nft" rel="category">nft</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="howtos">howtos</h1>
+<h2 id="install">install</h2>
+
+<p>First :</p>
+
+<h1 id="needed-libraries">Needed libraries</h1>
+<p>libmnl:
+libnftnl
+libmnl: git://git.netfilter.org/libmnl
+libnftnl: git://git.netfilter.org/libnftnl</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./autogen.sh
+./configure
+make
+make <span class="nb">install
+</span>ldconfig
+</code></pre></div></div>
+
+<p>If you have error as below:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./configure: line 3960: syntax error near unexpected token <span class="sb">`</span>LIBMNL,<span class="s1">'
+./configure: line 3960: `PKG_CHECK_MODULES(LIBMNL, libmnl &gt;= 1.0.0)'</span>
+</code></pre></div></div>
+
+<p>please refer to here:</p>
+
+<p>http://blog.anarey.info/2014/08/pkg_check_moduleslibmnl-libmnl-1-0-0-error/</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/07/nftables_howto/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/06/how_to_get_started_with_libvirt_on_debian/">用libvirt安装debian</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>这篇文章主要聚焦于debian系统，其他的linux发行版的用法应该是一致的。</p>
+
+<h1 id="setup">Setup</h1>
+<p>You start by installing the needed tools, So, on my debian:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>libvirt-dev virtinst libvirt-daemon libvirt-daemon-system
+</code></pre></div></div>
+<p>如果没有找到相应的软件包，你可以尝试一下<code class="highlighter-rouge">apt-cache</code>命令。
+(If you cant found these softwares, you can try it : apt-cache)
+系统提示你缺少什么软件就安装什么软件。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-cache search libvirt
+</code></pre></div></div>
+<p>你还可以使用通配符进行模糊查找。
+(You can fuzzy search with wildcard)</p>
+
+<p>Then you got a <code class="highlighter-rouge">libvirtd</code> process running on your machine:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>ps u <span class="nt">-C</span> libvirtd
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root     4470  1.4  0.7 787416 30212 ?        Ssl  20:38   0:00 /usr/sbin/libvi
+
+</code></pre></div></div>
+
+<p>The role of <code class="highlighter-rouge">libvirtd</code> is quite important. It takes care of managing the VMSrunning on your host.You can control it with command <code class="highlighter-rouge">virsh</code>.</p>
+
+<h1 id="first-few-steps-with-libvirt">First few steps with libvirt</h1>
+
+<p>Before anything else, you should know that libvirt and <code class="highlighter-rouge">virsh</code> not only allow you to control VMs running on your own system, but can control VMs running on the remote systems or a cluster of physical machines. Every time you use <code class="highlighter-rouge">virsh</code>, With qemu,you need type it looks like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu://xxx/system
+qemu://xxx/session
+</code></pre></div></div>
+
+<p>I will introduce more details about virsh in another post,now i am focus on the libvirt-vms.</p>
+
+<h1 id="managing-system-vms">Managing system VMS</h1>
+
+<p>Here, <code class="highlighter-rouge">libvirtd</code> is listening the command send to <code class="highlighter-rouge">/var/run/libvirt</code>,so you may add a credential user for libvirt, and you have opportunity to write socket, which needs a user to belong to the <code class="highlighter-rouge">libvirt</code> group.</p>
+
+<p>If you edit <code class="highlighter-rouge">/etc/libvirt/libvirtd.conf</code>, you can configure libvirt to wait for a commands using a variety of different mechanisms, including for example SSL encrypted TCP sockets.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>usermod <span class="nt">-a</span> <span class="nt">-G</span> libvirt yubo
+
+</code></pre></div></div>
+
+<p>Add my user name into libvirt group.</p>
+
+<h1 id="defining-a-network">Defining a network</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system net-list
+ Name                 State      Autostart     Persistent
+ <span class="nt">----------------------------------------------------------</span>
+</code></pre></div></div>
+<p>This means that there are no active virtual networks, Try one more time adding <code class="highlighter-rouge">--all</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system net-list <span class="nt">--all</span>
+ Name                 State      Autostart     Persistent
+ <span class="nt">----------------------------------------------------------</span>
+  default              inactive   no            <span class="nb">yes</span>
+
+</code></pre></div></div>
+
+<h4 id="note">note</h4>
+
+<p>Now your network’s is <code class="highlighter-rouge">default</code>.</p>
+
+<p>And notice the default network, If you want to inspect or change the configure file of the network, you can use either <code class="highlighter-rouge">net-dumpxml</code> or <code class="highlighter-rouge">net-edit</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+h <span class="nt">-c</span> qemu:///system net-dumpxml default
+&lt;network&gt;
+  &lt;name&gt;default&lt;/name&gt;
+  &lt;uuid&gt;e46e2c1b-5263-4428-b8fc-bfa4805a2ebc&lt;/uuid&gt;
+  &lt;forward <span class="nv">mode</span><span class="o">=</span><span class="s1">'nat'</span>/&gt;
+  &lt;bridge <span class="nv">name</span><span class="o">=</span><span class="s1">'virbr0'</span> <span class="nv">stp</span><span class="o">=</span><span class="s1">'on'</span> <span class="nv">delay</span><span class="o">=</span><span class="s1">'0'</span>/&gt;
+  &lt;mac <span class="nv">address</span><span class="o">=</span><span class="s1">'52:54:00:34:36:d3'</span>/&gt;
+  &lt;ip <span class="nv">address</span><span class="o">=</span><span class="s1">'192.168.122.1'</span> <span class="nv">netmask</span><span class="o">=</span><span class="s1">'255.255.255.0'</span><span class="o">&gt;</span>
+	&lt;dhcp&gt;
+	  &lt;range <span class="nv">start</span><span class="o">=</span><span class="s1">'192.168.122.2'</span> <span class="nv">end</span><span class="o">=</span><span class="s1">'192.168.122.254'</span>/&gt;
+	&lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre></div></div>
+
+<p>I guess you could understand what is meaning above.Now your VM bridge name is virbbr0…</p>
+
+<p>You can configure networking in many different ways, with nat, with bridging,with simple gateway fowarding… You can find all parameters <a href="http://libvirt.org/formatnetwork.html">on the page</a>.</p>
+
+<p>And you can change the definition by using <code class="highlighter-rouge">net-edit</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net-undefine default <span class="c"># forever eliminate the default network</span>
+net-define file.xml <span class="c">#to define a new network starting from an .xml file</span>
+<span class="c">#you can</span>
+virsh ... net-dumpxml default <span class="o">&gt;</span> file.xml
+<span class="k">then </span>edit and <span class="k">then
+</span>virsh ... net-define file.xml
+</code></pre></div></div>
+
+<h1 id="starting-and-stopping-networks">Starting and stopping networks</h1>
+
+<p><code class="highlighter-rouge">net-start default</code>, to start the named <code class="highlighter-rouge">default</code> network
+<code class="highlighter-rouge">net-destory default</code>, to stop the named <code class="highlighter-rouge">default</code>network,with the ability of starting it again in the future.</p>
+
+<p><code class="highlighter-rouge">net-autostart default</code>, to automatically start the default network at boot.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system net-start default
+Network default started
+
+yubo@debian:~/git<span class="nv">$ </span>ps aux | <span class="nb">grep </span>libvirt
+
+root      4470  0.0  0.7 1377240 30292 ?     Ssl  20:38   0:00 /usr/sbi..
+nobody    5155  0.0  0.0  52228   408 ?     S    21:40   0:00 /usr/sb..
+root      5156  0.0  0.0  52200   408 ?  S   21:40   0:00 /usr/sbin/dnsmasq
+<span class="nt">----------------</span>
+yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>netstat <span class="nt">-nulp</span>
+Active Internet connections <span class="o">(</span>only servers<span class="o">)</span>
+Proto Recv-Q Send-Q Local Address  Foreign Address State  PID/Program name
+udp   0       0    192.168.122.1:53      0.0.0.0:<span class="k">*</span>         5155/dnsmasq
+udp  0        0     0.0.0.0:67           0.0.0.0:<span class="k">*</span>          5155/dnsmasq
+<span class="nt">-----------------</span>
+yubo@debian:~/git<span class="nv">$ </span><span class="nb">sudo </span>netstat <span class="nt">-ntlp</span>
+Active Internet connections <span class="o">(</span>only servers<span class="o">)</span>
+Proto Recv-Q Send-Q Local Address Foreign Address  State PID/Program name
+tcp   0      0      192.168.122.1:53   0.0.0.0:<span class="k">*</span>   LISTEN     5155/dnsmasq
+tcp   0      0       0.0.0.0:22        0.0.0.0:<span class="k">*</span>   LISTEN      546/sshd
+
+</code></pre></div></div>
+
+<p>libvirt started <code class="highlighter-rouge">dnsmasq</code>, which is a simple dhcp server with ability to also provide DNS.So you can try:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/git<span class="nv">$ </span>ip address show
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    <span class="nb">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+    valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+    valid_lft forever preferred_lft forever
+2: enp1s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast
+state UP group default qlen 1000
+      <span class="nb">link</span>/ether 94:c6:91:04:e6:91 brd ff:ff:ff:ff:ff:ff
+      inet 222.195.244.235/24 brd 222.195.244.255 scope global dynamic
+      enp1s0
+      valid_lft 2670sec preferred_lft 2670sec
+     inet6 fe80::96c6:91ff:fe04:e691/64 scope <span class="nb">link
+	            </span>valid_lft forever preferred_lft forever
+3: virbr0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue
+state DOWN group default qlen 1000
+   <span class="nb">link</span>/ether 52:54:00:34:36:d3 brd ff:ff:ff:ff:ff:ff
+   inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+   valid_lft forever preferred_lft forever
+4: virbr0-nic: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast master
+virbr0 state DOWN group default qlen 1000
+   <span class="nb">link</span>/ether 52:54:00:34:36:d3 brd ff:ff:ff:ff:ff:ff
+</code></pre></div></div>
+
+<p>you can use iptables to see what happened:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>iptables <span class="nt">-nvL</span>
+<span class="o">&amp;&amp;</span>
+<span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-nvL</span>
+
+</code></pre></div></div>
+
+<h1 id="managing-storage">Managing storage</h1>
+
+<p>Now we have a network running for our VMs,we need to worry about storage.This is similar to lvm, On this post, i just dedicated a directory  to storing images and volums.</p>
+
+<p>But, you should mdkir needed dir with</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /opt/kvms/pools/devel
+</code></pre></div></div>
+<p>and try it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system <span class="se">\</span>
+		<span class="o">&gt;</span> pool-define-as devel <span class="se">\</span>
+		<span class="o">&gt;</span> <span class="nb">dir</span> <span class="nt">--target</span> /opt/kvms/pools/devel
+		Pool devel defined
+
+</code></pre></div></div>
+
+<p>Here, we create a pool called devel in a directory , we can see this pool with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-list <span class="nt">--all</span>
+ Name                 State      Autostart
+ <span class="nt">-------------------------------------------</span>
+  devel                inactive   no
+
+</code></pre></div></div>
+<p><code class="highlighter-rouge">--all</code> as before, now we need to start it automatically with command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-autostart devel
+Pool devel marked as autostarted
+
+</code></pre></div></div>
+<p>and start it with(must):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-start devel
+</code></pre></div></div>
+
+<p>And you can see it again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system pool-list <span class="nt">--all</span>
+ Name                 State      Autostart
+ <span class="nt">-------------------------------------------</span>
+  devel                active     <span class="nb">yes</span>
+
+</code></pre></div></div>
+<p>To create and manage volumes, you can use <code class="highlighter-rouge">vol-create</code>,<code class="highlighter-rouge">vol-delete</code>,<code class="highlighter-rouge">vol-resize</code>,all the <code class="highlighter-rouge">vol-*</code> can be used.</p>
+
+<p>For examole:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virsh <span class="nt">-c</span> qemu:///system vol-list devel
+ Name                 Path
+ <span class="nt">------------------------------------------------------</span>
+
+</code></pre></div></div>
+
+<h1 id="installing-a-virtual-machine">Installing a virtual machine</h1>
+
+<p>With <code class="highlighter-rouge">virt-install</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span>virt-install <span class="nt">-n</span> debian-9 <span class="nt">--ram</span> 2048 <span class="nt">--vcpus</span><span class="o">=</span>2 <span class="se">\</span>
+<span class="nt">--cpu</span><span class="o">=</span>host <span class="nt">-c</span> ~/software/debian-9.1.0-amd64-xfce-CD-1.iso <span class="se">\</span>
+<span class="nt">--os-type</span><span class="o">=</span>linux <span class="nt">--os-variant</span><span class="o">=</span>debian <span class="se">\</span>
+<span class="nt">--disk</span><span class="o">=</span><span class="nv">pool</span><span class="o">=</span>devel,size<span class="o">=</span>10,format<span class="o">=</span>qcow2 <span class="se">\</span>
+<span class="nt">-w</span> <span class="nv">network</span><span class="o">=</span>default <span class="nt">--graphics</span><span class="o">=</span>vnc
+</code></pre></div></div>
+
+<p>You must use <code class="highlighter-rouge">sudo</code> command to execute the command,next, you will enter into linux’s installing procession.</p>
+
+<p><code class="highlighter-rouge">-n</code> just a name.</p>
+
+<p><code class="highlighter-rouge">-c</code> is your debian-iso where it is located. Remember here, you just define a pool named devel, however, you not have ‘create it’</p>
+
+<p><code class="highlighter-rouge">--disk=pool=devel,size=10,format=qcow2</code> means it have 10GB space disk to support your VMs.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/06/how_to_get_started_with_libvirt_on_debian/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/05/linux_automake_usage/">linux的automake使用方法-未完</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-05
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#make" title="Category: make" rel="category">make</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="http://www.aftermath.cn/Makefile.html">这篇</a>简单的介绍下了Makefile文件，但是如果你自己独自写一个完整的Makefile，这多少有些不现实。在类unix下，有个automake的工具，这个就可以好好利用.</p>
+
+<h1 id="环境要求">环境要求</h1>
+
+<h3 id="autoconf">autoconf</h3>
+<p>在我的linux上，使用<em>autoconf  –version</em>就可以知道有没有安装这个软件了。</p>
+
+<h3 id="automake">automake</h3>
+<p>利用同样的测试方法。</p>
+
+<h1 id="大体思路">大体思路</h1>
+
+<p>先后建立三个文件：hello.c -&gt; configure.in -&gt; Makefile.am 然后依次执行</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aclocal <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> automake <span class="nt">--add-missing</span>  <span class="se">\</span>
+<span class="o">&amp;&amp;</span> ./configure <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> ./hello
+
+</code></pre></div></div>
+
+<p>如果是安装软件的话，在上面的make后面添加 *make imstall *即可。</p>
+
+<h1 id="详细步骤">详细步骤</h1>
+
+<ol>
+  <li>新建立一个hello.c的文就:</li>
+</ol>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"hello,world</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+
+<ol>
+  <li>生成configure
+使用autoscan生成configure.in的模板文件configure.scan</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# autoscan
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">ls
+</span>autoscan.log  configure.scan  hello.c
+
+</code></pre></div></div>
+<p>看到上面的命令中生成了一个configure.scan文件，这个就是configure.in的模板(但是，我怎么记得现在推荐为configure.ac)</p>
+
+<p>首先将configure.scan文件命名为configure.in(现在好像推荐使用configure.ac)</p>
+
+<p>然后修改几个内容：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv </span>configure.scan configure.in
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">cat </span>configure.in
+<span class="c">#                                               -*- Autoconf -*-</span>
+<span class="c"># Process this file with autoconf to produce a configure script.</span>
+
+AC_PREREQ<span class="o">([</span>2.69]<span class="o">)</span>
+AC_INIT<span class="o">(</span>hello.c<span class="o">)</span> <span class="c"># 修改</span>
+<span class="c">#AC_CONFIG_SRCDIR([hello.c]) #修改</span>
+AC_CONFIG_HEADERS<span class="o">([</span>config.h]<span class="o">)</span>
+AM_INIT_AUTOMAKE<span class="o">(</span>hello.c, 1.0<span class="o">)</span> <span class="c"># 修改</span>
+
+<span class="c"># Checks for programs.</span>
+AC_PROG_CC
+
+<span class="c"># Checks for libraries.</span>
+
+<span class="c"># Checks for header files.</span>
+
+<span class="c"># Checks for typedefs, structures, and compiler characteristics.</span>
+
+<span class="c"># Checks for library functions.</span>
+
+AC_OUTPUT<span class="o">(</span>Makefile<span class="o">)</span> <span class="c">#修改</span>
+</code></pre></div></div>
+
+<p>上面的文件中，以AC开头的宏来自autoconf, 以AM开头的automake,这些宏都是用M4语言写成的。</p>
+
+<p>autoconf是用来生成自动配置软件源代码脚本(configure)的工具，它是非常独立地，不需要用户的干预。</p>
+
+<p>autoconf命令来处理configure.ac/configure.in文件，生成一个configure文件，生成的configure文件是一个可以移植的shell脚本，来决定哪些库是可以用的、所用的平台有哪些特征、哪些头文件和库已经找到等等，然后将收集到的这些信息，编译成标记，生成一个Makefile,同时生成一个包含已定义的预处理符号的config.h。</p>
+
+<p>要生成<em>configure</em>文件， 你必须告诉autoconf如何找到你所用的宏，方式是使用aclocal程序来生成你的aclocal.m4</p>
+
+<p>aclocal文件根据configure.in文件的内容，自动生成aclocal.m4文件，　aclocal根据configure.in文件的内容，自动生成aclocal.m4文件。aclocal是一个perl 脚本程序，它的定义是：“aclocal - create aclocal.m4 by scanning configure.ac”。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# aclocal
+aclocal: warning: autoconf input should be named <span class="s1">'configure.ac'</span>, not <span class="s1">'configure.in'</span>
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">ls
+</span>aclocal.m4  autom4te.cache  autoscan.log  configure.in	hello.c
+root@yubo-2:/home/yubo/test/makefile# autoconf
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">ls
+</span>aclocal.m4  autom4te.cache  autoscan.log  configure  configure.in  hello.c
+</code></pre></div></div>
+
+<p>m4是一个宏处理器。将输入拷贝到输出，同时将宏展开。宏可以是内嵌的，也可以是用户定义的。除了可以展开宏，m4还有一些内建的函数，用来引用文件，执行命令，整数运算，文本操作，循环等。m4既可以作为编译器的前端，也可以单独作为一个宏处理器。</p>
+
+<p>接下来就是新建Makefile.am文件了。automake会根据你写的Makefile.am自动生成Makefile.in文件的。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# <span class="nb">cat </span>Makefile.am
+<span class="nv">AUTOMAKE_OPTIONS</span><span class="o">=</span>foreign
+<span class="nv">bin_PROGRAMS</span><span class="o">=</span>hello
+<span class="nv">hello_SOURCES</span><span class="o">=</span>hello.c
+
+</code></pre></div></div>
+
+<h3 id="automake-1">automake</h3>
+
+<p>这个命令的主要功能就是从Makefile.am文件产生Makefile.in文件，</p>
+
+<p>一个典型的automake输入文件只是一系列变量的定义，从而产生Makefile.in文件。</p>
+
+<p>接下来运行命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>automake <span class="nt">--add-missing</span>
+</code></pre></div></div>
+
+<p>下面是我的显示台上的输出：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# automake <span class="nt">-add-missing</span>
+automake: error: unrecognized option <span class="s1">'-dd-missing'</span><span class="nb">.</span>
+automake: Try <span class="s1">'/usr/bin/automake --help'</span> <span class="k">for </span>more information.
+root@yubo-2:/home/yubo/test/makefile# automake <span class="nt">--add-missing</span>
+automake: warning: autoconf input should be named <span class="s1">'configure.ac'</span>, not <span class="s1">'configure.in'</span>
+configure.in:7: warning: AM_INIT_AUTOMAKE: two- and three-arguments forms are deprecated.  For more info, see:
+configure.in:7:
+http://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_005fINIT_005fAUTOMAKE-invocation
+configure.in:10: installing <span class="s1">'./compile'</span>
+configure.in:7: installing <span class="s1">'./install-sh'</span>
+configure.in:7: installing <span class="s1">'./missing'</span>
+configure.in:6: error: required file <span class="s1">'config.h.in'</span> not found
+Makefile.am: installing <span class="s1">'./depcomp'</span>
+automake: warning: autoconf input should be named <span class="s1">'configure.ac'</span>, not <span class="s1">'configure.in'</span>
+</code></pre></div></div>
+
+<p>再次声明，我在这篇教程里，不止一次提醒我有警告产生，而且意思非常明确，你可以试一试。我这里为了结果一致，暂时没有改正过来，需要大家的注意。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/05/linux_automake_usage/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/04/busybox_qemu_kernel/">qemu,busybox调试linux kernel</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-04
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="安装自己编译的内核">安装自己编译的内核</h1>
+
+<p>基本上这篇<a href="http://www.cnblogs.com/senix/archive/2013/02/21/2921221.html">文章</a>就够了。</p>
+
+<h3 id="1-安装busybox">1 安装busybox</h3>
+
+<p>下载busybox源码，进行安装。最好使用git，这样可以进行最新的跟踪。</p>
+
+<p>https://busybox.net/source.html</p>
+
+<p>配置busybox,你可以使用 <code class="highlighter-rouge">make menuconfig</code>命令。这里，有几点是需要我们注意的。</p>
+
+<p>因为Linux运行环境当中是不带动态库的，所以必须以静态方式来编译BusyBox。修改</p>
+
+<ol>
+  <li>
+    <p>Busybox Settings —&gt;
+  Build Options —&gt;
+      [*] Build BusyBox as a static binary(no shared libs)</p>
+  </li>
+  <li>
+    <p>CONFIG_DESKTOP=n</p>
+  </li>
+</ol>
+
+<p>不需要配置DESKTOP。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>这样安装完成后，在busybox目录下有个_install目录，这里面就是创造root fs的源代码。</p>
+
+<ol>
+  <li>建立initial ramdisk</li>
+</ol>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/04/busybox_qemu_kernel/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/03/linux_command_about_wireless/">linux关于无线的命令</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="1-首先确定你的无线网卡驱动">1. 首先确定你的无线网卡驱动</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lspci
+
+lspci | <span class="nb">grep</span> <span class="nt">-i</span> wireless
+
+lspci | egrep <span class="nt">-i</span> <span class="nt">--color</span> <span class="s1">'wifi|wlan|wireless'</span>
+
+</code></pre></div></div>
+
+<p>我的输出是</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>09:00.0 Network controller: Intel Corporation Centrino Wireless-N 105
+<span class="o">(</span>rev c4<span class="o">)</span>
+</code></pre></div></div>
+
+<p>请记住 <strong>09:00.0</strong>利用他你可以找到设备名或者驱动名。</p>
+
+<h1 id="2-找出无线网卡的驱动信息">2. 找出无线网卡的驱动信息</h1>
+
+<p>我的机子上的信息是：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/wireless_1.png" alt="wireless_1.png" /></p>
+
+<h1 id="3-禁用无线网络">3. 禁用无线网络</h1>
+
+<p><a href="https://www.cyberciti.biz/faq/linux-remove-wireless-networking-wifi-802-11-support-drivers/">Here</a></p>
+
+<h1 id="4-配置一个无线网络接口">4. 配置一个无线网络接口</h1>
+
+<p>iwconfig 命令是一个类似于ifconfig命令的无线命令，顾名思义，就是管理网络的。它维护了基本的无线信息，比如ssid, mode,channel,bit rates, power或者更多其他的东西。下面是展示wlan0接口：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/wireless_2.png" alt="wireless_2.png" /></p>
+
+<p>上面的图片展示了这些内容：</p>
+
+<ol>
+  <li>
+    <p>MAC 网络协议</p>
+  </li>
+  <li>
+    <p>ssid</p>
+  </li>
+  <li>
+    <p>The NWID</p>
+  </li>
+  <li>
+    <p>频率</p>
+  </li>
+  <li>
+    <p>接入点</p>
+  </li>
+  <li>
+    <p>比特率</p>
+  </li>
+  <li>
+    <p>电源管理 …</p>
+  </li>
+</ol>
+
+<h2 id="查看连接质量">查看连接质量</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span><span class="nb">sudo </span>iwconfig wlan0 | <span class="nb">grep</span> <span class="nt">-i</span> <span class="nt">--color</span> quality
+          Link <span class="nv">Quality</span><span class="o">=</span>64/70  Signal <span class="nv">level</span><span class="o">=</span><span class="nt">-46</span> dBm
+
+</code></pre></div></div>
+
+<h1 id="5-在屏幕上查看连接质量">5. 在屏幕上查看连接质量</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /proc/net/wireless
+</code></pre></div></div>
+
+<p><img src="http://yuzibo.qiniudn.com/wireless_3.png" alt="wireless_3.png" /></p>
+
+<h1 id="6-别忘了networkmanager">6. 别忘了Networkmanager</h1>
+
+<p>可惜的是，在debian的系统上，这个方法貌似不太好用，倒是在Ubuntu上使用的非常好，你可以直接新建一个（Shared）wifi热点。</p>
+
+<h1 id="7-wavemon">7. wavemon</h1>
+
+<p>算是一个神器了，字符图形界面的，可以试一试。安装完成后就可以直接运行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wavemon
+</code></pre></div></div>
+
+<p>命令即可。</p>
+
+<p>还有几个命令，暂时先写在这里，后来总结的记在这里。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/03/linux_command_about_wireless/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page6" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">7/36</span>
+          
+            <a href="/page8" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page34/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/10/30/DebianInstallFTP/">Debian 安装FTP</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-10-30
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="零">零</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>最近又想折腾 LFS，在debian系统上安装了个 VirtualBox,里面也安装了 linxu，突然想到要使用文件传输的功能，最直接的想到了 ftp ，这里简单把安装过程记录一下。
+首先，
+
+apt-get install vsftpd
+
+然后配置vsftpd
+
+vi /etc/vsftpd.conf
+
+打开后找到anonymous_enable=YES替换成 anonymous_enable=NO
+
+找到__local_enable=YES__, 将前面的#去掉
+找到 __Write_enable=NO__,将前面的#去掉，改成 YES
+
+在配置文件的最后一行加上__chroot_local_user=YES
+</code></pre></div></div>
+
+<h1 id="一">一</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>接下来创建用户组
+
+__groupadd ftp__
+
+创建用户
+
+__useradd -g ftp -d /xx/xx__
+
+后面的目录是指定用户登录到哪个目录
+
+然后输入密码两次
+
+__passwd user__    重启 vsftpd服务    __invoke-rc.d vsftpd restart__ # 实例
+
+只能下载的anonymous用户和能上传、下载的ftpuser用户
+登录都是进入/var/ftp目录，且无法离开该目录(被chroot）
+ftpuser可以在 /var/ftp/pub目录中建立目录和上传文件
+匿名用户下载限速50kb/s，ftpuser限速500kb/s。
+可联接的最多客户数为100,每ip可联接的最多客户数为5 ## /etc/vsftpd.conf
+</code></pre></div></div>
+<pre>
+# 接受匿名用户
+anonymous_enable=YES
+# 匿名用户login时不询问口令
+no_anon_password=YES
+# 接受本地用户
+local_enable=YES
+
+# 可以上传(全局控制).若想要匿名用户也可上传则需要设置anon_upload_enable=YES,若想要匿名用户可以建立目录则需要设置anon_mkdir_write_enable=YES.这里禁止匿名用户上传,所以不设置这两项.
+write_enable=YES
+# 本地用户上传文件的umask
+local_umask=022
+
+# 使用上传/下载日志,日志文件默认为/var/log/vsftpd.log,可以通过xferlog_file选项修改
+xferlog_enable=YES
+# 日志使用标准xferlog格式
+xferlog_std_format=YES
+
+# login时的欢迎信息
+ftpd_banner=Welcome to KingArthur's FTP service.
+# 设置的话将覆盖上面的ftpd_banner设置,用户login时将显示/etc/vsftpd/banner中的内容
+banner_file=/etc/vsftpd/banner
+# 为YES则进入目录时显示此目录下由message_file选项指定的文本文件(,默认为.message)的内容
+dirmessage_enable=YES
+# 本地用户login后所在目录,若没有设置此项,则本地用户login后将在他的home目录(/etc/passwd的第六个字段)中.匿名用户的对应选项是anon_root
+local_root=/var/ftp
+
+# 设置为YES则下面的控制有效
+chroot_list_enable=YES
+# 若为NO,则记录在chroot_list_file选项所指定的文件(默认是/etc/vsftpd.chroot_list)中的用户将被chroot在登录后所在目录中,无法离开.如果为YES,则所记录的用户将不被chroot.这里选择YES.
+chroot_local_user=YES
+
+# 若设置为YES则记录在userlist_file选项指定文件(默认是/etc/vsftpd.user_list)中的用户将无法login,并且将检察下面的userlist_deny选项
+userlist_enable=YES
+# 若为NO,则仅接受记录在userlist_file选项指定文件(默认是/etc/vsftpd.user_list)中的用户的login请求.若为YES则不接受这些用户的请求.
+userlist_deny=NO
+# 注意!!!vsftpd还要检察/etc/vsftpd.ftpusers文件,记录在这个文件中的用户将无法login!!
+# 服务器以standalong模式运行,这样可以进行下面的控制
+listen=YES
+# 匿名用户的传输比率(b/s)
+anon_max_rate=51200
+# 本地用户的传输比率(b/s)
+local_max_rate=512000
+# 可接受的最大client数目
+max_clients=100
+# 每个ip的最大client数目
+max_per_ip=5
+
+connect_from_port_20=YES
+tcp_wrappers=YES
+pam_service_name=vsftpd
+</pre>
+<p>下面是我的/etc/vsftpd.user_list</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ftpuser
+anonymous
+</code></pre></div></div>
+
+<p>/etc/vsftpd.ftpusers可以使用系统自带的文件 /etc/vsftpd.chroot_list内容为空</p>
+
+<h2 id="账号">账号</h2>
+
+<p>接着建立系统用户ftpuser,将他加入ftp组并将/etc/passwd中他的记录的最后一个字段改成/sbin/nologin(禁止本地登录). 设置/var/ftp的所有者和所有组为root,权限为755 设置/var/ftp/pub的所有者为root,所有组为ftp,权限为775</p>
+
+<p>如果需要使本地用户ftpput可以login,只需要将他加入/etc/vsftpd.user_list,要使他可以上传,只需将他加入ftp组. 接着我们可以在/var/ftp下的各个目录(包括/var/ftp)下建立.message文件,这样用户进入这个目录时vsftpd将显示. message的内容,你可以在这里面写上欢迎信息或者注意事项等等.另外可以编辑/etc/vsftpd/banner,建立login时的欢迎信息, 让你的ftp更加个性化.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/10/30/DebianInstallFTP/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/10/19/FreeDosAndDebianChangeFile/">在虚拟机中解决 FreeDos与宿主机文件交换的问题</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-10-19
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#FreeDos" title="Tag: FreeDos" rel="tag">FreeDos</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>最近在看于渊编写的«自己动手写操作系统»，里面编写基于 IA32的保护模式下 COM文件，于是乎下载FreeDos iso并在 VirtualBox 安装，其<a href="http://www.freedos.org/wiki/index.php/Main_Page">详细手册请参阅</a></p>
+
+<p><strong>使用网络</strong></p>
+
+<p>在活动界面下，键入 auto 打开	AUTOEXEC.BAT
+找到REM LH PCNTPK INT=0X60,将REM去掉，只剩下后面的其他</p>
+
+<p><strong>配置 FTP服务</strong></p>
+
+<p>`copy C:\FDOS\DOC\MTCP\SAMPLE.CFG C:\FDOS\MTCP.CFG</p>
+
+<p>edit C:\fdos\mtcp.cfg`</p>
+
+<p>激活以下选项</p>
+
+<p>`MTU 1472</p>
+
+<p>ftpsrv_password_file c:\fdos\ftppass.txt</p>
+
+<p>ftpsrv_log_file c:\fdos\ftpsrv.log</p>
+
+<p>FTPSRV_FILEBUFFER_SIZE 16</p>
+
+<p>FTPSRV_TCPBUFFER_SIZE 16</p>
+
+<p>FTPSRV_PACKETS_PER_POLL 2`</p>
+
+<p>然后创建FTP服务器的密码</p>
+
+<p><code class="highlighter-rouge">edit C:\fdos\ftppass.txt</code></p>
+
+<p>编写这个文件时应该按照以下格式
+ user  password [none] [any] all
+ 我的就是
+  xx   xx [none] [any] all</p>
+
+<p>顺便提一下;
+ 我的虚拟机里 FreeDos的ftp的端口是 21
+ 这里用的是NAT连接方式real ip is 10.0.2.15，
+并且这种方式在后来的 ftpsrv不可用，至于为什么我
+也是暂不得知。
+后来我改用 桥连 ftpsrv 居然可用，真是不可思议。
+后来的ip是 192.168.1.103,我第一次用 桥连 没有成功，当时是在
+CMCC-EDU的环境下开启的，后来我在实验室连接路由器可以，是不是和
+这个有关呢？</p>
+
+<p><strong>开始DHCP客户端</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>首先用auto打开
+然后去除"DHCP"前的REM。
+一般的ip地址就在 C:\fdos\mtcp.cfg中
+</code></pre></div></div>
+
+<p><strong>开始FTP服务</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ftpsrv
+然后在 宿主机 上就可以使用 ftp软件进行文件传输了。
+</code></pre></div></div>
+
+<p>本着够用即可的原则，就 freedos的文件交换先介绍到这。
+至于安装FreeDos，还是到官网上找帮助手册。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/10/19/FreeDosAndDebianChangeFile/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/10/18/IMeetMyLuck/">你的世界，我来了</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-10-18
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#mood" title="Category: mood" rel="category">mood</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#She" title="Tag: She" rel="tag">She</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>#你的世界，我来了
+我也惊恐，我怕自己给不了你的幸福。</p>
+
+<p>就是在这一天，我们牵手，共同吐露心声。我希望你能成为我的新娘…</p>
+
+<p>#11月22日
+不是我希望，关键是我有没有那能力，现在的我分文不值，唯有努力，去创造未来。
+#11月28日
+为了你，加油！<a href="http://music.163.com/#/song?id=144109">chunchun</a></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/10/18/IMeetMyLuck/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/10/16/MyOs/">我的操作系统</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-10-16
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#OS" title="Category: OS" rel="category">OS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>#终于成功了
+<img src="http://yuzibo.qiniudn.com/os-1.png" alt="有图有真相" /></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/10/16/MyOs/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/10/15/reblog/">再出发</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-10-15
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#mood" title="Category: mood" rel="category">mood</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#mood" title="Tag: mood" rel="tag">mood</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>##时隔三个月，重新开始写博客
+    时间回流三个月，那时的自己还信心满满的准备ACM，谁能想到现在的自己
+居然没有目标了
+    确切的讲，不是自己没有目标，而是自己过多参考了别人的意见。有句话说
+的好，20多岁的年龄，最不想成为的就是自己。
+    接下来的路，简单而又迷茫，我想走linux相关的技术路线，还有考研的想
+法，其实张老师对我已经很好了，走她的方向并做她的研究生。我自己也知道这
+是一个别人不曾拥有的机会，可是，你知道有个成语叫“一见钟情”吗？
+    大胆的追求你喜欢的…工作和爱情吧</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/10/15/reblog/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2014/10/15/DebianSolveTouchPad/">Debian解决触摸板无法使用的问题</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2014-10-15
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#debian" title="Category: debian" rel="category">debian</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="1问题描述">1.问题描述</h1>
+
+<p>自己使用Debian系统也已经很长时间了，触摸板是一直无法使用，感觉没什么大问题也就得过且过，最近发现触摸板上的单击键不太灵敏了，这才觉得这样下去不是办法，于是乎，google了一下，发现问题是如此的简单，在这里，分享给需要帮助的朋友。
+   	系统：	Debian Wheezy Xfce</p>
+<h1 id="2解决过程">2.解决过程</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.首先，保证安装了 synaptics驱动
+sudo apt-get install xserver-xorg-input-synaptics
+2.复制 /usr/share/X11/xorg.conf.d到 /etc/X11
+sudo cp -R /usr/share/X11/xorg.conf.d /etc/X11
+3.将原 /etc/X11/xorg.conf.d/10-evdev.conf配置文件中的 TouchPad相关的部分修改如下：
+Section "InputClass"
+	Identifier "evdev touchpad catchall"
+	MatchIsTouchpad "on"
+	MatchDevicePatch "/dev/input/event*"
+	Driver "synaptics"
+	Option "TapButton1" "1"
+	Option "TapButton2" "2"
+	Option "TapButton2" "3"
+EndSection
+</code></pre></div></div>
+
+<h1 id="3重启系统">3.重启系统</h1>
+
+<blockquote>
+  <p>reboot</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>这样就解决了困扰我很久的在 Debian Wheezy Xfce上触摸板无法使用的问题
+[参考原文](www.linuxdc.com/Linux/2013-07/87680.htm)
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2014/10/15/DebianSolveTouchPad/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page33" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">34/36</span>
+          
+            <a href="/page35" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

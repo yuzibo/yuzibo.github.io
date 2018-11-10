@@ -1,7 +1,7 @@
 ---
 title: "wireshark使用入门"
 category: network
-layout: article
+layout: post
 ---
 
 ### 快捷键

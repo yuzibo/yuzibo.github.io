@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python函数知识点</title>
+    <meta name="description" content="简介相信函数大家都比较熟悉了，这里就是简单的记录一点。def greet_user(username):	""" 显示简单语句"""	print("hello, " + username.title() + ".")greet_user('yubo')上面就是简单的一个函数原型和调用的方法。首先，python定义...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/14/python_function/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>python函数知识点</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-14
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="简介">简介</h1>
+<p>相信函数大家都比较熟悉了，这里就是简单的记录一点。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">greet_user</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+	<span class="s">""" 显示简单语句"""</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">"hello, "</span> <span class="o">+</span> <span class="n">username</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span> <span class="s">"."</span><span class="p">)</span>
+
+<span class="n">greet_user</span><span class="p">(</span><span class="s">'yubo'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>上面就是简单的一个函数原型和调用的方法。首先，python定义函数需要关键词<code class="highlighter-rouge">def</code>表明这是一个函数定义。后面紧接着是函数名称，括号里面是形参，你可以简单的理解为参数。参数就是你需要处理的数据，它可有可无，这个不是必须的。按照python的语法结构，这个语法块就是一个整体，不可分割。一般的函数还有返回值，这个函数显性没有返回值，但是它会向调用者打印一串字符串</p>
+
+<h3 id="传递参数">传递参数</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 默认值， 比如，上面的用法就是可以这样的:
+</span><span class="k">def</span> <span class="nf">greet_user</span><span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="s">'yubo'</span><span class="p">):</span>
+	<span class="o">...</span>
+
+<span class="c1"># 实参变成可选的,下面这个函数有三个参数，这样的话，你的形参不可缺少
+</span>
+<span class="k">def</span> <span class="nf">get_formatted</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">):</span>
+    <span class="s">""" 返回全名"""</span>
+    <span class="n">full_name</span> <span class="o">=</span> <span class="n">first_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">middle_name</span> <span class="o">+</span>  <span class="s">' '</span> <span class="o">+</span> <span class="n">last_name</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">full_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="n">get_formatted</span><span class="p">(</span><span class="s">'bo'</span><span class="p">,</span> <span class="s">'zi'</span><span class="p">,</span> <span class="s">'bo'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1">### 将参数用空值符表示出来，同时判断条件
+</span><span class="k">def</span> <span class="nf">get_formatted</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">middle_name</span> <span class="o">=</span> <span class="s">''</span><span class="p">):</span>
+     <span class="k">if</span> <span class="n">middle_name</span><span class="p">:</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">first_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">middle_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">last_name</span>
+     <span class="k">else</span><span class="p">:</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">first_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">last_name</span>
+     <span class="k">return</span> <span class="n">full_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+<span class="n">name_1</span> <span class="o">=</span> <span class="n">get_formatted</span><span class="p">(</span><span class="s">'Bo'</span><span class="p">,</span> <span class="s">'yu'</span><span class="p">)</span>
+<span class="n">name_2</span> <span class="o">=</span> <span class="n">get_formatted</span><span class="p">(</span><span class="s">'bo'</span><span class="p">,</span> <span class="s">'yu'</span><span class="p">,</span> <span class="s">'zi'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">name_1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">name_2</span><span class="p">)</span>
+<span class="c1"># 看下面的这个函数，有意思
+</span><span class="k">def</span> <span class="nf">get_formatted</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">):</span>
+    <span class="n">full_name</span> <span class="o">=</span> <span class="n">first_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">last_name</span>
+    <span class="k">return</span> <span class="n">full_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> Please input your name</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"enter 'q' to quit the exam:</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="n">f_name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"First name:"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f_name</span> <span class="o">==</span> <span class="s">'q'</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">l_name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"Last name:"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">l_name</span> <span class="o">==</span> <span class="s">'q'</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="n">formatted</span> <span class="o">=</span> <span class="n">get_formatted</span><span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">l_name</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
+
+<span class="c1"># 传递列表
+</span><span class="k">def</span> <span class="nf">greet_user</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Hello, "</span> <span class="o">+</span> <span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span> <span class="s">"!"</span><span class="p">)</span>
+
+<span class="n">name_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'yubo'</span><span class="p">,</span> <span class="s">'hechun'</span><span class="p">,</span><span class="s">'xiaoxiao'</span><span class="p">]</span>
+<span class="n">greet_user</span><span class="p">(</span><span class="n">name_list</span><span class="p">)</span>
+
+<span class="c1"># 在函数中修改列表
+</span><span class="k">def</span> <span class="nf">print_list</span><span class="p">(</span><span class="n">unprinted_designs</span><span class="p">,</span> <span class="n">complete_models</span><span class="p">):</span>
+    <span class="s">""" 模拟打印每个设计，直到没有未打印的设计为止"""</span>
+    <span class="k">while</span> <span class="n">unprinted_designs</span><span class="p">:</span>
+        <span class="n">current_design</span> <span class="o">=</span> <span class="n">unprinted_designs</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+        <span class="c1"># 模拟根据设计制作3D打印
+</span>        <span class="k">print</span><span class="p">(</span><span class="s">"Printing model: "</span> <span class="o">+</span> <span class="n">current_design</span><span class="p">)</span>
+        <span class="n">complete_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_design</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">show_list</span><span class="p">(</span><span class="n">complete_models</span><span class="p">):</span>
+    <span class="s">""" 显示打印好的模型"""</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> The following models have been printed"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">complete_model</span> <span class="ow">in</span> <span class="n">complete_models</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">complete_model</span><span class="p">)</span>
+
+<span class="n">unprinted_designs</span> <span class="o">=</span> <span class="p">[</span><span class="s">'iphone'</span><span class="p">,</span> <span class="s">'robot'</span><span class="p">,</span> <span class="s">'winphone'</span><span class="p">]</span>
+
+<span class="n">complete_models</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">print_list</span><span class="p">(</span><span class="n">unprinted_designs</span><span class="p">,</span> <span class="n">complete_models</span><span class="p">)</span>
+<span class="n">show_list</span><span class="p">(</span><span class="n">complete_models</span><span class="p">)</span>
+
+<span class="c1"># 禁止函数修改列表，则要将列表的副本传递给函数,比如，上面的例子：
+</span><span class="n">print_list</span><span class="p">(</span><span class="n">unprinted_designs</span><span class="p">[:],</span> <span class="n">complete_models</span><span class="p">)</span>
+<span class="c1"># 不过，你除非有充足的理由这样做，否则这样会花时间和内存创建副本，
+#这样会影响效率
+</span>
+<span class="c1"># 向函数传递任意多的参数, 需要在形参名字前面加上星号(*)
+</span><span class="k">def</span> <span class="nf">make_pizza</span><span class="p">(</span><span class="o">*</span><span class="n">topping</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">topping</span><span class="p">)</span>
+<span class="s">""" 当然，实参位置还是需要注意的"""</span>
+<span class="n">make_pizza</span><span class="p">(</span><span class="s">'yubo'</span><span class="p">)</span>
+
+<span class="n">make_pizza</span><span class="p">(</span><span class="s">'hechun'</span><span class="p">,</span> <span class="s">'xiaoxiao'</span><span class="p">)</span>
+
+<span class="c1"># 使用任意数量的关键字实参
+</span><span class="k">def</span> <span class="nf">build_profile</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="o">**</span><span class="n">user_info</span><span class="p">):</span>
+    <span class="s">"""创建一个字典， 其中包含我们知道的一切"""</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">profile</span><span class="p">[</span><span class="s">'first_mane'</span><span class="p">]</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+    <span class="n">profile</span><span class="p">[</span><span class="s">'last_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">user_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">profile</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">profile</span>
+
+<span class="n">user_profile</span> <span class="o">=</span> <span class="n">build_profile</span><span class="p">(</span><span class="s">'bo'</span><span class="p">,</span> <span class="s">'yu'</span><span class="p">,</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="s">'Qingdao'</span><span class="p">,</span> <span class="n">phone</span> <span class="o">=</span> <span class="s">'123'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">user_profile</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/13/python_struct_operation/">python之列表、元组的基本操作</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/15/python_class/">python中类的用法</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page4/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/12/10/git_push_bi_accounts/">一台电脑绑定两个github账号</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-12-10
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><img src="http://yuzibo.qiniudn.com/截图_2018-01-09_13-15-15.png" alt="截图_2018-01-09_13-15-15.png" /></p>
+
+<p>在一台电脑上管理两个github账号，需要大家做以下步骤.</p>
+
+<h1 id="一生成两个ssh-key">一、生成两个SSH Key</h1>
+<p>比如说，你有一个126的邮箱和一个gmail邮箱，名字分别取x和y.在.ssh/目录下使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-C</span> <span class="s2">"x@126.com"</span>
+
+ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-C</span> <span class="s2">"y@gmail.com"</span>
+</code></pre></div></div>
+
+<p>在键入第一条命令的时候，不要一路回车，需要你重命名一下，可以直接以<em>id_rsa_x</em>和<em>id_rsa_y</em>来命令，第二个提示框可以按回车直接进行下一步。这样就会生成四个文件:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>id_rsa_x.pub      id_rsa_y.pub
+id_rsa_x          id_rsa_y
+</code></pre></div></div>
+<p>上面以*.pub结尾的文件需要你填入你的两个github上面的设置的<em>ssh key and gpg</em></p>
+
+<p><img src="http://yuzibo.qiniudn.com/2.png" alt="2.png" /></p>
+
+<p>单击上面的<em>New ssh Key</em>,把pub文件的内容填入对应的ssh的对应框。</p>
+
+<h1 id="二添加私钥">二、添加私钥</h1>
+
+<ol>
+  <li>打开ssh-agent</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-agent <span class="nt">-s</span>
+</code></pre></div></div>
+
+<ol>
+  <li>添加私钥</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-add ~/.ssh/id_rsa_x
+
+ssh-add ~/.ssh/id_rsa_y
+</code></pre></div></div>
+
+<h1 id="三创建config文件">三、创建config文件</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+	Host x.github.com
+	hostName github.com
+	PreferredAuthentications publickey
+
+	IdentityFile ~/.ssh/id_rsa_x
+
+	User x
+
+Host y.github.com
+HostName github.com
+User y
+IdentityFile ~/.ssh/id_rsa_y
+</code></pre></div></div>
+
+<h1 id="四远程测试">四、远程测试</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-T</span> x.github.com
+
+ssh <span class="nt">-T</span> y.github.com
+</code></pre></div></div>
+
+<h1 id="五克隆并设置git的配置文件">五、克隆并设置git的配置文件</h1>
+
+<p>将你的项目_clone_到本地，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:wahtever
+</code></pre></div></div>
+
+<p>还有一个重要的问题就是你的git配置文件大部分都设置为了全局文件，那么就要设置新的config文件，这是针对你的项目而言的。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 取消全局　用户名/邮箱　配置,下面的user.name是你的原来的真实名字</span>
+git config <span class="nt">--global</span> <span class="nt">--unset</span> user.name
+git config <span class="nt">--global</span> <span class="nt">--unset</span> user.email
+
+<span class="c">#为每个repo设置不同的　用户名/邮箱</span>
+git config user.email <span class="s2">"x@x.com"</span>
+git config user.name <span class="s2">"x"</span>
+</code></pre></div></div>
+
+<h1 id="重建origin">重建origin</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote <span class="nb">rm </span>origin
+git remote add origin git@ieit.github.com:whatever
+
+<span class="c"># 重新push</span>
+
+git push origin master
+</code></pre></div></div>
+
+<p>Enjoy!</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/12/10/git_push_bi_accounts/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/09/10/git-reset-push-commit/">git撤销已经push到远端的commit</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-09-10
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="question">question</h1>
+
+<p>If you have pushed commit into remote,how to reset it?
+Yes, from literly you know i means.</p>
+
+<h1 id="ways">ways</h1>
+
+<pre><code class="language-git">git reset --soft &lt;版本号&gt;
+</code></pre>
+
+<p>Notes: <code class="highlighter-rouge">--soft</code> rollback verison before, but it retains the modifies for the local work, then restart push it.</p>
+
+<p><code class="highlighter-rouge">--hard</code> discards the modify.</p>
+
+<pre><code class="language-git">git push origin &lt;branch-name&gt; --force
+</code></pre>
+
+<p>If you use the command without <code class="highlighter-rouge">--force</code>, it will reject.Forcing to over cover remote branch.</p>
+
+<p>Done.</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/09/10/git-reset-push-commit/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/08/03/wireshark-usage-introduction/">wireshark使用入门</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-08-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h3 id="快捷键">快捷键</h3>
+
+<p><a href="https://www.wireshark.org/docs/wsug_html_chunked/ChUseMainWindowSection.html">快捷键</a></p>
+
+<h3 id="the-menu">The Menu</h3>
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_1.png" alt="wireshark-usage-2018-03-16_1.png" />
+First, you have to understand it: in wireshark, the packet is very important concept.Above, items of menu have <code class="highlighter-rouge">File</code>,<code class="highlighter-rouge">Edit</code>, <code class="highlighter-rouge">View</code>, <code class="highlighter-rouge">Go</code>,<code class="highlighter-rouge">Capture</code>,<code class="highlighter-rouge">Analyze</code> and they use packets(born from TCP/IP) except <code class="highlighter-rouge">file</code>.</p>
+
+<h3 id="the-main-toolbar">The main toolbar</h3>
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_2.png.png" alt="wireshark-usage-2018-03-16_2.png.png" /></p>
+
+<h3 id="the-filter-menu">The filter menu</h3>
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_3.png" alt="wireshark-usage-2018-03-16_3.png" /></p>
+
+<h3 id="the-packet-list-pane">The “packet List” pane</h3>
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_4.png" alt="wireshark-usage-2018-03-16_4.png" />
+Each line in the packet list corresponds to one packet in the capture file, if you select  a line in this pane, more details will be displayed in the “packet pane” and “Packet Bytes” panes.</p>
+
+<p>The picture is very happy:
+<img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_5.png" alt="wireshark-usage-2018-03-16_5.png" /></p>
+
+<h3 id="the-packet-detailes--pane">The “packet detailes “ pane</h3>
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_6.png" alt="wireshark-usage-2018-03-16_6.png" />
+…</p>
+
+<h1 id="starting-capture">Starting Capture</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wireshark -i eth0 -k
+</code></pre></div></div>
+
+<p>This will start Wireshark capturing on interface eth0.</p>
+
+<p>Or you click “Capture” -&gt; “Options”, which short key is <code class="highlighter-rouge">ctrl + k</code>. You can add it and linux command <code class="highlighter-rouge">ifconfig</code> into to test.</p>
+
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_7.png" alt="wireshark-usage-2018-03-16_7.png" /></p>
+
+<p><img src="http://yuzibo.qiniudn.com/wireshark-usage-2018-03-16_8.png" alt="wireshark-usage-2018-03-16_8.png" /></p>
+
+<p>So, my eth0 is called ‘enp1s0’</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/08/03/wireshark-usage-introduction/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/08/03/kvms_add_swap/">linux扩充swap容量</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-08-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kvms" title="Category: kvms" rel="category">kvms</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>This is a new post and it is sister message for http://www.aftermath.cn/kvms-resize.html</p>
+
+<h1 id="how-to-add-swap-space">How to add Swap space</h1>
+<p>First, we can see if the filestsyem has any swap, you can type:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo swapon --show
+</code></pre></div></div>
+
+<p>If any thing does not display, this means your system does not have any swap space.</p>
+
+<p>You can verify there is no active swap using <code class="highlighter-rouge">free</code> utility:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free -h
+</code></pre></div></div>
+
+<p>total        used        free      shared  buff/cache   available
+Mem:           2.0G        105M        262M         11M        1.6G        1.7G
+Swap:            0B          0B          0B</p>
+
+<p>Via <code class="highlighter-rouge">df -h</code> to check disk space</p>
+
+<h1 id="create-a-swap-file">Create a swap file</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo fallocate -l 2G /swapfile
+</code></pre></div></div>
+
+<p>The program <code class="highlighter-rouge">fallocate</code> to create a file named <code class="highlighter-rouge">swapfile</code> in our (/) directory.</p>
+
+<p>Because we have a RAM is 1024MB, so we create a swapfile which space is 2G.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls -hl /swapfile
+</code></pre></div></div>
+
+<p>You can verify it now.</p>
+
+<h1 id="enable-the-swap-file">Enable the swap file</h1>
+
+<p>Now, we do not turn this into swap space.Make the file only accessible to <code class="highlighter-rouge">root</code> by typing:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo chmod 600 /swapfile
+</code></pre></div></div>
+
+<p>Next, type:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkswap /swapfile
+</code></pre></div></div>
+
+<p>Then, to start utilizing it:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo swapon /swapfile
+</code></pre></div></div>
+
+<p>So, we have finished it.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo df -h
+
+sudo free -h
+</code></pre></div></div>
+
+<h1 id="make-swap-permanent">Make swap permanent</h1>
+<p>Yes, it is in use on this start,you have to add it into <code class="highlighter-rouge">/etc/fstab</code>
+First, back up your <code class="highlighter-rouge">/etc/fstab</code>. Then,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+</code></pre></div></div>
+
+<h1 id="tweak-your-swap-setting">Tweak your swap setting</h1>
+<p>The <code class="highlighter-rouge">swappiness</code> parameter configures how often your system swaps data out of RAM to the space. This is a value between 0 ans 100 that represents a percentage.
+If you have a deskop machine, the <code class="highlighter-rouge">60</code> is ok, but for server, it is better 0.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /proc/sys/vm/swappiness
+</code></pre></div></div>
+
+<p>It will show on my machine:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>60
+</code></pre></div></div>
+
+<p>We can set the swappiness to a different value by using the <code class="highlighter-rouge">sysctl</code> command.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo sysctl.swappiness=10
+</code></pre></div></div>
+
+<p>If you want to it persent permenant , edit <code class="highlighter-rouge">/etc/sysvtl.conf</code> file to add:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vm.swappiness = 10
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/08/03/kvms_add_swap/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/08/02/kvms-resize/">虚拟机扩充容量</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-08-02
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kvms" title="Category: kvms" rel="category">kvms</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="一">一</h1>
+<p>好不容易使用libvirt库结合qemu把虚拟机装起来，但是没有想到在跑项目的时候居然dik　space 太小了，看来是自己当初安装虚拟机的时候把容量给小了，想办法在整回去呗.</p>
+
+<h1 id="二">二</h1>
+<p>首先声明，我使用的是qemu自带的qcow2文件格式，但是好像这个并不会影响的使用。现在，我的kvms已经扩充完毕，有些数据已经拿不到了，但是思路还在的，我可以使用我的笔记再一次演示一遍的.</p>
+
+<h1 id="步骤">步骤</h1>
+<p>我的pool文件定义在<code class="highlighter-rouge">/opt/kvms/pools/devel/debian-9.qcow2</code>,</p>
+
+<ol>
+  <li>
+    <p>stop your VM</p>
+  </li>
+  <li>
+    <p>Use <code class="highlighter-rouge">qemu-img resize /opt/kvms/pools/devel/debian-9.qcow2 +25G</code></p>
+  </li>
+  <li>
+    <p>Restart your VM</p>
+  </li>
+  <li>
+    <p>Adjust your VM LVM partition</p>
+  </li>
+</ol>
+
+<p>First, the result  below is updated,</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>fdisk <span class="nt">-l</span>
+ Disk /dev/vda: 55 GiB, 59055800320 bytes, 115343360 sectors
+ Units: sectors of 1 <span class="k">*</span> 512 <span class="o">=</span> 512 bytes
+ Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: 512 bytes / 512 bytes
+ I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: 512 bytes / 512 bytes
+ Disklabel <span class="nb">type</span>: dos
+ Disk identifier: 0x57a2ec91
+Device     Boot Start       End   Sectors Size Id Type
+/dev/vda1  <span class="k">*</span>     2048 115343359 115341312  55G 83 Linux
+
+</code></pre></div></div>
+
+<p>But you must know, my <code class="highlighter-rouge">/dev/vda1</code> is 10G size only,the 55G is result i resized it.</p>
+
+<p>Next we use the fdisk tool to temporarily <code class="highlighter-rouge">delete</code> partition <code class="highlighter-rouge">/dev/vda1</code>,then create it bigger.</p>
+
+<p>Here: section start 2048.</p>
+
+<p>In fact, The fdisk have detected the space is 55G, but my <code class="highlighter-rouge">/dev/vda1</code> is 10G only, because i dont’t resize the <code class="highlighter-rouge">/dev/vda1</code> filesystem.</p>
+
+<p>The process is:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># fdisk /dev/vda</span>
+
+Welcome to fdisk <span class="o">(</span>util-linux 2.27.1<span class="o">)</span><span class="nb">.</span>
+Changes will remain <span class="k">in </span>memory only, <span class="k">until </span>you decide to write them.
+Be careful before using the write command.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: d
+Selected partition 1
+Partition 1 has been deleted.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: n
+Partition <span class="nb">type
+   </span>p   primary <span class="o">(</span>0 primary, 0 extended, 4 free<span class="o">)</span>
+   e   extended <span class="o">(</span>container <span class="k">for </span>logical partitions<span class="o">)</span>
+Select <span class="o">(</span>default p<span class="o">)</span>: p
+Partition number <span class="o">(</span>1-4, default 1<span class="o">)</span>: 1
+First sector <span class="o">(</span>2048-62914559, default 2048<span class="o">)</span>: 2048
+Last sector, +sectors or +size<span class="o">{</span>K,M,G,T,P<span class="o">}</span> <span class="o">(</span>2048-62914559, default 62914559<span class="o">)</span>: <span class="o">[</span>ENTER <span class="k">for </span>default]
+
+Created a new partition 1 of <span class="nb">type</span> <span class="s1">'Linux'</span> and of size 30 GiB.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: t
+Selected partition 1
+Partition <span class="nb">type</span> <span class="o">(</span><span class="nb">type </span>L to list all types<span class="o">)</span>: 83
+Changed <span class="nb">type </span>of partition <span class="s1">'Linux'</span> to <span class="s1">'Linux'</span><span class="nb">.</span>
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: a
+Selected partition 1
+The bootable flag on partition 1 is enabled now.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: p
+Disk /dev/vda: 30 GiB, 32212254720 bytes, 62914560 sectors
+Units: sectors of 1 <span class="k">*</span> 512 <span class="o">=</span> 512 bytes
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: 512 bytes / 512 bytes
+I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: 512 bytes / 512 bytes
+Disklabel <span class="nb">type</span>: dos
+Disk identifier: 0x3ac5a058
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/vda1  <span class="k">*</span>     2048 62914559 62912512  30G 83 Linux
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: w
+The partition table has been altered.
+Calling ioctl<span class="o">()</span> to re-read partition table.
+Re-reading the partition table failed.: Device or resource busy
+
+The kernel still uses the old table. The new table will be used at the next reboot or after you run partprobe<span class="o">(</span>8<span class="o">)</span> or kpartx<span class="o">(</span>8<span class="o">)</span><span class="nb">.</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>First we enter <code class="highlighter-rouge">d</code> to delete a partition, As there is only one partition(/dev/vda1) it is automatically selected.</p>
+  </li>
+  <li>
+    <p>Next we create a new partioion</p>
+  </li>
+</ol>
+
+<p><code class="highlighter-rouge">n</code> to start the new partition function</p>
+
+<p><code class="highlighter-rouge">p</code> for a primary partition</p>
+
+<p><code class="highlighter-rouge">1</code> to create /dev/vda1</p>
+
+<p><code class="highlighter-rouge">2048</code> as our start sector</p>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">t</code> is to set partition type, then enter <code class="highlighter-rouge">83</code> to set it to linux.</p>
+  </li>
+  <li>
+    <p>To set the bootable, press <code class="highlighter-rouge">a</code> for the boot function and enter <code class="highlighter-rouge">1</code> if prompted for the partition number.</p>
+  </li>
+  <li>
+    <p>Enter <code class="highlighter-rouge">p</code> to print the new partition table.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">w</code> is write to the partition table.</p>
+  </li>
+</ol>
+
+<p>Ok, we have finished the partition　table.And you have noted the output, you have to use bash command to tell kerenl to load the new partition table.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>partprobe /dev/vda
+</code></pre></div></div>
+<p>If success there is no output.</p>
+
+<h1 id="at-last">At last</h1>
+
+<p>The last step is very important for the process, because you donnot resize /dev/vda1 filesystem.We have expanded the partition but the filesystem has not been expanded to fill it. How? <code class="highlighter-rouge">resize2fs</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resize2fs /dev/vda1
+</code></pre></div></div>
+
+<p>Hope it works!</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/08/02/kvms-resize/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/06/23/python_pygal/">python画表--pygal简介</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-06-23
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ac&amp;ref=tf_til&amp;ad_type=product_link&amp;tracking_id=vimerbf-20&amp;marketplace=amazon&amp;region=US&amp;placement=1593276036&amp;asins=1593276036&amp;linkId=f5eaeee62c358a4e99f19b434f682e82&amp;show_border=false&amp;link_opens_in_new_window=false&amp;price_color=333333&amp;title_color=0066C0&amp;bg_color=FFFFFF">
+    </iframe>
+
+<h1 id="install">install</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo pip install pygal
+</code></pre></div></div>
+
+<p>python可以画比较优美的图表，现在介绍一下pygal的简单用法，下面模拟一个掷骰子的游戏。</p>
+
+<p>code in die.py</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="k">class</span> <span class="nc">Die</span><span class="p">():</span>
+    <span class="s">""" a class of die(骰子)"""</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_sides</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="c1"># default a die have 6 sides
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">num_sides</span> <span class="o">=</span> <span class="n">num_sides</span>
+
+        <span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="s">""" return a random number between 1 and side"""</span>
+            <span class="k">return</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_sides</span><span class="p">)</span>
+</code></pre></div></div>
+<p>下面是实例化的代码： code in die_visual.py</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">die</span> <span class="kn">import</span> <span class="n">Die</span>
+
+<span class="n">die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">()</span>
+<span class="c1"># throw die, result in a list
+</span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">roll_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">die</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div></div>
+<p>上面的代码你应该知道怎么去运行吧？</p>
+
+<h3 id="分析结果">分析结果</h3>
+<p>很简单，就是简单的把１，２,,,６出现的频率分析一下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">--</span><span class="p">[</span><span class="n">snip</span><span class="p">]</span><span class="o">--</span>
+<span class="n">frequencier</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">die</span><span class="o">.</span><span class="n">num_sides</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">frequencier</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+<span class="o">--</span><span class="p">[</span><span class="n">snip</span><span class="p">]</span><span class="o">--</span>
+</code></pre></div></div>
+<p>这个思想和上面的没啥区别，关键有一点我不是很明白，为什么是从点数是从１到die.num_sides+1,直接到die.num_sides不行吗?不行，请看下面的代码:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">i</span>
+<span class="c1"># output: 1 2 3 4 5
+</span></code></pre></div></div>
+
+<p>原来是两端取一端的。</p>
+
+<h1 id="绘制直方图">绘制直方图</h1>
+<p>下面的才是今天的重点，</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">--</span><span class="p">[</span><span class="n">snip</span><span class="p">]</span><span class="o">--</span>
+<span class="c1"># 绘制直方图
+</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">pygal</span><span class="o">.</span><span class="n">Bar</span><span class="p">()</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">u"投掷1000次的结果"</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">x_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'1'</span><span class="p">,</span><span class="s">'2'</span><span class="p">,</span><span class="s">'3'</span><span class="p">,</span><span class="s">'4'</span><span class="p">,</span><span class="s">'5'</span><span class="p">,</span><span class="s">'6'</span><span class="p">]</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">x_title</span> <span class="o">=</span> <span class="s">u"结果"</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">y_title</span> <span class="o">=</span> <span class="s">u"结果的频率"</span>
+
+<span class="n">hist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'D6'</span><span class="p">,</span> <span class="n">frequencier</span><span class="p">)</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">render_to_file</span><span class="p">(</span><span class="s">'die_visual.svg'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>效果如下所示：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/pygal_1.png" alt="pygal_1.png" /></p>
+
+<p>下面就是画出两个骰子的分布图，代码只需做一个修改，为了不占用空间，请<a href="0https://github.com/yuzibo/linux-programming/tree/master/python/python_crash/visual">参考</a></p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/06/23/python_pygal/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page3" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">4/36</span>
+          
+            <a href="/page5" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

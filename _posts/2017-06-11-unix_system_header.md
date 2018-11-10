@@ -1,7 +1,7 @@
 ---
 title: "unix中系统头文件的位置(sys/socket.h)"
 category: c
-layout: article
+layout: post
 ---
 
 #1 普通文件

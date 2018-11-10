@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "linux开发版本追踪"
 category: kernel 
 ---

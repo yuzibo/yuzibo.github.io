@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page11/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/18/linux_process_wait_and_exit/">unix中关于进程之wait的认识</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-18
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>这篇文章介绍wait和exit的知识。</p>
+
+<p>*<a href="#1">1.wait</a></p>
+
+<p>*<a href="#1.1">1.1实例</a></p>
+
+<p>*<a href="#1.2">1.2通信</a></p>
+
+<p>*<a href="#2">2.exit</a></p>
+
+<p>*<a href="#2.1">2.1实例</a></p>
+
+<h2 id="1">1.wait</h2>
+
+<p>系统调用wait做两件事，首先，wait暂停调用它的进程，直到子进程结束，然后，wait取得子进程结束时传递给exit的值。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+
+<span class="cp">#define DELAY 2
+</span>
+<span class="kt">void</span> <span class="n">child_code</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="n">parent_code</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">newpid</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Before: mypid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">newpid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"fork"</span><span class="p">);</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">newpid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">child_code</span><span class="p">(</span><span class="n">DELAY</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">parent_code</span><span class="p">(</span><span class="n">newpid</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">child_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">delay</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child %d here, will sleep for %d seconds</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">(),</span> <span class="n">delay</span><span class="p">);</span>
+	<span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child done ,about to exit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">17</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">parent_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">childpid</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">wait_rec</span><span class="p">;</span> <span class="cm">/* return value from wait() */</span>
+	<span class="n">wait_rec</span> <span class="o">=</span> <span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"done waiting for %d. Wait returned: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">childpid</span><span class="p">,</span> <span class="n">wait_rec</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>注意这个wait，返回了子进程的某个值。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix<span class="nv">$ </span>./test
+Before: mypid is 21708
+child 21709 here, will <span class="nb">sleep </span><span class="k">for </span>2 seconds
+child <span class="k">done</span> ,about to <span class="nb">exit
+</span><span class="k">done </span>waiting <span class="k">for </span>21709. Wait returned: 21709
+yubo@debian:~/test/tmp/unix<span class="err">$</span>
+</code></pre></div></div>
+
+<h2 id="1.2">通信</h2>
+
+<p>wait的目的之一就是通知父进程子进程结束运行了，第二个目的是告诉父进程子进程是如何结束的。</p>
+
+<p>一个进程以（成功、失败或死亡）之一来结束运行了。通常情况下，成功的程序调用exit（0）退出或者从main函数中return 0。</p>
+
+<p>一个进程有可能内存不足导致执行失败，这个时候，unix的编程标准是给exit一个非0
+的值，这样你就告诉程序员这个程序是由于何种的原因导致失败的。</p>
+
+<p>最后一种就是进程有可能被被别的信号杀死。</p>
+
+<p>wait返回结束的子进程的pid给父进程，父进程是如何知道子进程是以何种的方式退出的呢？</p>
+
+<p>答案是传递给wait的参数之中。这个整型变量的地址传递给函数，由3部分构成–8位记录退出值，7位记录信号序号，还有一位是标识位：产生了内核镜像(code dump).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="cp">#define DELAY 5
+</span>
+
+<span class="kt">void</span> <span class="n">child_code</span><span class="p">(</span><span class="kt">int</span> <span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">parent_code</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">newpid</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Before, mypid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">newpid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"fork"</span><span class="p">);</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">newpid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">child_code</span><span class="p">(</span><span class="n">DELAY</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">parent_code</span><span class="p">(</span><span class="n">newpid</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">child_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">delay</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child %d here,will sleep for %d seconds</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">delay</span><span class="p">);</span>
+
+	<span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child done, about to exit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="n">exit</span><span class="p">(</span><span class="mi">17</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">parent_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">childpid</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">wait_rv</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">child_status</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">high_8</span><span class="p">,</span> <span class="n">low_7</span><span class="p">,</span> <span class="n">bit_7</span><span class="p">;</span>
+
+	<span class="n">wait_rv</span> <span class="o">=</span> <span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child_status</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"done waiting for %d,Wait returned: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">childpid</span><span class="p">,</span> <span class="n">wait_rv</span><span class="p">);</span>
+	<span class="n">high_8</span> <span class="o">=</span> <span class="n">child_status</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">;</span> <span class="cm">/** 1111 1111 0000 0000 */</span>
+	<span class="n">low_7</span> <span class="o">=</span> <span class="n">child_status</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">;</span> <span class="cm">/* 0000 0000 0111 1111 */</span>
+	<span class="n">bit_7</span> <span class="o">=</span> <span class="n">child_status</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">;</span> <span class="cm">/* 0000 0000 1000 0000 */</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"status: exit  = %d, sig = %d, core = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">high_8</span><span class="p">,</span> <span class="n">low_7</span><span class="p">,</span> <span class="n">bit_7</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>第一次运行可以有以下结果：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix<span class="nv">$ </span>./test
+Before, mypid is 7711
+child 7712 here,will <span class="nb">sleep </span><span class="k">for </span>5 seconds
+child <span class="k">done</span>, about to <span class="nb">exit
+</span><span class="k">done </span>waiting <span class="k">for </span>7712,Wait returned: 7712
+status: <span class="nb">exit</span>  <span class="o">=</span> 17, sig <span class="o">=</span> 0, core <span class="o">=</span> 0
+</code></pre></div></div>
+
+<p>这里大约会停顿5秒中的时间用来等待子进程。</p>
+
+<p>第二次运行时要注意，另开一个后台，当运行这个程序时，看到子进程的pid时，立即回到另一个终端，kill child-pid，这时候你再看看返回的结果。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix<span class="nv">$ </span>./test
+Before, mypid is 7768
+child 7769 here,will <span class="nb">sleep </span><span class="k">for </span>5 seconds
+<span class="k">done </span>waiting <span class="k">for </span>7769,Wait returned: 7769
+status: <span class="nb">exit</span>  <span class="o">=</span> 0, sig <span class="o">=</span> 15, core <span class="o">=</span> 0
+
+</code></pre></div></div>
+
+<p>你可以将程序中的DELAY的值设置的大一些。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/18/linux_process_wait_and_exit/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/17/udev_and_hotplug/">利用udev安装内核modules</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-17
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="http://www.aftermath.cn/udev_rules.html">上文</a>介绍了udev的编写，这篇文章就结合一个usb键盘，亲自测试udev的应用。</p>
+
+<h1 id="实验">实验</h1>
+
+<p>编写一个内核模块，当任何一个usb键盘插入时自动加载相应的模块并打印出相关的日志。</p>
+
+<p>这个实验的目的，就是让你熟悉udev对硬件的控制，我们知道，安装内核的模块后，才能利用硬件。传统的insmod module-name已经熟悉，现在就是udev的表现时刻了（用户空间工具，取决于你的发行版）</p>
+
+<h3 id="准备模块">准备模块</h3>
+<p>先写一个模块，关于usb键盘的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;linux/module.h&gt;
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/init.h&gt;
+#include &lt;linux/usb.h&gt;
+#include &lt;linux/usb/input.h&gt;
+#include &lt;linux/hid.h&gt;
+</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Bo YU&lt;tsu.yubo@gmail.com&gt;"</span><span class="p">);</span>
+
+<span class="n">MODULE_DESCRIPTION</span><span class="p">(</span><span class="s">"probe usb keyboard</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">usb_device_id</span> <span class="n">hello_id_table</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">{</span>
+		<span class="n">USB_INTERFACE_INFO</span><span class="p">(</span><span class="n">USB_INTERFACE_CLASS_HID</span><span class="p">,</span>
+		<span class="n">USB_INTERFACE_SUBCLASS_BOOT</span><span class="p">,</span>
+		<span class="n">USB_INTERFACE_PROTOCOL_KEYBOARD</span><span class="p">)</span>
+	<span class="p">},</span>
+		<span class="p">{</span> <span class="p">},</span> <span class="cm">/* Here are entry */</span>
+<span class="p">};</span>
+
+<span class="cm">/* 向内核注册 */</span>
+<span class="n">MODULE_DEVICE_TABLE</span><span class="p">(</span><span class="n">usb</span><span class="p">,</span> <span class="n">hello_id_table</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">hello_probe</span><span class="p">(</span><span class="k">struct</span> <span class="n">usb_interface</span> <span class="o">*</span><span class="n">interface</span><span class="p">,</span>
+		<span class="k">const</span> <span class="k">struct</span> <span class="n">usb_device_id</span> <span class="o">*</span><span class="n">id</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pr_info</span><span class="p">(</span><span class="s">"Hello, Module, Task 05: USB keyboard function called</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">hello_disconnect</span><span class="p">(</span><span class="k">struct</span> <span class="n">usb_interface</span> <span class="o">*</span><span class="n">interface</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pr_info</span><span class="p">(</span><span class="s">"Hello, Module, Task 05: USB keyboard disconnect function is called</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">usb_driver</span> <span class="n">hello_driver</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">name</span>  <span class="o">=</span> <span class="s">"hello_driver"</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">probe</span> <span class="o">=</span> <span class="n">hello_probe</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">disconnect</span> <span class="o">=</span> <span class="n">hello_disconnect</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">id_table</span>  <span class="o">=</span> <span class="n">hello_id_table</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">hello_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">pr_info</span><span class="p">(</span><span class="s">"Hello, module Task 05, hello, world!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">retval</span> <span class="o">=</span> <span class="n">usb_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hello_driver</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+		<span class="n">pr_info</span><span class="p">(</span><span class="s">"Hello, module task 05 .Register failed, Error number %d"</span><span class="p">,</span> <span class="n">retval</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__exit</span> <span class="nf">hello_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">usb_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hello_driver</span><span class="p">);</span>
+	<span class="n">pr_info</span><span class="p">(</span><span class="s">"Hello, Module task 05: Exit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">hello_init</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">hello_exit</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>相应的<a href="http://www.aftermath.cn/LinuxModuleProgram1.html">Makefile</a>，在链接的这篇文章，用Ctrl+f搜寻一下201702即可。</p>
+
+<p>为了使用udev，前提你的模块写的得正确，可以make &amp;&amp; insmod x.ko我这里是没有问题的。</p>
+
+<p>接下来，就是编写udev了。</p>
+
+<h3 id="编写udev">编写udev</h3>
+
+<p>首先使用命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo udevadm info --name=/dev/input/by-id/usb-Chicony_HP_Elite_USB_Keyboard-event-kbd --attribute-walk
+</code></pre></div></div>
+
+<p>这是我的usb键盘的名字，费了很大的劲才找到，by-id目录后才是键盘名字，–attribute–walk是参数。如果你也找不到你要插入的设备，就先dmesg一下，然后插入你的硬件，再dmesg一下，你就会发现你的硬件信息。</p>
+
+<p>这是我的信息：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/udev-3.png" alt="udev-3.png" /></p>
+
+<p>这个系统信息很全，将这个设备的所有相关的硬件表示出来了。KERNEL、SUBSYSTEM等需要的字眼已经全出来了。接下来就是编写udev的规则了。</p>
+
+<p>你可以将规则文件放在/lib/udev/rules.d/目录下也可以放在/etc/udev/rules.d/目录下，为了方便自己的管理，放在/etc目录下比较方便。</p>
+
+<p>怎么写呢，这样的：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SUBSYSTEM</span><span class="o">==</span><span class="s2">"input"</span>, SYMLINK+<span class="o">=</span><span class="s2">"task05"</span>, RUN+<span class="o">=</span><span class="s2">"/usr/bin/install.sh"</span>
+</code></pre></div></div>
+
+<p>规则文件的命名也是有规律的：<a href="http://hackaday.com/2009/09/18/how-to-write-udev-rules/">摘自</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iles should be named xx-descriptive-name.rules, the xx should be chosen first according to the following sequence points:
+
+&lt; 60  most user rules; if you want to prevent an assignment being overriden by default rules, use the := operator.
+
+these cannot access persistent information such as that from vol_id
+
+&lt; 70  rules that run helpers such as vol_id to populate the udev db
+
+&lt; 90  rules that run other programs (often using information in the udev db)
+
+&gt;=90  rules that should run last
+</code></pre></div></div>
+
+<p>现在的问题就是我的脚本运行问题，我测试了好几次，好像udev的执行脚本必须放在/bin的目录下，其他的则不行。</p>
+
+<p>/usr/bin/install.sh 的文件内容如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/sh</span>
+
+insmod /home/yubo/little/test/task05.ko
+</code></pre></div></div>
+
+<p>那么，在确认没有安装这个模块的前提下，依次这么做：</p>
+
+<p>插入键盘，dmesg如下：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/udev-4.png" alt="udev-4.png" /></p>
+
+<p>然后，拔掉键盘，</p>
+
+<p><img src="http://yuzibo.qiniudn.com/udev-5.png" alt="udev-5.png" /></p>
+
+<p>然后确保/test下的目录已经make生成可task05.ko这个文件，接着执行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /etc/init.d/udev restart
+</code></pre></div></div>
+
+<p>那么，插入文件后，dmesg后显示：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/udev-6.png" alt="udev-6.png" /></p>
+
+<p>也就是说，将task05这个模块插入了内核，但是，有不完善的地方，如果重复安装，则不行的。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/17/udev_and_hotplug/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/16/udev_rules/">udev的编写</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-16
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>这篇文章在分类的时候让我犹豫了一下，我想还是归到kernel的类别下。</p>
+
+<h1 id="udev是干什么的">udev是干什么的</h1>
+
+<p>在linux kernel 2.6中，内核引入了一种新的机制，该机制可以动态的监控/dev目录下
+的设备，原来的实现/dev的监控功能的 devfs被抛弃了。这篇文章也就是简单的记录下，详细的情况请参考这篇文章 <a href="http://www.reactivated.net/writing_udev_rules.html#testing">udev</a></p>
+
+<h1 id="基本概念">基本概念</h1>
+<p>在linux系统中，/dev目录是存储设备节点的，每一个设备节点都指向了一个设备，用户空间的应用程序可以使用这些设备节点来交互硬件设备，例如，X server 就是监听
+/dev/input/mice来反映鼠标的运动的。</p>
+
+<h3 id="udev">udev</h3>
+
+<p>devfs只是可以展示这些信息，无法提供一个合适的方法去修改这些问题，/udev的引入，就是解决这类问题的。解决的方法是根据用户向/sysfs提供的规则(rules),udev在
+/dev目录下产生对应的设备节点。</p>
+
+<h3 id="sysfs">sysfs</h3>
+
+<p>sysfs被内核使用，导出插入内核最基本的设备信息。udev就是根据这些信息来创造设备节点，sysfs被悬挂在/sys目录下。</p>
+
+<h2 id="udev的强大如下">udev的强大如下：</h2>
+
+<ol>
+  <li>
+    <p>重新命名一个设备节点</p>
+  </li>
+  <li>
+    <p>提供一个可代替或者不变的名字对于一个设备</p>
+  </li>
+  <li>
+    <p>由一个程序的输出结果就可以命名一个设备节点</p>
+  </li>
+  <li>
+    <p>改变一个设备节点的权限</p>
+  </li>
+  <li>
+    <p>启动一个脚本当一个设备节点被创造或者删除时</p>
+  </li>
+  <li>
+    <p>重命名一个网络接口</p>
+  </li>
+</ol>
+
+<p>提供一种不因设备变换、设备节点而变化的机制，具有很重要的作用。具体来讲，就是让用户可以辨认出自己需要的设备。下面是我的笔记本中存储设备的节点(没有插U盘),注意我使用的命令：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/udev-1.png" alt="udev-1.png" /></p>
+
+<p>下面这幅图片是我插入一个U盘的显示：注意中间的usb-genereic-</p>
+
+<p><img src="http://yuzibo.qiniudn.com/udev-2.png" alt="udev-2.png" /></p>
+
+<p>由此可以看出，同一个设备有两个不同的名称？我的u盘正好是两个分区，ata-st500是我的硬盘。</p>
+
+<h1 id="写规则文件">写规则文件</h1>
+<p>决定如何命名一个设备并且如何表现，这些就是规则文件的任务了。在udev中，这些文件保存在/etc/udev/rules.d/目录下，并且所有的文件以.rules后缀结尾。</p>
+
+<p>在这个目录下的文件，udev以一定的规则解析规则文件，所以，如果你想使你的规则文件代替默认的规则文件，则最好使你的规则文件置于前面。</p>
+
+<p>规则文件只能一行写一个，不能一条规则写多行，以#进行注释。</p>
+
+<p>一个设备可以被不止一个规则文件控制，</p>
+
+<h1 id="系统语法">系统语法</h1>
+<p>就是简单的键值配对，每条规则至少一个键值，总的来说，就是匹配和赋值。例子：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KERNEL=="hdb", NAME="my_spare_disk"
+</code></pre></div></div>
+
+<p>”==”就是匹配符号，”=”就是赋值符号。</p>
+
+<h1 id="基本规则">基本规则</h1>
+<p>为了更精确的匹配硬件，udev提供了几个不同的匹配关键词，详细的，请参阅man udev</p>
+
+<p><strong>KERNEL</strong> 设备在内核的名字</p>
+
+<p><strong>SUBSYSTEM</strong> 匹配设备子系统</p>
+
+<p><strong>DRIVER</strong> 匹配设备的驱动</p>
+
+<p>通过这几种匹配条件，你可以使用以下赋值字段进行控制。</p>
+
+<p><strong>NAME</strong> 设备节点的名字</p>
+
+<p><strong>SYMLINK</strong> 一个对应设备的符号链接</p>
+
+<p>最后一种实际上会形成设备名的链表，如果你是有意这么做的，请使用 “+=”进行操作。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KERNEL=="hdb", NAME="my_spare_disk"
+</code></pre></div></div>
+
+<p>这条规则是说，匹配一个被kernel称为hdb的设备，并且命名为“my_spare_disk”,而不是叫做hdb。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KERNEL=="hdb",DRIVER=="ide-disk" SYMLINK+="sparedisk"
+</code></pre></div></div>
+
+<p>这条规则是说，匹配一个kernel成为“hdb”&amp;&amp;驱动为“ide-disk”的设备，并且在保留默认设备名称的情况下，创造一个新的符号链接叫做”sparedisk”.</p>
+
+<p>为了保持/dev目录下的文件组织是系统默认的，你最好使用符号链接，建立自己的设备名称。`</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KERNEL=="hdc", SYMLINK+="cdrom cdrom0"
+</code></pre></div></div>
+
+<p>如果你写上面这条规则，则会导致/dev/cdrom和/dev/cdrom0，且都指向名为hdc的设备</p>
+
+<h1 id="设备体系">设备体系</h1>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/16/udev_rules/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/15/auto_upload_image_and_text_return_url/">自动上传图片、文章返回url</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-15
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="前言">前言</h1>
+
+<p>这是我在shlug组上的一个提问，看看大家伙的热情</p>
+
+<p>大家好，
+      本人使用github.io做文字记录，在插入图片时有一些烦恼：
+由于担心图片太多，会撑爆github的个人空间，所以使用外链的形式插在文章中，
+用过七牛的空间、微博相册。现在有一个想法，就是感觉手动插入图片取得图片URL
+这一步是太浪费时间，我就在想，可不可以写一个自动上传图片到七牛或者微博相册
+而且立即返回图片URL的自动脚本，感觉能胜任的是 python，由于没有接触过python，
+不知道这样的思路对不对，或者有其他可以参考的例子吗？
+谢谢！</p>
+
+<p>其中，一个哥们 Zhang Cheng(stephenpcg@gmail.com)的回复实在给力。</p>
+
+<p>在 python-cn 里面搜“七牛 图床”，有若干thread。</p>
+
+<p>其中一个直达链接：https://groups.google.com/forum/#!searchin/python-cn/%E4%B8%83%E7%89%9B$20%E5%9B%BE%E5%BA%8A%7Csort:relevance/python-cn/kWWqC795pV0/IpbspJv5CwAJ</p>
+
+<p>该thread中提到的工具：</p>
+<ul>
+  <li>https://github.com/huntzhan/img2url</li>
+  <li>https://github.com/kingname/MarkdownPicPicker</li>
+  <li>http://yotuku.cn/#/</li>
+  <li>https://clbin.com/</li>
+</ul>
+
+<p>后两个我没找到源码（其实是没找）。</p>
+
+<p>我现在看着第一个和最后一个，都是比较好的项目。</p>
+
+<p>这是我的测试;</p>
+
+<p><img src="http://7pum5d.com1.z0.glb.clouddn.com/test.png" alt="test" /></p>
+
+<p>这张图片就是上面链接的第一个的工具，自己用的时候在配置文件中需要注意一下。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/15/auto_upload_image_and_text_return_url/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/14/debian_command/">debian常用命令</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-14
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#debian" title="Category: debian" rel="category">debian</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="http://askubuntu.com/questions/17823/how-to-list-all-installed-packages">原文</a></p>
+
+<p>前言。</p>
+
+<p>最近老是在编译新的内核，但是总 boot不起来，问了很多人，还是老样子。尤其是国内的专家，我真不知道是不是应该称他为大神，但是她说了一通，建议我转向其他的发行版。</p>
+
+<p>幸好没有听从他的建议。</p>
+
+<p>debian已经做的非常好了。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/14/debian_command/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/13/irssi_how_to_use/">irssi使用记录</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-13
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="第一步">第一步</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/NETWORK LIST
+
+选择一个并且加入进去
+
+/CONNECT Freenode
+ /JOIN <span class="c">#irssi</span>
+
+
+ 需要帮助
+
+ /HELP NETWORK
+ /HELP SERVER
+ /HELP CHANNEL
+ /HELP
+</code></pre></div></div>
+
+<h1 id="加入一个频道">加入一个频道</h1>
+
+<p>/JOIN #debian</p>
+
+<p>比如，加入linux kernelnewbies channel</p>
+
+<p>/server irc.oftc.net</p>
+
+<p>/join #kernelnewbies</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/13/irssi_how_to_use/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page10" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">11/36</span>
+          
+            <a href="/page12" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

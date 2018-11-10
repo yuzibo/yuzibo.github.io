@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>leetcode-344 字符反转</title>
+    <meta name="description" content="题目题目这道题应该说很简单的，如果不按照给定的函数原型去编写。但是，我的想法是用c语言，那么，问题来了，关于字符串指针的概念和运用再一次出现在面前。先看一下函数原型：char* reverseString(char* s) {}那么，返回一个(char *)类型的函数，那么你先必须首先定义一个(char *)的指...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/06/22/leetcode-344-reversestring/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>leetcode-344 字符反转</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-06-22
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#leetcode" title="Category: leetcode" rel="category">leetcode</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="题目">题目</h1>
+
+<p><a href="!https://leetcode.com/problems/reverse-string/">题目</a></p>
+
+<p>这道题应该说很简单的，如果不按照给定的函数原型去编写。但是，我的想法是用c语
+言，那么，问题来了，关于字符串指针的概念和运用再一次出现在面前。</p>
+
+<p>先看一下函数原型：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">*</span> <span class="nf">reverseString</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>那么，返回一个(char *)类型的函数，那么你先必须首先定义一个(char *)的指针用于
+接收返回值。OK，char *str；关键参数里也是(char *s),你应该如何处理？我一开始
+想申请一个strlen(s)长得字符数组，结果老是报告段错误，所以，不得不参考别人的
+代码。</p>
+
+<p>https://leetcode.com/problems/reverse-string/</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+</span><span class="kt">char</span> <span class="o">*</span><span class="n">reverseString</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">len</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="k">do</span> <span class="p">{</span>
+			<span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">len</span><span class="p">];</span>
+			<span class="n">str</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">len</span><span class="o">--</span><span class="p">);</span>
+		<span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="n">str</span> <span class="o">=</span> <span class="n">str</span> <span class="o">-</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="n">s</span> <span class="o">=</span> <span class="n">str</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<h1 id="注意的地方">注意的地方</h1>
+
+<h3 id="字符串的长度">字符串的长度</h3>
+
+<p>字符串的长度，不包括结尾的标识符’\0’,例如下面：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The length of str is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>则显示的结果为</p>
+
+<blockquote>
+  <p>The length of str is 5</p>
+</blockquote>
+
+<p>那么，你在复制字符串时要特别留意这一点。</p>
+
+<h3 id="如何给一个字符串指针赋值">如何给一个字符串指针赋值</h3>
+
+<p>这里你要注意，指针变量赋给指针变量，并不是把变量所包含的内容赋给左值，而是将
+变量的地址传递给对方。比如：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">str2</span><span class="p">;</span>
+<span class="n">str2</span> <span class="o">=</span> <span class="n">str1</span><span class="p">;</span>
+</code></pre></div></div>
+<p>这里str2的内容并不是hello，或者字母”h”,而是字符串”hello”的首字母的地址。所以
+，如果你想用字符指针来接受字符串，你得首先申请一个足够大的变量。</p>
+
+<p>有了这个变量还不够，如何一个一个字符的赋值？</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="p">{</span>
+	<span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">len</span><span class="p">];</span>
+	<span class="n">str</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">len</span><span class="o">--</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<h3 id="malloc函数">malloc函数</h3>
+
+<p>这个函数在c语言中很重要，主要在用法上。我的浅显经验是：你想分配什么类型的，
+前面就是什么类型。比如：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// 给'\0'留给空</span>
+</code></pre></div></div>
+
+<h3 id="其他事项">其他事项</h3>
+
+<p>这里注意一点，str最后一次已经指向了最后一位，要自动的添加个”\0”.</p>
+
+<p>还有一点把我给搞蒙圈了，其实归根结底还是基础不牢靠。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">str</span> <span class="o">=</span> <span class="n">str</span> <span class="o">-</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="n">s</span> <span class="o">=</span> <span class="n">str</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>这里的s是参数，可以作为返回值。那么，为什么要有第一个式子呢？str的指针指向了
+最后，如果不把指针回送到字符串首部，那样只会给s一个空的字符。str的加减操作就是移动的指针。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/06/20/apue_ch4/">unix之文件和目录</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/06/23/keep_in_mind/">keep in mind about yours</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

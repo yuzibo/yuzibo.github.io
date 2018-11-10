@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>leetcode easy task</title>
+    <meta name="description" content="1 Two Sumdescription:Given an array of integers, return indices of the two numbers such that they add up to a specific target.You may assume that each input ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2018/05/22/leetcode-easy/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>leetcode easy task</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-05-22
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#leetcode" title="Category: leetcode" rel="category">leetcode</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="1-two-sum">1 Two Sum</h1>
+<h2 id="description">description:</h2>
+
+<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
+
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+
+<h2 id="example">Example:</h2>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Given</span> <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="n">target</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>
+
+<span class="n">Because</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>
+<span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">].</span>
+</code></pre></div></div>
+
+<h2 id="solved">solved:</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">*</span> <span class="nf">twoSum</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numsSize</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span><span class="o">*</span>  <span class="n">sum</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">numsSize</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numsSize</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+		<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">numsSize</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">){</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="o">-</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]){</span>
+				<span class="n">sum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	 			<span class="n">sum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>可以在本地申请，返回到主函数中释放，学习了。不过，这种方法的效率很低很低，还得研究其他的。</p>
+
+<h1 id="20-valid-parentheses">20 Valid Parentheses</h1>
+
+<h2 id="descriptions">descriptions</h2>
+<p>Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[’ and ‘]’, determine if the input string is valid.</p>
+
+<p>An input string is valid if:</p>
+
+<p>Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Note that an empty string is also considered valid.</p>
+
+<p>Because i want to master c, so, c is my first program language.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">stack</span><span class="p">{</span>
+	<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">stack</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Stack</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">create</span><span class="p">(</span><span class="n">Stack</span> <span class="o">**</span><span class="n">ptop</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="o">*</span><span class="n">ptop</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="n">Stack</span> <span class="o">**</span><span class="n">ptop</span><span class="p">,</span> <span class="kt">char</span> <span class="n">c</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Stack</span> <span class="o">*</span><span class="n">tmp</span><span class="p">;</span>
+	<span class="n">tmp</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">stack</span><span class="p">));</span>
+	<span class="n">tmp</span> <span class="o">-&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+	<span class="n">tmp</span> <span class="o">-&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptop</span><span class="p">;</span>
+
+	<span class="o">*</span><span class="n">ptop</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">pop</span><span class="p">(</span><span class="n">Stack</span> <span class="o">**</span><span class="n">ptop</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">c</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Stack</span> <span class="o">*</span><span class="n">tmp</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span> <span class="o">*</span><span class="n">ptop</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="n">tmp</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptop</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">c</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">ptop</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">ptop</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">empty</span><span class="p">(</span><span class="n">Stack</span> <span class="o">**</span><span class="n">ptop</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="o">*</span><span class="n">ptop</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="n">bool</span> <span class="n">isValid</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">){</span>
+	<span class="n">Stack</span> <span class="o">*</span><span class="n">ss</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+
+	<span class="n">create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">);</span>
+	<span class="k">while</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">){</span>
+		<span class="k">switch</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">){</span>
+			<span class="k">case</span> <span class="sc">'('</span><span class="p">:</span>
+			<span class="k">case</span> <span class="sc">'['</span><span class="p">:</span>
+			<span class="k">case</span> <span class="sc">'{'</span><span class="p">:</span>
+				<span class="n">push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">,</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="k">case</span> <span class="sc">')'</span><span class="p">:</span>
+			<span class="k">case</span> <span class="sc">']'</span><span class="p">:</span>
+			<span class="k">case</span> <span class="sc">'}'</span><span class="p">:</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">))</span>
+					<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+				<span class="n">pop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">!=</span> <span class="o">*</span><span class="n">s</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">+</span><span class="mi">2</span> <span class="o">!=</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+					<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="k">default</span><span class="o">:</span>
+				<span class="k">break</span><span class="p">;</span>
+
+		<span class="p">}</span>
+		<span class="o">++</span><span class="n">s</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ss</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Here i will ask myself some questions:
+Why can’t yourself think out it;Why is The <code class="highlighter-rouge">Stack</code> is pointer to pointer?Escriplly,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">!=</span> <span class="o">*</span><span class="n">s</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">!=</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div></div>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/05/21/xdp-introducation/">xdp简介</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

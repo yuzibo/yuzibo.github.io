@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "linux中的段"
 category: kernel 
 ---

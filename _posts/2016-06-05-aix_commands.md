@@ -1,6 +1,6 @@
 ---
 title: "AIX命令使用"
-layout: article
+layout: post
 category: shell
 ---
 

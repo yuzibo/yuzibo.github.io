@@ -1,7 +1,7 @@
 ---
 title: "debian桌面系统"
 category: debian
-layout: article
+layout: post
 ---
 
 结合最近同学们对于Nvidia显卡的问题，我想有必要整理一下相关的概念。
@@ -10,7 +10,11 @@ layout: article
 
 对于桌面系统而言，你在不想使用桌面系统的时候，可以使用 `init 3`进入字符系统，使用`init 5`返回桌面系统。
 
+After test can be deleted:
 
+```bash
+git remote add origin https://github.com/username-or-organization-name/your-remote-repository-name
+```
 
 # 如何直接开启debian的字符系统
 像我而言，真的没有必要开启桌面系统，我只是简单的了解内核的使用，基本不使用桌面，浪费的内存还是相当的严重，那么，我就需要一种方案禁用桌面系统。最简单的就是：

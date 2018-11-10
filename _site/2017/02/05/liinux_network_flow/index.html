@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux 网络流程</title>
+    <meta name="description" content="参考here基本分析首先记住，linux kernel networking layers 分为L2(link layer)、L3（ipv4、ipv6)、L4(TCP/UDP)Network DeviceNetwork device drivers 就在L2中，与此对应的，你应该知道net_device结构，这是...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/02/05/liinux_network_flow/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux 网络流程</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-02-05
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="参考">参考</h1>
+
+<p><a href="https://wiki.linuxfoundation.org/networking/kernel_flow">here</a></p>
+
+<h1 id="基本分析">基本分析</h1>
+
+<p>首先记住，linux kernel networking layers 分为L2(link layer)、L3（ipv4、ipv6)、L4(TCP/UDP)</p>
+
+<h2 id="network-device">Network Device</h2>
+
+<p>Network device drivers 就在L2中，与此对应的，你应该知道net_device结构，这是对network stack理解的基础。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">net_device</span> <span class="p">{</span>
+	<span class="kt">char</span>			<span class="n">name</span><span class="p">[</span><span class="n">IFNAMSIZE</span><span class="p">];</span>
+	<span class="k">struct</span>	<span class="n">hlist_node</span>	<span class="n">name_hlist</span><span class="p">;</span>
+	<span class="kt">char</span>			<span class="o">*</span><span class="n">ifalias</span><span class="p">;</span>
+	<span class="cm">/* I/O specific fields */</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">men_end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">men_start</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">base_addr</span><span class="p">;</span>
+	<span class="kt">int</span>			<span class="n">irq</span><span class="p">;</span>
+	<span class="p">...</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">net_device_ops</span> <span class="o">*</span><span class="n">netdev_ops</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">ethtool_ops</span> <span class="o">*</span><span class="n">ethtool_ops</span><span class="p">;</span>
+
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">header_ops</span> <span class="o">*</span><span class="n">header_ops</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">flags</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">priv_flags</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">gflags</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">padded</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">operstate</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">link_mode</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">if_port</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">dma</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">mtu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">min_mtu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">max_mtu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">type</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">hard_header_len</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">min_header_len</span><span class="p">;</span>
+	<span class="p">...</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<p>最好的方式是阅读源代码的注释。</p>
+
+<p>当promiscuity计数器大于0的时候，网络栈不会丢弃不是发给本地主机的包。</p>
+
+<h2 id="napi">NAPI</h2>
+
+<p>在old版本中的网络内核中，网络设备驱动是工作在中断驱动模式下的，这就意味着当内核接收到一个packet时，就会陷入中断，这种模式，已经被证明是低效的，尤其是在高负载的情况下。</p>
+
+<p>所以，内核就引入了NAPI(New API)模式，这样， 网络就会工作在polling模式下，当接收到一个包，会缓存进入网络buffer，而不是基于中断驱动了。然后再一个一个进行解包。</p>
+
+<p>对于每一个包，网络子系统在处理的时候，会依据路由子系统对包对出相应的处理从而决定是转发还是发送哪一个接口。路由子系统不是影响这个唯一的因素，比如，在netfilter子系统，有5个钩子函数可以被注册。头一个是NF_INET_PRE_ROUTING.当一个packet被一个由宏NF_HOOK()引发的回调函数处理的时候，它将会根据verdict回调函数继续在内核栈中旅行，比如， 如果verdict是NF_DROP，这个包将会被丢弃;如果verdict是NF_ACCEPT,这个包继续往下;netfilter回调是被nf_register_hook()方法或者nf_register_hooks()方法注册的。</p>
+
+<p>除了netfilter钩子函数，IPsec子系统也会影响包的去行。Ipsec提供了一个网络层的安全解决方案，并且它使用ESP和AH协议。IPsec在IPV6中是强制的，在IPv4中是可选的。它有两种操作模式：传输模式和隧道模式。这是实现一些VPN(virtual private network)方案的基础，当然，也有一些非Ipsec实现VPN的VPN。</p>
+
+<p>这里还有其他因素决定网络包的行程。比如， 被转发包中Ipv4中头部ttl的值。当packet被转发一个设备，ttl的值就会减1.当他为0的时候，这个packet就会丢弃，并且一个ICMPv4消息：”时间超出”随着”ttl count exceeded”的代码返回。每转发一次，这个ttl就会减1.在Ipv6中ttl被替换为hop_limit.</p>
+
+<p>packet在内核中的旅行有很多的变动：大的包在发送之前会被分拆;另一方面，被分拆的包需要组装。不同的包处理的方式也是不同的，比如，多播packet被一组主机处理(这一点很明显与目的地址是特定的单播packets不同)。多播技术可以用在流媒体，这样可以减少网络资源。在ipv4中，The Internet Group Management Protocol(IGMP)处理多波成员。</p>
+
+<p>为了更好的理解网络的流程，你需要知道sk_buff,无论是Rx，还是Tx，都离不开这个结构。&lt;include/linux/skbuff.h&gt;</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ *	struct sk_buff - socket buffer
+ *	@next: Next buffer in list
+ *	@prev: Previous buffer in list
+ *	@tstamp: Time we arrived/left
+ *	@rbnode: RB tree node, alternative to next/prev for netem/tcp
+ *	@sk: Socket we are owned by
+ *	@dev: Device we arrived on/are leaving by
+ *	@cb: Control buffer. Free for use by every layer. Put private vars here
+ *	@_skb_refdst: destination entry (with norefcount bit)
+ *	@sp: the security path, used for xfrm
+ *	@len: Length of actual data
+ *	@data_len: Data length
+ *	@mac_len: Length of link layer header
+ *	@hdr_len: writable header length of cloned skb
+ *	@csum: Checksum (must include start/offset pair)
+ *	@csum_start: Offset from skb-&gt;head where checksumming should start
+ *	@csum_offset: Offset from csum_start where checksum should be stored
+ *	@priority: Packet queueing priority
+ *	@ignore_df: allow local fragmentation
+ *	@cloned: Head may be cloned (check refcnt to be sure)
+ *	@ip_summed: Driver fed us an IP checksum
+ *	@nohdr: Payload reference only, must not modify header
+ *	@pkt_type: Packet class
+ *	@fclone: skbuff clone status
+ *	@ipvs_property: skbuff is owned by ipvs
+ *	@tc_skip_classify: do not classify packet. set by IFB device
+ *	@tc_at_ingress: used within tc_classify to distinguish in/egress
+ *	@tc_redirected: packet was redirected by a tc action
+ *	@tc_from_ingress: if tc_redirected, tc_at_ingress at time of redirect
+ *	@peeked: this packet has been seen already, so stats have been
+ *		done for it, don't do them again
+ *	@nf_trace: netfilter packet trace flag
+ *	@protocol: Packet protocol from driver
+ *	@destructor: Destruct function
+ *	@_nfct: Associated connection, if any (with nfctinfo bits)
+ *	@nf_bridge: Saved data about a bridged frame - see br_netfilter.c
+ *	@skb_iif: ifindex of device we arrived on
+ *	@tc_index: Traffic control index
+ *	@hash: the packet hash
+ *	@queue_mapping: Queue mapping for multiqueue devices
+ *	@xmit_more: More SKBs are pending for this queue
+ *	@ndisc_nodetype: router type (from link layer)
+ *	@ooo_okay: allow the mapping of a socket to a queue to be changed
+ *	@l4_hash: indicate hash is a canonical 4-tuple hash over transport
+ *		ports.
+ *	@sw_hash: indicates hash was computed in software stack
+ *	@wifi_acked_valid: wifi_acked was set
+ *	@wifi_acked: whether frame was acked on wifi or not
+ *	@no_fcs:  Request NIC to treat last 4 bytes as Ethernet FCS
+ *	@dst_pending_confirm: need to confirm neighbour
+  *	@napi_id: id of the NAPI struct this skb came from
+ *	@secmark: security marking
+ *	@mark: Generic packet mark
+ *	@vlan_proto: vlan encapsulation protocol
+ *	@vlan_tci: vlan tag control information
+ *	@inner_protocol: Protocol (encapsulation)
+ *	@inner_transport_header: Inner transport layer header (encapsulation)
+ *	@inner_network_header: Network layer header (encapsulation)
+ *	@inner_mac_header: Link layer header (encapsulation)
+ *	@transport_header: Transport layer header
+ *	@network_header: Network layer header
+ *	@mac_header: Link layer header
+ *	@tail: Tail pointer
+ *	@end: End pointer
+ *	@head: Head of buffer
+ *	@data: Data head pointer
+ *	@truesize: Buffer size
+ *	@users: User count - see {datagram,tcp}.c
+ */</span>
+<span class="k">struct</span> <span class="n">sk_buff</span> <span class="p">{</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="p">{</span>
+			<span class="cm">/* These two members must be first. */</span>
+			<span class="k">struct</span> <span class="n">sk_buff</span>		<span class="o">*</span><span class="n">next</span><span class="p">;</span>
+			<span class="k">struct</span> <span class="n">sk_buff</span>		<span class="o">*</span><span class="n">prev</span><span class="p">;</span>
+
+			<span class="k">union</span> <span class="p">{</span>
+				<span class="n">ktime_t</span>		<span class="n">tstamp</span><span class="p">;</span>
+				<span class="k">struct</span> <span class="n">skb_mstamp</span> <span class="n">skb_mstamp</span><span class="p">;</span>
+			<span class="p">};</span>
+		<span class="p">};</span>
+		<span class="k">struct</span> <span class="n">rb_node</span>	<span class="n">rbnode</span><span class="p">;</span> <span class="cm">/* used in netem &amp; tcp stack */</span>
+	<span class="p">};</span>
+	<span class="k">struct</span> <span class="n">sock</span>		<span class="o">*</span><span class="n">sk</span><span class="p">;</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">net_device</span>	<span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+		<span class="cm">/* Some protocols might use this space to store information,
+		 * while device pointer would be NULL.
+		 * UDP receive path is one user.
+		 */</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">dev_scratch</span><span class="p">;</span>
+	<span class="p">};</span>
+	<span class="cm">/*
+	 * This is the control buffer. It is free to use for every
+	 * layer. Please put your private variables there. If you
+	 * want to keep them across layers you have to do a skb_clone()
+	 * first. This is owned by whoever has the skb queued ATM.
+	 */</span>
+	<span class="kt">char</span>			<span class="n">cb</span><span class="p">[</span><span class="mi">48</span><span class="p">]</span> <span class="n">__aligned</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">_skb_refdst</span><span class="p">;</span>
+	<span class="kt">void</span>			<span class="p">(</span><span class="o">*</span><span class="n">destructor</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">);</span>
+<span class="cp">#ifdef CONFIG_XFRM
+</span>	<span class="k">struct</span>	<span class="n">sec_path</span>	<span class="o">*</span><span class="n">sp</span><span class="p">;</span>
+<span class="cp">#endif
+#if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
+</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		 <span class="n">_nfct</span><span class="p">;</span>
+<span class="cp">#endif
+#if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
+</span>	<span class="k">struct</span> <span class="n">nf_bridge_info</span>	<span class="o">*</span><span class="n">nf_bridge</span><span class="p">;</span>
+<span class="cp">#endif
+</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">len</span><span class="p">,</span>
+				<span class="n">data_len</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">mac_len</span><span class="p">,</span>
+				<span class="n">hdr_len</span><span class="p">;</span>
+
+	<span class="cm">/* Following fields are _not_ copied in __copy_skb_header()
+	 * Note that queue_mapping is here mostly to fill a hole.
+	 */</span>
+	<span class="n">kmemcheck_bitfield_begin</span><span class="p">(</span><span class="n">flags1</span><span class="p">);</span>
+	<span class="n">__u16</span>			<span class="n">queue_mapping</span><span class="p">;</span>
+
+<span class="cm">/* if you move cloned around you also must adapt those constants */</span>
+<span class="cp">#ifdef __BIG_ENDIAN_BITFIELD
+#define CLONED_MASK	(1 &lt;&lt; 7)
+#else
+#define CLONED_MASK	1
+#endif
+#define CLONED_OFFSET()		offsetof(struct sk_buff, __cloned_offset)
+</span>
+	<span class="n">__u8</span>			<span class="n">__cloned_offset</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="n">__u8</span>			<span class="n">cloned</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">nohdr</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">fclone</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span>
+				<span class="n">peeked</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">head_frag</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">xmit_more</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">__unused</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span> <span class="cm">/* one bit hole */</span>
+	<span class="n">kmemcheck_bitfield_end</span><span class="p">(</span><span class="n">flags1</span><span class="p">);</span>
+
+	<span class="cm">/* fields enclosed in headers_start/headers_end are copied
+	 * using a single memcpy() in __copy_skb_header()
+	 */</span>
+	<span class="cm">/* private: */</span>
+	<span class="n">__u32</span>			<span class="n">headers_start</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="cm">/* public: */</span>
+
+<span class="cm">/* if you move pkt_type around you also must adapt those constants */</span>
+<span class="cp">#ifdef __BIG_ENDIAN_BITFIELD
+#define PKT_TYPE_MAX	(7 &lt;&lt; 5)
+#else
+#define PKT_TYPE_MAX	7
+#endif
+#define PKT_TYPE_OFFSET()	offsetof(struct sk_buff, __pkt_type_offset)
+</span>
+	<span class="n">__u8</span>			<span class="n">__pkt_type_offset</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="n">__u8</span>			<span class="n">pkt_type</span><span class="o">:</span><span class="mi">3</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">pfmemalloc</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">ignore_df</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">__u8</span>			<span class="n">nf_trace</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">ip_summed</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">ooo_okay</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">l4_hash</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">sw_hash</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">wifi_acked_valid</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">wifi_acked</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">__u8</span>			<span class="n">no_fcs</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="cm">/* Indicates the inner headers are valid in the skbuff. */</span>
+	<span class="n">__u8</span>			<span class="n">encapsulation</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">encap_hdr_csum</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_valid</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_complete_sw</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_level</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_bad</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">__u8</span>			<span class="n">dst_pending_confirm</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_IPV6_NDISC_NODETYPE
+</span>	<span class="n">__u8</span>			<span class="n">ndisc_nodetype</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+<span class="cp">#endif
+</span>	<span class="n">__u8</span>			<span class="n">ipvs_property</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">inner_protocol_type</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">remcsum_offload</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_NET_SWITCHDEV
+</span>	<span class="n">__u8</span>			<span class="n">offload_fwd_mark</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#endif
+#ifdef CONFIG_NET_CLS_ACT
+</span>	<span class="n">__u8</span>			<span class="n">tc_skip_classify</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">tc_at_ingress</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">tc_redirected</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">tc_from_ingress</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="cp">#ifdef CONFIG_NET_SCHED
+</span>	<span class="n">__u16</span>			<span class="n">tc_index</span><span class="p">;</span>	<span class="cm">/* traffic control index */</span>
+<span class="cp">#endif
+</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="n">__wsum</span>		<span class="n">csum</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="p">{</span>
+			<span class="n">__u16</span>	<span class="n">csum_start</span><span class="p">;</span>
+			<span class="n">__u16</span>	<span class="n">csum_offset</span><span class="p">;</span>
+		<span class="p">};</span>
+	<span class="p">};</span>
+	<span class="n">__u32</span>			<span class="n">priority</span><span class="p">;</span>
+	<span class="kt">int</span>			<span class="n">skb_iif</span><span class="p">;</span>
+	<span class="n">__u32</span>			<span class="n">hash</span><span class="p">;</span>
+	<span class="n">__be16</span>			<span class="n">vlan_proto</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">vlan_tci</span><span class="p">;</span>
+<span class="cp">#if defined(CONFIG_NET_RX_BUSY_POLL) || defined(CONFIG_XPS)
+</span>	<span class="k">union</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">int</span>	<span class="n">napi_id</span><span class="p">;</span>
+		<span class="kt">unsigned</span> <span class="kt">int</span>	<span class="n">sender_cpu</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="cp">#endif
+#ifdef CONFIG_NETWORK_SECMARK
+</span>	<span class="n">__u32</span>		<span class="n">secmark</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="n">__u32</span>		<span class="n">mark</span><span class="p">;</span>
+		<span class="n">__u32</span>		<span class="n">reserved_tailroom</span><span class="p">;</span>
+	<span class="p">};</span>
+
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="n">__be16</span>		<span class="n">inner_protocol</span><span class="p">;</span>
+		<span class="n">__u8</span>		<span class="n">inner_ipproto</span><span class="p">;</span>
+	<span class="p">};</span>
+
+	<span class="n">__u16</span>			<span class="n">inner_transport_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">inner_network_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">inner_mac_header</span><span class="p">;</span>
+
+	<span class="n">__be16</span>			<span class="n">protocol</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">transport_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">network_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">mac_header</span><span class="p">;</span>
+
+	<span class="cm">/* private: */</span>
+	<span class="n">__u32</span>			<span class="n">headers_end</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="cm">/* public: */</span>
+
+	<span class="cm">/* These elements must be at the end, see alloc_skb() for details.  */</span>
+	<span class="n">sk_buff_data_t</span>		<span class="n">tail</span><span class="p">;</span>
+	<span class="n">sk_buff_data_t</span>		<span class="n">end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">head</span><span class="p">,</span>
+				<span class="o">*</span><span class="n">data</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">truesize</span><span class="p">;</span>
+	<span class="n">atomic_t</span>		<span class="n">users</span><span class="p">;</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<p>就捡着重要的知识说一说。你要熟悉SKB的API。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transport_header</span><span class="p">();</span>
+<span class="cm">/*tcp udp icmp and more  */</span>
+
+<span class="n">network_header</span><span class="p">();</span>
+<span class="cm">/*ip ipv6 arp*/</span>
+
+<span class="n">mac_header</span><span class="p">();</span>
+<span class="cp">#link layer
+</span></code></pre></div></div>
+
+<p>如果你想使用skb-&gt;data,你不应该直接使用它，相反，你应该这样</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_pull_inline</span><span class="p">();</span>
+<span class="cm">/* 或者 */</span>
+
+<span class="n">skb_pull</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>如果你想fetch L4（transport header）,你应该使用</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_transport_header</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>同样， L3(network header),你需要</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_network_header</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>如果你想fetch L2(MAC header)</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_mac_header</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>这三个方法将SKB作为唯一的参数。分别返回头部的指针。</p>
+
+<p>当一个包来临的时候，一个SKB被netdev_alloc_skb()方法分配(或者dev_alloc_skb(),这个方法也是调用netdev_alloc_skb(),但是第一个参数是NULL)。如果遇到包被丢弃的情景，我们将会调用kfree_skb()或者dev_kfree_skb().</p>
+
+<p>在SKB中的一些成员，会被L2层决定，例如，这个pkt_type 就会被eth_type_trans()方法决定，这个方法根据目的的Ethernet地址，如果这个地址是（多播）multicast，就会被设置为PACKET_MULTICASE,如果是(广播)broadcast，则会被设置为PACKET_BROADCASE;如果是本地主机地址，则是PACKET_HOST.绝大多数Ethernet驱动将会在Rx路径调用eth_type_trans()这个方法。这个eth_type_trans()方法也会设置SKB的协议域根据Ethernet的头部。这个方法也会调用skb_pull_inline()提前预付SKB的数据指针，大小为14(ETH_HLEN),这就是Ethernet header的大小。</p>
+
+<p>请看下面的图片：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/net-1.png" alt="net-1.png" /></p>
+
+<p>每一个SKB有一个dev成员，这是一个net_device结构的实例化。接收和发出的包是不同的。在这个过程中，需要不停的fetch能影响包在内核栈中行程的信息。比如MTU。每一个传输的SKB有一个sock对象赋予它(sk),如果这个包是被转发的包，这个sk为NULL，因为它不是有本地主机生成。</p>
+
+<p>每一个接收的包应该通过网络层协议处理，比如，一个ipv4包应该被ip_rcv()方法处理，ipv6应该是ipv6_rcv(),相反的过程，这二者都需要dev_add_pack()方法去注册协议。ip_rcv()方法检查自己的参数，一切没有问题的话被NF_INET_PRE_ROUTING钩子调用。接下来是ip_rcv_finish()方法。在路由子系统中，会建立一个目的缓存项(dst_entry),同时在dst_entry中会有input和output方法。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">input</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p><em>input()</em>可以被下面的函数指定：　ip_local_deliver(),ip_forward(), ip_mr_input(),ip_error()或者dst_discard_in.</p>
+
+<p><em>output()</em> 可以被下面的使用ip_output,ip_mc_output, ip_rt_bug或者dst_discard_out</p>
+
+<p>在这里简单说一下v4和v6的区别。地址空间不说了，v6的header 是40字节，而v4是20～40,这样v6的性能就会提升了一大截;在ICMP中，v6也加入了很多其他的东西。</p>
+
+<p>接收包被网络设备驱动传递给ipv4或者ipv6-网络层，如果是局部传输，他们会被传递给传输层（l4）的监听socket处理。在L4层上，有UDP和TCP两种协议。此外，还有两种新的协议，Stream Control Transmission Protocol(SCTP)，Datagram Congestion Control Protocol(DCCP),这两者结合了tcp和udp的特征。</p>
+
+<p>本地主机产生的packets由L4的TCP或者UDP负责。这些都是Sockets APi可以提供。struct socket是提供给用户空间的接口，struct sock提供L3的接口。</p>
+
+<p>每一个L2网络层接口有一个L2的地址去鉴别它。在Ethernet中，这是一个48位的地址，并且MAC地址被赋予每一个Ethernet网络接口（唯一），每一个Ethernet包以Ethernet header开始，它包含Ethernet 类型（2-bit）， 源MAC地址（6-bit），目的MAC地址（6-bit）.注意，Ethernet 的类型值ipv4是0x0800,ipv6是0x86DD.对于发出的包来讲，一个Ethernet Header也应该被创建，其中的目的MAC地址通过邻居子系统找到。邻居协议被IPv4中的ARP处理(ipv6中的NDISC)，这两者在处理上也有不同的地方。ARP协议依靠于发送广播请求，而NDISC依靠ICMPv6请求，该者实际上是多播请求。</p>
+
+<p>netlink为内核和用户空间之间的交流提供通道。iproute2就是依靠netlink实现的。</p>
+
+<h1 id="路由子系统">路由子系统</h1>
+
+<p>路由子系统可以帮助我们找到net设备、找到被发送包的目的主机。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">fib_lookup</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">flowi4</span> <span class="o">*</span><span class="n">flp</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">fib_result</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fib_table</span> <span class="o">*</span><span class="n">tb</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENETUNREACH</span><span class="p">;</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+
+	<span class="n">tb</span> <span class="o">=</span> <span class="n">fib_get_table</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">RT_TABLE_MAIN</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">fib_table_lookup</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">flp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">flags</span> <span class="o">|</span> <span class="n">FIB_LOOKUP_NOREF</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="o">-</span><span class="n">EAGAIN</span><span class="p">)</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENETUNREACH</span><span class="p">;</span>
+
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+	<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">struct</span> <span class="n">fib_table</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span>	<span class="n">tb_hlist</span><span class="p">;</span>
+	<span class="n">u32</span>			<span class="n">tb_id</span><span class="p">;</span>
+	<span class="kt">int</span>			<span class="n">tb_num_default</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span>		<span class="n">rcu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> 		<span class="o">*</span><span class="n">tb_data</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">__data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>这个结构位于include/net/ip_net.h. <em>FIB</em>的意思是”Forwarding Information Base”</p>
+
+<p>这里有两个默认的基本表(在没有配置的情况下)，比如，局部表(local FIB table)（ip_fib_local_table: ID 255）和主表(main fib table)(ip_fib_main_table; ID 254)</p>
+
+<p>主路由表可以有３种方式改变：</p>
+
+<p>1.系统命令(route add/ip route) 2. (routing daemons) 3.(ICMP 重定向)</p>
+
+<p>fib_loolup 首先寻找local FIB 表，其次再寻找main　FIB,<em>route -C</em>这个命令可以查看缓存。另一种就是<em>cat /proc/net/rt_cache</em>,在这样的情况下，地址是十六进制的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">rtable</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">dst_entry</span>	<span class="n">dst</span><span class="p">;</span>
+
+	<span class="kt">int</span>			<span class="n">rt_genid</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">rt_flags</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">rt_type</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">rt_is_input</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">rt_uses_gateway</span><span class="p">;</span>
+
+	<span class="kt">int</span>			<span class="n">rt_iif</span><span class="p">;</span>
+
+	<span class="cm">/* Info on neighbour */</span>
+	<span class="n">__be32</span>			<span class="n">rt_gateway</span><span class="p">;</span>
+
+	<span class="cm">/* Miscellaneous cached information */</span>
+	<span class="n">u32</span>			<span class="n">rt_pmtu</span><span class="p">;</span>
+
+	<span class="n">u32</span>			<span class="n">rt_table_id</span><span class="p">;</span>
+
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">rt_uncached</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">uncached_list</span>	<span class="o">*</span><span class="n">rt_uncached_list</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>分配一个rtable的实例可以使用<em>dst_alloc()</em>方法来进行(net/core/dst.c)。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">void</span> <span class="o">*</span><span class="nf">dst_alloc</span><span class="p">(</span><span class="k">struct</span> <span class="n">dst_ops</span> <span class="o">*</span><span class="n">ops</span><span class="p">,</span> <span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span>
+		<span class="kt">int</span> <span class="n">initial_ref</span><span class="p">,</span> <span class="kt">int</span> <span class="n">initial_obsolete</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">dst_entry</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">gc</span> <span class="o">&amp;&amp;</span> <span class="n">dst_entries_get_fast</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ops</span><span class="o">-&gt;</span><span class="n">gc_thresh</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">gc</span><span class="p">(</span><span class="n">ops</span><span class="p">))</span>
+			<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">dst</span> <span class="o">=</span> <span class="n">kmem_cache_alloc</span><span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">kmem_cachep</span><span class="p">,</span> <span class="n">GFP_ATOMIC</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dst</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">dst_init</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">initial_ref</span><span class="p">,</span> <span class="n">initial_obsolete</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">dst</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>顺序有些乱，先凑活着看，到时候我再一并整理。</p>
+
+<h1 id="网络层-network-layer">网络层 network layer</h1>
+<p>首先看一下ip packet:
+<img src="http://yuzibo.qiniudn.com/2018-05-16-ip_packet.png" alt="2018-05-16-ip_packet.png" /></p>
+
+<h1 id="用户工具">用户工具</h1>
+
+<h3 id="iputilsping-arping-and-so-on">iputils(ping arping and so on)</h3>
+
+<h3 id="net-toolsifconfig-netstat-route-arp">net-tools(ifconfig, netstat, route, arp)</h3>
+
+<h3 id="iproute2ip">iproute2(ip)</h3>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/02/04/git_send_email_tips/">git产生patch并使用git send-email发送</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/03/06/python_note/">python新手注意的知识点</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

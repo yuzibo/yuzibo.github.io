@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: DS
 title: "红黑树简介"
 ---

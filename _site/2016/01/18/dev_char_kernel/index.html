@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux kernel字符设备编程举例</title>
+    <meta name="description" content="这是字符设备,内核模块```c/*************************references:http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/ ************************/#...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/01/18/dev_char_kernel/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux kernel字符设备编程举例</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-01-18
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="这是字符设备内核模块">这是字符设备,内核模块</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*************************************************************************
+references:
+http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/
+ ************************************************************************/</span>
+<span class="cp">#include&lt;linux/mutex.h&gt;
+#include&lt;linux/err.h&gt;
+#include&lt;linux/init.h&gt;
+#include&lt;linux/module.h&gt;
+#include&lt;linux/device.h&gt;
+#include&lt;linux/kernel.h&gt;
+#include&lt;linux/fs.h&gt;
+#include&lt;asm/uaccess.h&gt;
+#define DEVICE_NAME "yubochar"
+#define CLASS_NAME "yubo-c"
+</span>
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"yu bo"</span><span class="p">);</span>
+<span class="n">MODULE_DESCRIPTION</span><span class="p">(</span><span class="s">"a simple linux char driver for the test"</span><span class="p">);</span>
+<span class="n">MODULE_VERSION</span><span class="p">(</span><span class="s">"0.1"</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">majornumber</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">message</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="k">static</span> <span class="kt">short</span> <span class="n">size_of_message</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">numberopens</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">struct</span> <span class="n">class</span><span class="o">*</span> <span class="n">yuboclass</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">struct</span> <span class="n">device</span><span class="o">*</span> <span class="n">yubodevice</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span> <span class="n">DEFINE_MUTEX</span><span class="p">(</span><span class="n">yubochar_mutex</span><span class="p">);</span>
+<span class="cm">/*
+ * The prototype functions for character driver
+ *
+ */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">dev_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">dev_release</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="n">dev_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="n">dev_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">,</span><span class="kt">size_t</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="p">);</span>
+<span class="cm">/*
+ * C99 syntax structure.
+ */</span>
+<span class="k">static</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">fops</span> <span class="o">=</span><span class="p">{</span>
+	<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">dev_open</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">read</span> <span class="o">=</span> <span class="n">dev_read</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">dev_write</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">release</span> <span class="o">=</span> <span class="n">dev_release</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="cm">/*
+ * the __init macro means that for a build-in driver
+ */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="n">yubochar_init</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: Initializing the yubochar LKM</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*
+	 * Try to dynamically allocate a major number
+	 * @register_chrdev
+	 */</span>
+	<span class="n">majornumber</span> <span class="o">=</span> <span class="n">register_chrdev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">DEVICE_NAME</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fops</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">majornumber</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ALERT</span> <span class="s">"yubochar failed to register a major number</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">majornumber</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: registered corrently with major number %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">majornumber</span><span class="p">);</span>
+	<span class="cm">/*
+	 * @register the device class
+	 */</span>
+	<span class="n">yuboclass</span> <span class="o">=</span> <span class="n">class_create</span><span class="p">(</span><span class="n">THIS_MODULE</span><span class="p">,</span><span class="n">CLASS_NAME</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">)){</span>
+		<span class="n">unregister_chrdev</span><span class="p">(</span><span class="n">majornumber</span><span class="p">,</span><span class="n">DEVICE_NAME</span><span class="p">);</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ALERT</span> <span class="s">"Failed to register device class</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">PTR_ERR</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: device class register corrently</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*
+	 *
+	 * @REgister the device driver
+	 */</span>
+	<span class="n">yubodevice</span> <span class="o">=</span> <span class="n">device_create</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">,</span><span class="nb">NULL</span><span class="p">,</span><span class="n">MKDEV</span><span class="p">(</span><span class="n">majornumber</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="nb">NULL</span><span class="p">,</span><span class="n">DEVICE_NAME</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">yubodevice</span><span class="p">)){</span> <span class="cm">/*Clean up if there is an error*/</span>
+		<span class="n">class_destroy</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">);</span>
+		<span class="n">unregister_chrdev</span><span class="p">(</span><span class="n">majornumber</span><span class="p">,</span><span class="n">DEVICE_NAME</span><span class="p">);</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ALERT</span> <span class="s">"Failed to create the device</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">PTR_ERR</span><span class="p">(</span><span class="n">yubodevice</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: device class created corrently</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*
+	 * Initialize the mutex lock dynamically
+	 */</span>
+	<span class="n">mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">yubochar_mutex</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*
+ * The LKM clean up function
+ *
+ */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__exit</span> <span class="n">yubochar_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+	<span class="n">mutex_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">yubochar_mutex</span><span class="p">);</span>
+	<span class="n">device_destroy</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">,</span><span class="n">MKDEV</span><span class="p">(</span><span class="n">majornumber</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+	<span class="n">class_unregister</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">);</span>
+	<span class="n">class_destroy</span><span class="p">(</span><span class="n">yuboclass</span><span class="p">);</span>
+	<span class="n">unregister_chrdev</span><span class="p">(</span><span class="n">majornumber</span><span class="p">,</span> <span class="n">DEVICE_NAME</span><span class="p">);</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: Goodbye from the LKM!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cm">/*
+ * The device open function that is called each time the device is opened
+ * This will only increment the numberopens
+ */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">dev_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inodep</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filep</span><span class="p">){</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">mutex_trylock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">yubochar_mutex</span><span class="p">)){</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ALERT</span> <span class="s">"yubochar: Device in use by another process"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EBUSY</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">numberopens</span><span class="o">++</span><span class="p">;</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: DEVICE has been opened %d times</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">numberopens</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*
+ * This function is  called whenever device is being read from user space.
+
+ *
+ data is being sent from the device to the user.In this case is uses the copy_to_user()
+ function to send the buffer string to the user and captures any
+ * errors
+
+ *@parma filep A pointer to a file object
+ *@parma buffer The pointer to the buffer to which this function writes the  *data
+ *@parma len The length of the b
+ *@parma offset The offset if required
+ */</span>
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="n">dev_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filep</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">offset</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">error_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/*
+	 * copy_to_user has the format(*to, *from, size)
+	 */</span>
+	<span class="n">error_count</span> <span class="o">=</span> <span class="n">copy_to_user</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">size_of_message</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">error_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: Sent %d characters to the user</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">size_of_message</span><span class="p">);</span>
+		<span class="cm">/*clear the position to the start*/</span>
+		<span class="k">return</span> <span class="p">(</span><span class="n">size_of_message</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: Failed to send %d characters to the user</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">error_count</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EFAULT</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="cm">/*
+ * This function is called whenever the device is being written to from user * space .data is sent to the devicv from the user.The data is copied to the * message[] array in this .
+ * LKM using the sprintg() function along with the length of the string.
+ *@parma filep a pointer to a file object
+ *@parma buffer The buffer to that contains the string to write to the device
+ *@parma len The length of the array of data that is being passed in the const char buffer
+ *@parma offset The offset if required
+ *
+ */</span>
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="n">dev_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filep</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">offset</span><span class="p">){</span>
+	<span class="n">sprintf</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="s">"%s(%d letters)"</span><span class="p">,</span><span class="n">buffer</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
+	<span class="n">size_of_message</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: Received %d characters from the user</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">len</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*
+ *
+ *
+ */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">dev_release</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inodep</span><span class="p">,</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filep</span><span class="p">){</span>
+	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">yubochar_mutex</span><span class="p">);</span><span class="cm">/*Releases the mutex */</span>
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">"yubochar: Device successfully closed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">yubochar_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">yubochar_exit</span><span class="p">);</span>
+
+
+
+
+<span class="cm">/*
+ *
+ *
+ * User Access to the Device using Udev Rules
+ *
+ */</span>
+
+</code></pre></div></div>
+
+<h1 id="装入内核">装入内核</h1>
+<p>这是Makefile</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obj-m+<span class="o">=</span>yubochar.o
+
+all:
+	make <span class="nt">-C</span> /lib/modules/<span class="k">$(</span>shell <span class="nb">uname</span> <span class="nt">-r</span><span class="k">)</span>/build/ <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> modules
+	<span class="k">$(</span>CC<span class="k">)</span> testyubochar.c <span class="nt">-o</span> testyubochar
+
+clean:
+	make <span class="nt">-C</span> /lib/modules/<span class="k">$(</span>shell <span class="nb">uname</span> <span class="nt">-r</span><span class="k">)</span>/build/ <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> clean
+
+</code></pre></div></div>
+
+<h1 id="用户空间的程序">用户空间的程序</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * The User-space Program for testing the LKM
+ *
+ */</span>
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;errno.h&gt;
+#include&lt;fcntl.h&gt;
+#include&lt;string.h&gt;
+#define BUFFER_LENGTH 256
+</span><span class="k">static</span> <span class="kt">char</span> <span class="n">receive</span><span class="p">[</span><span class="n">BUFFER_LENGTH</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">,</span> <span class="n">fd</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">stringToSend</span><span class="p">[</span><span class="n">BUFFER_LENGTH</span><span class="p">];</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Starting device test code example,,,</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"/dev/yubochar"</span><span class="p">,</span><span class="n">O_RDWR</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"Failed to open the device...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Type in a short string to the kernel module:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">stringToSend</span><span class="p">);</span><span class="cm">/* Send in a string (with space)*/</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Writing the message to the device [%s].</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">stringToSend</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">stringToSend</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">stringToSend</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"FAiled to the message to the device</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Pres ENTER to read back from the device...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">getchar</span><span class="p">();</span><span class="cm">/* newline */</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"READing from the device...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">receive</span><span class="p">,</span><span class="n">BUFFER_LENGTH</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"Failed to read the message from the device...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The received message is: [%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"End of the program</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h1 id="lkm-同步问题">LKM 同步问题</h1>
+
+<h3 id="step-1">Step 1:</h3>
+<p>首先在一个终端运行用户空间的程序:testyubochar.o</p>
+<pre>
+
+./testyubochar
+
+
+yubo@debian:~/test$ sudo ./testyubochar
+	Starting device test code example,,,
+	Type in a short string to the kernel module:
+	hello,yubo!
+	Writing the message to the device [hello,yubo!].
+	Pres ENTER to read back from the device...
+</pre>
+
+<h3 id="step-2">Step 2:</h3>
+<p>然后在第二个终端同时运行./testyubochar</p>
+<pre>
+	@debian:~/test$ sudo ./testyubochar
+	Starting device test code example,,,
+	Type in a short string to the kernel module:
+	This is the message from the second terminal
+	Writing the message to the device [This is the message from the second terminal].
+	Pres ENTER to read back from the device...
+</pre>
+
+<h3 id="step-3">Step 3:</h3>
+
+<p>然后返回第一个窗口,按下Enter键,会出现如下情况:</p>
+<pre>
+yubo@debian:~/test$ sudo ./testyubochar
+
+	Starting device test code example,,,
+	Type in a short string to the kernel module:
+	hello,yubo!
+	Writing the message to the device [hello,yubo!].
+	Pres ENTER to read back from the device...
+
+	READing from the device...
+	The received message is: [This is the message from the second terminal(44 letters)]
+	End of the program
+</pre>
+<p>这就说明程序已经失去了同步机制,导致了紊乱.</p>
+
+<h3 id="step-4">Step 4:</h3>
+<p>这时你再返回第二个窗口,按下Enter键,会出现如下消息:</p>
+<pre>
+yubo@debian:~/test$ sudo ./testyubochar
+
+	Starting device test code example,,,
+	 Type in a short string to the kernel module:
+	 This is the message from the second terminal
+	 Writing the message to the device [This is the message from the second terminal].
+	 Pres ENTER to read back from the device...
+
+	 READing from the device...
+	 The received message is: [This is the message from the second terminal(44 letters)]
+	 End of the program
+
+</pre>
+
+<p><code class="highlighter-rouge">lsmod | grep yubochr</code></p>
+
+<pre>
+Module                  Size  Used by
+yubochar               16384  0
+binfmt_misc            16384  1
+loop                   24576  0
+nouveau              1085440  0
+</pre>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/01/16/linux_rc_data/">linux开发版本追踪</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/01/26/github_push/">在github上每次push输入用户/密码&&编辑器&&补全</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Neomutt使用126邮箱的imap</title>
+    <meta name="description" content="Imap协议与Pop3协议相比，还是具有很大的优势，这样就可以实现多个终端管理邮件而且实时同步。Neomutt是基于mutt的一款开源软件，可以这么说，mutt实现的功能，Neomutt都有；Neomutt实现的功能，mutt不一定具备。众所周知，Imap与Gmail配合的天衣无缝，后者就在开发者中占有一个重要的...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2018/06/02/neomutt-imap-126/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Neomutt使用126邮箱的imap</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-06-02
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>Imap协议与Pop3协议相比，还是具有很大的优势，这样就可以实现多个终端管理邮件而且实时同步。</p>
+
+<p><a href="https://github.com/neomutt/neomutt">Neomutt</a>是基于mutt的一款开源软件，可以这么说，mutt实现的功能，Neomutt都有；Neomutt实现的功能，mutt不一定具备。</p>
+
+<p>众所周知，Imap与Gmail配合的天衣无缝，后者就在开发者中占有一个重要的地位，那么，国内邮箱126、或者qq邮箱可以实现这样的功能吗？</p>
+
+<p>经过一番探索，mutt也可以使用Imap收发国内邮箱(仅测试126本文).</p>
+
+<h1 id="安装">安装</h1>
+<p>如果在软件管理器安装Neomutt(或者mutt)是很容易的一件事，但是，如果想要更丰富的特性，则最好从源码安装，在编译的过程中，通过配置，从而得到自己想要的功能。比如:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get <span class="nb">install </span>mutt
+</code></pre></div></div>
+
+<p>是无法使用Imap功能的，因为有时候默认不开启Imap协议。</p>
+
+<p>下面我摘自<a href="https://github.com/neomutt/neomutt/blob/master/INSTALL.md">INSTALL.md</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>To build NeoMutt, you will need, at the very minimum:
+
+A C99 compiler such as gcc or clang
+SysV-compatible curses library: ncurses or slang
+Some common libraries, such as iconv and regex
+DocBook XSL stylesheets and DTDs <span class="o">(</span><span class="k">for </span>building the docs<span class="o">)</span>
+</code></pre></div></div>
+
+<pre><code class="language-git">git clone https://github.com/neomutt/neomutt
+</code></pre>
+
+<h2 id="安装配置选项">安装配置选项</h2>
+<p>如果第一次安装Neomutt，还确实有些麻烦，因为它需要一些别的库：</p>
+
+<p>比如，这里面你必须指定ncurses或者slang的安装位置(google),如果要开启Imap功能，<code class="highlighter-rouge">--sasl --GNUTLS</code>也是必不可少的。具体需要哪些选项，你可以通过:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./configure <span class="nt">--help</span>
+</code></pre></div></div>
+
+<p>去了解。</p>
+
+<p>下面是我的配置选项，仅能满足我的需要，仅供参考。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ./configure <span class="nt">--with-ui</span><span class="o">=</span>slang <span class="nt">--with-slang</span><span class="o">=</span>/usr/local/src/slang-2.2.4 <span class="nt">--with-ssl</span><span class="o">=</span>/usr/lib/ssl/ <span class="se">\</span>
+ <span class="nt">--disable-doc</span> <span class="nt">--debug</span> <span class="nt">--with-idn</span><span class="o">=</span>/usr/include/lib/ <span class="nt">--sasl</span> <span class="nt">--with-gnutls</span><span class="o">=</span>/usr/include/gnutls/
+</code></pre></div></div>
+
+<p>对了，只要带路径的选项，就是我自己安装的软件包，还可以的。如果你想快速知道自己的配置选项，可以使用<code class="highlighter-rouge">neomutt -v</code>进行查看。</p>
+
+<p>一切Ok的话，<code class="highlighter-rouge">make &amp;&amp; make install</code></p>
+
+<h1 id="配置文件">配置文件</h1>
+<p>mutt的方便之处就在于它的配置文件了，这真的好像vim,好消息是，neomutt可以集成vim的内置命令在不久的将来。</p>
+
+<h2 id="单信箱">单信箱</h2>
+<p>在我只用Gmail的时候，配置文件很简单，账号信息与mutt的全局配置变量放在一起就可以，这个文件就是<code class="highlighter-rouge">~/.muttrc</code>,就是这么直接，Neomutt直接就可以把mutt的配置文件拿过来用(不支持的就可以去掉的)。这里Gmail与Imap在mutt的配置网上很多，不必想说。</p>
+
+<h2 id="多信箱">多信箱</h2>
+<p>思路就是把账号信息分离，通过在<code class="highlighter-rouge">.muttrc</code>中把邮箱绑定到不同的Macro上，从而实现Neomutt在不同的邮箱内跳转。
+在<code class="highlighter-rouge">.muttrc</code>中：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+folder-hook <span class="s1">'126.com'</span> <span class="s1">'source ~/.mutt/account.126'</span>
+folder-hook <span class="s1">'gmail.com'</span> <span class="s1">'source ~/.mutt/account.gmail'</span>
+macro index &lt;f5&gt; <span class="s1">'&lt;change-folder&gt;imaps://imap.126.com&lt;enter&gt;'</span>
+macro index &lt;f6&gt; <span class="s1">'&lt;change-folder&gt;imaps://imap.gmail.com&lt;enter&gt;'</span>
+</code></pre></div></div>
+
+<p>那么，你可以仅仅把不同邮箱的账号信息放到<code class="highlighter-rouge">~/.mutt/account.*</code>下，下面我贴一下我的<code class="highlighter-rouge">account.126</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">set </span><span class="nv">use_from</span><span class="o">=</span><span class="nb">yes
+set </span><span class="nv">realname</span><span class="o">=</span><span class="s2">"Bo YU"</span>
+<span class="nb">set </span><span class="nv">from</span><span class="o">=</span>yuzibo@126.com
+<span class="nb">set </span><span class="nv">envelope_from</span><span class="o">=</span><span class="nb">yes</span>
+<span class="c">#设置Gmail账户和密码,imap和gmail</span>
+<span class="nb">set </span>smtp_url <span class="o">=</span> <span class="s2">"smtp://youraccount@smtp.126.com:25"</span>
+<span class="nb">set </span>smtp_pass <span class="o">=</span> <span class="nv">$imap_pass</span>
+
+<span class="c">#设置远程服务器和文件夹</span>
+<span class="nb">set </span>imap_user <span class="o">=</span> <span class="s2">"yuzibode@126.com"</span>
+<span class="nb">set </span>imap_pass <span class="o">=</span> <span class="s2">""</span>
+<span class="nb">set </span>folder <span class="o">=</span> <span class="s2">"imaps://imap.126.com:993"</span>
+<span class="nb">set </span><span class="nv">certificate_file</span><span class="o">=</span>~/Mail/certificates
+<span class="c">#set imap_auth_type = "PLAIN"</span>
+<span class="nb">set </span>ssl_starttls <span class="o">=</span> <span class="nb">yes
+set </span>ssl_force_tls <span class="o">=</span> <span class="nb">yes
+set </span>imap_keepalive <span class="o">=</span> 300
+<span class="nb">set </span>mail_check <span class="o">=</span> 120
+
+<span class="nb">set </span>spoolfile <span class="o">=</span> <span class="s2">"+收件箱"</span>
+<span class="c">#set record = "+[126]/收件箱"</span>
+mailboxes <span class="o">=</span> +INBOX
+<span class="nb">set </span><span class="nv">certificate_file</span><span class="o">=</span>~/Mail/certificates
+</code></pre></div></div>
+
+<p>好，这就是基本的配置文件了。在相同的配置下，一般情况下，可以登录Gmail，但是不能登录126,奇了怪了。</p>
+
+<p>因为我是使用的Neomutt，所以怀疑是缺少一些必备的软件，所以从包管理器中重新安装了mutt，你也可以试试。</p>
+
+<p>经过上步后，我可以登陆了，但是一直报错：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NO Select Unsafe Login. Please contact kefu@188.com解决办法
+</code></pre></div></div>
+
+<p>网上一搜，还是有解决办法的。就是网易不相信这种第三方软件导致的。你需要：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://config.mail.163.com/settings/imap/login.jsp?uid=xxxxxx@163.com
+</code></pre></div></div>
+
+<p>将上面的163根据你的邮箱(126 or 其他)换成你的，uid是你的邮箱，登录后通过密保手机验证本人后，说:</p>
+
+<p>您可以继续使用当前客户端收发邮件了，请特别注意个人的电子信息安全哦。感谢您对网易邮箱的支持！</p>
+
+<p>就可以了。</p>
+
+<p>参考：
+https://blog.csdn.net/shanghaojiabohetang/post/details/74486196</p>
+
+<p>还有个问题就是如何知道错误信息呢？</p>
+
+<p>在配置编译选项的时候，加上<code class="highlighter-rouge">debug</code>模式，在打开Neomutt时可以：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neomutt <span class="nt">-d5</span>
+<span class="c"># or</span>
+mutt <span class="nt">-d5</span>
+</code></pre></div></div>
+<p>就可以了。相关的log会产生在<code class="highlighter-rouge">~/.neomuttdebug0</code>文件中。</p>
+
+<h1 id="stmp">stmp:</h1>
+
+<h2 id="126-503">126 :503</h2>
+<p>本以为像Gmail那样就可以畅快的使用Imap，然而还是自己太年轻啊。是这样的，经过上面的步骤后可以很容易的像Gmail那样收件、查看信件，但是写信、回复信件就悲催了，首先是126报认证错，也就是553,也就是所谓的smtp认证失败，尝试了很多方式，很长时间才搞定的。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">set </span>smtp_url <span class="o">=</span> <span class="s2">"smtp://youraccount@smtp.126.com:25"</span>
+</code></pre></div></div>
+<p>一定要写这句，它和Gmail是不一样的，Gmail直接就是<code class="highlighter-rouge">smtp://smtp.gmail:456/</code>,另外还有一点就是根据126的官方介绍，非ssl的加密方式的smtp的端口是25,这里只有25在我的情况下使用，很奇怪。</p>
+
+<h2 id="qq-503-error-need-ehlo-and-auth-first-">qq: 503 Error: need EHLO and AUTH first !</h2>
+<p>同理，这个错误也是上面的情形之一，你以为就OK了？Too young too simply.它的smtp又成了587.</p>
+
+<p>qq邮箱的配置文件与126的很像，注意名字就可以了。</p>
+
+<p>如果报: SASL认证失败。很大一部分就是密码错了。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

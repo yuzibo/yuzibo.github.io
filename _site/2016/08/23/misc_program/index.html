@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux下的misc编程</title>
+    <meta name="description" content="补充材料here这篇文章解析了misc和char的不同，但是思路都是一样的，主要可能是在归类的时候会有一些不同的。先说一下，misc的主设备号已经被内核给固定死了，为10,只能修改次设备号(minor).通常情况下，一个字符设备都不得不在初始化的过程中进行下面的步骤：通过alloc_chrdev_region()...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/08/23/misc_program/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux下的misc编程</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-23
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="补充材料">补充材料</h1>
+
+<p><a href="http://stackoverflow.com/questions/18456155/what-is-the-difference-between-misc-drivers-and-char-drivers">here</a></p>
+
+<p>这篇文章解析了misc和<a href="http://www.aftermath.cn/dev_char_kernel.html">char</a>的不同，但是思路都是一样的，主要可能是在归类的时候会有一些不同的。</p>
+
+<p>先说一下，misc的主设备号已经被内核给固定死了，为10,只能修改次设备号(minor).</p>
+
+<p>通常情况下，一个字符设备都不得不在初始化的过程中进行下面的步骤：</p>
+
+<p>通过alloc_chrdev_region()分配主次设备号。</p>
+
+<p>使用cdev_init()和cdev_add()来以一个字符设备注册自己。</p>
+
+<p>而一个misc驱动，则可以只用一个调用misc_register()</p>
+
+<p>来完成这所有的步骤。(所以miscdevice是一种特殊的chrdev字符设备驱动)</p>
+
+<p>所有的miscdevice设备形成一个链表，对设备访问时，内核根据次设备号查找</p>
+
+<p>对应的miscdevice设备，然后调用其file_operations中注册的文件操作方法进行操作。</p>
+
+<p>下面将结合具体的代码进行分析。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;linux/module.h&gt;
+#include &lt;linux/slab.h&gt;
+#include &lt;linux/types.h&gt;
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/init.h&gt;
+#include &lt;linux/miscdevice.h&gt;
+#include &lt;linux/major.h&gt;
+#include &lt;linux/fs.h&gt;
+#include &lt;linux/device.h&gt;
+#include &lt;linux/cdev.h&gt;
+#include &lt;linux/uaccess.h&gt;
+</span>
+
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Bo YU&lt;tsu.yubo@gmail.com&gt;"</span><span class="p">);</span>
+
+<span class="n">MODULE_DESCRIPTION</span><span class="p">(</span><span class="s">"task 06</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="cp">#define BUF_LEN 60
+#define MY_ID_LEN 12 </span><span class="cm">/* include final NULL, so it is 13 */</span><span class="cp">
+</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="o">*</span><span class="n">my_id</span> <span class="o">=</span> <span class="s">"yubo"</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">read_id</span><span class="p">[</span><span class="n">BUF_LEN</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="nf">dev_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">userbuf</span><span class="p">,</span>
+			<span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">f_pos</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="k">return</span> <span class="n">simple_read_from_buffer</span><span class="p">(</span><span class="n">userbuf</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span>
+				<span class="n">f_pos</span><span class="p">,</span> <span class="n">my_id</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">my_id</span><span class="p">));</span>
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="nf">dev_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">userbuf</span><span class="p">,</span>
+			<span class="kt">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">ssize_t</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">simple_write_to_buffer</span><span class="p">(</span><span class="n">read_id</span><span class="p">,</span> <span class="n">BUF_LEN</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">userbuf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">MY_ID_LEN</span><span class="p">)</span> <span class="o">||</span> <span class="n">strncmp</span><span class="p">(</span><span class="n">my_id</span><span class="p">,</span> <span class="n">read_id</span><span class="p">,</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="n">len</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">dev_fops</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">dev_write</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">read</span> <span class="o">=</span> <span class="n">dev_read</span><span class="p">,</span>
+<span class="p">};</span>
+
+
+
+<span class="k">struct</span> <span class="n">miscdevice</span> <span class="n">misc_device</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">minor</span> <span class="o">=</span> <span class="n">MISC_DYNAMIC_MINOR</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"eudyptula"</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">dev_fops</span><span class="p">,</span>
+<span class="p">};</span>
+
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">hello_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">misc_device</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">pr_err</span><span class="p">(</span><span class="s">"can't register misc device</span><span class="se">\n</span><span class="s">'"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__exit</span> <span class="nf">hello_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">misc_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">misc_device</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">hello_init</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">hello_exit</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>上面的代码中最麻烦的部分不过是simple_write_to_buffer,这个函数将copy_from_usr函数进行了安全封装，其实一开始很简单的，我的问题在于用户空间的程序write和read在一个程序里进行，这样可能会导致一些问题，我将这两个操作分开以后问题就好多了。</p>
+
+<p>注意是如何检查错误的。</p>
+
+<p>下面是用户空间的程序：</p>
+
+<blockquote>
+  <p>read</p>
+</blockquote>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="cp">#define BUF_LEN 256
+</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">re_string</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">string_to_send</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">,</span> <span class="n">fd</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"starting test task 06...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"/dev/eudyptula"</span><span class="p">,</span> <span class="n">O_RDWR</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"Failed to open the device</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Reading from the device...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">re_string</span><span class="p">,</span> <span class="n">BUF_LEN</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"Failed to read the device... </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The received message is: [%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">re_string</span><span class="p">);</span>
+
+	<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>write</p>
+</blockquote>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="cp">#define BUF_LEN 256
+</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">string_to_send</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">,</span> <span class="n">fd</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"starting test task 06...</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"/dev/eudyptula"</span><span class="p">,</span> <span class="n">O_RDWR</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"Failed to open the device</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+	<span class="p">}</span>
+
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Type in your id into kernel</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">string_to_send</span><span class="p">);</span>
+	<span class="cm">/*	^表示”非”，即读入其后面的字符就结束读入。
+	 *	这样想读入一行字符串带空格的字符直接用:
+	 *	scanf("%[^\n]%*c",str);
+         */</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Writing the message to the device is [%s], the len of write is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">string_to_send</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string_to_send</span><span class="p">));</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">string_to_send</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string_to_send</span><span class="p">));</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string_to_send</span><span class="p">)){</span>
+
+		<span class="n">printf</span><span class="p">(</span><span class="s">"write into kernel %d bytes </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">errno</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">else</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"success for matching of write! the ret is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>为了保密需要，我将自己的id进行了替换。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/08/22/debian_software_path/">debian系统目录</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/08/24/tcpdump_tutorial/">tcpdump教程</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

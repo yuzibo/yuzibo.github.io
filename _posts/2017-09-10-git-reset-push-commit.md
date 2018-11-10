@@ -1,7 +1,7 @@
 ---
 title: "git撤销已经push到远端的commit"
 category: git
-layout: article
+layout: post
 ---
 
 # question

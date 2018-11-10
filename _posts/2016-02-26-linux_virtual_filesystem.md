@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: kernel 
 title: "linux中的vfs"
 ---

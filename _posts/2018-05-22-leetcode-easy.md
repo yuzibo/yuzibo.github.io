@@ -1,7 +1,7 @@
 ---
 title: "leetcode easy task"
 category: leetcode
-layout: article
+layout: post
 ---
 
 # 1 Two Sum

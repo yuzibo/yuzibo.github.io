@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "mysql忘记root密码"
 category: mysql
 ---

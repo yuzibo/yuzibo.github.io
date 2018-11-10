@@ -1,6 +1,6 @@
 ---
 title: "常用算法归类"
-layout: article
+layout: post
 category: algorithm
 ---
 

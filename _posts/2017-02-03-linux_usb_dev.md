@@ -1,6 +1,6 @@
 ---
 title: "linux中usb开发记录"
-layout: article
+layout: post
 category: kernel
 ---
 

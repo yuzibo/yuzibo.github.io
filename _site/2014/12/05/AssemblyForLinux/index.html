@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux下汇编小结</title>
+    <meta name="description" content="起因哪有什么起因啊，看着在linux kernel中大行其道的汇编代码，自己只能硬着头皮去找点资料来学习，不成想居然找到这么一个强悍的文章，如果你打算自己写一个编译器，那么这篇文章就是为你准备的，在这里test.c我们借助一个简单的例子，试着揭开linux下的真面目。int main(){	printf("hel...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/12/05/AssemblyForLinux/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux下汇编小结</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-12-05
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#assembly" title="Category: assembly" rel="category">assembly</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="起因">起因</h1>
+<p>哪有什么起因啊，看着在linux kernel中大行其道的汇编代码，自己只能硬着头皮去找点资料来学习，不成想居然找到这么一个强悍的文章，如果你打算自己写一个编译器，那么这篇文章就是为你准备的，<a href="http://www3.nd.edu/~dthain/courses/cse40243/fall2008/ia32-intro.html">在这里</a></p>
+
+<h2 id="testc">test.c</h2>
+<p>我们借助一个简单的例子，试着揭开linux下的真面目。</p>
+<pre>
+int main()
+{
+	printf("hello,world\n");
+	return 0;
+}
+</pre>
+<p>在linux下使用 gcc -S test.c 就会产生test.s文件，我在自己机子上可能由于加了头文件，反正汇编后的代码和博客中的代码不太一样。</p>
+<pre>
+	.file	"test.c"
+	.section	.rodata
+.LC0:
+	.string	"hello,world!"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB0:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	andl	$-16, %esp
+	subl	$16, %esp
+	movl	$.LC0, (%esp)
+	call	puts
+	movl	$0, %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	main, .-main
+	.ident	"GCC: (Debian 4.7.2-5) 4.7.2"
+	.section	.note.GNU-stack,"",@progbits
+
+
+</pre>
+<p>现在我们只需要关注三个不同的元素：</p>
+
+<h3 id="directives">Directives</h3>
+<p>以__.<strong>开头的结构信息，</strong>.global main__说明main是一个全局符号可以被其他代码模块引用，.string 暗示一个可以插入到输出代码的字符常量。</p>
+
+<h3 id="labels">Labels</h3>
+<p>以<em>:</em>结尾。它描述了名字和位置的联系。只要调用.LCO立马找到下面的字符串。main:被调用后，立即执行push %ebp(原文是这样表达的，但是我的不一样)，在Labels前面用一个.开头的是一个由编译器临时产生的局部变量，其他的就是用户可见和全局变量，现在gcc默认是极大优化的)</p>
+
+<h3 id="instructions">Instructions</h3>
+
+<p>如果我们把汇编代码弄成可执行代码,使用以下命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -m32 test.s -o test
+</code></pre></div></div>
+
+<h1 id="ia32-and-data-type">IA32 and Data Type</h1>
+<p>六个通用寄存器</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%eax,%ebx,%ecx,%edx,%esi,%edi
+</code></pre></div></div>
+
+<p>两个堆栈寄存器</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%esp,%ebp
+</code></pre></div></div>
+
+<p>bits:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%ah=%al  ==&gt; 8 bits. %ax ==&gt;16 bits. %eax ==&gt; 32 bits.
+</code></pre></div></div>
+
+<h1 id="addressing-modes">Addressing Modes</h1>
+<p>IA-32是 complex instruction set(CISC),so MOV has many different variants that move different types of data between different cells.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Suffix	Name Size
+B	BYTE 8bits
+W	WORD 16 bits
+L	LONG 32 bits
+</code></pre></div></div>
+
+<h2 id="操作数">操作数</h2>
+<p>在这里分为</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>global value
+immediate value:($56)
+register value:(%ebx)
+indirect((%sp),也就是MASM中[bx]),
+base-relative:(-12(%ecx))(这个语句是说这个值在%ecx暗示的地址(%ecx)下面12字节的内存中). 
+-12(%esi,%ebx,4): refers to the value at the address -12+%esi+%ebx*4
+
+绝对跳转指令和返回指令需要加"*"
+</code></pre></div></div>
+
+<h2 id="需要注意的区别">需要注意的区别</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AT&amp;T	Intel	说明
+
+Cbtw	Cbw      把%al中的字节值符号扩展到%ax中
+
+Cwtl	Cwde	把%ax符号扩展到%eax中
+
+Cwtd	Cwd	把%ax符号扩展到%dx：%eax中
+
+Cltd	Cdq	把%eax符号扩展到%edx：%eaxAT&amp;T
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/12/04/Gitforkerenl/">git追踪linux kerenl技巧</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/12/06/NetCommandForlinux/">10个重要的linux网络命令</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

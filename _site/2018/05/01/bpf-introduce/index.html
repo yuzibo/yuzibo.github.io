@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>bpf的简介</title>
+    <meta name="description" content="声明这篇文章主要的聚焦点在BPF,经过2017年的快速发展后，现在到了eBPF阶段。首先，参考这里installIf you install the bcc from source code,now i have some terrible question to resolve it.So, i recomme...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2018/05/01/bpf-introduce/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>bpf的简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-05-01
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#bpf" title="Category: bpf" rel="category">bpf</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="声明">声明</h1>
+<p>这篇文章主要的聚焦点在BPF,经过2017年的快速发展后，现在到了eBPF阶段。</p>
+
+<p>首先，参考<a href="https://linux.cn/post-9507-1.html">这里</a></p>
+
+<h1 id="install">install</h1>
+<p>If you install the bcc from source code,now i have some terrible question to resolve it.So, i recommended you install it from package manager.</p>
+
+<p><a href="http://www.brendangregg.com/ebpf.html#bccinstallation">here</a> To see section 5.1
+bcc tools will be installed under /usr/share/bcc/tools</p>
+
+<h1 id="run">run</h1>
+<p>Way 1: run it under /usr/share/bcc/tools</p>
+
+<p>Way 2: git clone <a href="https://github.com/iovisor/bcc">iovisor</a>, if it does right, you can run command of bcc directly.</p>
+
+<h1 id="bpf-vertifier">BPF vertifier</h1>
+
+<p>Rules:</p>
+
+<ol>
+  <li>
+    <p>Providing a verdict for kernel whether safe to run</p>
+  </li>
+  <li>
+    <p>Simulation of exection of all paths of the program</p>
+  </li>
+  <li>
+    <p>Steps involved(extract):</p>
+
+    <ol>
+      <li>
+        <p>Control flow graph</p>
+      </li>
+      <li>
+        <p>Out of range jumps, unreachable instructions</p>
+      </li>
+      <li>
+        <p>Contxt, initialized memory, stack spill</p>
+      </li>
+      <li>
+        <p>Pointer checking</p>
+      </li>
+      <li>
+        <p>Verifying helper function call arguments</p>
+      </li>
+      <li>
+        <p>Value and aligment tracking for data access</p>
+      </li>
+      <li>
+        <p>Living analysis register</p>
+      </li>
+      <li>
+        <p>Reducing verification complexity</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>Generlly, there is two check, The first check is :
+check_cfg()(Do you remember DFS?). It is check wheather is DAG(Directed Acyclic Graph).</p>
+
+<p>The second check is do_check(): register, memory, function, branch(&lt;1024),instructions &lt; 96K</p>
+
+<h1 id="bpf-jit">BPF JIT</h1>
+<p>C -&gt; LLVM -&gt; BPF -&gt; loader -&gt; verifier -&gt; JIT -&gt; tx/XDP -&gt; offload</p>
+
+<p>BPF registers mapped to CPU register 1:1</p>
+
+<ol>
+  <li>
+    <p>R0 -&gt; return value from helper call</p>
+  </li>
+  <li>
+    <p>R1-R5 -&gt; argument registers for helper call</p>
+  </li>
+  <li>
+    <p>R6-R9 -&gt; callee saved, preserved on helper call</p>
+  </li>
+  <li>
+    <p>R10 -&gt; Read only, as stack pointer</p>
+  </li>
+</ol>
+
+<h1 id="bpf-encoding">BPF encoding</h1>
+
+<p><a href="https://github.com/iovisor/bpf-docs/blob/master/eBPF.md">here</a></p>
+
+<p>MSB(most significant bit) 最高有效位　
+LSB(least significant bit) 最低有效位</p>
+
+<p>From least significant to most significant bit:</p>
+
+<p>MSB&lt;——&gt;LSB</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8 bit opcode
+4 bit destination register (dst)
+4 bit source register (src)
+16 bit offset
+32 bit immediate (imm)
+</code></pre></div></div>
+
+<p>Notes: Most instructions do not use all of these fields. Unused fields should be zeroed.</p>
+
+<h1 id="llvm">llvm</h1>
+<p>The context will be describe in Documents/bpf/bpf_devel_QA.txt llvm section.</p>
+
+<h1 id="reference">Reference</h1>
+<ol>
+  <li>
+    <p><a href="http://schd.ws/hosted_files/ossna2017/da/BPFandXDP.pdf">BPF_AND_XDP</a></p>
+  </li>
+  <li>
+    <p><a href="https://cdn.shopify.com/s/files/1/0177/9886/files/phv2017-gbertin.pdf">内核中高速包过滤</a>
+讨论了内核中包过滤的几种方式，尤其是bpf and xdp,介绍了DDos防御功能</p>
+  </li>
+</ol>
+
+<p>http://www.brendangregg.com/blog/2015-05-15/ebpf-one-small-step.html</p>
+
+<p>https://blog.yadutaf.fr/2016/03/30/turn-any-syscall-into-event-introducing-ebpf-kernel-probes/</p>
+
+<p>http://www.brendangregg.com/Slides/Velocity2017_BPF_superpowers.pdf</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/04/30/git-stash/">git on local branch and update master</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/05/01/git-cherry-pick/">git cherry-pick usage</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

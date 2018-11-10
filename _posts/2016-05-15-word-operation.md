@@ -1,6 +1,6 @@
 ---
 title: "word操作记录"
-layout: article
+layout: post
 category: word
 ---
 

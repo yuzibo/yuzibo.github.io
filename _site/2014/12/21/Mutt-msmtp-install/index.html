@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mutt,msmtp,fetchmail,procmail的配合使用</title>
+    <meta name="description" content="想要真正使用mutt，必须详细了解邮件系统的运作机制首先是安装必须的软件sudo apt-get install mutt fetchmail procmail msmtp2.邮件接收程序fetchmail和邮件分拣程序procmail后，首先分别创建各自的配置文件$ HOME/.fetchmailrc和$HOM...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/12/21/Mutt-msmtp-install/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Mutt,msmtp,fetchmail,procmail的配合使用</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-12-21
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>想要真正使用mutt，必须详细了解邮件系统的运作机制</p>
+
+<p>首先是安装必须的软件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install mutt fetchmail procmail msmtp
+</code></pre></div></div>
+
+<p>2.
+邮件接收程序fetchmail和邮件分拣程序procmail后，首先分别创建各自的配置文件$ HOME/.fetchmailrc和$HOME/.procmailrc，这样为的是让我们能独立使用fetchmail和procmail这两个程序 通过pop接收并分拣邮件。</p>
+
+<p>###关于mutt的一点说明</p>
+
+<p>1.邮件处理分为很多部分，这取决于你想如何应用这个邮件系统。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>邮件客户端(MUA),	A mail user agent MUA:
+MUA: Mail User Agent (email client)
+MTA: Mail Transport Agent (SMTP server)
+
+mutt and SMTP
+
+MDA: Mail Delivery Agent
+MRA: Mail Retrieval Agent (POP/IMAP client)
+</code></pre></div></div>
+
+<p>在这里，我们使用mutt作为邮件客户端。</p>
+
+<p>###分步讲解
+2.1</p>
+
+<p>MUA：让用户管理，如阅读、储存邮箱里的email，或者通过MSA将新的邮件发出。
+除了在unix上流行的mutt,其他较为流行的MUA还有：</p>
+
+<p>Other popular MUAs include Thunderbird, Kmail, evolution, Sylpheed,mulberry, pegasus, pine, and elm (mutt’’s predecessor)…</p>
+
+<p>2.2</p>
+
+<p>MTA: Mail Transport Agent(SMTP server)</p>
+
+<p>MTA的功能是接受、发送email到其他的MTAs，在Internet上，MTAs与MTAs交流使用的是 the Simple Mail Transfer Protocol,简称SMTP.官网上还有很多，自己也没有看懂，先就不写了</p>
+
+<p>较流行的MTAs有</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exim
+postfix
+sendmail
+qmail
+</code></pre></div></div>
+
+<p>2.3</p>
+
+<p>MDA: Mail Delivery Agent</p>
+
+<p>MDA的功能是从MTA接收一封email或者发送(过滤)email到用户的邮箱文件夹。</p>
+
+<p>而MDAs用的较多就是procmail.</p>
+
+<p>2.4</p>
+
+<p>MRA: Mail Retrieval Agent(POP/IMAP client)</p>
+
+<p>MRA的处理对象是POP/IMAP，很多功能和MUAs很象如果你能直接使用SHELL-cmd或者mutt直接读取邮件服务器的本地邮件，就不需要MRA了。</p>
+
+<p>我的理解是我们之所以使用MRA是我们能直接使用上面情况的机会很少，更多的使用是例如网易的163、126,google的gmail的邮件服务器，那么就需要MRA将他们服务器上的邮件转移到你这儿来</p>
+
+<p>MRA使用较多的是</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fetchmail ( http://fetchmail.berlios.de/)
+getmail ( http://pyropus.ca/software/getmail/)
+retchmail ( http://freecode.com/projects/retchmail)
+</code></pre></div></div>
+
+<p>##注意</p>
+
+<p>在实际应用中，上面的划分存在很多变体，与上面各个子系统的功能会有部分的叠加和交叉，其实，上面的邮件子系统也存在着很多交叉的功能，大家注意区分，毕竟，万变不离其宗。
+###参考—–</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> http://www.iki.fi/era/procmail/mini-faq.html#appendix-mx
+ http://www.feep.net/sendmail/tutorial/intro/MUA-MTA-MDA.html
+ http://ebusiness.gbdirect.co.uk/howtos/mail-system.html
+ http://twiki.org/cgi-bin/view/Wikilearn/EmailServerSketches
+ http://www.tldp.org/HOWTO/Mail-User-HOWTO/
+ http://www.netbsd.org/docs/guide/en/chap-mail.html
+</code></pre></div></div>
+
+<p>=====================</p>
+
+<p>前面都是基本知识,废话,下面才是重点</p>
+
+<p>====================</p>
+
+<p>#安装过程</p>
+<h2 id="安装mutt">安装mutt</h2>
+<p>建议源码安装，我自己偷懒了直接(先测试 mutt -v,若找不到，可能你的linux发行版没有安装)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install mutt
+</code></pre></div></div>
+
+<p>接着	mutt -v会出现</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System: xxx [using ncurses 5.2] [using libiconv 1.7]
+Compile options:
+-DOMAIN
+-DEBUG
+-HOMESPOOL  +USE_SETGID  +USE_DOTLOCK  +DL_STANDALONE
++USE_FCNTL  -USE_FLOCK
++USE_POP  +USE_IMAP  -USE_GSS  +USE_SSL  -USE_SASL  -USE_SASL2
++HAVE_REGCOMP  -USE_GNU_REGEX
++HAVE_COLOR  +HAVE_START_COLOR  +HAVE_TYPEAHEAD  +HAVE_BKGDSET
++HAVE_CURS_SET  +HAVE_META  +HAVE_RESIZETERM
++CRYPT_BACKEND_CLASSIC_PGP  +CRYPT_BACKEND_CLASSIC_SMIME
+-CRYPT_BACKEND_GPGME  -BUFFY_SIZE -EXACT_ADDRESS  -SUN_ATTACHMENT
++ENABLE_NLS  -LOCALES_HACK  +HAVE_WC_FUNCS  +HAVE_LANGINFO_CODESET		+HAVE_LANGINFO_YESEXPR
++HAVE_ICONV  -ICONV_NONTRANS  -HAVE_LIBIDN  +HAVE_GETSID			-HAVE_GETADDRINFO
+-ISPELL
+SENDMAIL="/usr/lib/sendmail"
+MAILPATH="/var/mail"
+...
+EXECSHELL="/bin/sh"
+</code></pre></div></div>
+
+<p>我们可以看出mutt的默认发送邮件的程序是 sendmail,下面我们使用msmtp来发送邮件,
+(配置文件先不写,在msmtp的后面)
+##install msmtp
+	sudo apt-get install msmtp</p>
+
+<p>msmtp 是一款专门负责邮件发送的客户端软件，基于GPL发布，支持TLS/SSL、DNS模式、IPv6、服务器端认证、多用户等特性。</p>
+
+<p>创建msmtp的配置文件～/.msmtprc,内容如下:</p>
+
+<p>vim $HOME/.msmtprc</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">defaults
+tls on
+tls_starttls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+<span class="c"># 126</span>
+account default
+host smtp.126.com
+from yuzibode@126.com
+auth on <span class="c">#</span>
+
+port 25
+user yuzibode
+password xx
+
+logfile /var/msmtp.log</code></pre></figure>
+
+<p>这个配置文件都要注意权限，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chmod 0600 $HOME/.msmtprc
+</code></pre></div></div>
+
+<p>在命令行下test send email:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msmtp xx@126.com
+</code></pre></div></div>
+
+<p>Ctrl+D,you will receive a letter later.</p>
+
+<p>那mutt与msmtp是怎么配合的呢?</p>
+
+<p>##配置mutt
+首先查看一下msmtp的安装位置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which msmtp
+</code></pre></div></div>
+
+<p>编辑mutt的配置文件，～/.muttrc</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#=====================</span>
+<span class="c">#关于msmtp的设置</span>
+
+<span class="nb">set </span><span class="nv">sendmail</span><span class="o">=</span>/usr/bin/msmtp
+<span class="nb">set </span><span class="nv">use_from</span><span class="o">=</span><span class="nb">yes
+set </span><span class="nv">realname</span><span class="o">=</span><span class="s2">"YU Bo"</span>
+<span class="nb">set </span><span class="nv">from</span><span class="o">=</span>yuzibode@126.com
+<span class="nb">set </span><span class="nv">envelope_from</span><span class="o">=</span><span class="nb">yes</span>
+<span class="c">#Update:</span>
+here, you have to create serveral files that contain message from 126 and so.
+For example, i can create there files orther than <span class="nb">dir </span>inbox, sent,
+i use inbox restore message.
+
+<span class="c"># received messages-folder</span>
+<span class="c">#set spoolfile="/var/spool/mail/yubo"</span>
+<span class="nb">set </span><span class="nv">spoolfile</span><span class="o">=</span><span class="s2">"~/Mail/inbox"</span> <span class="c">##It' ok</span>
+<span class="c">#====================</span>
+<span class="c">#关于信箱的设置</span>
+<span class="nb">set </span><span class="nv">folder</span><span class="o">=</span><span class="s2">"~/Mail"</span> <span class="c"># E-mail folder</span>
+<span class="nb">set </span><span class="nv">mbox</span><span class="o">=</span><span class="s2">"~/Mail/seen"</span> <span class="c"># save SEEN message</span>
+<span class="nb">set </span><span class="nv">record</span><span class="o">=</span><span class="s2">"+sent"</span> <span class="c">#set save sent-mail folder</span>
+<span class="nb">set </span><span class="nv">postponed</span><span class="o">=</span><span class="s2">"+postponed"</span> <span class="c"># 放草稿</span>
+<span class="nb">set </span><span class="nv">move</span><span class="o">=</span>no <span class="c">#移动已读邮件</span>
+<span class="c">#====================</span>
+<span class="c">#</span>
+mailboxes <span class="o">!</span> +Fetchmail +slrn +mutt
+<span class="nb">set </span><span class="nv">sort_browser</span><span class="o">=</span>alpha
+
+<span class="c">##############################</span>
+<span class="c">#使用下面的简单配置一定要小心</span>
+<span class="c">#只使用这几句简单的就可以把网易邮箱的东西弄到本地来</span>
+<span class="c">#set pop_user=yuzibode@126.com</span>
+<span class="c">#set pop_pass="xx"</span>
+<span class="c">#set pop_host=pops://pop.126.com</span>
+<span class="c">#set pop_last=yes</span>
+<span class="c">#####################</span>
+
+<span class="nb">set </span><span class="nv">editor</span><span class="o">=</span><span class="s2">"vim"</span>
+
+<span class="c">#终端显示的代码</span>
+<span class="c">#set charset="utf-8"</span>
+
+<span class="c">#外发邮件使用的编码</span>
+<span class="c">#set send_charset="UTF-8"</span>
+
+<span class="c">#auto view html</span>
+auto_view text/html
+
+
+<span class="c"># 回信时之前的引文符号</span>
+<span class="nb">set </span><span class="nv">indent_str</span><span class="o">=</span><span class="s2">"&gt;"</span>
+
+<span class="c">#macro index,pager I '&lt;shell-escape&gt; fetchmail -v&lt;enter&gt;'</span></code></pre></figure>
+
+<p>写好配置文件后,创建一个Mail目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -v $HOME/Mail
+</code></pre></div></div>
+
+<p>其他的子目录和日志文件不用管,我就是因为这个浪费了一天的时间.</p>
+
+<p>You can write email used mutt and sending it via msmtp</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "content:123456" | mutt -s "title" -a file yuzibode@126.com
+</code></pre></div></div>
+
+<p>tips:</p>
+
+<p>mutt -s: subject</p>
+
+<p>mutt -a: 附件</p>
+
+<p><strong>注意</strong>,在多个收件人的情况下,以空格键分隔收件人即可.</p>
+
+<p>对于 msmtp 的详细介绍，可以参考 http://msmtp.sourceforge.net/documentation.html 或者 man msmtp。</p>
+
+<p>文档里面提供了配置示例，包括 msmtp 配合 mutt 的配置。</p>
+
+<p>对于 mutt，还有很多需要配置，比如对多个邮件帐号的支持、分类文件夹等，这些会在后面的使用过程中逐渐完善。</p>
+
+<p>##fetchmail</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install fetchmail
+</code></pre></div></div>
+
+<p>Fetchmail用于将其它支持pop3的邮件服务器上取回邮件并保存到本地的spool中。它的配置文件为 ~/.fetchmail,在配置好后，还需要在shell的启动脚本里写入启动fetchmail的指令。</p>
+
+<p>.fetchmail文件的内容为：</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#每隔60秒获取新邮件</span>
+<span class="nb">set </span>daemon 60
+poll pop.126.com
+with proto POP3
+<span class="c">#and options no dns</span>
+uidl <span class="c"># 每次只读新的邮件</span>
+<span class="c">#protocol POP3</span>
+<span class="c">#port 25</span>
+user <span class="s2">"yuzibode@126.com"</span>
+password <span class="s2">"xx"</span>
+mda <span class="s2">"/usr/bin/procmail  -d %T"</span>
+ssl
+<span class="c">#在服务器上保留</span>
+keep
+<span class="c">#ssl</span>
+<span class="nb">set </span>logfile /var/fetchmail.log</code></pre></figure>
+
+<p>##procmail</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install procmail
+</code></pre></div></div>
+
+<p>这个文件具体的运行机制我也不是特别的明白,你先照着做吧</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">PATH</span><span class="o">=</span>/bin:/usr/bin:/usr/local/bin
+<span class="nv">MAILDIR</span><span class="o">=</span><span class="nv">$HOME</span>/Mail
+
+<span class="c">#DEFAULT=$MAILDIR/inbox</span>
+<span class="nv">VERBOSE</span><span class="o">=</span>OFF
+<span class="nv">LOGFILE</span><span class="o">=</span>/var/log/procmaillog
+
+:0:
+<span class="k">*</span> ^TOmutt-user
+mutt</code></pre></figure>
+
+<p>#最后两个文件的权限最好也要设置为600</p>
+
+<p>将这几个文件弄好后,在命令行下输入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mutt
+</code></pre></div></div>
+
+<p>接着键入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>! 你可以在shell输入: fetchmail -v
+</code></pre></div></div>
+
+<p>其实刚才set daemon 60就已经弄好了,在mutt的世界里慢慢玩吧!</p>
+
+<h1 id="更新-2016-01-03">更新 2016-01-03</h1>
+
+<p>这里,我将fetchnail更换为getmail,非常不错,有一点遗憾就是没有实现将所有的邮箱回收.新增功能[0]签名[1]联系人</p>
+
+<p>#更新2016-01-05</p>
+
+<p>现在,直接使用mutt内置的imap,话说好用多了.
+实现功能,[0]mutt客户端与gamil同步,删写同步;</p>
+
+<p>[1]还要逐步把列表列出来.在认证的界面上,键入”y”,就可以打开默认信箱了.同时,自己想要调试mutt时,应该
+	mutt -d2</p>
+
+<p>然后在主目录下有个.muttdebug0的文件,所有的调试信息都在这里面.</p>
+
+<p>[3]当你把 linux kernel的邮件列表写上的话,它默认以 cc 的形式,这一点很好,把你的联系人搞全,这样就会突出重点,当别人给你写信的话,就是直接对方的名字</p>
+
+<p>[4]在自己还有弄清楚之前,我发的信件还是保存一下吧</p>
+
+<p>#更新2016-02-14</p>
+
+<p>可以使用imaps的gmail</p>
+
+<p>以上没有错误了,只不过msmtp也需要gmail的专用密码,有时候还是有错误的</p>
+
+<p>我的mutt的配置文件放在<a href="http://pan.baidu.com/s/1VmKJ8">百度云</a></p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/12/11/segmentforlinux/">linux中的段</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/12/24/Perl2/">perl练习(2)</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

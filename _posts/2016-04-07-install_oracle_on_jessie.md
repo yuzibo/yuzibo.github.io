@@ -1,6 +1,6 @@
 ---
 title: "在jessie上安装oracle 11gR2"
-layout: article
+layout: post
 category: oracle
 ---
 # 先期条件
@@ -311,5 +311,5 @@ oracle@debian:/opt/oracle/11g/bin$
 # 参考连接
 
 [one](http://www.cnblogs.com/mophee/archive/2013/06/01/3107137.html)
-[two](https://www.debian-administration.org/article/656/Installing_Oracle11_and_Oracle12_on_Debian_Wheezy_Squeeze)
+[two](https://www.debian-administration.org/post/656/Installing_Oracle11_and_Oracle12_on_Debian_Wheezy_Squeeze)
 [three](http://www.cloudnetwork.in/2015/01/how-to-install-oracle-11g-r2-step-by.html)

@@ -1,6 +1,6 @@
 ---
 title: "irssi使用记录"
-layout: article
+layout: post
 category: tools
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "ebpf基础知识"
 category: bpf
-layout: article
+layout: post
 ---
 
 # Main features

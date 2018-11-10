@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page24/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/03/08/lkml_learn/">在lkml上学到的</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-03-08
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>kernel的维护者，表面上很光鲜，其实他们的责任很大。</p>
+
+<p>暂时先将lkml上看到的自己总结下来，每天看列表也是成为maintainer的基本功:)</p>
+
+<h1 id="使用calloc代替malloc--memset">使用calloc代替malloc() + memset()</h1>
+
+<p>在man calloc的手册中，我们可以看到是这么解释的.</p>
+
+<blockquote>
+  <p>给数组中的每一个元素分配一个内存，然后内存空间被设置为0.</p>
+</blockquote>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">The</span>  <span class="n">calloc</span><span class="p">()</span>  <span class="n">function</span> <span class="n">allocates</span> <span class="n">memory</span> <span class="k">for</span> <span class="n">an</span> <span class="n">array</span> <span class="n">of</span> <span class="n">nmemb</span> <span class="n">elements</span>
+<span class="n">of</span> <span class="n">size</span> <span class="n">bytes</span> <span class="n">each</span> <span class="n">and</span> <span class="n">returns</span> <span class="n">a</span> <span class="n">pointer</span> <span class="n">to</span> <span class="n">the</span> <span class="n">allocated</span> <span class="n">memory</span><span class="p">.</span>   <span class="n">The</span>
+<span class="n">memory</span>  <span class="n">is</span>  <span class="n">set</span>  <span class="n">to</span> <span class="n">zero</span><span class="p">.</span>  <span class="n">If</span> <span class="n">nmemb</span> <span class="n">or</span> <span class="n">size</span> <span class="n">is</span> <span class="mi">0</span><span class="p">,</span> <span class="n">then</span> <span class="n">calloc</span><span class="p">()</span> <span class="n">returns</span>
+<span class="n">either</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">or</span> <span class="n">a</span> <span class="n">unique</span> <span class="n">pointer</span> <span class="n">value</span> <span class="n">that</span> <span class="n">can</span> <span class="n">later</span>  <span class="n">be</span>  <span class="n">successfully</span>
+<span class="n">passed</span> <span class="n">to</span> <span class="n">free</span><span class="p">().</span>
+</code></pre></div></div>
+<p>我们使用malloc和memset也是实现相同的东西</p>
+
+<h1 id="linux-kernel-开发周期">linux kernel 开发周期</h1>
+<p>每一个新版本的发布需要两周的合并期，也就是linus从各个维护人那里得到新的特征
+放进主线内核(mainline)，两周之后，合并期关闭，然后被标记为”rc1”.在这期间，
+不引入新的特征，只是对”rc1”的已有内容进行维护(修修补补)，一周以后，”rc2”发布</p>
+
+<p>这个过程一直维持到”rc7”,个别时期有可能是”rc6”或者”rc8”。当这一切到来时，
+就会正式发布这个内核。比如，到了”4.5-rc7”,接下来，linus会发布”4.5”的正式版本。而对于”4.6”版本的开发周期又开始了.</p>
+
+<h1 id="修订原先patch的格式">修订原先patch的格式</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">Fixes</span><span class="o">:</span> <span class="n">d85b758f72b0</span> <span class="s">"virtio_net: fix support for small rings"</span>
+
+<span class="n">Fixes</span><span class="o">:</span> <span class="n">d85b758f72b0</span> <span class="p">(</span><span class="s">"virtio_net: fix support for small rings"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>后者才是正确的，被社区认可的。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/03/08/lkml_learn/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/03/07/udev_kernel/">udev用户空间设备管理</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-03-07
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>内核提供机制，但不能在内核中提供策略。
+比如所谈恋爱，内核不但可以允许我们谈恋爱，而且也不能限制我们和谁谈。
+以前利用devfs实现的时候，第一个相亲的女孩为/dev/girl01,第二个相亲的女孩为
+/dev/girl02,在udev的实现下，不管第几个女孩，统一称为/dev/mygirl.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * netlink的使用规范，使用的udev
+ * 策略和机制的区别
+ *
+ * */</span>
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;sys/socket.h&gt;
+#include&lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;linux/netlink.h&gt;
+#include&lt;poll.h&gt;
+</span><span class="k">static</span> <span class="kt">void</span> <span class="nf">die</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="k">struct</span> <span class="n">sockaddr_nl</span> <span class="n">nls</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">pollfd</span> <span class="n">pfd</span><span class="p">;</span>
+	<span class="kt">char</span>  <span class="n">buf</span><span class="p">[</span><span class="mi">512</span><span class="p">];</span>
+
+	<span class="cm">/*
+	 * open hotplug event netlink socket
+	 * */</span>
+	<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">nls</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_nl</span><span class="p">));</span>
+	<span class="n">nls</span><span class="p">.</span><span class="n">nl_family</span> <span class="o">=</span> <span class="n">AF_NETLINK</span><span class="p">;</span>
+	<span class="n">nls</span><span class="p">.</span><span class="n">nl_pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>
+	<span class="n">nls</span><span class="p">.</span><span class="n">nl_groups</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">pfd</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">POLLIN</span><span class="p">;</span>
+	<span class="n">pfd</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">PF_NETLINK</span><span class="p">,</span><span class="n">SOCK_DGRAM</span><span class="p">,</span><span class="n">NETLINK_KOBJECT_UEVENT</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">pfd</span><span class="p">.</span><span class="n">fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+		<span class="n">die</span><span class="p">(</span><span class="s">"not root</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="p">}</span>
+	<span class="c1">//listen to the netlink socket</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">pfd</span><span class="p">.</span><span class="n">fd</span><span class="p">,(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">nls</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_nl</span><span class="p">))){</span>
+
+		<span class="n">die</span><span class="p">(</span><span class="s">"Bind failure.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pfd</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)){</span>
+		<span class="cm">/*
+		 * wait something to happen
+		 * */</span>
+		<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">pfd</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span><span class="n">MSG_DONTWAIT</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">len</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">die</span><span class="p">(</span><span class="s">"recv failed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="c1">//print data to the stdout</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">){</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buf</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span><span class="cm">/* char pointer */</span>
+			<span class="n">i</span> <span class="o">+=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* ?? */</span>
+		<span class="p">}</span>
+
+	<span class="p">}</span>
+	<span class="n">die</span><span class="p">(</span><span class="s">"poll</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+<p>udev完全在用户态工作，利用设备加入或者移除时内核所发送的热插拔(hotplug)事件
+来工作。在热插拔时，设备的详细信息通过netlink套接字发送出来，发出的事情叫做
+uevent。
+这段代码的实现了内核通过netlink接受热插拔事件并冲刷掉的范例.编译并运行这段
+代码，然后插入usb或者其他热插拔事件，会在终端收到相关的信息.</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/03/07/udev_kernel/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/03/06/operation_on_file/">c语言的文件操作</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-03-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;sys/stat.h&gt;
+#include&lt;fcntl.h&gt;
+</span>
+<span class="cp">#define LENGTH 100
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">len</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">LENGTH</span><span class="p">];</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"hello.txt"</span><span class="p">,</span> <span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">O_RDWR</span><span class="p">,</span> <span class="n">S_IRUSR</span> <span class="o">|</span> <span class="n">S_IWUSR</span><span class="p">);</span>
+	<span class="cm">/*
+	 * creat and open file
+	 * */</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">fd</span><span class="p">){</span>
+		<span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="s">"Hello,world"</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="s">"Hello,world"</span><span class="p">));</span>
+		<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+	<span class="p">}</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"hello.txt"</span><span class="p">,</span><span class="n">O_RDWR</span><span class="p">);</span>
+	<span class="n">len</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">LENGTH</span><span class="p">);</span>
+	<span class="cm">/*
+	 * str copied from file that should add '\0'
+	 * */</span>
+	<span class="n">str</span><span class="p">[</span><span class="n">len</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">str</span><span class="p">);</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+
+<span class="p">}</span>
+<span class="cm">/*
+ * 上面的c语言函数是系统调用，这段代码是库函数的实现
+ * 从这里我们可以看出，库函数的文件操作的前面都有一个f，
+ * 这可能就是这两者最明显的区别了
+ * */</span>
+
+</code></pre></div></div>
+
+<p>下面这是先向文件写内容，后来再读取文件中的内容。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#define LENGTH 100
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">FILE</span> <span class="o">*</span><span class="n">fd</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">LENGTH</span><span class="p">];</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span><span class="s">"w+"</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">fd</span><span class="p">){</span>
+		<span class="n">fputs</span><span class="p">(</span><span class="s">"Hello,yubo"</span><span class="p">,</span> <span class="n">fd</span><span class="p">);</span>
+		<span class="cm">/*Here, fputs write char into file */</span>
+		<span class="n">fclose</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"yubo.txt"</span><span class="p">,</span><span class="s">"r"</span><span class="p">);</span>
+	<span class="n">fgets</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="n">LENGTH</span><span class="p">,</span><span class="n">fd</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">str</span><span class="p">);</span>
+	<span class="n">fclose</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/03/06/operation_on_file/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/03/05/qemu_debug_debian/">qemu调试kernel</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-03-05
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>之前安装过Bochs,但是本身也没有怎么用，看到网上说使用qemu效果好一些，也就简
+简单单的安装下来。</p>
+
+<h1 id="kernel">kernel</h1>
+
+<ol>
+  <li>先下载源代码，我这里是用的git。</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$git</span> clone
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+<span class="nv">$cd</span> linux
+
+<span class="nv">$ </span>make menuconfig
+
+<span class="c">#在kernel hacking中选中compile the kernel with debug info,</span>
+
+<span class="nv">$ </span>make bzImage
+
+</code></pre></div></div>
+
+<p>编译后，bzImage这个是被压缩了的，供qemu虚拟机使用，vmlinux里面带了某些信息，
+没有压缩，供gdb使用。</p>
+
+<h1 id="安装qemu">安装qemu</h1>
+
+<ol>
+  <li>先下载源代码，git</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git://git.qemu-project.org/qemu.git
+
+</code></pre></div></div>
+
+<ol>
+  <li>简单的测试下(不是重点，而且费时):</li>
+</ol>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp"># Switch to the QEMU root directory.
+</span><span class="n">cd</span> <span class="n">qemu</span>
+
+<span class="cp"># Prepare a native debug build.
+</span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">bin</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">native</span>
+<span class="n">cd</span> <span class="n">bin</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">native</span>
+
+<span class="cp"># Configure QEMU and start the build.
+</span><span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">debug</span>
+<span class="n">make</span>
+
+<span class="cp"># Return to the QEMU root directory.
+</span><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="p">..</span>
+
+</code></pre></div></div>
+<p>使用以下命令:</p>
+
+<blockquote>
+  <p>bin/debug/native/x86_64-softmmu/qemu-system-x86_64 -L pc-bios</p>
+</blockquote>
+
+<ol>
+  <li>现在只安装自己平台的东西</li>
+</ol>
+
+<p>同时应该将上面运行后的东西删除掉。</p>
+
+<blockquote>
+  <p>make clean</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>switch to the QEMU root directory
+<span class="nb">cd </span>qemu
+<span class="c"># Configure QEMU for x86_64 only - faster build</span>
+./configure <span class="nt">--target-list</span><span class="o">=</span>x86_64-softmmu <span class="nt">--enable-debug</span>
+
+<span class="c"># Build in parallel - my system has 4 CPUs</span>
+make <span class="nt">-j4</span>
+</code></pre></div></div>
+
+<ol>
+  <li>运行调试</li>
+</ol>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/03/05/qemu_debug_debian/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/03/04/gdb/">gdb调试举例</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-03-04
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="终于有机会总结gdb了">终于有机会总结gdb了</h1>
+<p>首先声明一点吧，这是我一直以来的没有搞明白的地方。</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">b</span> <span class="n">main</span>
+<span class="n">Breakpoint</span> <span class="mi">1</span> <span class="n">at</span> <span class="mh">0x5555555546e9</span><span class="o">:</span> <span class="n">file</span> <span class="n">my</span><span class="p">.</span><span class="n">c</span><span class="p">,</span> <span class="n">line</span> <span class="mi">21</span><span class="p">.</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">r</span>
+<span class="n">Starting</span> <span class="n">program</span><span class="o">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yubo</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">my</span>
+
+<span class="n">Breakpoint</span> <span class="mi">1</span><span class="p">,</span> <span class="n">main</span> <span class="p">()</span> <span class="n">at</span> <span class="n">my</span><span class="p">.</span><span class="n">c</span><span class="o">:</span><span class="mi">21</span>
+<span class="mi">21</span>		<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">s</span>
+<span class="mi">22</span>		<span class="n">n</span><span class="o">++</span><span class="p">;</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="n">n</span>
+<span class="err">$</span><span class="mi">1</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>在这段代码中，我设置了一个断点并且运行起来，注意，断点处，21，这个21的n=1还没有被执行，只是下一次将要执行的语句，例证就是22的代码，你看，在22处， 虽然打印了n++,但是你打印 <code class="highlighter-rouge">p n</code>, 则还是n，说明n没有加1，所以这就是下一条语句要执行的过程。</p>
+
+<h1 id="下面的这个程序我还弄不明白继续debug">下面的这个程序我还弄不明白,继续debug</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+	<span class="kt">int</span> <span class="o">*</span><span class="n">ptr1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="o">*</span><span class="n">ptr2</span> <span class="o">=</span> <span class="p">((</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="kt">int</span><span class="p">)</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%x,%x"</span><span class="p">,</span><span class="n">ptr1</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="o">*</span><span class="n">ptr2</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h1 id="list命令">list命令</h1>
+
+<h3 id="list-num">list num</h3>
+
+<p>显示源代码的num行的周围几行。</p>
+
+<h3 id="list-function">list function</h3>
+<p>显示函数。</p>
+
+<h1 id="p命令">p命令</h1>
+
+<h3 id="打印结构体元素">打印结构体元素</h3>
+
+<p>使用这个命令，还可以查看结构体的各元素值</p>
+
+<blockquote>
+  <p>p *pstDate</p>
+</blockquote>
+
+<h3 id="打印数组元素">打印数组元素</h3>
+
+<p>如果你想查看一个数组的各个元素，别像我似的傻乎乎的一个个 p a[i],节省生命的做
+法应该是：</p>
+
+<blockquote>
+  <p>p ArrayVal@itemnum</p>
+</blockquote>
+
+<p>什么意思？意思就是打印数组ArrayVal的前itemnum个元素。</p>
+
+<h3 id="格式控制">格式控制</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p /x Val    十六进制
+
+  /c		字符？
+
+  /f		浮点型？
+</code></pre></div></div>
+
+<h3 id="查看内存变量">查看内存变量</h3>
+
+<blockquote>
+  <p>x</p>
+</blockquote>
+
+<p>我也不知道这一个有什么作用现在为止</p>
+
+<h3 id="查看局部变量">查看局部变量</h3>
+
+<p>info local</p>
+
+<h1 id="run">run</h1>
+
+<h2 id="set-args-num1-num2-num3-">set args num1 num2 num3 ..</h2>
+<p>使用show args查看设置的参数。</p>
+
+<h1 id="break">break</h1>
+
+<h2 id="break-function">break function</h2>
+<p>你可以在一个函数前面加上b,到时候就可以在这个函数设置断点了。</p>
+
+<h2 id="break-lines">break lines</h2>
+
+<h2 id="break-filenamelinenum">break filename:linenum</h2>
+<p>在源文件filename的linenum行设置断点</p>
+
+<h2 id="break-filenamefunction">break filename:function</h2>
+<p>在源文件的filename的function设置断点</p>
+
+<h2 id="break-address">break *address</h2>
+<p>在程序运行的内存空间地址处停住.</p>
+
+<h2 id="break-1">break</h2>
+<p>没有参数时，表示在下一条指令处停住。</p>
+
+<h2 id="break-if-">break if <condition></condition></h2>
+<p>比如，设置</p>
+
+<blockquote>
+  <p>break if i = 10;</p>
+</blockquote>
+
+<p>就是在循环体内当i等于10的时候停住。</p>
+
+<p>方便一点的话，可以使用</p>
+
+<blockquote>
+  <p>filename:line_numbers if i == 5</p>
+</blockquote>
+
+<p>比如， 我想在文件gdb.c的循环体for内当I等于5的停下来，则：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">break</span> <span class="n">gdb</span><span class="p">.</span><span class="n">c</span><span class="o">:</span><span class="mi">6</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">5</span>
+</code></pre></div></div>
+
+<h1 id="单步执行-next和step">单步执行 next和step</h1>
+
+<p>在调用函数的那行，设置个断点，然后step就进入函数体内。
+扩展的用法是next<count>和step<count></count></count></p>
+
+<h1 id="finish">finish</h1>
+<p>运行程序直到当前函数完成返回，并打印函数的返回时的堆栈地址、返回值及参数值。</p>
+
+<h2 id="until">until</h2>
+<p>使用until退出循环体。这一条十分重要哈^_^.</p>
+
+<h2 id="stepisi-和nextini">stepi(si) 和nexti(ni)</h2>
+<p>stepi用于单步跟踪一条机器指令，另外使用</p>
+
+<blockquote>
+  <p>display/i $pc</p>
+</blockquote>
+
+<p>在打印出程序代码的同时打印出机器指令。</p>
+
+<h1 id="watch">watch</h1>
+<p>watch <exp> 为表达式exp设置一个观察点，一旦表达式的值发生变化，马上停止程序运行。</exp></p>
+
+<p>rwatch <expr> 当表达式被读时，停止程序运行。</expr></p>
+
+<p>awatch <expr> 当表达式的值被读或者被写时，停止程序运行。</expr></p>
+
+<p>info watchpoints: 列出当前所设置的所有观察点。</p>
+
+<h1 id="查看函数体内的变量值">查看函数体内的变量值</h1>
+
+<p>当我们使用 s 命令进入函数体内时，除了简单的 p 打印，还要更加丰富些，比如，使用backtrace(bt)</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">bt</span>
+<span class="cp">#0  add_range (low=1, high=10) at main.c:6
+#1  0x080483c1 in main () at main.c:14
+</span></code></pre></div></div>
+<p>从这里可以看出add_range()函数是main函数调用的，main传进来的参数是low=1，high=10，main的帧为1，add_range()的帧为0，使用i(info)来看函数局部变量的值。</p>
+
+<p>如果想查看main函数的当前局部变量也可以，先使用frame(f)命令,选择1号栈再查看局部变量的值：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">f</span> <span class="mi">1</span>
+<span class="cp">#1  0x080483c1 in main () at main.c:14
+</span><span class="mi">14</span>		<span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">i</span> <span class="n">locals</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">134513196</span><span class="p">,</span> <span class="mi">225011984</span><span class="p">,</span> <span class="o">-</span><span class="mi">1208685768</span><span class="p">,</span> <span class="o">-</span><span class="mi">1081160480</span><span class="p">,</span>
+<span class="p">...</span>
+  <span class="o">-</span><span class="mi">1208623680</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="一次性查看结构体各个成员的值">一次性查看结构体各个成员的值</h1>
+
+<p>比如，我有一个结构体结构是这样的：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*一个有权值的边集在图中*/</span>
+ <span class="k">struct</span> <span class="n">Edge</span><span class="p">{</span>
+ 	<span class="kt">int</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">weight</span><span class="p">;</span>
+
+ <span class="p">};</span>
+
+ <span class="cm">/* V: 顶点数 E：边数,无向图*/</span>
+ <span class="k">struct</span> <span class="n">Graph</span><span class="p">{</span>
+ 	<span class="kt">int</span> <span class="n">V</span><span class="p">,</span><span class="n">E</span><span class="p">;</span>
+ 	<span class="k">struct</span> <span class="n">Edge</span><span class="o">*</span> <span class="n">edge</span><span class="p">;</span>
+ <span class="p">};</span>
+</code></pre></div></div>
+
+<p>先定义一个graph,在完成一次loop操作后，这时我想查看其中的各个域的值，可以一次一次的使用：</p>
+
+<blockquote>
+  <p>p graph@v</p>
+</blockquote>
+
+<p>等进行查看，不过这样查看效率可是不高，所以在gdb中，需要使用脚本：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>gdb<span class="o">)</span> <span class="nb">set</span> <span class="nv">$i</span><span class="o">=</span>5
+<span class="o">(</span>gdb<span class="o">)</span> <span class="k">while</span> <span class="o">(</span><span class="nv">$i</span><span class="o">!=</span>0<span class="o">)</span>
+ <span class="o">&gt;</span>print graph-&gt;edge[<span class="nv">$i</span><span class="o">]</span>
+ <span class="o">&gt;</span><span class="nb">set</span> <span class="nv">$i</span> <span class="o">=</span> <span class="nv">$i</span> - 1
+ <span class="o">&gt;</span>end
+<span class="nv">$5</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 2, dest <span class="o">=</span> 4, weight <span class="o">=</span> 7<span class="o">}</span>
+<span class="nv">$6</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 4, dest <span class="o">=</span> 1, weight <span class="o">=</span> 6<span class="o">}</span>
+<span class="nv">$7</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 0, dest <span class="o">=</span> 4, weight <span class="o">=</span> 5<span class="o">}</span>
+<span class="nv">$8</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 49, dest <span class="o">=</span> 0, weight <span class="o">=</span> 0<span class="o">}</span>
+<span class="nv">$9</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 3, dest <span class="o">=</span> 2, weight <span class="o">=</span> 4<span class="o">}</span>
+</code></pre></div></div>
+<h1 id="补充assemble">补充(assemble)</h1>
+
+<p><code class="highlighter-rouge">disassembles /rm</code>这个函数就会显示当前函数的汇编信息，其中，<code class="highlighter-rouge">/r</code>是十六进制(raw instructions), <code class="highlighter-rouge">/m</code>,如果你对intel 的汇编语法感兴趣，可以使用这个命令。</p>
+
+<p><code class="highlighter-rouge">x/i $pc</code> 这条命令是AT&amp;T的语法格式的。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/03/04/gdb/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/03/03/bash_argc/">shell的命令行参数</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-03-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#shell" title="Category: shell" rel="category">shell</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="简化命令">简化命令</h1>
+<p>最近，在使用vps，经常需要经本地文件经<code class="highlighter-rouge">scp</code>命令传到vps上去，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp <span class="nt">-P</span> ssh-port filename user@ip:path
+</code></pre></div></div>
+
+<p>但是，用多了就觉得很笨.于是，经过简单的了解，解决了这个小问题。</p>
+
+<p>首先，回顾一下bash-shell的几个参数：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$0</span> : ./test.sh 即命令本身，相当于c/c++的argc[0]
+
+<span class="nv">$1</span> : 第一个参数
+
+<span class="nv">$2</span> : 第二个参数
+...
+
+<span class="nv">$# </span>: 参数的个数，不包括命令本身
+
+<span class="nv">$@</span> : 参数本身的列表，也不包括命令本身
+
+<span class="nv">$*</span> : 正常模式下同<span class="nv">$@</span>相同，但是加上引号，<span class="s2">"</span><span class="nv">$*</span><span class="s2">"</span> 将所有的参数解释成一个字符串，而
+	<span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>是一个参数数组
+</code></pre></div></div>
+<p>所以，我的上传文件的脚本scp.sh也就简简单单的出来了;</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp <span class="nt">-P</span> ssh-port <span class="nv">$1</span> root@ip:/path-you-want-to-save/
+</code></pre></div></div>
+<p>然后，执行</p>
+
+<blockquote>
+  <p>sh scp.sh filename</p>
+</blockquote>
+
+<p>然后，你就等待输入密码就可以了。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/03/03/bash_argc/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page23" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">24/36</span>
+          
+            <a href="/page25" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

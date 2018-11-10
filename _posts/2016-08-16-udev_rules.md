@@ -1,6 +1,6 @@
 ---
 title: "udev的编写"
-layout: article
+layout: post
 category: kernel
 ---
 

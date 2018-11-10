@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>二叉树的性质和使用</title>
+    <meta name="description" content="摘要二叉树是一种非常重要的数据结构，今天我们来讲讲它。滚粗。。。老子不是遇到很好的知识点，我才懒得理你呢。。。重要特性以下性质暗含root node 为第一层  第i层上顶多有2^(i-1)个节点。证明：数学归纳法。i=1时，显然2^(1-1) = 2^0 = 1个节点是对的现在假设对所有的j，1&lt;=j&l...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/05/02/binary-tree/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>二叉树的性质和使用</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-05-02
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#DS" title="Category: DS" rel="category">DS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="摘要">摘要</h1>
+
+<p>二叉树是一种非常重要的数据结构，今天我们来讲讲它。</p>
+
+<p>滚粗。。。老子不是遇到很好的知识点，我才懒得理你呢。。。</p>
+
+<h1 id="重要特性">重要特性</h1>
+
+<p>以下性质暗含root node 为第一层</p>
+
+<ol>
+  <li>第i层上顶多有2^(i-1)个节点。</li>
+</ol>
+
+<p>证明：数学归纳法。</p>
+
+<p>i=1时，显然2^(1-1) = 2^0 = 1个节点是对的</p>
+
+<p>现在假设对所有的j，1&lt;=j&lt;i,第j层上至多有2^(j-1)个节点，那么可以证明j=i时命题
+也成立。</p>
+
+<p>由归纳假设，第i-1层上至多有2^(i-2)个节点，由于二叉树的每个度最多为2，故第i层
+上节点数为第i-1层上的2倍，即2*2^(i-2).</p>
+
+<ol>
+  <li>深度为k的二叉树最多有2^k - 1个节点。</li>
+</ol>
+
+<p>证明： 根据上面的1，每层最多节点数之和是一个等比数列，故证之。</p>
+
+<ol>
+  <li>对于任何一棵二叉树T，其终端节点（叶子节点）为n0，度为2的节点数为n2，则n0=
+n2+1</li>
+</ol>
+
+<p>证明：设度为1的节点为n1，则二叉树T中节点总数n等于n=n1+n2+n0.
+如二叉树T分枝数为B，因为二叉树中除了根节点没有入度，其余节点都有一个入度，所
+以n=B+1.又因为这些分支由度为1或者2的节点射出的，则B=n1+2n2，所以有
+1+n1+2n2=n1+n2+n0 ==&gt; n0=n2+1</p>
+
+<ol>
+  <li>具有N个节点的完全二叉树的深度为floor(LOG2N) + 1.
+(这里是以2为低，对数为N的运算)</li>
+</ol>
+
+<h1 id="以数组表示二叉树">以数组表示二叉树</h1>
+
+<p>如果使用数组代表二叉树的话，那么数组里的元素依次就是从根节点水平方向读取来的</p>
+
+<p>如果根节点在数组的下标是从1开始,那么就有如下性质：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PARENT(i)		return floor(i/2)
+
+LEFT(i)			return 2i
+
+RIGHT(i)		return 2i + 1
+</code></pre></div></div>
+
+<p>如果根节点从数组下标为0开始，那么有如下性质：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PARENT(i)		return floor[(i-1)/2] 
+
+LEFT(i)			return 2*i+1
+
+RIGHT(i)		return 2i + 2
+</code></pre></div></div>
+
+<h1 id="以链表表示二叉树">以链表表示二叉树</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span><span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Node</span><span class="o">*</span> <span class="n">left</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">Node</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+<span class="p">}</span><span class="n">Node</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="二叉树的几个操作">二叉树的几个操作</h2>
+
+<p>新建一个二叉树</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Node</span><span class="o">*</span> <span class="nf">newNode</span><span class="p">(</span><span class="kt">int</span> <span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="o">=</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">=</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>得到二叉树的高度</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* 将root == NULL的返回值置为-1或者0，结果不一样*/</span>
+<span class="kt">int</span> <span class="nf">getHeight</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="cm">/* 返回为0， 结果是从根节点到叶子节点的节点数，
+    *  返回为-1， 是经历的路径长度 */</span>
+	<span class="kt">int</span> <span class="n">left_height</span> <span class="o">=</span> <span class="n">getHeight</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">right_height</span> <span class="o">=</span> <span class="n">getHeight</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">left_height</span> <span class="o">&gt;</span> <span class="n">right_height</span> <span class="o">?</span> <span class="n">left_height</span>  <span class="o">:</span> <span class="n">right_height</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>计算节点的数目</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* The number of node*/</span>
+<span class="kt">int</span> <span class="nf">node_num_tree</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="cm">/* 这里的返回 0 还是有区别的 */</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">node_num_tree</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">node_num_tree</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>计算叶子的数目</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* the numbers of leaves */</span>
+<span class="kt">int</span> <span class="nf">leaf_num_tree</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">leaf_num_tree</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">leaf_num_tree</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+<p><a href="https://github.com/yuzibo/DS/blob/master/data_struct/tree/bst.c">代码</a></p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/05/01/mutt_commands/">mutt&&lynx使用技巧</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/05/03/liner-math/">高等代数入门</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

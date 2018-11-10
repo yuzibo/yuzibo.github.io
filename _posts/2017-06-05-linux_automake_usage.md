@@ -1,7 +1,7 @@
 ---
 title: "linux的automake使用方法-未完"
 category: make
-layout: article
+layout: post
 ---
 
 [这篇](http://www.aftermath.cn/Makefile.html)简单的介绍下了Makefile文件，但是如果你自己独自写一个完整的Makefile，这多少有些不现实。在类unix下，有个automake的工具，这个就可以好好利用.

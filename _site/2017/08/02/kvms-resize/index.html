@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>虚拟机扩充容量</title>
+    <meta name="description" content="一好不容易使用libvirt库结合qemu把虚拟机装起来，但是没有想到在跑项目的时候居然dik　space 太小了，看来是自己当初安装虚拟机的时候把容量给小了，想办法在整回去呗.二首先声明，我使用的是qemu自带的qcow2文件格式，但是好像这个并不会影响的使用。现在，我的kvms已经扩充完毕，有些数据已经拿不到...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/08/02/kvms-resize/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>虚拟机扩充容量</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-08-02
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kvms" title="Category: kvms" rel="category">kvms</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="一">一</h1>
+<p>好不容易使用libvirt库结合qemu把虚拟机装起来，但是没有想到在跑项目的时候居然dik　space 太小了，看来是自己当初安装虚拟机的时候把容量给小了，想办法在整回去呗.</p>
+
+<h1 id="二">二</h1>
+<p>首先声明，我使用的是qemu自带的qcow2文件格式，但是好像这个并不会影响的使用。现在，我的kvms已经扩充完毕，有些数据已经拿不到了，但是思路还在的，我可以使用我的笔记再一次演示一遍的.</p>
+
+<h1 id="步骤">步骤</h1>
+<p>我的pool文件定义在<code class="highlighter-rouge">/opt/kvms/pools/devel/debian-9.qcow2</code>,</p>
+
+<ol>
+  <li>
+    <p>stop your VM</p>
+  </li>
+  <li>
+    <p>Use <code class="highlighter-rouge">qemu-img resize /opt/kvms/pools/devel/debian-9.qcow2 +25G</code></p>
+  </li>
+  <li>
+    <p>Restart your VM</p>
+  </li>
+  <li>
+    <p>Adjust your VM LVM partition</p>
+  </li>
+</ol>
+
+<p>First, the result  below is updated,</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>fdisk <span class="nt">-l</span>
+ Disk /dev/vda: 55 GiB, 59055800320 bytes, 115343360 sectors
+ Units: sectors of 1 <span class="k">*</span> 512 <span class="o">=</span> 512 bytes
+ Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: 512 bytes / 512 bytes
+ I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: 512 bytes / 512 bytes
+ Disklabel <span class="nb">type</span>: dos
+ Disk identifier: 0x57a2ec91
+Device     Boot Start       End   Sectors Size Id Type
+/dev/vda1  <span class="k">*</span>     2048 115343359 115341312  55G 83 Linux
+
+</code></pre></div></div>
+
+<p>But you must know, my <code class="highlighter-rouge">/dev/vda1</code> is 10G size only,the 55G is result i resized it.</p>
+
+<p>Next we use the fdisk tool to temporarily <code class="highlighter-rouge">delete</code> partition <code class="highlighter-rouge">/dev/vda1</code>,then create it bigger.</p>
+
+<p>Here: section start 2048.</p>
+
+<p>In fact, The fdisk have detected the space is 55G, but my <code class="highlighter-rouge">/dev/vda1</code> is 10G only, because i dont’t resize the <code class="highlighter-rouge">/dev/vda1</code> filesystem.</p>
+
+<p>The process is:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># fdisk /dev/vda</span>
+
+Welcome to fdisk <span class="o">(</span>util-linux 2.27.1<span class="o">)</span><span class="nb">.</span>
+Changes will remain <span class="k">in </span>memory only, <span class="k">until </span>you decide to write them.
+Be careful before using the write command.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: d
+Selected partition 1
+Partition 1 has been deleted.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: n
+Partition <span class="nb">type
+   </span>p   primary <span class="o">(</span>0 primary, 0 extended, 4 free<span class="o">)</span>
+   e   extended <span class="o">(</span>container <span class="k">for </span>logical partitions<span class="o">)</span>
+Select <span class="o">(</span>default p<span class="o">)</span>: p
+Partition number <span class="o">(</span>1-4, default 1<span class="o">)</span>: 1
+First sector <span class="o">(</span>2048-62914559, default 2048<span class="o">)</span>: 2048
+Last sector, +sectors or +size<span class="o">{</span>K,M,G,T,P<span class="o">}</span> <span class="o">(</span>2048-62914559, default 62914559<span class="o">)</span>: <span class="o">[</span>ENTER <span class="k">for </span>default]
+
+Created a new partition 1 of <span class="nb">type</span> <span class="s1">'Linux'</span> and of size 30 GiB.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: t
+Selected partition 1
+Partition <span class="nb">type</span> <span class="o">(</span><span class="nb">type </span>L to list all types<span class="o">)</span>: 83
+Changed <span class="nb">type </span>of partition <span class="s1">'Linux'</span> to <span class="s1">'Linux'</span><span class="nb">.</span>
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: a
+Selected partition 1
+The bootable flag on partition 1 is enabled now.
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: p
+Disk /dev/vda: 30 GiB, 32212254720 bytes, 62914560 sectors
+Units: sectors of 1 <span class="k">*</span> 512 <span class="o">=</span> 512 bytes
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: 512 bytes / 512 bytes
+I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: 512 bytes / 512 bytes
+Disklabel <span class="nb">type</span>: dos
+Disk identifier: 0x3ac5a058
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/vda1  <span class="k">*</span>     2048 62914559 62912512  30G 83 Linux
+
+Command <span class="o">(</span>m <span class="k">for </span><span class="nb">help</span><span class="o">)</span>: w
+The partition table has been altered.
+Calling ioctl<span class="o">()</span> to re-read partition table.
+Re-reading the partition table failed.: Device or resource busy
+
+The kernel still uses the old table. The new table will be used at the next reboot or after you run partprobe<span class="o">(</span>8<span class="o">)</span> or kpartx<span class="o">(</span>8<span class="o">)</span><span class="nb">.</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>First we enter <code class="highlighter-rouge">d</code> to delete a partition, As there is only one partition(/dev/vda1) it is automatically selected.</p>
+  </li>
+  <li>
+    <p>Next we create a new partioion</p>
+  </li>
+</ol>
+
+<p><code class="highlighter-rouge">n</code> to start the new partition function</p>
+
+<p><code class="highlighter-rouge">p</code> for a primary partition</p>
+
+<p><code class="highlighter-rouge">1</code> to create /dev/vda1</p>
+
+<p><code class="highlighter-rouge">2048</code> as our start sector</p>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">t</code> is to set partition type, then enter <code class="highlighter-rouge">83</code> to set it to linux.</p>
+  </li>
+  <li>
+    <p>To set the bootable, press <code class="highlighter-rouge">a</code> for the boot function and enter <code class="highlighter-rouge">1</code> if prompted for the partition number.</p>
+  </li>
+  <li>
+    <p>Enter <code class="highlighter-rouge">p</code> to print the new partition table.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">w</code> is write to the partition table.</p>
+  </li>
+</ol>
+
+<p>Ok, we have finished the partition　table.And you have noted the output, you have to use bash command to tell kerenl to load the new partition table.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>partprobe /dev/vda
+</code></pre></div></div>
+<p>If success there is no output.</p>
+
+<h1 id="at-last">At last</h1>
+
+<p>The last step is very important for the process, because you donnot resize /dev/vda1 filesystem.We have expanded the partition but the filesystem has not been expanded to fill it. How? <code class="highlighter-rouge">resize2fs</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resize2fs /dev/vda1
+</code></pre></div></div>
+
+<p>Hope it works!</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/23/python_pygal/">python画表--pygal简介</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/08/03/kvms_add_swap/">linux扩充swap容量</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>c语言的输入输出函数总结</title>
+    <meta name="description" content="输入输出函数是一个函数族，尤其在c中，这个知识点必须掌握。输出函数(printf)格式化控制输出 #include&lt;stdio.h&gt;        main()        {                int a,b;                float c,d;            ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/07/04/input_and_output_function_in_c/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>c语言的输入输出函数总结</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-07-04
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>输入输出函数是一个函数族，尤其在c中，这个知识点必须掌握。</p>
+
+<h1 id="输出函数printf">输出函数(printf)</h1>
+
+<h2 id="格式化控制输出">格式化控制输出</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">#include&lt;stdio.h&gt;
+</span>        <span class="n">main</span><span class="p">()</span>
+        <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">;</span>
+                <span class="kt">float</span> <span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">;</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%3d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%03d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+
+                <span class="n">c</span> <span class="o">=</span> <span class="mi">15</span><span class="p">.</span><span class="mi">3</span><span class="p">;</span>
+ <span class="n">d</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%3.2f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">d</span><span class="p">);</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<p>上面的输出结果如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="mi">7</span>
+   <span class="mi">7</span>
+<span class="mo">007</span>
+<span class="mi">5</span><span class="p">.</span><span class="mi">10</span>
+</code></pre></div></div>
+
+<h3 id="u-d-p">%u %d %p</h3>
+
+<p>如果打印一个变量的地址，使用u与d都是打印的十进制的数字，这个数字是变量的地址
+。姑且这么讲，它俩的区别在于一个是(unsigned),另一个是(signed),这里就涉及到了
+编码的范围问题。按照stackoverflow的说法，地址使用无符号的输出才有价值。</p>
+
+<p>当然，最理想的方案是使用<code class="highlighter-rouge">%p</code>,这个标识符就是为打印地址准备的。它的输出结果是
+以0x开头的十六进制的数字，有着最起码的物理意义。</p>
+
+<p>###</p>
+
+<h1 id="输入函数">输入函数</h1>
+
+<p>从一开始编程就碰上了这个问题，现在好好总结下；</p>
+
+<p>比如我读两个double类型的数字：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kt">double</span> <span class="n">real</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">img</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%f %f"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">real</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">img</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">real</span> <span class="o">+</span> <span class="n">img</span> <span class="o">*</span> <span class="n">I</span><span class="p">;</span>
+		<span class="p">...</span>
+</code></pre></div></div>
+
+<p>连续键入两个数字，回车，会执行while以下的动作，但是不会输入空格键后退出，如何达到这种效果呢？</p>
+
+<p><em>尽量避免使用scanf</em></p>
+
+<p>使用下面的方法：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="k">while</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+       <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+       <span class="n">fgets</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span> <span class="n">stdin</span><span class="p">);</span>
+       <span class="n">res</span> <span class="o">=</span> <span class="n">sscanf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="s">"%f %f"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">real</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">img</span><span class="p">);</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+           <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">real</span> <span class="o">+</span> <span class="n">img</span> <span class="o">*</span> <span class="n">I</span><span class="p">;</span>
+   <span class="p">}</span>
+</code></pre></div></div>
+
+<p>再举一个例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"you typed %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>这样读进去的行为不如你所想的那样进行，我输入一个回车后没有反应，直到我输入另外一个数字敲回车才会把我第一个输入的数字打印出来</p>
+
+<h3 id="读入含空白字符字符串">读入含空白字符字符串</h3>
+
+<p>scanf中的”%s”修饰符，遇到空白字符串，</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/07/02/ssh_login_without_passwd/">用户自动登录的解决方案</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/07/04/sublime_tips/">sublime 使用技巧</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

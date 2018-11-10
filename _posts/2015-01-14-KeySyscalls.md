@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "12 linux 系统呼叫函数和 strace"
 category: kernel
 ---

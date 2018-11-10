@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "linux kernel 配置"
 category: kernel
 ---

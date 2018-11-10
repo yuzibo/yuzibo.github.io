@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "不要畏惧,直面困难"
 category: mood
 ---

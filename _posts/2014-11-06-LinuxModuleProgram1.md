@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "模块编程(1)Hello,World"
 category: kernel
 ---

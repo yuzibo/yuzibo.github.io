@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>快速搭建上网工具</title>
+    <meta name="description" content="提前声明我真的不讨厌GFW，因为现在话语权不在我们的手中，我们必须保护自己。至于外网上的东西，我们应该有自己的辨别能力。从内容和数量上来说，那些对china不利的网络言论与对America不利的网络言论，根本不是一个数量级。再一个恶心的是，Youtube,即便你是单纯的想休闲娱乐，可是不超过三次单击，有关我国的负...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/07/01/online_method/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>快速搭建上网工具</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-07-01
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="提前声明">提前声明</h1>
+
+<p>我真的不讨厌GFW，因为现在话语权不在我们的手中，我们必须保护自己。至于外网上
+的东西，我们应该有自己的辨别能力。从内容和数量上来说，那些对china不利的网络
+言论与对America不利的网络言论，根本不是一个数量级。再一个恶心的是，Youtube,
+即便你是单纯的想休闲娱乐，可是不超过三次单击，有关我国的负面新闻铺面而来。
+难道国外的领导人真的那么清廉。</p>
+
+<h1 id="应急的方法">应急的方法</h1>
+
+<p>如果其他方法暂时无法使用了，先使用最简单的ssh代理，也就是你必须随身携带一个
+vps。</p>
+
+<p>无论使用什么浏览器，最根本的一句命令是</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-N</span> <span class="nt">-D</span> 7070 root@your_ip
+</code></pre></div></div>
+
+<h3 id="firefox">firefox</h3>
+
+<blockquote>
+  <p>首选项-&gt;高级-&gt;网络-&gt;设置</p>
+</blockquote>
+
+<p>只使用SOCKS那个选项，主机填上127.0.0.1，端口是7070,下面的类型选择SOCKS_v5
+<code class="highlighter-rouge">-D</code>选项是socks_v5的含义。</p>
+
+<h3 id="chromium">chromium</h3>
+
+<p>首先安装的话，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+
+apt-get <span class="nb">install </span>chromium chromium-l10n
+
+</code></pre></div></div>
+
+<p>这一个是chrome的测试版本吧，开源的，比较好用的。先用它得了。</p>
+
+<p>但是它不支持Desktop，只能使用命令行，在完成上面的配置后，你可以使用如下command打开chromium</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chromium <span class="nt">--proxy-server</span><span class="o">=</span><span class="s2">"socks:127.0.0.1:7070"</span>
+</code></pre></div></div>
+
+<h1 id="日常使用">日常使用</h1>
+
+<p>前面是应急使用的，正常渠道我们应该好的工具。</p>
+
+<p>如果我写得不清晰，接下来请看<a href="https://aitanlu.com/ubuntu-shadowsocks-ke-hu-duan-pei-zhi.html">这篇</a></p>
+
+<p>但是我还要自己写一下，以免到时用的时候找不到了。</p>
+
+<h3 id="服务端">服务端</h3>
+
+<p>这个可以自己搭建，可以购买。自己搭建的步骤我会完善，现在我的重点是在客户端上。</p>
+
+<p>补充，在自己的vps上搭建ss的服务端，可以使用这个脚本。<a href="https://github.com/yuzibo/configure_file/blob/master/online/shadowsocks/shadowsocks-libev-debian.sh">here</a></p>
+
+<p>按照下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shad.....sh
+./shad.....sh 2&gt;&amp;1 | <span class="nb">tee </span>shad.....log
+
+</code></pre></div></div>
+
+<h3 id="客户端">客户端</h3>
+
+<h4 id="安装">安装</h4>
+
+<p>[debian]</p>
+
+<p>Frist, please type the command as followings:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+apt-get <span class="nb">install </span>python-pip python-setutools m2crypto
+</code></pre></div></div>
+
+<h4 id="startup">startup</h4>
+
+<p>Locally we need <code class="highlighter-rouge">sslocal</code>, normanlly you can use <code class="highlighter-rouge">man sslocal</code>,</p>
+
+<p><a href="https://github.com/yuzibo/configure_file/blob/master/online/shadowsocks/ss.sh">shell script</a></p>
+
+<p>Laterlly, you can add SwitchyOmega plug-in.</p>
+
+<p>But here is many detail to be carefully.</p>
+
+<h2 id="1新建情景模式">1.新建情景模式</h2>
+
+<blockquote>
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>名称-&gt;代理服务器 -&gt;
+</code></pre></div>  </div>
+</blockquote>
+
+<p>在新的代理服务器下选择代理协议(SOCKS5),代理服务器为127.0.0.1, 端口为1080.
+每次先打开ss客户端，再切换到这里就行了。</p>
+
+<h2 id="2自动切换">2.自动切换</h2>
+
+<p>这个玩的比较高深，没有弄明白它。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/06/27/vim_tips/">vim使用技巧</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/07/02/linux_soft_in_windows/">在windows下使用linux软件</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

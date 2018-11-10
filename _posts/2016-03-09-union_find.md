@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "并查集原理及实现"
 category: DS
 ---

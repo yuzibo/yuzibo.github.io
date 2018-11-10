@@ -1,7 +1,7 @@
 ---
 title: "用户自动登录的解决方案"
 category: shell
-layout: article
+layout: post
 ---
 
 

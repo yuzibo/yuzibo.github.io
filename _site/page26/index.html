@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page26/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/02/21/linux_sleep_process/">linux 进程休眠</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-02-21
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="休眠规则">休眠规则</h1>
+
+<ol>
+  <li>
+    <p>不要在原子上下文中休眠</p>
+  </li>
+  <li>
+    <p>禁止中断时,也不能休眠</p>
+  </li>
+  <li>
+    <p>要确保有进程能唤醒自己</p>
+  </li>
+</ol>
+
+<p>4.休眠被唤醒之后仍要检查等待的条件是否为真,否则重新继续休眠.</p>
+
+<h1 id="简单休眠">简单休眠</h1>
+<p>我们休眠的代码必须能够唤醒(wake_up),我们需要维护一个称为等待队列的数据结构.
+等待队列就是一个进程链表,其中包含了等待了某个特定事件的所有进程.
+linux维护一个”等待队列头”来管理,wait_queue_head_t,定义在&lt;linux/wait.h&gt;</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="p">{</span>
+	<span class="n">spinlock_t</span>		<span class="n">lock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">task_list</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="n">wait_queue_head_t</span><span class="p">;</span></code></pre></figure>
+
+<p>这里结构体前面的”__“是系统调用的函数.</p>
+
+<h1 id="初始化方法">初始化方法</h1>
+
+<h2 id="静态方法">静态方法</h2>
+
+<p><code class="highlighter-rouge">DECLARE_WAIT_QUEUE_HEAD(name)</code></p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cm">/* This is the method to initializer */</span>
+<span class="cp">#define DECLARE_WAIT_QUEUE_HEAD(name) {
+</span>	<span class="n">wait_queue_head_t</span> <span class="n">name</span> <span class="o">=</span> <span class="n">__WAIT_QUEUE_HEAD_INITIALIZER</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="cp">#define __WAIT_QUEUE_HEAD_INITIALIZER(name) {				\
+	.lock		= __SPIN_LOCK_UNLOCKED(name.lock)		\
+	.task_list	= { &amp;(name).task_list, &amp;(name).tsak_list}
+</span><span class="p">}</span>
+<span class="n">DECLARE_WAIT_QUEUE_HEAD</span><span class="p">(</span><span class="n">name</span><span class="p">);</span></code></pre></figure>
+
+<p>色块内的是方法,这里,我把相关的代码放在了一起,以便于理解.</p>
+
+<h2 id="动态方法">动态方法</h2>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"> <span class="n">wait_queue_head_t</span> <span class="n">my_queue</span><span class="p">;</span>
+ <span class="n">init_waitqueue_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_queue</span><span class="p">);</span>
+
+ <span class="cm">/* from here */</span>
+
+ <span class="k">struct</span> <span class="n">__wit_queue_head</span> <span class="p">{</span>
+	<span class="n">spinlock_t</span>		<span class="n">lock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">task_list</span><span class="p">;</span>
+ <span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="n">wait_queue_head_t</span><span class="p">;</span></code></pre></figure>
+
+<p>linux 中最简单的休眠方式是下面的宏:</p>
+
+<p>wait_event(queue, condition);	//uninterruptible sleep</p>
+
+<p>wait_event_interruptible(queue, condition); //返回非0值表示
+休眠被信号中断</p>
+
+<p>在这两个Macro实现中,分别有一个<code class="highlighter-rouge">might_sleep()</code>的使用.而且后者
+在实现上比前者多了个<code class="highlighter-rouge">int __ret = 0</code>;</p>
+
+<p>wait_event_timeout(queue, condition, timeout);</p>
+
+<p>wait_event_interruptible_timeout(queue, condition, timeout);</p>
+
+<h3 id="might_sleep">might_sleep()</h3>
+<p>不得不说一下这个宏,上面这四个宏中都牵扯上它了.代码注释是这么说的:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">might_sleep</span> <span class="o">-</span> <span class="n">annotation</span> <span class="k">for</span> <span class="n">function</span> <span class="n">that</span> <span class="n">can</span> <span class="n">sleep</span>
+</code></pre></div></div>
+
+<p>queue 是等待队列头,传值方式,condition是任意一个布尔表达式,在休眠前后多次
+对condition求值,为真则唤醒.</p>
+
+<h3 id="唤醒进程-wake_up">唤醒进程 wake_up</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">wake_up</span><span class="p">(</span><span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">queue</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">wake_up_interruptible</span><span class="p">(</span><span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">queue</span><span class="p">);</span>
+</code></pre></div></div>
+<p>实际上,一般是<code class="highlighter-rouge">wait_event</code>和wake_up<code class="highlighter-rouge">,</code>wait_event_interruptible<code class="highlighter-rouge">和</code>wake_
+u_interruptible`成对使用</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/02/21/linux_sleep_process/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/02/21/linux_memory_1/">linux 内存管理</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-02-21
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="进程内存区域">进程内存区域</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vm_area_struct</span><span class="p">{</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/02/21/linux_memory_1/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/02/20/linux_signal/">linux信号浅析</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-02-20
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>(linux 中关于信号的资源)![http://www.thegeekstuff.com/2012/03/linux-signals-fundamentals/]</p>
+
+<p>资源(http://www.linuxprogrammingblog.com/all-about-linux-signals?page=3)</p>
+
+<h1 id="信号是什么">信号是什么</h1>
+
+<p>信号就是一个软中断(software interrupts)。 一个健壮的程序必须需要处理信号，信号是向应用程序传递异步事件的方式。</p>
+
+<p>一个用户按下ctrl+c 就是向另一个程序发送信号</p>
+
+<h1 id="信号从哪里来">信号从哪里来</h1>
+
+<h3 id="用户">用户</h3>
+
+<p>用户通过Crtl-C、Crtl-\等键或者通过驱动终端程序来请求内核产生信号。</p>
+
+<h3 id="内核">内核</h3>
+
+<p>当进程执行出错时，内核给进程发送一个信号，比如，非法存取段、浮点数溢出、
+或者一个非法的机器指令。内核也利用信号通知进程特事件的发生。</p>
+
+<h3 id="进程">进程</h3>
+<p>一个进程可以通过系统调用kill给另一个进程发送信号。一个进程可以可以和另一个
+进程通过信号通信。</p>
+
+<p>由进程的某个操作产生的信号被称为同步信号，例如，被零除；像用户击键这样的进程外
+的事件引起的信号称之为异步信号。</p>
+
+<h1 id="进程处理">进程处理</h1>
+
+<h3 id="接受默认处理通常是消亡">接受默认处理(通常是消亡)</h3>
+
+<p>使用以下调用来恢复默认处理</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">signal</span><span class="p">(</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">SIG_DFL</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<h5 id="1-中断进程">1 中断进程</h5>
+<p>这是这类信号处理行为的最普遍的，有SIGTERM、SIGQUIT、SIGPIPE、SIGUSR1、SIGUSR2</p>
+
+<h5 id="2-中断进程-with-code-dump">2 中断进程 with code dump</h5>
+<p>有SIGSEGV、SIGILL、SIGABRT这个信号。</p>
+
+<h5 id="3-忽略">3 忽略</h5>
+<p>比如这个SIGCHLD</p>
+
+<h5 id="4-悬停">4 悬停</h5>
+<p>SIGSTOP使进程悬停(suspend)然后使用SIGCOND继续(shell中的ctrl-z)</p>
+
+<h3 id="忽略信号">忽略信号</h3>
+<p>程序可以通过以下调用来告诉内核，它需要忽略SIGINT的信号</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">signal</span><span class="p">(</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">SIG_IGN</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>如果产生像除以0的致命错误、SIGKILL和SIGSTOP不能被忽略。</p>
+
+<p>后两个信号供root用户拥有杀死任何进程的权利。</p>
+
+<h3 id="调用另一个程序捕捉">调用另一个程序(捕捉)</h3>
+<p>程序在接收到SIGINT后，调用一个恢复设置的函数</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">signal</span><span class="p">(</span><span class="n">SIGALRM</span><span class="p">,</span> <span class="n">handler</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>补充一下最后一点,捕捉信号的函数应该是可重入的。在解释这个原因前，让我们首先了解下什么是可重入。一个可重入的函数是一个函数在执行的过程的可以因为某些原因被停止下来(比如中断或者信号)，在完成了某项任务后可以返回继续执行原来的程序。原因很简单，当一个程序正在执行的时候，信号发生(捕捉另一个信号)，进程转而执行其他的程序，如果这个时候正好宿主程序的全局变量和被呼叫的程序的变量同名的话，那么，当子进程执行完毕后返回宿主进程中，会产生意想不到的结果</p>
+
+<h1 id="信号的种类">信号的种类</h1>
+
+<h3 id="可靠信号">可靠信号</h3>
+<p>可靠信号就是实时信号</p>
+
+<h3 id="非可靠信号">非可靠信号</h3>
+<p>非可靠信号就是非实时信号,凡位于[SIGRTMIN, SIGRTMAX]区间的都是可靠信号.</p>
+
+<p>非可靠信号一般都有明确的用途和含义,可靠信号则可以让用户自己定义使用.</p>
+
+<h1 id="信号的安装">信号的安装</h1>
+
+<h3 id="系统调用-signal">系统调用 signal</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;signal.h&gt;
+</span>
+<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">))(</span><span class="kt">int</span><span class="p">))(</span><span class="kt">int</span><span class="p">);</span> 
+
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/02/20/linux_signal/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/02/16/server_client_stream/">socket客户端服务端编程详解</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-02-16
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="http://blog.csdn.net/www_307/post/details/87510">好的资料</a></p>
+
+<h1 id="套接字概念">套接字概念</h1>
+<p>套接字(socket)是一种为计算机网络通信编程的接口,首次出现在美国加州Berkeley大学开发的BSD版本的系统中.有了套接字(应用层),从而允许我们进行服务器/客户端的开发,不必关心底层的细节.详细的关于内核网络协议的实现,我会在以后详细阐述,<a href="https://www.ibm.com/developerworks/cn/linux/l-linux-networking-stack/">现在,这篇文章</a></p>
+
+<h2 id="创建套接字">创建套接字</h2>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include&lt;sys/types.h&gt;
+#include&lt;sys/socket.h&gt;
+</span><span class="kt">int</span> <span class="n">socket</span><span class="p">(</span><span class="kt">int</span> <span class="n">domain</span><span class="p">,</span><span class="kt">int</span> <span class="n">type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">protocol</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="说明">说明</h3>
+<p><code class="highlighter-rouge"> domain</code>: 代表套接字地址族,常用的有AF_INET,PF_INET(IPv4),AF_INET6(IPv6),
+AF_IPX(Novell 网络协议)…</p>
+
+<p><code class="highlighter-rouge">type</code>: 最常用的是SOCK_STREAM和SOCK_DGRAM,分别表示流式套接字和数据包套接字.</p>
+
+<p><code class="highlighter-rouge">protocol</code>: 一般情况下会设置为0,表示由系统在当前的domain下选择合适的协议.</p>
+
+<h2 id="套接字地址">套接字地址</h2>
+
+<p>TODO</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/02/16/server_client_stream/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/02/14/TODO/">近期计划</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-02-14
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#plan" title="Category: plan" rel="category">plan</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>#1</p>
+
+<p>首先是APUE,patch和little,加油</p>
+
+<p>#2</p>
+
+<p>在本网站的首页为什么会遇到这样的问题呢,多显示了三个日期,然而,本地测试一点问题没有的</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/02/14/TODO/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/02/06/linux_proc/">linux下/proc目录解析</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-02-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="proccmdline">/proc/cmdline</h1>
+
+<p>这个用于给出内核启动的命令行,它和用于进程的cmdline项非常像</p>
+
+<p>yubo@debian:/proc$ cat cmdline
+BOOT_IMAGE=/vmlinuz-3.2.0-4-686-pae root=UUID=84caed03-f243-4a09-afa5-15be502cbfb9 ro quiet
+yubo@debian:/proc$</p>
+
+<h1 id="proccpuinfo">/proc/cpuinfo</h1>
+
+<p>这个文件提供了有关系统cpu的多种信息,格式为:文件由多行构成,每行包括一个域名称,一个冒号和一个值</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/02/06/linux_proc/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page25" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">26/36</span>
+          
+            <a href="/page27" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,6 +1,6 @@
 ---
 title: "unix文件 io"
-layout: article
+layout: post
 category: unix 
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "unix中关于进程之wait的认识"
-layout: article
+layout: post
 category: unix
 ---
 

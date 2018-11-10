@@ -1,6 +1,6 @@
 ---
 title: "二叉树的性质和使用"
-layout: article
+layout: post
 category: DS 
 ---
 

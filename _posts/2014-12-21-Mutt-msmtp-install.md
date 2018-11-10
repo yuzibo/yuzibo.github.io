@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "Mutt,msmtp,fetchmail,procmail的配合使用"
 category: tools
 ---

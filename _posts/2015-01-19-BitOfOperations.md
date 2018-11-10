@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "bits的一些操作"
 category: c
 ---

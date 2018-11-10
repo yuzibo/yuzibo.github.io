@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>c中的一些简单认识</title>
+    <meta name="description" content="static修饰变量这个static其实一点都不安静，这不，你得注意以下几点：静态全局变量作用域只限于从定义处开始，到文件结尾处，即使你使用extern去申请也不管用的。静态局部变量在函数体里定义，就只能在这个函数体里面使用，同一文件的其他的函数使用也是不行的，由于被static修饰??的存放在内存的静态区，就是...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/03/10/keys_in_c/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>c中的一些简单认识</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-03-10
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="static">static</h1>
+
+<h2 id="修饰变量">修饰变量</h2>
+
+<p>这个static其实一点都不安静，这不，你得注意以下几点：</p>
+
+<h3 id="静态全局变量">静态全局变量</h3>
+<p>作用域只限于从定义处开始，到文件结尾处，即使你使用extern去申请也不管用的。</p>
+
+<h3 id="静态局部变量">静态局部变量</h3>
+<p>在函数体里定义，就只能在这个函数体里面使用，同一文件的其他的函数使用也是
+不行的，由于被static修饰??的存放在内存的静态区，就是这个函数运行结束，
+变量也不会被撤销。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include&lt;stdio.h&gt;
+</span><span class="k">static</span> <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">fun1</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">i</span> <span class="o">++</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"static's i= %d</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">fun2</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+	<span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"non-static j=%d</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">fun1</span><span class="p">();</span>
+		<span class="n">fun2</span><span class="p">();</span>
+
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>下面是该段程序的运行结果：</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">1</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>	<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">2</span>
+<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>	<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">3</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">4</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>	<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">5</span>
+<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>	<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">6</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">7</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>	<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">8</span>
+<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>	<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">9</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">static</span><span class="err">'</span><span class="n">s</span> <span class="n">i</span><span class="o">=</span> <span class="mi">10</span>	<span class="n">non</span><span class="o">-</span><span class="k">static</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span>
+</code></pre></div></div>
+<p>从这里我们可以看出来，fun1()内的静态变量没有被释放，还是维持着
+上次运行的结果。</p>
+
+<h2 id="修饰函数">修饰函数</h2>
+
+<p>这里的修饰，是应该它本来的面目，也就是指该函数只对该文件有效，这样，
+不同的人在一个大型项目中不必担心命名冲突。linux kernel中充斥着大量的
+static.</p>
+
+<h1 id="void">void</h1>
+<p>作用两个：
+1) 对函数返回的限定
+2) 对函数参数的限定</p>
+
+<h2 id="指针">指针</h2>
+<p>如果p1和p2的指针类型相同，我们可以在p1和p2之间相互赋值，如果P1和P2
+指向不同的数据类型，则必须使用强制类型转换运算符把赋值运算符右边的
+指针类型转换为左边指针的类型。
+例如：</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="o">*</span><span class="n">p1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">p2</span><span class="p">;</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span><span class="p">;</span>
+</code></pre></div></div>
+<p>最后一句是错误的，必须按照</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p1</span> <span class="o">=</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="n">p2</span><span class="p">;</span>
+</code></pre></div></div>
+<p>来赋值。
+但是不能将void类型的指针赋值给有类型的指针。</p>
+
+<h3 id="补充">补充</h3>
+<p>该标准规定不能对void类型的指针进行算法运算，因为不知道该指针的类型(存储空间)。
+但是，GNU委员会不这么认为，它规定void * 的类型与char * 的类型一致。所以，
+你想写出移植行很高的代码，需要进行如下的操作：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="n">pvoid</span><span class="p">;</span>
+<span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">pvoid</span><span class="o">++</span><span class="p">;</span><span class="c1">//ANSI: right</span>
+<span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">pvoid</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//ANSI: errors</span>
+</code></pre></div></div>
+
+<h2 id="修饰返回值和参数">修饰返回值和参数</h2>
+
+<blockquote>
+  <p>默认不显式的声明函数的类型，则默认为int</p>
+</blockquote>
+
+<blockquote>
+  <p>如果函数参数为空，最好声明为void</p>
+</blockquote>
+
+<h3 id="如果函数的参数可以是任意的指针应该声明为void-">如果函数的参数可以是任意的指针，应该声明为void *.</h3>
+<p>例如，内存操作函数：</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="n">memcpy</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">);</span>
+<span class="kt">void</span> <span class="o">*</span><span class="n">memset</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">num</span><span class="p">);</span>
+</code></pre></div></div>
+<p>这样，任何类型的指针都可以传入memset和memcpy中，</p>
+
+<h1 id="const">const</h1>
+<p><em>const</em> 修饰的只读变量只能在定义的同时初始化：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">Max</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</code></pre></div></div>
+<h3 id="修饰一般变量">修饰一般变量</h3>
+
+<p>int const i = 2; 或者 const int i = 2;</p>
+
+<h3 id="修饰数组">修饰数组</h3>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="k">const</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="修饰指针">修饰指针</h3>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span><span class="c1">// const 修饰*p,p是指针，*p是指针指向的对象，不可变</span>
+<span class="kt">int</span> <span class="k">const</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span><span class="k">const</span> <span class="n">p</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="k">const</span> <span class="n">p</span><span class="p">;</span>
+</code></pre></div></div>
+<p>以上情况有些复杂，我们需要仔细的分析。</p>
+
+<p>编译器解析的时候首先忽略类型名，这里，我们也需要先忽略类型名。
+我们看const离谁近，就修饰谁。</p>
+
+<p>const <del> int</del> *p;</p>
+
+<p><del>int</del> const *p;</p>
+
+<p><del>int</del> *const p;</p>
+
+<p>const <del>int</del> *const p;</p>
+
+<h3 id="修饰函数的参数">修饰函数的参数</h3>
+<p>const 修饰符也可以修饰函数的参数，当不希望这个参数被函数体内意外改变使用。
+例如：</p>
+
+<blockquote>
+  <p>void Fun(const int i);</p>
+</blockquote>
+
+<h3 id="修饰函数的返回值">修饰函数的返回值</h3>
+<p>const 修饰函数时，返回值不可改变.</p>
+
+<blockquote>
+  <p>const int fun(void)</p>
+</blockquote>
+
+<p>在另一连接文件中引用const只读变量：</p>
+
+<blockquote>
+  <p>extern const int i;</p>
+</blockquote>
+
+<h1 id="volatile">volatile</h1>
+<p>这个关键词大概见过几次，我只是简单的了解到，使用了这个修饰符，编译器不再对
+代码进行优化。请看例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</code></pre></div></div>
+<p>这里，由于i除了第一句被用作了左值，后两条被用作了右值，也就是说在编译器将i
+的值赋值给j后，编译器并没有将i的值立即丢掉，马上将i的值赋值给了k，也就是这
+一步，不用经过内存访问，这里提高了效率。</p>
+
+<p>再看下面的例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">volatile</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</code></pre></div></div>
+<p>这里，volatile 关键字告诉编译器，i是随时可以改变的，每次使用它时变量必须每次
+从内存中取出来，也就是不能把i的是使用两次</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/03/09/union_find/">并查集原理及实现</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/03/10/mysql_c/">c语言连接mysql</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

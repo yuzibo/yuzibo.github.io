@@ -1,7 +1,7 @@
 ---
 title: "tcpdump教程"
 category: network
-layout: article
+layout: post
 ---
 
 # WHY TCPDUMP

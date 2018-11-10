@@ -1,6 +1,6 @@
 ---
 title:  "linuxnewbie 问答总结(一)"
-layout: article
+layout: post
 category: kernel
 ---
 

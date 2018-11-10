@@ -1,7 +1,7 @@
 ---
 title: "python爬虫之beautifulsoup用法"
 category: python
-layout: article
+layout: post
 ---
 
 # 快速开始
@@ -540,7 +540,7 @@ if __name__ == '__main__':
     req.encoding = 'utf-8'
     content = req.text
     bf = BeautifulSoup(content ,'lxml')
-    context = bf.find(id='articleContent')
+    context = bf.find(id='postContent')
     print bf.h1.text
     print context.text
 ```
@@ -556,7 +556,7 @@ if __name__ == '__main__':
 
 ```python
     bf = BeautifulSoup(content ,'lxml')
-    context = bf.find(id='articleContent')
+    context = bf.find(id='postContent')
     print context.get_text(separator = u'\n')
 ```
 

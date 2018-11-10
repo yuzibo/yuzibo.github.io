@@ -1,7 +1,7 @@
 ---
 title: "git产生patch并使用git send-email发送"
 category: git
-layout: article
+layout: post
 ---
 
 # 1

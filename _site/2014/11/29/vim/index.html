@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vim插件-ctags&amp;&amp;cscope</title>
+    <meta name="description" content="ctags原来ctags的功能这么强大，之前自己是蒙着眼使用的啊。sudo apt-get install ctags有人说默认有这个插件，确实有，再下一次吧。$ctags -R *在你的工作目录中，输入以上命令，$是shell的命令提示符，不是命令的一部分，这一点需要注意，这样就会在当前工作目录下产生ctags...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/29/vim/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>vim插件-ctags&&cscope</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-29
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h2 id="ctags">ctags</h2>
+
+<p>原来ctags的功能这么强大，之前自己是蒙着眼使用的啊。</p>
+
+<h2 id="sudo-apt-get-install-ctags">sudo apt-get install ctags</h2>
+
+<p>有人说默认有这个插件，确实有，再下一次吧。</p>
+
+<h2 id="ctags--r-">$ctags -R *</h2>
+
+<p>在你的工作目录中，输入以上命令，$是shell的命令提示符，不是命令的一部分，这一点需要注意，这样就会在当前工作目录下产生ctags的标签文件。</p>
+
+<h2 id="vim--t-xx">vim -t xx</h2>
+
+<p>xx就是你要查找的变量和函数名</p>
+
+<p>It maybe acted on some impact using “SHIFT + K”</p>
+
+<h2 id="ts">:ts</h2>
+<p>在vim的命令行下输入__:ts__就会列出列表供用户选择满足的变量或者函数（tagslist）。</p>
+
+<h2 id="5--tp-and-tn">5.  :tp and :tn</h2>
+
+<p>display preview tags-file and display next tags-file.</p>
+
+<h2 id="ctrl--">Ctrl + ]</h2>
+
+<p>jump to the function or variable where whose were defined.</p>
+
+<h2 id="ctrl--t-or-ctrl--o">Ctrl + T or Ctrl + o</h2>
+
+<p>Return where jump from where</p>
+
+<h1 id="cscope">cscope</h1>
+
+<p>Waa…</p>
+
+<h1 id="sudo-apt-get-install-cscope">sudo apt-get install cscope</h1>
+
+<h1 id="gen-cscopeout-file">gen cscope.out file</h1>
+
+<p>command:</p>
+
+<p><code class="highlighter-rouge">cscope -Rbqk
+</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-R:表示把所有子目录里的文件也建立索引
+-b:仅仅建立符号数据库
+-q:生成cscope.in.out和cscope.po.out文件,加快cscope的索引
+-k: 在生成索引文件时,不搜索/usr/include目录
+</code></pre></div></div>
+
+<p>vim的normal模式下输入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:cs add cscope.out
+</code></pre></div></div>
+
+<p>就把索引文件加入到vim中.将以下命令放在.vimrc中,即可省去该命令:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if filereadable("cscope.out")
+cs add cscope.out
+endif
+</code></pre></div></div>
+
+<p>再试试把下面的内容复制到~/.vimrc里，这样就可以利用相应的快捷键进行不同的查找了.
+<a href="http://my.oschina.net/u/554995/blog/59927">原文1</a>
+<a href="http://easwy.com/blog/archives/advanced-vim-skills-cscope/">原文2</a>
+<strong>cscope add cscope.out</strong>
+##4. Commmand &amp; Options
+After adding the file that is called cscope.out ,we can call <strong>cscope find x</strong> 简写 <strong>cscope f x</strong></p>
+<pre>
+c:Find functions calling this function
+d:Find functions called by this function
+e:Find this egrep pattern
+f:Find this file
+g:Find this definition
+i:Find files #including this file
+s:Find this C symbol
+t:Find assignments to
+</pre>
+<p>#taglist
+将这三个工具用起来了,然后在命令窗口中键入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:TlistToggle
+</code></pre></div></div>
+
+<p>在关闭与打开之间转换.</p>
+
+<p>我的vimrc中定义了下面的映射，使用“,tl”键就可以打开/关闭taglist窗口：</p>
+
+<p>map <silent> <leader>tl :TlistToogle<cr></cr></leader></silent></p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/27/SetUp/">操作系统启动过程</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/12/03/WhatisLove/">什么是爱情</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

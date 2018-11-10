@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux中关于进程之fork()的认识</title>
+    <meta name="description" content="好吧，开一系列介绍linux进程的文章，先从fork说起。fork()入门fork()函数就是复制当前的进程创造一个新的进程，当前的进程叫做叫做父进程，复制产生的进程叫做子进程。子进程复制父进程的一切资源，除了：1 子进程具有独一无二的进程 pid,2 子进程有一个父进程，其ID和创造这个进程(子进程)的id相同...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/08/02/linux_process/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux中关于进程之fork()的认识</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-02
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>好吧，开一系列介绍linux进程的文章，先从fork说起。</p>
+
+<h1 id="fork入门">fork()入门</h1>
+
+<p>fork()函数就是复制当前的进程创造一个新的进程，当前的进程叫做叫做父进程，复制产生的进程叫做子进程。</p>
+
+<p>子进程复制父进程的一切资源，除了：</p>
+
+<p>1 子进程具有独一无二的进程 pid,</p>
+
+<p>2 子进程有一个父进程，其ID和创造这个进程(子进程)的id相同</p>
+
+<p>进程调用fork后，内核将控制权交给两个进程。</p>
+
+<p>先看代码，这里有点意思，程序的输出结果如果你不仔细分辨的，真的会让你想不到。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;unistd.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">pid_t</span> <span class="n">fpid</span><span class="p">;</span> <span class="c1">//表示fork()返回的值</span>
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">fpid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="n">fpid</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"error in fork!"</span><span class="p">);</span>
+	<span class="k">else</span>  <span class="k">if</span> <span class="p">(</span><span class="n">fpid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"I am the child process, my process id is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"I am son of my father</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">count</span> <span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"I am the parent process, my process id is %d </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"I am father of my son</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">" as a result: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>结果在我的机子上显示为;</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I am the parent process, my process <span class="nb">id </span>is 10369
+I am father of my son
+ as a result: 1
+root@yubo-2:~/test/unix_linux# I am the child process, my process <span class="nb">id </span>is 10370
+I am son of my father
+ as a result: 1
+</code></pre></div></div>
+
+<p>也就是说一个主程序在没有循环的情况下，居然有两个返回值，它是怎么做到的后来剖析，现在简单地分析下导致这种现象的原因.</p>
+
+<h4 id="fork的一个神奇之处就在于它仅仅调用一次但是能够返回两次而且可能有有三种不同的返回值">fork的一个神奇之处就在于它仅仅调用一次，但是能够返回两次，而且可能有有三种不同的返回值</h4>
+
+<p>1 在父进程中，fork返回新创建子进程的进程id</p>
+
+<p>2 在子进程中，fork返回0</p>
+
+<p>3 fork返回一个负值，意味着fork创建失败。</p>
+
+<p>看到网上说，进程经过fork()后形成了进程链，父进程的fpid指向子进程的进程id,因为子进程没有子进程(至少在这个程序中),所以其fpid为0.</p>
+
+<p>fork()出错的原因可能有几下几种：</p>
+
+<p>1 当前的进程数已经达到了系统规定的上限，这是errno的值为EAGAIN.</p>
+
+<p>2 系统内存不足，这时errno的值为ENOMEM</p>
+
+<p>两个进程的执行没有先后顺序，根据调度算法而已.</p>
+
+<h3 id="建立一个新的进程">建立一个新的进程</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret_from_fork</span><span class="p">,</span> <span class="n">mypid</span><span class="p">;</span>
+
+	<span class="n">mypid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Before: my pid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">mypid</span><span class="p">);</span>
+
+	<span class="n">ret_from_fork</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+
+	<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"After, my pid is %d, fork() said %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">(),</span> <span class="n">ret_from_fork</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>结果如下所示：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/fork-1.png" alt="fork-1.png" /></p>
+
+<p>注意第一段所说，fork调用是将原来的进程复制到新的进程，包括数据和程序，但是，新的程序是运行到当前程序行，并不会从整个程序的开头从头运行。这个图片中，原进程21635运行Before：后运行fork，启动了一个子进程，随后，进程21635接着进行，打印了After：，当进程21635消亡后，才转移到子进程，注意，子进程并不是从头开始的，而是从fork开始，也就是说，fork的Before不会打印，只执行After的语句。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	   p21636
+	 |-------&gt;
+Before   |  After
+=========|=======&gt; p21635
+	fork
+</code></pre></div></div>
+
+<p>一个fork会产生2个进程，两个fork会产生4个进程，依次类推….</p>
+
+<h3 id="子进程创建进程">子进程创建进程</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">fork</span><span class="p">();</span>
+	<span class="n">fork</span><span class="p">();</span>
+	<span class="n">fork</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"my pid is %d </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+<span class="p">}</span>
+<span class="n">yubo</span><span class="err">@</span><span class="n">debian</span><span class="o">:~/</span><span class="n">test</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">unix</span><span class="err">$</span>
+
+</code></pre></div></div>
+<p>结果如下所示：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/fork3.png" alt="fork3.png" /></p>
+
+<h3 id="分辨子进程和父进程">分辨子进程和父进程</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">fork_rv</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Before: my pid is %d </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+
+	<span class="n">fork_rv</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">fork_rv</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"Fork  failed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">fork_rv</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"I am the child, my pid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+	<span class="k">else</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"I am the parent, my pid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p><img src="http://yuzibo.qiniudn.com/fork4.png" alt="fork4.png" /></p>
+
+<h1 id="fork进阶">fork进阶</h1>
+
+<p>先上代码；</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;unistd.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"i son/pa  ppid	pid  fpid</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/* ppid 是当前进程的父进程pid,
+	 * pid 是当前进程的pid
+	 * fpid 是fork返回给当前进程的值
+	 */</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">pid_t</span> <span class="n">fpid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">fpid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">" %d child %4d %4d %4d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">getppid</span><span class="p">(),</span> <span class="n">getpid</span><span class="p">(),</span> <span class="n">fpid</span><span class="p">);</span>
+		<span class="k">else</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%d parent %4d %4d %4d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">getppid</span><span class="p">(),</span> <span class="n">getpid</span><span class="p">(),</span> <span class="n">fpid</span><span class="p">);</span>
+	<span class="p">}</span>
+	 <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这是在我的机子上的结果：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~/test/unix_linux# ./test
+i son/pa  ppid	pid  fpid
+0 parent 11040 11508 11509
+1 parent 11040 11508 11510
+root@yubo-2:~/test/unix_linux#  1 child    1 11510    0
+ 0 child    1 11509    0
+1 parent    1 11509 11511
+ 1 child    1 11511    0
+</code></pre></div></div>
+
+<p>仔细分析这个输入法，在 i = 0时，上面这个程序调用fork函数，系统中出现两个进程
+p11508和p11509(p是进程的意思)，且p11508是p11509的父进程，p11040是p11508的父进程。因为对应的函数为： getpid(), fpid = fork(), getppod().即进程链p11040-&gt;p11508-&gt;p11509.</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/08/01/django_1/">django笔记</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/08/03/python_3/">python基本数据类型</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

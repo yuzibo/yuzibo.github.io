@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "网站知识体系结构"
 category: experience
 tags: 

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>git追踪linux kerenl技巧</title>
+    <meta name="description" content="先介绍点简单的      从linus那里pull,当然，前提是你先从linus那里clone一份代码树。    git pull  补充最好不用 `git pull`,使用`git fetch` 和 `git merge`来代替它.      撤销所有在本地的修改    git checkout -f     ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/12/04/Gitforkerenl/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>git追踪linux kerenl技巧</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-12-04
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="先介绍点简单的">先介绍点简单的</h1>
+
+<ol>
+  <li>
+    <p>从linus那里pull,当然，前提是你先从linus那里clone一份代码树。</p>
+
+    <p><code class="highlighter-rouge">git pull</code></p>
+  </li>
+</ol>
+
+<h3 id="补充">补充</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>最好不用 `git pull`,使用`git fetch` 和 `git merge`来代替它.
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>撤销所有在本地的修改</p>
+
+    <p><code class="highlighter-rouge">git checkout -f</code></p>
+  </li>
+  <li>
+    <p>查看你所做的修改</p>
+
+    <p><code class="highlighter-rouge">git commit -a</code></p>
+  </li>
+  <li>
+    <p>撤销最近的提交</p>
+
+    <p><code class="highlighter-rouge">git reset HEAD~2</code></p>
+  </li>
+</ol>
+
+<p>5.List all changes in working dir,in diff format</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`git diff`
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Dispaly changes since last commit</p>
+
+    <p><code class="highlighter-rouge">git diff HEAD</code></p>
+  </li>
+  <li>
+    <p>List all changeset descriptions</p>
+
+    <p><code class="highlighter-rouge">git log</code></p>
+  </li>
+  <li>
+    <p>追踪特定文件的changesets</p>
+
+    <p><code class="highlighter-rouge">git log net/ieee80211/ieee80211_module.c</code></p>
+  </li>
+</ol>
+
+<h2 id="branches">Branches</h2>
+
+<ol>
+  <li>
+    <p>List all branches</p>
+
+    <p><code class="highlighter-rouge">git branch</code></p>
+  </li>
+  <li>
+    <p>Make desired branch current in working dur</p>
+
+    <p><code class="highlighter-rouge">git checkout $branch</code></p>
+  </li>
+  <li>
+    <p>Create a new branch, and make it current</p>
+
+    <p><code class="highlighter-rouge">git checkout -b my-new-branch master</code></p>
+  </li>
+  <li>
+    <p>Examine which branch is current</p>
+
+    <p><code class="highlighter-rouge">git status</code></p>
+  </li>
+  <li>
+    <p>Obtain a diff between <em>current</em> branch with <em>master</em> branch</p>
+
+    <p><code class="highlighter-rouge">git diff master master..HEAD</code></p>
+  </li>
+  <li>
+    <p>Obtain a list of changes between <em>current</em> branch with master branch</p>
+
+    <p><code class="highlighter-rouge">git log master..HEAD</code></p>
+  </li>
+  <li>
+    <p>A one line summary of each changes</p>
+
+    <p><code class="highlighter-rouge">git shortlog master..HEAD</code></p>
+  </li>
+</ol>
+
+<h2 id="合并分支">合并分支</h2>
+<p>假设你在分支A，分支B上完成了工作，你需要把你的工作放进主分支M，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout M
+git merge A
+git merge B
+</code></pre></div></div>
+
+<h2 id="check-out-an-older-kernel-version">Check out an older kernel version</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd linux-source
+git checkout -b tmp v2.6.22
+</code></pre></div></div>
+
+<h2 id="apply-all-patches-in-a-berkerey-mbox-format-file">Apply all patches in a Berkerey mbox-format file</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd linux-kernel-source
+git am --utf8 --signoff /path/to/mbox
+</code></pre></div></div>
+
+<p>The –signoff option 暗示git am 在最后加上</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Signed-off-by: Your Name &lt;your@email.com&gt;
+</code></pre></div></div>
+
+<p>The name and email are taken from the GIT_COMMITTER_NAME AND GIT_COMMITTER_EMAIL environment variables,(可以设定在.bash_profile 或者相似的文件)</p>
+
+<h3 id="download-tags">download tags</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch --tags $URL
+</code></pre></div></div>
+
+<p>Tag a partical commit</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd linux-tree
+git tag my-tag
+</code></pre></div></div>
+
+<p><a href="http://larmbr.me/2013/10/27/Git-for-linux-tips-for-tracking-code-history/#top">转载</a></p>
+
+<h2 id="查看某次提交">查看某次提交</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`git show &lt;commit Id/revsper&gt;`
+</code></pre></div></div>
+
+<p>##i 查看某个版本的代码库,下面命令中的”&lt;&gt;”去掉</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`git checkout -b &lt;分支名&gt; &lt;某个版本&gt;`
+</code></pre></div></div>
+
+<h2 id="追踪特定文件的变化记录">追踪特定文件的变化记录</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`git log --follow &lt;文件名&gt;`
+</code></pre></div></div>
+
+<p>1.详细了解一个文件的修改过程</p>
+
+<p>2.从最后提交的日期来看该代码的开发热度，对于不稳定的代码可以略读，对于稳定的代码可以详读。</p>
+
+<h2 id="追踪文件内容的变化历史">追踪文件内容的变化历史</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`git blame -C -L &lt;start&gt;,&lt;end&gt; &lt;文件名&gt;`
+</code></pre></div></div>
+
+<p>该命令可以小到行的__粒度__来了解代码的变化历史, -C选项可以追踪某行代码之前是位于哪个文件中的, -L选项则是选定行范围, 这样对于很大的文件, 对整个文件运行该命令可能会比较久, 指定感兴趣的行范围可以缩短时间。这两个选项都是可选的。</p>
+
+<p>使用场景:</p>
+
+<p>该命令会输出每一行引入的时间, 作者, commit ID, 有了这些信息, 或者用git show
+命令阅读作者引入时的提交信息, 了解该改动的原因和做法; 或者, 利用这些信息,
+加上lkml关键字, 用Google搜索邮件列表存档, 更深入了解当时开发者们对这一变动的
+所解决的问题, 解决方法的讨论。</p>
+
+<h2 id="确定某次变化是哪次提交引入的">确定某次变化是哪次提交引入的</h2>
+<pre><code class="language-git">	git bisect start HEAD &lt;oldVersion&gt; --no-checkout
+	git bisect run sh -c 'git show BISECT_HEAD:&lt;path that include the struct in file &gt;
+	grep -q "struct &lt;struct name&gt;"'
+</code></pre>
+<p>第一条命令，指定了查找的范围，–no-checkout 表示对于每一次检查，不检出当前版本库，加快检索速度。</p>
+
+<p>当这两条命令运行结束后，引入变化的提交就被找到了，然后再利用git show命令查看
+更加详细的变化原因。</p>
+
+<h2 id="创建新分支">创建新分支</h2>
+<p>Create a new branch called “first-patch”, and checkout that branch by running:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout -b first-patch
+</code></pre></div></div>
+
+<p>只能初次使用</p>
+
+<h2 id="删除一个分支">删除一个分支</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch -D temp
+</code></pre></div></div>
+
+<p>##i 查看有目前目录有多少分支</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch
+</code></pre></div></div>
+
+<p>在内核中应该多建立分支,这样是工作不至于太乱</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch -a
+</code></pre></div></div>
+
+<p>查看远方版本库的目前使用的分支</p>
+
+<h2 id="update-your-kernel">Update your kernel</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch origin
+</code></pre></div></div>
+
+<p>与原来的版本库标定</p>
+
+<h2 id="搜索某个人的提交">搜索某个人的提交</h2>
+
+<p>git log –author=”name”</p>
+
+<h1 id="kernel-next-工作技巧">kernel next 工作技巧</h1>
+
+<p><a href="https://www.kernel.org/doc/man-pages/linux-next.html">here</a></p>
+
+<p>我摘抄过来了，当作自己的笔记：
+The linux-next tree is the holding area for patches aimed at the next kernel merge window. If you’re doing bleeding edge kernel development, you may want to work from that tree rather than Linus Torvalds’ mainline tree.</p>
+
+<p>Initial set up</p>
+
+<p>If you haven’t already done so, first clone a copy of the mainline Linux Git repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+	<span class="c"># or: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git</span>
+    Cloning into <span class="s1">'linux'</span>...
+    ...
+
+    Then add a remote tracking branch <span class="k">for </span>linux-next:
+
+    <span class="nv">$ </span><span class="nb">cd </span>linux
+    <span class="nv">$ </span>git remote add linux-next https://git.kernel.org/pub/scm/linux/ <span class="se">\</span>
+    kernel/git/next/linux-next.git
+
+    <span class="c"># or: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git</span>
+</code></pre></div></div>
+
+<p>Fetch linux-next plus tags</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>git fetch linux-next
+    ...
+    <span class="nv">$ </span>git fetch <span class="nt">--tags</span> linux-next
+    ...
+Regular tracking
+
+Update linux-next:
+
+    <span class="nv">$ </span>git checkout master      <span class="c"># to be safe</span>
+    ...
+    <span class="nv">$ </span>git remote update
+    ...
+List <span class="o">(</span>recent<span class="o">)</span> linux-next tags:
+
+    <span class="nv">$ </span>git tag <span class="nt">-l</span> <span class="s2">"next-*"</span> | <span class="nb">tail
+    </span>next-20140612
+    next-20140613
+    next-20140616
+    next-20140617
+    next-20140618
+    next-20140619
+    next-20140620
+    next-20140623
+    next-20140624
+    next-20140625
+</code></pre></div></div>
+
+<p>Choose the linux-next version that you will work from, and create a local branch based on that version:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git checkout -b my_local_branch next-20140625
+Switched to a new branch 'my_local_branch'
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/12/03/WhatisLove/">什么是爱情</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/12/05/AssemblyForLinux/">linux下汇编小结</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

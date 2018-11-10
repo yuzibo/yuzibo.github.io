@@ -1,7 +1,7 @@
 ---
 title: "linux关于无线的命令"
 category: tools
-layout: article
+layout: post
 ---
 
 # 1. 首先确定你的无线网卡驱动

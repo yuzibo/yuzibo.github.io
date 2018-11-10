@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>git产生patch并使用git send-email发送</title>
+    <meta name="description" content="1产生patchgit 产生patch还是非常简单的，我们使用最多的就是git format-patch命令了。产生单个patchgit format-patch -o ~/patch/ HEAD^注意这里的HEAD^(HEAD~也可以),如果只有HEAD是不可以的,当然，如果你查看log的话，使用下面的命令：g...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/02/04/git_send_email_tips/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>git产生patch并使用git send-email发送</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-02-04
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="1">1</h1>
+<h1 id="产生patch">产生patch</h1>
+<p>git 产生patch还是非常简单的，我们使用最多的就是<code class="highlighter-rouge">git format-patch</code>命令了。
+产生单个patch</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> ~/patch/ HEAD^
+</code></pre></div></div>
+<p>注意这里的HEAD^(HEAD~也可以),如果只有HEAD是不可以的,当然，如果你查看log的话，使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log <span class="nt">--pretty</span><span class="o">=</span>oneline <span class="nt">--abbrev-commit</span>
+git show HEAD  <span class="c"># 展示的第一个commit日志</span>
+</code></pre></div></div>
+<h2 id="发送单个patch">发送单个patch</h2>
+<h3 id="mutt方法">mutt方法</h3>
+<p>很简单的一点就是 mutt -H your-pacth,then send it,oh, sure, don not forget maintainer of address and who is them.
+如何得到维护人的地址或者相关列表呢？使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git show HEAD | perl scripts/get_maintainer.pl <span class="nt">--separator</span> , <span class="nt">--nokeywords</span> <span class="nt">--nogit</span> <span class="nt">--nogit-fallback</span> <span class="nt">--norolestats</span> <span class="nt">--nol</span>
+perl scripts/get_maintainer.pl <span class="nt">--separator</span> , <span class="nt">--nokeywords</span> <span class="nt">--nogit</span> <span class="nt">--nogit-fallback</span> <span class="nt">--norolestats</span> <span class="nt">--nol</span> <span class="nt">-f</span> source-files
+</code></pre></div></div>
+
+<h3 id="git-send-email">git send-email</h3>
+<p>way 1: git send-email –annotate HEAD^,这一个方式不可控。
+way 2: git send-email your-patch.使用这个方法，你上面产生patch的格式稍微复杂些：使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> ~/patch/ <span class="nt">--cc</span><span class="o">=</span>mail-list1  <span class="nt">--to</span><span class="o">=</span>maintainer@xx.com HEAD^
+</code></pre></div></div>
+<p>上面的地址在上面的命令中挑出即可。为什么我们在这里这么费劲地产生一个patch,这种方式貌似有些复杂，其实用起来就很简单的。</p>
+<h1 id="2">2</h1>
+<p>git send-email是为了提交patch而产生的，所以，你使用它提交patch会非常容易，那么，如果你想提交普通文件的话，需要使用下面的命令：</p>
+<h2 id="单个文件">单个文件</h2>
+<p>对，接着使用你上面产生的patch，因为它已经包含相应的信息了，所以仅仅使用：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git send-email   <span class="nt">--to</span><span class="o">=</span>tsu.yubo@gmail.com your-patch
+</code></pre></div></div>
+<p>一直按”y”即可，这样单个patch就发出去了。(上面的–to你可以用，也可以不用)</p>
+
+<h1 id="3产生多个文件">3.产生多个文件</h1>
+<p><a href="https://burzalodowa.wordpress.com/2013/10/05/how-to-send-patches-with-git-send-email/">here</a>我是参考的这篇文章。
+例如，你要产生patch的commit如下：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db868ad xhci: remove conversion from generic to pci device <span class="k">in </span>xhci_mem.c
+c010f0c xhci: remove unnecessary check <span class="k">in </span>xhci_free_stream_info<span class="o">()</span>
+a166493 xhci: fix SCT_FOR_CTX<span class="o">(</span>p<span class="o">)</span> macro
+56e4cd3 xhci: replace USB_MAXINTERFACES with config-&gt;desc.bNumInterface
+</code></pre></div></div>
+<p>接下来就是两种方法：
+way 1: git format-patch -o ~/patches/ -3 HEAD
+这样你就会得到从<code class="highlighter-rouge">c010f0c</code>,<code class="highlighter-rouge">a166493</code>,<code class="highlighter-rouge">56e4cd3</code>的patch.
+还有一种方式就是 在commit-id 处使用 <code class="highlighter-rouge">56e4cd3^..c010f0c</code>,这样也能满足上面的方案。
+way 2: git format-patch -o ~/patches/ -3 c010f0c(这一个是重点，我觉得可以用+号往上产生，比如，产生头两个)
+这里很有意思的一件事就是：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> ~/patch/  <span class="nt">-3</span>
+</code></pre></div></div>
+<p>就会产生前三个commit的patch.同时，如果你查看0001-xx.patch，你就会看到[PATCH 1/n],这个n就是你上面的”-n”.
+你以为这样就结束了，”–to”什么的忘了吗？</p>
+<h2 id="带封皮的cover-letter的patchset">带封皮的cover-letter的patchset</h2>
+<p>使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> /tmp/ <span class="nt">--cover-letter</span> <span class="nt">-n</span> <span class="nt">--thread</span><span class="o">=</span>shallow <span class="nt">--cc</span><span class="o">=</span><span class="s2">"linux-usb@vger.kernel.org"</span> <span class="nt">-3</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/02/03/linux_usb_dev/">linux中usb开发记录</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/02/05/liinux_network_flow/">linux 网络流程</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

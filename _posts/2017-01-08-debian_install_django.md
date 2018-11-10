@@ -1,7 +1,7 @@
 ---
 title: "debian安装django"
 category: django
-layout: article
+layout: post
 ---
 
 # 安装python

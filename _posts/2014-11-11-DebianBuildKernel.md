@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "Debian编译linux内核"
 category: kernel
 ---
@@ -162,7 +162,7 @@ linux-libc-dev_4.10.0-rc8+-1_i386.deb
 
 
 ## 感谢
-首先感谢我女友春春的理解和支持，有她在背后，我感觉很幸福;这篇文章我重点参考了[The blog](http://www.blog.csdn.mylxiaoyi/article/details/1499397)
+首先感谢我女友春春的理解和支持，有她在背后，我感觉很幸福;这篇文章我重点参考了[The blog](http://www.blog.csdn.mylxiaoyi/post/details/1499397)
 
 ### 最后更新
 

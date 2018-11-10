@@ -1,6 +1,6 @@
 ---
 title: "python基本语法"
-layout: article
+layout: post
 category: python
 ---
 

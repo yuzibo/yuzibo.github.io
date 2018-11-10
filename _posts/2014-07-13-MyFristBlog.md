@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "我的第一篇blog&&致谢"
 category: experience
 tags: 

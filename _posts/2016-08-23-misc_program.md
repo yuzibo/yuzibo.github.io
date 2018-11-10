@@ -1,7 +1,7 @@
 ---
 title: "linux下的misc编程"
 category: kernel
-layout: article
+layout: post
 ---
 
 # 补充材料

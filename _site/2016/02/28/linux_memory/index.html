@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux的内存浅析</title>
+    <meta name="description" content="page先说说有关的数据结构，内核中的这个数据结构映射的是物理地址，里面有个count的数据域，它标记着这个页的使用的量。返回值是-1,就说明这个页没有被使用。然而，内核中经常使用一个page_conut()的函数来检查这个页的使用情况，通常情况是等于0(空闲)，大于0(个数就是真实的使用量)。zone与page...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/02/28/linux_memory/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux的内存浅析</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-02-28
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="page">page</h1>
+<p>先说说有关的数据结构，内核中的这个数据结构映射的是物理地址，里面
+有个<code class="highlighter-rouge">count</code>的数据域，它标记着这个页的使用的量。返回值是-1,就说明
+这个页没有被使用。然而，内核中经常使用一个<code class="highlighter-rouge">page_conut()</code>的函数来
+检查这个页的使用情况，通常情况是等于0(空闲)，大于0(个数就是真实的
+使用量)。</p>
+
+<h2 id="zone">zone</h2>
+<p>与<code class="highlighter-rouge">page</code>有关的一个概念就是<code class="highlighter-rouge">zone</code>了，可以说<code class="highlighter-rouge">page</code>被分成了<code class="highlighter-rouge">zone</code>，
+<code class="highlighter-rouge">zone</code>没有物理上的意义，只是为了方便追踪对<code class="highlighter-rouge">page</code>的管理，页中的<code class="highlighter-rouge">zone</code>
+有以下几个方面的应用：</p>
+
+<blockquote>
+  <p>ZONE_DMA</p>
+</blockquote>
+
+<blockquote>
+  <p>ZONE_DMA32</p>
+</blockquote>
+
+<blockquote>
+  <p>ZONE_NORMAL</p>
+</blockquote>
+
+<blockquote>
+  <p>ZONE_HIGHMEM</p>
+</blockquote>
+
+<p>这些东西是定义在<code class="highlighter-rouge">&lt;include/linux/mmzone.h&gt;</code>中的。</p>
+
+<p>根据你使用的不同情况，合理的使用的标记。还有，<code class="highlighter-rouge">zone</code>是不能垮边界的。</p>
+
+<h1 id="如何得到page">如何得到page</h1>
+<p>最常用的一个函数是</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="n">alloc_pages</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">fp_mask</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">order</span><span class="p">)</span>
+</code></pre></div></div>
+<p>这样会分配一个2的order次方大小数量的页。<code class="highlighter-rouge">gfp_t</code>是关于你分配页的使用的
+标志，定义在&lt;linux/gfp.h&gt;里，它是<code class="highlighter-rouge">__get_free_page()</code>的缩写。使用上面的函数，
+我们得到的页是物理地址，
+还不能被进程使用，我们必须转换成进程使用的虚拟地址，才能够真正应用这个
+物理页。利用：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="n">page_address</span><span class="p">(</span><span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">)</span>
+</code></pre></div></div>
+<p>就可以将分配到的物理页转化为虚拟地址，也就是进程可以使用的地址。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">get_zeroed_page</span><span class="p">(</span>
+		<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">gfp_mask</span><span class="p">)</span>
+</code></pre></div></div>
+<p>在某些情况下等于,返回一个全部充满0的页。</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">__get_free_page</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h1 id="kmalloc">kmalloc</h1>
+<p>这个函数是分配以字节为单位的内核空间，与用户空间的<code class="highlighter-rouge">malloc</code>函数特别相似。
+函数定义在&lt;linux/slab.h&gt;,分配的也是2的方的数值。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="n">kmalloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="n">flag</span><span class="p">)</span>
+</code></pre></div></div>
+<p>分配的最大数值为128KB.</p>
+
+<h2 id="gfp_t">GFP_T</h2>
+<p>说说这个标志。它被定义在&lt;linux/types.h&gt;中，分为action modifiers、zone
+modifiers ,定义在&lt;linux/gfp.h&gt;中。</p>
+
+<blockquote>
+  <blockquote>
+    <p>仅仅 ~alloc_page`可以分配高内存。</p>
+  </blockquote>
+</blockquote>
+
+<h1 id="vmalloc">vmalloc</h1>
+<p>这个函数直接从虚拟地址分配地址，定义在&lt;linux/vmalloc.h&gt;文件中，且与
+vfree()函数配套使用。</p>
+
+<h1 id="slab">slab</h1>
+<p>前面的分配页的内存管理方法可以满足绝大多数对内存的需要，可是有一点，
+就是消耗的时间太多，因为经过了两级映射，有的甚至是三级映射，所以，
+内核的开发者又想出了一个折中的方案，把页连成一串，形成页缓存。
+在它下面使用</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kmem_cache_create</span><span class="p">()</span>
+</code></pre></div></div>
+<p>类似的函数，这里我们只需要简单的了解，更详细的我会补充上。</p>
+
+<h1 id="其他">其他</h1>
+
+<blockquote>
+  <p>alloc_bootmem_..()</p>
+</blockquote>
+
+<p>这是在启动的时候分配内存的代码，在初始化完成后这个代码就会被擦除。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/02/26/linux_virtual_filesystem/">linux中的vfs</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/03/01/shadowsocks_shell/">ss连接的命令</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> 工作笔记</title>
+    <meta name="description" content="技术细节加载共享内存shmadmin load">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/03/21/dhcc-note/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1> 工作笔记</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-03-21
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#dhc" title="Category: dhc" rel="category">dhc</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="技术细节">技术细节</h1>
+
+<h3 id="加载共享内存">加载共享内存</h3>
+
+<p>shmadmin load</p>
+
+<h3 id="查看后台服务是否ok">查看后台服务是否OK</h3>
+
+<blockquote>
+  <p>applist</p>
+</blockquote>
+
+<h3 id="注意">注意</h3>
+
+<p>DBS函数完成之后，要重启服务生效</p>
+
+<h3 id="配置的三张表">配置的三张表</h3>
+
+<p>任何交易都应该配置三张表，这样的程序才会陪解析</p>
+
+<p>insert into TX_DEF  values (‘2421’, ‘教师个人信息’, ‘100000000000000000100000100010000000000000000000000000000000000000000000
+1000000000000000000000000000000000000000100000000000000’, ‘1’, null, null, ‘0’, null, null, null, null, ‘Y’);</p>
+
+<p>insert into TX_FLOW_DEF (TX_CODE, FLOW_CODE, SUB_TX_CODE, SUB_TX_RSLT, FLOW_IND) values (‘2421’, 0, ‘2421’, ‘#$’, null);</p>
+
+<p>insert into TX_SUB_DEF (SUB_TX_CODE, SUB_TX_NAME, TX_FUNC, ACCT_IND, CHNL_IND, YW_TYPE) values (‘2421’, ‘教师个人信息’, ‘sp2421’, ‘0’, ‘0’, null);</p>
+
+<p>如果报白名单错误，还需要这样：</p>
+
+<p>SELECT * FROM tx_ctl_reg WHERE  tx_code=’2421’ and beg_date &lt;=20190102 and end_date &gt;=20190102 and sts=’1’ order by prior_no desc;
+INSERT INTO TX_CTL_REG  VALUES (‘2421’, 1, 1, ‘0001’, ‘<strong>**’, ‘</strong><strong>’, ‘</strong><strong>’, ‘</strong><strong>’, ‘</strong><strong>’, ‘</strong><strong>’, ‘</strong><strong>’, ‘</strong>**’, 19000101, 99999999, 9999, ‘1’, ‘1’, ‘教师个人信息’);</p>
+
+<p>这里明显有问题，需要好好了解一下。</p>
+
+<h3 id="相关的表定义">相关的表定义</h3>
+
+<p>tx_def: 交易定义表(交易码和交易名称)</p>
+
+<h1 id="关于函数的用法">关于函数的用法</h1>
+
+<p>注意整型的变量：</p>
+
+<p>long id_no = 0;</p>
+
+<p>get_zd_long(“0290”,&amp;id_no);</p>
+
+<h1 id="前端">前端</h1>
+
+<p>如果把解决方案重新拿到另一台电脑上，很可能不会添加项目成功，那么，原因可能是如下：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/a865ffcbjw1f7dtlb3ktnj20df05fq3g.jpg" alt="图片" /></p>
+
+<p>解决这个问题的方案可能是：安装一个svn或者解压Subversion.zip到报错误的目录</p>
+
+<h1 id="实习重点">实习重点</h1>
+
+<p>存在的问题整理：
+1、表结构涉及方面：1）建立唯一索引，以姓名为检索条件不合理–重名、不可控等，最好采用编码的形式唯一且可控；
+2）指定表空间；
+3）char和varchar2的区别；
+2、memset（）；初始化变量要前后一致，避免出现初始化变量长度出现偏差，导致的程序处理错误；
+3、跳转至错误出口一定要赋错误码，另外错误描述要与错误信息相符；
+4、pub_base_sysinit();遇到公函要去查看具体功能，并且添加返回值判断–查找方法xgrep，了解g_pub_tx通用记账结构体；
+5、获取前端域值，get_zd_data、get_zd_int、get_zd_double以及get_fd_data（不压缩空格）的作用和区别分别是什么要弄明白，使用域值要注意类型和长度；
+6、定义变量：首先要规范，变量类型+描述；其次变量长度要满足域值长度，定义变量小会导致内存溢出等；
+7、变量赋值，尽量摈弃strcpy，而使用memcpy;
+8、避免出现跳流水号的问题：核心系统中一笔主交易产生一笔流水（有据可查），不允许跳号，因此查询交易单独写，查询交易设置tx_def的log_ind为0不写流水。
+9、游标、指针为关闭会导致占用内存，影响系统性能，若文件指针未关闭，导致文件句柄一直占用，不被释放，超过2000就不在写文件，出错。
+10、日志打印级别的问题：调试信息使用vtcp_trace、交易提示信息用vtcp_info、交易错误信息用vtcp_exit；
+11、if、esle if 、else要配对，严格上if必须有else去配对，去处理特殊情况，哪怕是去报错；
+12、set_zd_data(DC_FILE_SND,”1”);文件传输标志，默认0没有文件、1有文件、2有连续文件，目前只有0和1,2的情况随着技术改进已取消；
+13、程序注释量太少；
+14、金额判断采用系统中的基础公函；
+15、原子交易尽量少用sql_execute(),修改数据采用DBS更新函数，
+ 原因：1）DBS函数有锁表的机制，避免同时修改同一条数据，由于时间差引起的风险，例如日终批量扣款和取款同时进行的情况；
+       2）DBS函数修改dd_mst主表时，会根据余额、起息日、积数、上次交易日期等数据的变化，更新MAC值，避免私自修改数据库的风险；
+	   3）sql_execute报错没有明显的报错，唯一好处是操作方便；
+16、批量交易退出时：批量交易代码+错误信息，方便排查错误，提高工作效率；
+17、修改数据要登记明细；
+18、开发小项目，最好有需求讨论和设计。</p>
+
+<h2 id="0909">0909</h2>
+<p>1、账户、产品、科目之前的关系？
+2、什么时候用登记薄、什么时候用分户？
+3、现金不能隔日冲账的原因？
+4、什么是资产负债表日？</p>
+
+<p>考试知识点：
+1、账户、产品、科目之前的关系？
+   账户：产品和科目的具体体现，会计核算的具体载体，开立账户时即确定产品科目信息，根据实际增减变化修改分户余额； ——针对银行客户核算
+   科目：对六大会计要素的细分，一级二级三级科目人行规定的，不可变化。记账过程除了修改分户账，
+         还要依据会计恒等式和复式记账规则记科目账；最终汇总成资产负债表。          ——人行通过报表监督
+   产品：依据科目，根据不同的业务核算需要设定，例如某行为吸收存款、在山东设定三个月整存整取利率高于法定存款利率0.5的产品A，在宁夏设定三个月整存整取利率高于法定存款利率0.9的产品B,产品A和产品B的核算仍然按三个月整存整取科目核算，但是由于存款利率不同导致损益不同，当然产品属性有很多种，因此一个科目可以延伸多种产品，便于银行营销获利。     ——银行统计收益情况</p>
+
+<p>2、什么时候用登记薄、什么时候用分户？
+   与客户资金有关的用分户表，目前系统各分户主表dd_mst、ln_mst、in_mst；
+   用于登记银行或客户信息的用登记薄。</p>
+
+<p>3、现金不能隔日冲账的原因？
+   现金不同于其他科目，属于实物，一旦丢失，不可恢复；因此需要当日清点，不可隔日冲销；
+   假如可以隔日冲账，A柜员昨日发生一笔现金存款业务，次日冲销掉，挪作私用，会出现现金流失的情况。</p>
+
+<p>4、什么是资产负债表日？
+	资产负债表日也指会计年末和会计中期期末。我国的会计年度采用公历年度，即1月1日至12月31日。因此，年度资产负债表日是指每年的12月31日，中期资产负债表日是指各会计中期期末，包括月末、季末、和半年末。例如第一季度的资产负债表日是3月31日而半年的资产负债表日则是6月30日等等。</p>
+
+<p>5、定期自动转存后，算下一期的利息是上一期利息会加到本金中算利息吗？
+	分本息转存和本金转存
+	本息转存时 利息和本金一起转入下一个存期
+	本金转存时利息转到收息户 本金进入下一个存期</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/03/12/keys_in_c_2/">c语言重要知识点</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/03/28/windows_install_git/">windows上安装git</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

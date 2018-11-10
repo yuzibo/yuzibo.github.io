@@ -1,6 +1,6 @@
 ---
 title: "c下实现who和more命令-time"
-layout: article
+layout: post
 category: unix 
 ---
 

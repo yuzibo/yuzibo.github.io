@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: "DS"
 title: "关于test数据的省时省力的方法"
 ---

@@ -1,6 +1,6 @@
 ---
 title: "oracle proc编程Makefile模板"
-layout: article
+layout: post
 category: oracle
 ---
 

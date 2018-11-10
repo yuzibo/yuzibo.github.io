@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python输入输出函数和操作文件</title>
+    <meta name="description" content="这是我的python基础教程，入门级别的中文编码如果在源代码中插入中文的话，可能会报编码错误，需要在头文件中加入：#!/usr/bin/python# -*- coding: UTF-8 -*-print “你好，世界”;输入输出raw_input和inputname = raw_input();print 'h...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/07/29/python_input_output_file/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>python输入输出函数和操作文件</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-07-29
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>这是我的python基础教程，入门级别的</p>
+
+<h1 id="中文编码">中文编码</h1>
+
+<p>如果在源代码中插入中文的话，可能会报编码错误，需要在头文件中加入：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span></code></pre></div></div>
+
+<p>print “你好，世界”;</p>
+
+<h1 id="输入输出raw_input和input">输入输出raw_input和input</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">();</span>
+<span class="k">print</span> <span class="s">'hello'</span><span class="p">,</span><span class="n">name</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">'please enter your name'</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">'hello'</span><span class="p">,</span> <span class="n">name</span>
+
+<span class="c1"># 输入非数字的话，就会报错
+</span><span class="n">birth</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">raw_input</span><span class="p">(</span><span class="s">'birth:'</span><span class="p">))</span>
+
+<span class="c1"># 展示程序
+</span>
+<span class="n">root</span><span class="o">@</span><span class="n">yubo</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">python</span><span class="c1"># cat test.py
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="nb">str</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"请输入"</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"你输入的内容是："</span> <span class="p">,</span> <span class="nb">str</span>
+<span class="n">root</span><span class="o">@</span><span class="n">yubo</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">python</span><span class="c1"># python test.py
+</span><span class="err">请输入</span><span class="n">hechun</span>
+<span class="err">你输入的内容是：</span> <span class="n">hechun</span>
+<span class="n">root</span><span class="o">@</span><span class="n">yubo</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">python</span><span class="c1">#
+</span>
+<span class="c1"># input 输入，支持python表达式
+</span>
+<span class="nb">str</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"请输入"</span><span class="p">);</span>
+<span class="k">print</span> <span class="s">"你输入的内容是："</span><span class="p">,</span> <span class="nb">str</span>
+
+<span class="n">root</span><span class="o">@</span><span class="n">yubo</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">python</span><span class="c1"># python test.py
+</span><span class="err">请输入</span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mi">5</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+<span class="err">你输入的内容是：</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+
+
+</code></pre></div></div>
+
+<h3 id="控制台输入输出">控制台输入输出</h3>
+
+<p>上面的输入输出是文件执行的，如果需要解释器来运行，则需要导入相关的模块。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">'Python rules!</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+<span class="n">Python</span> <span class="n">rules</span><span class="err">!</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">value</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="n">hello</span><span class="p">,</span> <span class="n">yubo</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">value</span>
+<span class="s">'hello, yubo</span><span class="se">\n</span><span class="s">'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="n">hello</span><span class="p">,</span> <span class="n">yubo</span>
+
+</code></pre></div></div>
+
+<h1 id="字符表示">字符表示</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print <span class="s1">'\\\n\\\'</span>
+
+<span class="c">## 打印</span>
+<span class="c"># \</span>
+<span class="c"># \</span>
+
+<span class="c">## 防止转义</span>
+
+print r<span class="s1">'\\\n\\\'</span>
+
+<span class="c">## 多行内容使用三引号 ‘'''...'''</span>
+print <span class="s1">''' hello
+world
+yubo
+'''</span>
+<span class="c">## 打印布尔值</span>
+print 3&gt;2
+
+<span class="c">## unicode编码转换成utf-8</span>
+print u<span class="s1">'ABC'</span>.encode<span class="o">(</span><span class="s1">'utf-8'</span><span class="o">)</span>
+print u<span class="s1">'中文'</span>.encode<span class="o">(</span><span class="s1">'utf-8'</span><span class="o">)</span>
+
+<span class="c">## 格式化输出 这里？？？</span>
+
+<span class="c"># 格式转换</span>
+print <span class="s1">'Hello, %s'</span> % <span class="s1">'wrold'</span>
+</code></pre></div></div>
+
+<h1 id="python-常见的三种符号">python 常见的三种符号</h1>
+
+<h3 id="-不可变序列">() 不可变序列</h3>
+
+<h3 id="-可变列表">[] 可变列表</h3>
+
+<p>直接创建：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">list</span><span class="p">(</span><span class="s">'python'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>output is here:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="sc">'p'</span><span class="p">,</span> <span class="sc">'y'</span><span class="p">,</span> <span class="sc">'t'</span><span class="p">,</span> <span class="sc">'h'</span><span class="p">,</span> <span class="sc">'o'</span><span class="p">,</span> <span class="sc">'n'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h3 id="-">{ }</h3>
+
+<p>这是字典。下面是实例</p>
+
+<h5 id="dict-of-lists">Dict of lists</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span><span class="p">[</span><span class="s">'id1'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span>
+<span class="p">{</span><span class="s">'id1'</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span><span class="p">[</span><span class="s">'id2'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span>
+<span class="p">{</span><span class="s">'id1'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">'id2'</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span><span class="p">[</span><span class="s">'id3'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span>
+<span class="p">{</span><span class="s">'id1'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">'id2'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">'id3'</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span><span class="p">[</span><span class="s">'id2'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'some data, but could be anything'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span>
+<span class="p">{</span><span class="s">'id1'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">'id2'</span><span class="p">:</span> <span class="p">[</span><span class="s">'some data, but could be anything'</span><span class="p">],</span> <span class="s">'id3'</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span><span class="p">[</span><span class="s">'id2'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="s">'some data, but could be anything'</span>
+</code></pre></div></div>
+
+<h5 id="dict-of-dict">Dict of dict</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span><span class="p">[</span><span class="s">'id1'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span><span class="p">[</span><span class="s">'id2'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span><span class="p">[</span><span class="s">'id3'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span>
+<span class="p">{</span><span class="s">'id2'</span><span class="p">:</span> <span class="p">{},</span> <span class="s">'id3'</span><span class="p">:</span> <span class="p">{},</span> <span class="s">'id1'</span><span class="p">:</span> <span class="p">{}}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span><span class="p">[</span><span class="s">'id2'</span><span class="p">][</span><span class="s">'new_key'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'some data'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects</span>
+<span class="p">{</span><span class="s">'id2'</span><span class="p">:</span> <span class="p">[</span><span class="s">'some data be added'</span><span class="p">],</span> <span class="s">'id3'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">'id1'</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span>
+<span class="p">{</span><span class="s">'id2'</span><span class="p">:</span> <span class="p">{</span><span class="s">'new_key'</span><span class="p">:</span> <span class="s">'some data'</span><span class="p">},</span> <span class="s">'id3'</span><span class="p">:</span> <span class="p">{},</span> <span class="s">'id1'</span><span class="p">:</span> <span class="p">{}}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">my_objects2</span><span class="p">[</span><span class="s">'id2'</span><span class="p">][</span><span class="s">'new_key'</span><span class="p">]</span>
+<span class="s">'some data'</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/07/26/stuck_in_c/">c未解决的程序</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/08/01/django_1/">django笔记</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

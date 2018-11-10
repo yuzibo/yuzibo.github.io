@@ -1,6 +1,6 @@
 ---
 title: "perl安装模块的方法"
-layout: article
+layout: post
 category: perl
 ---
 

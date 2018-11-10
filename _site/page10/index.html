@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page10/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/02/03/linux_usb_dev/">linux中usb开发记录</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-02-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>为了参加一个小比赛，目前需要了解一下linux usb的知识。</p>
+
+<h1 id="基础知识">基础知识</h1>
+
+<h3 id="endpoint">endpoint</h3>
+
+<p>A usb endpoint可以是下面四种类型的其中一个。</p>
+
+<p><strong>CONTROL</strong></p>
+
+<p>顾名思义，就是usb中控制设备行为的。通常当一个usb设备插入时有一个”endpoint 0”被用来使用。</p>
+
+<p><strong>INTERRUPT</strong></p>
+
+<p>这个端口每次以固定的大小有usb host向设备请求数据。USB 键盘和鼠标主要使用这个。</p>
+
+<p><strong>BULK</strong></p>
+
+<p>这个endpoint传输大的数据，如果想要数据没有丢失的话，就使用这个 endpoint.例如打印机、存储设备、网络设备。</p>
+
+<p><strong>ISOCHRONOUS</strong></p>
+
+<p>与上面的类似，区别在于不能保证数据会完全通过。</p>
+
+<h2 id="以上是高级的内容">以上是高级的内容</h2>
+<p>现在的原理还没有彻底高明白， 但是，任何一个想被硬件捕捉的驱动必须有这个数据结构， 像侦测函数没有也是可以的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">struct</span> <span class="n">usb_device_id</span> <span class="n">hello_id_table</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+
+	<span class="p">{</span> <span class="n">USB_INTERFACE_INFO</span><span class="p">(</span><span class="n">USB_INTERFACE_CLASS_HID</span><span class="p">,</span>
+	  <span class="n">USB_INTERFACE_SUBCLASS_BOOT</span><span class="p">,</span>
+	  <span class="n">USB_INTERFACE_PROTOCOL_KEYBOARD</span><span class="p">)</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="p">},</span> <span class="cm">/* Here are entry */</span>
+<span class="p">};</span>
+
+<span class="cm">/* 向内核注册 */</span>
+<span class="n">MODULE_DEVICE_TABLE</span><span class="p">(</span><span class="n">usb</span><span class="p">,</span> <span class="n">hello_id_table</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>当你把这个数据结构和hello， world模块融合在一起，只要插入了模块，就可以使用udev规则插入模块。</p>
+
+<p>暂时先记录在这里。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/02/03/linux_usb_dev/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/01/08/debian_install_django/">debian安装django</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-01-08
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#django" title="Category: django" rel="category">django</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="安装python">安装python</h1>
+
+<p>如果你的python版本是2.7.x，貌似不用额外安装，另外我的博客里有3.7.x的安装教程。</p>
+
+<h1 id="setuptools">setuptools</h1>
+
+<p>我是安装的源代码， <a href="https://github.com/pypa/setuptools/archive/master.tar.gz#egg=setuptools-dev">setuptools</a>,
+解压后进入目录使用命令：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+</code></pre></div></div>
+
+<p>接着进行安装：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</code></pre></div></div>
+
+<h1 id="django">django</h1>
+
+<p>首先下载<a href="git clone https://github.com/django/django.git">源代码</a>, 在相应的目录下，有这个文件： setup.py
+使用如下命令：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</code></pre></div></div>
+
+<p>执行完毕后你就可以看见相关的消息，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processing dependencies <span class="k">for </span><span class="nv">Django</span><span class="o">==</span>1.x.y
+Finished processing dependencies <span class="k">for </span><span class="nv">Django</span><span class="o">==</span>1.x.y
+</code></pre></div></div>
+
+<p>使用</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span>
+<span class="kn">import</span> <span class="nn">django</span>
+<span class="n">django</span><span class="o">.</span><span class="n">VERSION</span>
+</code></pre></div></div>
+
+<p>就可以看见相关的信息，说明安装成功.</p>
+<h1 id="卸载软件">卸载软件</h1>
+<p><a href="http://www.aftermath.cn/python_install_packets.html">参考</a></p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/01/08/debian_install_django/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/01/01/unix_timer/">unix中计时器的应用</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-01-01
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="简介">简介</h1>
+<p>在«Unix/Linux编程实践»中第7章中，介绍了计时器的简单应用。简单的介绍下。</p>
+
+<h1 id="三种计时器">三种计时器</h1>
+
+<h3 id="itimer_real">ITIMER_REAL</h3>
+
+<p>这个计时器是真实计时器，也就是程序不管在用户态还是核心态用了多少处理器时间它都记录，
+当这个计时器用尽，发送SIGALRM信号。</p>
+
+<h3 id="itimer_virtual">ITIMER_VIRTUAL</h3>
+
+<p>这个计时器仅仅记录程序在用户态运行时的空间，类似于我们在篮球比赛中看到的，死球期间的
+时间不记录在比赛时间内。这个计时器用完发送SIGVTALRM信号。</p>
+
+<h3 id="itimer_prof">ITIMER_PROF</h3>
+
+<p>这个计时器在这本书里被描绘成睡眠时态(用户+核心态),并不是核心态，（？）当这个计时器用尽，
+会发送SIGPROF信号。</p>
+
+<h1 id="设置">设置</h1>
+
+<p>函数alarm只能设置到以秒为单位的，想要使用更精确的时间，要精通以上时间计时器的精通</p>
+
+<h2 id="两种间隔">两种间隔</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">itimeival</span><span class="p">{</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="n">it_interval</span><span class="p">;</span> <span class="cm">/* next value 重复间隔 */</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="n">it_value</span><span class="p">;</span> <span class="cm">/* current value 初始时间  */</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
+	<span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span> <span class="cm">/* seconds */</span>
+	<span class="kt">long</span> <span class="n">tv_usec</span><span class="p">;</span> <span class="cm">/* 微妙 */</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+<p>解释一下这个用法。当你在等待公交车的时候，第一辆到站的时间是上午5点半(it_value)，以后每隔半小时(it_interval) 就会有一辆公交车准时到达车站。这就是上面的结构体的简单的一句话总结。</p>
+
+<p>请看下面的例子：</p>
+
+<p>```c
+#include<stdio.h>
+#include&lt;sys/time.h&gt;
+#include<signal.h></signal.h></stdio.h></p>
+
+<p>/* 信号处理函数 <em>/
+/</em></p>
+<ul>
+  <li>也就是收到SIGALRM信号后执行的操作
+ *
+ */
+void countdown(int signum)
+{
+static int num = 10;
+printf(“%d.. “, num–);
+fflush(stdout);
+if(num &lt; 0){
+    printf(“DONE!\n”);
+    exit(0);
+}</li>
+</ul>
+
+<p>}
+/**</p>
+<ul>
+  <li>
+    <p>以 毫秒(milliseconds)为参数，转化为整秒和微妙(microseconds)
+ *
+ */
+int set_ticker(int n_msecs)
+{
+ struct itimerval new_timeset;
+ long n_sec, n_usecs;</p>
+
+    <p>n_sec = n_msecs / 1000; /* 整数部分 <em>/
+ n_usecs = (n_msecs % 1000) * 1000L; /</em> 余数部分 */</p>
+
+    <p>new_timeset.it_interval.tv_sec = n_sec; /* 设置间隔的整秒 <em>/
+ new_timeset.it_interval.tv_usec = n_usecs; /</em> 设置间隔的微妙 */</p>
+
+    <p>new_timeset.it_value.tv_sec = n_sec; /* 第一次到达的时间 <em>/
+ new_timeset.it_value.tv_usec = n_usecs; /</em> 保存 计时值*/</p>
+
+    <p>return setitimer(ITIMER_REAL, &amp;new_timeset, NULL);</p>
+  </li>
+</ul>
+
+<p>}</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/01/01/unix_timer/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/24/tcpdump_tutorial/">tcpdump教程</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-24
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="why-tcpdump">WHY TCPDUMP</h1>
+
+<p>Tcpdump is the premier network analysis tool for information security professionals. Having a solid grasp of this user-space appalication is mandatory for anyone desiring a thorough understanding of TCP/IP.</p>
+
+<h1 id="introduction">INTRODUCTION</h1>
+
+<h2 id="dispaly-available-interfaces">Dispaly available Interfaces</h2>
+
+<blockquote>
+  <p>tcpdump -D</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+yubo@debian:~/login<span class="nv">$ </span><span class="nb">sudo </span>tcpdump <span class="nt">-D</span>
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>yubo:
+1.eth0
+2.wlan0
+3.nflog <span class="o">(</span>Linux netfilter log <span class="o">(</span>NFLOG<span class="o">)</span> interface<span class="o">)</span>
+4.any <span class="o">(</span>Pseudo-device that captures on all interfaces<span class="o">)</span>
+5.lo
+</code></pre></div></div>
+
+<h2 id="capture-packets-from-specific-interface">Capture packets from Specific Interface</h2>
+
+<blockquote>
+  <p>tcpdump -i eth0</p>
+</blockquote>
+
+<h2 id="capture-only-n-number-of-packet">Capture Only N number of Packet</h2>
+
+<blockquote>
+  <p>tcpdump -c 2 -i event0</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~# tcpdump <span class="nt">-c</span> 2 <span class="nt">-i</span> venet0
+tcpdump: verbose output suppressed, use <span class="nt">-v</span> or <span class="nt">-vv</span> <span class="k">for </span>full protocol decode
+listening on venet0, link-type LINUX_SLL <span class="o">(</span>Linux cooked<span class="o">)</span>, capture size 65535 bytes
+00:06:39.197531 IP yubo-2.ssh <span class="o">&gt;</span> 112.250.100.205.46493: Flags <span class="o">[</span>P.], <span class="nb">seq </span>1776389372:1776389580, ack 2267257061, win 292, options <span class="o">[</span>nop,nop,TS val 1163336703 ecr 2017454], length 208
+00:06:39.197997 IP yubo-2.40698 <span class="o">&gt;</span> 181.41.222.18.domain: 14384+ PTR? 205.100.250.112.in-addr.arpa. <span class="o">(</span>46<span class="o">)</span>
+2 packets captured
+5 packets received by filter
+0 packets dropped by kernel
+</code></pre></div></div>
+
+<h2 id="print-captured-packets-in-ascii">Print captured packets in ASCII</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@yubo-2:~# tcpdump <span class="nt">-c</span> 2 <span class="nt">-A</span> <span class="nt">-i</span> venet0
+tcpdump: verbose output suppressed, use <span class="nt">-v</span> or <span class="nt">-vv</span> <span class="k">for </span>full protocol decode
+listening on venet0, link-type LINUX_SLL <span class="o">(</span>Linux cooked<span class="o">)</span>, capture size 65535 bytes
+00:09:50.581560 IP yubo-2.ssh <span class="o">&gt;</span> 112.250.100.205.46493: Flags <span class="o">[</span>P.], <span class="nb">seq </span>1776393404:1776393612, ack 2267259285, win 292, options <span class="o">[</span>nop,nop,TS val 1163528086 ecr 2065321], length 208
+E.....@.@..<span class="s2">".e	.p.d.....i....#.....</span><span class="nv">$.</span><span class="s2">......
+EZ......H.x.5.^i"</span>.........+4.?...G.@..E..Ez<span class="k">*</span>..&gt;...#6.!:.B...Zz.<span class="o">}</span>.0.M..5..S!...1.y..~...M......5..n..<span class="o">{</span>..zO.2..u..5.FX..b<span class="nv">$iJ</span>...@....v..<span class="o">=</span>E~R.....9...,x?..&lt;...!..&gt;.....x..HU/...&gt;XzK.....A.Z.&lt;.]...%.........1ax...a.U..&amp;P.
+00:09:50.581992 IP yubo-2.50899 <span class="o">&gt;</span> 181.41.222.18.domain: 32128+ PTR? 205.100.250.112.in-addr.arpa. <span class="o">(</span>46<span class="o">)</span>
+E..J..@.@....e	..<span class="o">)</span>.....5.6v.<span class="o">}</span>............205.100.250.112.in-addr.arpa.....
+2 packets captured
+6 packets received by filter
+0 packets dropped by kernel
+</code></pre></div></div>
+
+<h2 id="display-captured-packets-in-hex-and-ascii">Display captured packets in HEX and ASCII</h2>
+
+<p><img src="http://yuzibo.qiniudn.com/tcp.png" alt="tcp.png" /></p>
+
+<h2 id="capture-and-save-packets-in-a-file">Capture and save packets in a file</h2>
+
+<p>The tcpdump generate a .pcap file, then you can read it with tcpdump command</p>
+
+<p><img src="http://yuzibo.qiniudn.com/tcp2.png" alt="tcp2.png" /></p>
+
+<h2 id="read-captured-packets-file">Read Captured Packets File</h2>
+
+<p><img src="http://yuzibo.qiniudn.com/tcp3.png" alt="tcp3.png" /></p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/24/tcpdump_tutorial/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/23/misc_program/">linux下的misc编程</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-23
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="补充材料">补充材料</h1>
+
+<p><a href="http://stackoverflow.com/questions/18456155/what-is-the-difference-between-misc-drivers-and-char-drivers">here</a></p>
+
+<p>这篇文章解析了misc和<a href="http://www.aftermath.cn/dev_char_kernel.html">char</a>的不同，但是思路都是一样的，主要可能是在归类的时候会有一些不同的。</p>
+
+<p>先说一下，misc的主设备号已经被内核给固定死了，为10,只能修改次设备号(minor).</p>
+
+<p>通常情况下，一个字符设备都不得不在初始化的过程中进行下面的步骤：</p>
+
+<p>通过alloc_chrdev_region()分配主次设备号。</p>
+
+<p>使用cdev_init()和cdev_add()来以一个字符设备注册自己。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/23/misc_program/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/08/22/debian_software_path/">debian系统目录</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-08-22
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#debian" title="Category: debian" rel="category">debian</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="系统目录">系统目录</h1>
+
+<p>这个就不用具体讲了，系统的调用就是寻找这个值。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo $PATH
+
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+</code></pre></div></div>
+
+<p>这个是我的值，具体添加路径是，我找找看哈：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># set PATH so it includes user s private bin if it exists</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/bin"</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then
+    </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<span class="k">fi
+</span><span class="nv">EDITOR</span><span class="o">=</span>vim<span class="p">;</span> <span class="nb">export </span>EDITOR
+</code></pre></div></div>
+
+<p>你想使用或者需要改变这个值，就仿照上面的代码去改动，最后别忘了</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source .profile
+</code></pre></div></div>
+
+<h1 id="usrlocalbin">/usr/local/bin/</h1>
+<p>我安装python的各种软件就放在这里了, 如果在安装时不指定目录时默认安装在这里。
+所有的可执行文件都放在这里，</p>
+
+<p>但是，如果我在<code class="highlighter-rouge">./configure --prefix=/usr</code>时，这样产生的可执行文件位于/usr/bin.看来默认就是–prefix=/xx/bin中。</p>
+
+<h1 id="usrbin">/usr/bin</h1>
+<p>除了在配置编译的时候指定/usr目录，通过系统包管理器产生的文件如apt(debian)
+安装的文件也会位于这个目录。(有一点很奇怪，就是./configure是默认也会在此目录下)
+在我的印象中，使用源码安装的程序应该位于/usr/local/bin中。</p>
+
+<h1 id="usrsbin">/usr/sbin</h1>
+<p>这个s就是systemd的意思，这个是系统管理程序。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/08/22/debian_software_path/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page9" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">10/36</span>
+          
+            <a href="/page11" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

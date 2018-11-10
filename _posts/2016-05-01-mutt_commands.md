@@ -1,6 +1,6 @@
 ---
 title: "mutt&&lynx使用技巧"
-layout: article
+layout: post
 category: tools
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "pygame知识点总结"
 category: python
-layout: article
+layout: post
 ---
 
 ### pygame中加载位图、绘制位图

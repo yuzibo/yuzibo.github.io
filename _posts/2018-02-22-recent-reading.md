@@ -1,7 +1,7 @@
 ---
 title: "Recently reading"
 category: book
-layout: article
+layout: post
 ---
 
 # Thesis

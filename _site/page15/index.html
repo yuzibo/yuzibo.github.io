@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page15/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/07/04/input_and_output_function_in_c/">c语言的输入输出函数总结</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-07-04
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>输入输出函数是一个函数族，尤其在c中，这个知识点必须掌握。</p>
+
+<h1 id="输出函数printf">输出函数(printf)</h1>
+
+<h2 id="格式化控制输出">格式化控制输出</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">#include&lt;stdio.h&gt;
+</span>        <span class="n">main</span><span class="p">()</span>
+        <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">;</span>
+                <span class="kt">float</span> <span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">;</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%3d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%03d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+
+                <span class="n">c</span> <span class="o">=</span> <span class="mi">15</span><span class="p">.</span><span class="mi">3</span><span class="p">;</span>
+ <span class="n">d</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"%3.2f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">d</span><span class="p">);</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<p>上面的输出结果如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="mi">7</span>
+   <span class="mi">7</span>
+<span class="mo">007</span>
+<span class="mi">5</span><span class="p">.</span><span class="mi">10</span>
+</code></pre></div></div>
+
+<h3 id="u-d-p">%u %d %p</h3>
+
+<p>如果打印一个变量的地址，使用u与d都是打印的十进制的数字，这个数字是变量的地址
+。姑且这么讲，它俩的区别在于一个是(unsigned),另一个是(signed),这里就涉及到了
+编码的范围问题。按照stackoverflow的说法，地址使用无符号的输出才有价值。</p>
+
+<p>当然，最理想的方案是使用<code class="highlighter-rouge">%p</code>,这个标识符就是为打印地址准备的。它的输出结果是
+以0x开头的十六进制的数字，有着最起码的物理意义。</p>
+
+<p>###</p>
+
+<h1 id="输入函数">输入函数</h1>
+
+<p>从一开始编程就碰上了这个问题，现在好好总结下；</p>
+
+<p>比如我读两个double类型的数字：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kt">double</span> <span class="n">real</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">img</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%f %f"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">real</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">img</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">real</span> <span class="o">+</span> <span class="n">img</span> <span class="o">*</span> <span class="n">I</span><span class="p">;</span>
+		<span class="p">...</span>
+</code></pre></div></div>
+
+<p>连续键入两个数字，回车，会执行while以下的动作，但是不会输入空格键后退出，如何达到这种效果呢？</p>
+
+<p><em>尽量避免使用scanf</em></p>
+
+<p>使用下面的方法：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="k">while</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+       <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+       <span class="n">fgets</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span> <span class="n">stdin</span><span class="p">);</span>
+       <span class="n">res</span> <span class="o">=</span> <span class="n">sscanf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="s">"%f %f"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">real</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">img</span><span class="p">);</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+           <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">real</span> <span class="o">+</span> <span class="n">img</span> <span class="o">*</span> <span class="n">I</span><span class="p">;</span>
+   <span class="p">}</span>
+</code></pre></div></div>
+
+<p>再举一个例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"you typed %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>这样读进去的行为不如你所想的那样进行，我输入一个回车后没有反应，直到我输入另外一个数字敲回车才会把我第一个输入的数字打印出来</p>
+
+<h3 id="读入含空白字符字符串">读入含空白字符字符串</h3>
+
+<p>scanf中的”%s”修饰符，遇到空白字符串，</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/07/04/input_and_output_function_in_c/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/07/02/ssh_login_without_passwd/">用户自动登录的解决方案</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-07-02
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#shell" title="Category: shell" rel="category">shell</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="主要解决的是-ssh-telnet">主要解决的是 ssh telnet</h1>
+
+<p>最近登录的机器特别多,所以想点力气，这个问题目前有以下几个方案：</p>
+
+<h2 id="expect">expect</h2>
+
+<p>使用这个命令工具可能简单一些，但不是最好的方案，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/expect</span>
+
+spawn ssh user@host_ip
+expect <span class="s2">"password"</span>
+send <span class="s2">"your_passwd</span><span class="se">\r</span><span class="s2">"</span>
+
+interact
+</code></pre></div></div>
+
+<p>这里你必须注意一点，expect的基本用法，expect好比grep的功能，它
+捕捉从屏幕上输出含有后面的引号内字符后面的缓冲区，接下来的send命令，
+就是将输入缓冲区的字符去掉换行符后发给了expect的接受区。能完全可以使用
+<code class="highlighter-rouge">set passwd xx</code>的形式，使用<code class="highlighter-rouge">$xx\r</code>就行了。</p>
+
+<h2 id="sshpass">sshpass</h2>
+
+<p>首先安装sshpass这个软件。</p>
+
+<p>接下来可以使用这个脚本：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshpass <span class="nt">-p</span> <span class="s2">"passwd"</span> ssh <span class="nt">-o</span> <span class="nv">StrictHostKeyChecking</span><span class="o">=</span>no your_name@host_ip
+
+</code></pre></div></div>
+
+<h1 id="如果使用telnet的话">如果使用telnet的话</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/expect -f</span>
+
+<span class="nb">set </span>user czzzht
+<span class="nb">set </span>password mptczzzht
+<span class="nb">set timeout</span> <span class="nt">-1</span>
+<span class="nb">set </span>host 10.1.5.11
+
+spawn telnet <span class="nv">$host</span>
+expect <span class="s2">"*ogin:*"</span>
+send <span class="s2">"</span><span class="nv">$user</span><span class="se">\r</span><span class="s2">"</span>
+expect <span class="s2">"*assword:*"</span>
+send <span class="s2">"</span><span class="nv">$password</span><span class="se">\r</span><span class="s2">"</span>
+
+interact
+
+
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/07/02/ssh_login_without_passwd/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/07/02/linux_soft_in_windows/">在windows下使用linux软件</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-07-02
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="在windows下使用linux的小软件">在windows下使用linux的小软件</h1>
+<p>linux下的小软件，绝对的性价比高，这次为了加快上网的速度，决定使用lynx，能使
+用，但是有展示效果的问题，接下来，要说一说两种工具了。</p>
+
+<h3 id="mingw32">MinGw32</h3>
+
+<p>当初为了使用git for windows,被迫安装了MinGw，这个软件包含有gcc、gdb，基本的
+bash等命令工具，还是不错的。</p>
+
+<h3 id="cygwin">Cygwin</h3>
+
+<p>这两个工具包从内容上来讲是有重叠的。都是先安装，然后下载需要的工具包，确实好用。</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/07/02/linux_soft_in_windows/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/07/01/online_method/">快速搭建上网工具</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-07-01
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="提前声明">提前声明</h1>
+
+<p>我真的不讨厌GFW，因为现在话语权不在我们的手中，我们必须保护自己。至于外网上
+的东西，我们应该有自己的辨别能力。从内容和数量上来说，那些对china不利的网络
+言论与对America不利的网络言论，根本不是一个数量级。再一个恶心的是，Youtube,
+即便你是单纯的想休闲娱乐，可是不超过三次单击，有关我国的负面新闻铺面而来。
+难道国外的领导人真的那么清廉。</p>
+
+<h1 id="应急的方法">应急的方法</h1>
+
+<p>如果其他方法暂时无法使用了，先使用最简单的ssh代理，也就是你必须随身携带一个
+vps。</p>
+
+<p>无论使用什么浏览器，最根本的一句命令是</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-N</span> <span class="nt">-D</span> 7070 root@your_ip
+</code></pre></div></div>
+
+<h3 id="firefox">firefox</h3>
+
+<blockquote>
+  <p>首选项-&gt;高级-&gt;网络-&gt;设置</p>
+</blockquote>
+
+<p>只使用SOCKS那个选项，主机填上127.0.0.1，端口是7070,下面的类型选择SOCKS_v5
+<code class="highlighter-rouge">-D</code>选项是socks_v5的含义。</p>
+
+<h3 id="chromium">chromium</h3>
+
+<p>首先安装的话，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+
+apt-get <span class="nb">install </span>chromium chromium-l10n
+
+</code></pre></div></div>
+
+<p>这一个是chrome的测试版本吧，开源的，比较好用的。先用它得了。</p>
+
+<p>但是它不支持Desktop，只能使用命令行，在完成上面的配置后，你可以使用如下command打开chromium</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chromium <span class="nt">--proxy-server</span><span class="o">=</span><span class="s2">"socks:127.0.0.1:7070"</span>
+</code></pre></div></div>
+
+<h1 id="日常使用">日常使用</h1>
+
+<p>前面是应急使用的，正常渠道我们应该好的工具。</p>
+
+<p>如果我写得不清晰，接下来请看<a href="https://aitanlu.com/ubuntu-shadowsocks-ke-hu-duan-pei-zhi.html">这篇</a></p>
+
+<p>但是我还要自己写一下，以免到时用的时候找不到了。</p>
+
+<h3 id="服务端">服务端</h3>
+
+<p>这个可以自己搭建，可以购买。自己搭建的步骤我会完善，现在我的重点是在客户端上。</p>
+
+<p>补充，在自己的vps上搭建ss的服务端，可以使用这个脚本。<a href="https://github.com/yuzibo/configure_file/blob/master/online/shadowsocks/shadowsocks-libev-debian.sh">here</a></p>
+
+<p>按照下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x shad.....sh
+./shad.....sh 2&gt;&amp;1 | <span class="nb">tee </span>shad.....log
+
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/07/01/online_method/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/27/vim_tips/">vim使用技巧</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-27
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="https://github.com/yuzibo/configure_file/blob/master/vimrcforlinux">我的配置文件</a></p>
+
+<h1 id="首先说明">首先说明</h1>
+
+<p>这篇文章不是从简单的vim操作开始，它只是我自己的使用vim的过程中有些记忆不牢靠的地方，所以记录下来，如何没有帮助你，请不要生气 ~_~</p>
+
+<p>以下操作是在正常模式下进行的。</p>
+
+<h2 id="退出">退出</h2>
+
+<p>这个居然也有快捷键，就是两个大写的ZZ,并且效果等同于：wq</p>
+
+<h2 id="移动到指定字符">移动到指定字符</h2>
+
+<p>h、j、k、l 分别表示左、下、上、右的移动的方向，其中j、k是在行间移动。
+h、l是在行内的字符中移动。</p>
+
+<p>如果想在当前行内快速的移动，则可以使用f、t和F、T命令。</p>
+
+<p>“f“命令移动到光标右边的指定字符上，例如，”fx“，会把移动到光标右边的第一个’x’字符上。”F“命令则反方向查找，也就是移动到光标左边的指定字符上。</p>
+
+<p>“t“命令和”f“命令的区别在于，它移动到光标右边的指定字符之前。例如，”tx“会移动到光标右边第一个’x’字符的前面。”T“命令是”t“命令的反向版本，它移动到光标右边的指定字符之后。</p>
+
+<p>这四个命令只在当前行中移动光标，光标不会跨越回车换行符。</p>
+
+<p>可以在命令前面使用数字，表示倍数。例如，”3fx“表示移动到光标右边的第3个’x’字符上。</p>
+
+<p>“;“命令重复前一次输入的f, t, F, T命令，而”,“命令会反方向重复前一次输入的f, t, F, T命令。这两个命令前也可以使用数字来表示倍数。</p>
+
+<p><a href="http://easwy.com/blog/archives/advanced-vim-skills-basic-move-method/">参考</a></p>
+
+<h2 id="移动到行首行尾">移动到行首、行尾</h2>
+
+<p>在vim中，移动到行尾的快捷键是$,移动到行首的快捷键是0.^是移动到行首第一个
+非空的字符处</p>
+
+<h2 id="按单词移动">按单词移动</h2>
+
+<p>vim中，移动光标到下一个单词的词首，使用命令”w“，移动光标到上一个单词的词首，使用命令”b“；移动光标到下一个单词的结尾，用命令”e“，移动光标到上一个单词的结尾，使用命令”ge“。</p>
+
+<h2 id="翻页">翻页</h2>
+
+<p>Ctrl-f    即 PageDown 翻页。</p>
+
+<p>Crtl-b    即 PageUp 翻页。</p>
+
+<p>Ctrl + U  向上翻半页</p>
+
+<p>Ctrl + D  向下翻半页</p>
+
+<h2 id="删除单词">删除单词</h2>
+
+<p>d 命令有这个功能，比如，“dw”，这样留下的是normal模式，使用这个“cw”的模式，可以擦除这个字并且处于插入模式下。</p>
+
+<h2 id="-命令">. 命令</h2>
+
+<p>你没有看错，这就是一个 . 命令，让你重复上一次的命令。</p>
+
+<h2 id="合并命令">合并命令</h2>
+
+<p>“J”命令就是将2行合并一行的命令。</p>
+
+<h2 id="改变大小写">改变大小写</h2>
+
+<p>”~”就是这个键。</p>
+
+<h1 id="在编辑模式下操作">在编辑模式下操作</h1>
+
+<p><a href="http://stackoverflow.com/questions/1737163/traversing-text-in-insert-mode">here</a></p>
+
+<p>其中用的最多的就是在插入模式下，输入多余的字的问题，在stackoverflow上有一个问题，就是问到这的，看来我这样的习惯还是不少的。</p>
+
+<h2 id="在插入模式移动光标">在插入模式移动光标</h2>
+
+<p>Ctrl + o	然后你可以随意的使用normal模式下的行为一次。</p>
+
+<p>Ctrl + t	在编辑模式下缩进一个tab键</p>
+
+<p>Ctrl + d	在编辑模式下回退一个tab键</p>
+
+<h2 id="使用ctrl---去代替caps-lock-键">使用Ctrl + ^ 去代替Caps Lock 键</h2>
+
+<p>这个在我的配置文件中实现了这样的功能，请使用Ctrl+f寻找一下。</p>
+
+<h1 id="搜索">搜索</h1>
+
+<h2 id="简单搜索">简单搜索</h2>
+
+<p>/strings	就是搜索strings的字符串</p>
+
+<p>注意， .*[]^%$~ 这些字符有特殊的含义， 想搜寻他们的话，必须使用”".</p>
+
+<h2>?</h2>
+
+<p>从文件的后面向前查找， 在显示匹配高亮的时候，按下”n”，就给你移动到下一条。</p>
+
+<p>”/”是从前往后查找, 如果你接着执行”？”就会让你从后往前找。</p>
+
+<h1 id="文本">文本</h1>
+
+<p>首先说明一点，vim的粘贴板其实一直很厉害，关键是自己没有开发出来，vim可以有26个粘贴板的。</p>
+
+<h2 id="cut-paste-copy">cut, paste, copy</h2>
+
+<p>当你使用“dw”或者“dd”的命令是，再按一次p就把刚才删除的单词重新复制回来了。</p>
+
+<p>如果你想键入“the”，但是你不小心输入了“teh”， 这是很正常的行为，这里，你可以将光标移动到字母“e“上，接着使用”xp“命令即可。”x”是删除字母e并保存到寄存器中，”p”将文字放到光标之后,”P”是将光标放到单词之后。</p>
+
+<h2 id="删除一大块text">删除一大块text</h2>
+
+<p>这是强悍，你可能都没有听说过的方法。使用标记命令： mark</p>
+
+<ol>
+  <li>
+    <p>在你想要删除文本的地方使用命令 ‘ma’</p>
+  </li>
+  <li>
+    <p>移动光标到你想要删除文本的末尾</p>
+  </li>
+  <li>
+    <p>使用命令 “d’a”</p>
+  </li>
+</ol>
+
+<p>其中的’a’可以使用其他的小写字母。</p>
+
+<p>使用命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>: marks
+</code></pre></div></div>
+
+<p>会展示所有的marks，如果使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>: marks args
+</code></pre></div></div>
+
+<p>就会展示当前文件的mark所在的行。</p>
+
+<p>上面marks命令的第三个步骤，可以将d换为y，那样就成了复制一整大的文本。</p>
+
+<h2 id="过滤">过滤</h2>
+
+<p>这个技术用的这不多，这里有两类主要的：</p>
+
+<p>在normal模式下，”!!ls”和”!!date”是最常用的命令。</p>
+
+<h2 id="编辑多个文件">编辑多个文件</h2>
+
+<p>vim 1.c 2.c 这样就会只打开1.c，如果你想快速切换到2.c，那么需要输入”: next”,在2.c中回到1.c， 需要使用”: previous”.</p>
+
+<p>不在insert模式下，你可以使用”Ctrl+^”来切换这两个文件的编辑。</p>
+
+<p>(注意，我将这个命令在insert模式下改为转为开启Caps Lock键，详情就在本文中)</p>
+
+<h2 id="正在编辑哪个文件">正在编辑哪个文件</h2>
+
+<p>”: args”就是这个命令。</p>
+
+<h1 id="界面">界面</h1>
+
+<h2 id="打开一个新的窗口">打开一个新的窗口</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:split
+</code></pre></div></div>
+
+<p>想要切换编辑的窗口的命令是”ctrl+w”</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:split new-file
+</code></pre></div></div>
+
+<h2 id="buffers">buffers</h2>
+<p>这块的东西有点罗嗦，</p>
+
+<ol>
+  <li>
+    <p>活动的(Action)</p>
+  </li>
+  <li>
+    <p>隐藏的(Hidden)</p>
+  </li>
+  <li>
+    <p>未活动的(Inactive)</p>
+
+    <p>:buffers</p>
+  </li>
+</ol>
+
+<p>这句命令就是找出所有的buffers.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-	Inactive buffer
+
+h	buffer is hidden
+
+%	Current file
+
+#	Alternate buffer
+
++	File has been modified
+</code></pre></div></div>
+
+<h2 id="选择一个buffer">选择一个buffer</h2>
+<p>当你使用上面的命令，就会列出所有的buffer，怎么选择其中的一个呢？很简单，就是使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:3buffer
+</code></pre></div></div>
+
+<p>或者</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:sbuffer number
+</code></pre></div></div>
+
+<p>其中第一种方法可以在原视图中打开，这样就不会被分割太小了。带”s”的可以看成”split”和”buffer”的合体。</p>
+
+<h1 id="visual-mode">visual mode</h1>
+<p>先说一下visual是干什么用的。当你使用这个模式，你可以将某一块的文本选中，并且会高亮，然后你就可以处理其他的事务了。</p>
+
+<h2 id="进入">进入</h2>
+<p>在normal模式下按下”v”键就可以了。注意这里，按下小写的”v”，是基于字符的visual mode，如果是大写的”V”，那么直接选中整行。如果这时候接着使用”Ctrl + v”则会以正方形的格式呈现。</p>
+
+<h2 id="编辑">编辑</h2>
+
+<p>如同在其他模式下的编辑一样，只不过已经选中了某快区域。</p>
+
+<h4 id="d">d</h4>
+<p>如果你选中了一行的一个字，这个命令就会删除那个选中的字。</p>
+
+<h4 id="d-1">D</h4>
+<p>如果你选中了一行的一个字，这个命令就会删除整行的字。</p>
+
+<h2 id="整体偏移-">整体偏移 &gt;</h2>
+<p>发现了一个在写markdown文件有用的文件了，就是使用visual mode选中文本(最好用”ctrl + v”)整体选中，接着按下”&gt;”就可以整体偏移一个Tab键了。</p>
+
+<h1 id="程序员的指令">程序员的指令</h1>
+
+<p>vim融合了很多的指令，这些指令对于你提高开发进度，具有不小的作用。</p>
+
+<h2 id="列出函数定义处">列出函数定义处</h2>
+
+<p>([CTRL-I, ]CTRL-I)是找出函数定义，这个命令，真的很有用，配合ctags，详情另看我的另一篇文章。</p>
+
+<h2 id="变量定义">变量定义</h2>
+
+<p>“gd” 是寻找局部的变量定义，”gD”是寻找全局的变量定义。当然，前提是你把光标放在变量处。</p>
+
+<h2 id="展示宏定义">展示宏定义</h2>
+
+<p>在定义的关键词处，按下”[d”两个键即可展示出相关的宏。</p>
+
+<h2 id="匹配括号">匹配括号</h2>
+
+<p>无论什么括号，都可以通过”%”来匹配另一半。对于c语言来说，还有评论(/* */), #if,#else,#endif</p>
+
+<p>其他的作用，比如，如果有以下的代码：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">test</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"hello</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span><span class="o">:</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>你想着把代码块(里层)的printf语句缩进一个tab键，你可以使用visual mode，然后”&gt;”,你还可以使用”%”键选择括号后，使用”&gt;i{“这个组合，意思就是”inner {} block”</p>
+
+<h2 id="寻找man-手册">寻找man 手册</h2>
+
+<p>比如，你在写c语言的时候，恰巧不知道这儿的一个系统调用open()怎么使用，你可以将光标放在open上，按下大写的”K”，就可以看到man手册了</p>
+
+<h2 id="展示文件空格情况">展示文件空格情况</h2>
+<p>这一个在Makefile文件的编写中具有很大的价值，因为Makefile特别注意这样的错误，那么使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:set list
+</code></pre></div></div>
+
+<p>就可以看出是不是缩进的一个tab键(“^I”)</p>
+
+<h2 id="排序">排序</h2>
+<p>有两种方式，只不过就是运用命令”!sort”的改进版。这里简单的介绍一种：</p>
+
+<ol>
+  <li>
+    <p>利用visual模式选中你想要排序的文本</p>
+  </li>
+  <li>
+    <p>执行”!sort”</p>
+  </li>
+</ol>
+
+<h2 id="make文本">Make文本</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:make
+</code></pre></div></div>
+
+<p>这一部分才是vim对于c的厉害之处，现在，先看一下，其中的奥妙。</p>
+
+<p>在你键入了上面的命令之后，如果没有错误报出，那么恭喜你，你的程序没有语法错误，假如不幸，报错了，使用下面的方法就可以让自己省点时间去调试错误。</p>
+
+<p>先说第一点，就是有错误出来了，那么按一下”Enter”键，就会返回到你的程序的第一个出错点，光标就是定格在那里，不用动。修改完了，使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:cprevious
+</code></pre></div></div>
+
+<p>和</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:cNext
+</code></pre></div></div>
+
+<p>目测这两个函数不是很好用，那么，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:clist or :cc
+</code></pre></div></div>
+
+<p>就很有用处了。前者是将错误列表重新显现，后者是展现现在的错误。</p>
+
+<h2 id="搜索字符串">搜索字符串</h2>
+<p>真没有想到vim还提供这样的命令，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:grep -w printf *.c
+</code></pre></div></div>
+
+<p>在当前目录下grep所有的printf的关键词，其中，”-w”是全词匹配。</p>
+
+<p>好，写了不少了，vim的基本技巧就写道这了，下一次我们开始另一篇神奇之旅。
+谢谢！！！</p>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/27/vim_tips/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2016/06/23/keep_in_mind/">keep in mind about yours</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2016-06-23
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#mood" title="Category: mood" rel="category">mood</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>[2016-08-01]</p>
+
+<p>这个时候，自己更无法平静，看着周围同学一个一个的步入正轨，自己的路到底在何方</p>
+
+<p>即便准备考研，你做好打算了吗？你到底想成为一个什么的人？坚定自己的信念，早日
+成为一名kernel hacker.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2016/06/23/keep_in_mind/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page14" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">15/36</span>
+          
+            <a href="/page16" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

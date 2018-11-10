@@ -1,6 +1,6 @@
 ---
 title: "会计知识简介"
-layout: article
+layout: post
 category: dhc
 ---
 

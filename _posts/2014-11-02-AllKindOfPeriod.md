@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "周期概念辨析"
 category: OS 
 ---

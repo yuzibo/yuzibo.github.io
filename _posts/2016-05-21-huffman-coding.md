@@ -1,6 +1,6 @@
 ---
 title: "哈夫曼编码简介"
-layout: article
+layout: post
 category: DS
 ---
 

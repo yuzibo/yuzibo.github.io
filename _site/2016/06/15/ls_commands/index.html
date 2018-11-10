@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ls命令的实现</title>
+    <meta name="description" content="关于对单个文件的操作，应该关注这篇文章如何读取目录的内容首先在联机帮助中寻找关键字direct来查找。                    man -k direct        grep read            这样就被指引到了readdir这个函数中，在这里面的说明文档，有以下内容   #incl...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/06/15/ls_commands/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>ls命令的实现</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-06-15
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>关于对单个文件的操作，应该关注这篇<a href="http://yuzibo.github.io/apue_ch4.html">文章</a></p>
+
+<h1 id="如何读取目录的内容">如何读取目录的内容</h1>
+
+<p>首先在联机帮助中寻找关键字direct来查找。</p>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>man -k direct</td>
+        <td>grep read</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<p>这样就被指引到了readdir这个函数中，在这里面的说明文档，有以下内容</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="cp">#include &lt;dirent.h&gt;
+</span>
+       <span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="n">readdir</span><span class="p">(</span><span class="kt">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">);</span>
+
+       <span class="kt">int</span> <span class="n">readdir_r</span><span class="p">(</span><span class="kt">DIR</span> <span class="o">*</span><span class="n">dirp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="n">entry</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dirent</span> <span class="o">**</span><span class="n">result</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>这个函数返回DIR *dir记录中的下一条目录项。</p>
+
+<p>在linux上，dirent结构体的内容如下:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">dirent</span> <span class="p">{</span>
+               <span class="n">ino_t</span>          <span class="n">d_ino</span><span class="p">;</span>       <span class="cm">/* inode number */</span>
+               <span class="kt">off_t</span>          <span class="n">d_off</span><span class="p">;</span>       <span class="cm">/* offset to the next dirent */</span>
+               <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">d_reclen</span><span class="p">;</span>    <span class="cm">/* length of this record */</span>
+               <span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">d_type</span><span class="p">;</span>      <span class="cm">/* type of file; not supported
+                                              by all file system types */</span>
+               <span class="kt">char</span>           <span class="n">d_name</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span> <span class="cm">/* filename */</span>
+           <span class="p">};</span>
+
+
+</code></pre></div></div>
+
+<p>其中的d_type的选项为:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       <span class="n">DT_BLK</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">block</span> <span class="n">device</span><span class="p">.</span>
+
+       <span class="n">DT_CHR</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">character</span> <span class="n">device</span><span class="p">.</span>
+
+       <span class="n">DT_DIR</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">directory</span><span class="p">.</span>
+
+       <span class="n">DT_FIFO</span>     <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">named</span> <span class="n">pipe</span> <span class="p">(</span><span class="n">FIFO</span><span class="p">).</span>
+
+       <span class="n">DT_LNK</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">symbolic</span> <span class="n">link</span><span class="p">.</span>
+
+       <span class="n">DT_REG</span>      <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">regular</span> <span class="n">file</span><span class="p">.</span>
+
+       <span class="n">DT_SOCK</span>     <span class="n">This</span> <span class="n">is</span> <span class="n">a</span> <span class="n">Unix</span> <span class="n">domain</span> <span class="n">socket</span><span class="p">.</span>
+		 
+	   <span class="n">DT_UNKNOWN</span>  <span class="n">The</span> <span class="n">file</span> <span class="n">type</span> <span class="n">is</span> <span class="n">unknown</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>那么，与文件的操作相比较，还得有opendir，closedir等操作。</p>
+
+<h1 id="ls-的实现">ls 的实现</h1>
+
+<p>那么，ls的算法如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">main</span><span class="p">()</span>
+	<span class="n">opendir</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">readdir</span><span class="p">)</span>
+		<span class="n">print</span> <span class="n">d_name</span>
+	<span class="n">closedir</span>
+</code></pre></div></div>
+
+<p>那么，先看看v1.0是怎么实现的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * ls.c: implement of ls command
+ */</span>
+
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;dirent.h&gt;
+</span>
+<span class="kt">void</span> <span class="n">do_ls</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">argc</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">do_ls</span><span class="p">(</span><span class="s">"."</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="k">while</span><span class="p">(</span><span class="o">--</span><span class="n">argc</span><span class="p">){</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s:</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="o">*++</span><span class="n">argv</span><span class="p">);</span>
+			<span class="n">do_ls</span><span class="p">(</span><span class="o">*</span><span class="n">argv</span><span class="p">);</span>
+
+		<span class="p">}</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">do_ls</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">dirname</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*
+	 * list files in directory called dirname
+	 */</span>
+	<span class="kt">DIR</span> <span class="o">*</span><span class="n">dir_ptr</span><span class="p">;</span> <span class="cm">/* the directory */</span>
+	<span class="k">struct</span> <span class="n">dirent</span> <span class="o">*</span><span class="n">direntp</span><span class="p">;</span> <span class="cm">/* each entry */</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">dir_ptr</span> <span class="o">=</span> <span class="n">opendir</span><span class="p">(</span><span class="n">dirname</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"ls1;cannot open %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">dirname</span><span class="p">);</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="k">while</span><span class="p">((</span><span class="n">direntp</span> <span class="o">=</span> <span class="n">readdir</span><span class="p">(</span><span class="n">dir_ptr</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">direntp</span><span class="o">-&gt;</span><span class="n">d_name</span><span class="p">);</span>
+		<span class="n">closedir</span><span class="p">(</span><span class="n">dir_ptr</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>结果只是把所有的文件展示出来，但是还有很多的信息没有展示，比如：ls -l命令，
+输出结果的排序等等。</p>
+
+<p>想实现<code class="highlighter-rouge">ls -l</code> 的效果， 需要读取文件的信息状态，那么，这个信息由stst结构体提
+供，相关的代码还是得看上面连接的部分</p>
+
+<h2 id="如何把模式的数字转化为数字">如何把模式的数字转化为数字</h2>
+
+<p>st_mode是一个16位的二进制数，<a href="http://pan.baidu.com/s/1pLD153P">图</a>.</p>
+
+<p>为了提取有效的数字，我们使用掩码技术。什么是掩码呢？就是好像带上面具将其他没
+有的数据隐藏起来。</p>
+
+<p>(1)掩码(masking) 会将不需要的字段置为0，需要的字段不发生变化。</p>
+
+<p>(2)我们还知道整数在计算机中的表示也是二进制。这样一个普通的整数也就有了意义。</p>
+
+<p>(3)与0做位与(&amp;)操作可以将相应的bit为置为0，</p>
+
+<p>(4) 使用8进制</p>
+
+<p>介绍完了掩码，还必须介绍子域编码。</p>
+
+<p>在 &lt;bits/stat.h&gt;中，有以下定义：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define	__S_IFMT	0170000	</span><span class="cm">/* These bits determine file type.  */</span><span class="cp">
+</span>
+<span class="cm">/* File types.  */</span>
+<span class="cp">#define	__S_IFDIR	0040000	</span><span class="cm">/* Directory.  */</span><span class="cp">
+#define	__S_IFCHR	0020000	</span><span class="cm">/* Character device.  */</span><span class="cp">
+#define	__S_IFBLK	0060000	</span><span class="cm">/* Block device.  */</span><span class="cp">
+#define	__S_IFREG	0100000	</span><span class="cm">/* Regular file.  */</span><span class="cp">
+#define	__S_IFIFO	0010000	</span><span class="cm">/* FIFO.  */</span><span class="cp">
+</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">((</span><span class="n">info</span><span class="p">.</span><span class="n">st_mode</span> <span class="o">&amp;</span> <span class="mo">0170000</span><span class="p">)</span> <span class="o">==</span> <span class="mo">0040000</span><span class="p">)</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"This is a directory"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>然而在&lt;sys/stat.h&gt;中，又定义了上面的宏，有__X_IFXXX前面的__去掉了。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;bits/stat.h&gt;
+</span>
+<span class="cp">#if defined __USE_MISC || defined __USE_XOPEN
+# define S_IFMT		__S_IFMT
+# define S_IFDIR	__S_IFDIR
+# define S_IFCHR	__S_IFCHR
+# define S_IFBLK	__S_IFBLK
+# define S_IFREG	__S_IFREG
+# ifdef __S_IFIFO
+#  define S_IFIFO	__S_IFIFO
+# endif
+# ifdef __S_IFLNK
+#  define S_IFLNK	__S_IFLNK
+# endif
+# if (defined __USE_MISC || defined __USE_UNIX98) \
+     &amp;&amp; defined __S_IFSOCK
+#  define S_IFSOCK	__S_IFSOCK
+# endif
+#endif
+</span>
+</code></pre></div></div>
+
+<p>更简单的方法是使用&lt;sys/stat.h&gt;中的macro,注意，这里版本的不同文件所处的位置也
+不同的.
+下面,具体的宏实现如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cm">/* Test macros for file types.	*/</span>
+
+<span class="cp">#define	__S_ISTYPE(mode, mask)	(((mode) &amp; __S_IFMT) == (mask))
+</span>
+<span class="cp">#define	S_ISDIR(mode)	 __S_ISTYPE((mode), __S_IFDIR)
+#define	S_ISCHR(mode)	 __S_ISTYPE((mode), __S_IFCHR)
+#define	S_ISBLK(mode)	 __S_ISTYPE((mode), __S_IFBLK)
+#define	S_ISREG(mode)	 __S_ISTYPE((mode), __S_IFREG)
+#ifdef __S_IFIFO
+# define S_ISFIFO(mode)	 __S_ISTYPE((mode), __S_IFIFO)
+#endif
+#ifdef __S_IFLNK
+# define S_ISLNK(mode)	 __S_ISTYPE((mode), __S_IFLNK)
+#endif
+</span>
+<span class="cp">#if defined __USE_MISC &amp;&amp; !defined __S_IFLNK
+# define S_ISLNK(mode)  0
+#endif
+</span>
+</code></pre></div></div>
+<p>这里，还可以定义如下宏：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define S_ISFIFO(m) (((m)&amp;(0170000)) == 0010000)
+</span></code></pre></div></div>
+
+<h3 id="解决用户组问题">解决用户/组问题</h3>
+
+<p>先提供struct passwd 的源码：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* defined in pwd/pwd.h */</span>
+<span class="cm">/* The passwd structure.  */</span>
+<span class="k">struct</span> <span class="n">passwd</span>
+<span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_name</span><span class="p">;</span>		<span class="cm">/* Username.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_passwd</span><span class="p">;</span>		<span class="cm">/* Password.  */</span>
+  <span class="n">__uid_t</span> <span class="n">pw_uid</span><span class="p">;</span>		<span class="cm">/* User ID.  */</span>
+  <span class="n">__gid_t</span> <span class="n">pw_gid</span><span class="p">;</span>		<span class="cm">/* Group ID.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_gecos</span><span class="p">;</span>		<span class="cm">/* Real name.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_dir</span><span class="p">;</span>			<span class="cm">/* Home directory.  */</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pw_shell</span><span class="p">;</span>		<span class="cm">/* Shell program.  */</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/06/05/aix_commands/">AIX命令使用</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/06/16/leetcode_168/">leetcode 168  Excel Sheet Column Title</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

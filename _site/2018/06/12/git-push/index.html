@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>git pull-request使用简介</title>
+    <meta name="description" content="考虑这样一个场景：一个公司围绕一个产品开发了主分支-master,当然，不可能每个人都在主分支上做开发对不对，好，我们使用PR进行多部门的开发，参考这里git如何进行PR.step 1 : 克隆仓库首先，先克隆一个git仓库，这个不用说太多。我以自己的仓库为例，进行代码演示。git clone https://g...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2018/06/12/git-push/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>git pull-request使用简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2018-06-12
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>考虑这样一个场景：一个公司围绕一个产品开发了主分支-master,当然，不可能每个
+人都在主分支上做开发对不对，好，我们使用PR进行多部门的开发，参考这里
+<a href="http://www.aftermath.cn/git-stash.html">git如何进行PR</a>.</p>
+
+<h1 id="step-1--克隆仓库">step 1 : 克隆仓库</h1>
+<p>首先，先克隆一个git仓库，这个不用说太多。我以自己的仓库为例，进行代码演示。</p>
+
+<pre><code class="language-git">git clone https://github.com/yuzibo/yuzibo.github.io.git
+正克隆到 'yuzibo.github.io'...
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 2931 (delta 2), reused 8 (delta 2), pack-reused 2922
+接收对象中: 100% (2931/2931), 1010.61 KiB | 502.00 KiB/s, 完成.
+处理 delta 中: 100% (1939/1939), 完成.
+</code></pre>
+
+<p>当然，这个时候默认为master主分支。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>yuzibo.github.io/
+yubo@debian:~/yuzibo.github.io<span class="nv">$ </span>git branch
+<span class="k">*</span> master
+</code></pre></div></div>
+
+<h1 id="step-2--新建分支">step 2 : 新建分支</h1>
+<p>这个分支就是你自己要开发的分支，记住一点，实时的rebase master分支。</p>
+
+<pre><code class="language-git">git checkout -b test-pr
+git rebase origin/master  # 首先在主分支使用fetch
+</code></pre>
+
+<h1 id="step-3--产生request-pull">step 3 : 产生request pull</h1>
+<p>在你开发完成后，为了将自己的工作合并到主分支中，需要产生request pull,让维护人接受你的改变。</p>
+
+<p>这里的使用是标准的git开发流程git add &amp;&amp; commit.接下来，在你的开发分支上，使用以下命令，我们可以看到：</p>
+
+<pre><code class="language-git">git push -u
+fatal: 当前分支 test-pr 没有对应的上游分支。
+为推送当前分支并建立与远程上游的跟踪，使用
+
+    git push --set-upstream origin test-pr
+
+</code></pre>
+
+<p>提示的非常明显，第一步，我以github网站为例，首先在网站上合并rp,另外一种是命令行。</p>
+
+<p>上面的提示命令我简写一步:</p>
+
+<pre><code class="language-git">
+git push -u origin test-pr
+对象计数中: 4, 完成.
+Delta compression using up to 4 threads.
+压缩对象中: 100% (4/4), 完成.
+写入对象中: 100% (4/4), 624 bytes | 0 bytes/s, 完成.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+remote:
+remote: Create a pull request for 'test-pr' on GitHub by visiting:
+remote:      https://github.com/yuzibo/yuzibo.github.io/pull/new/test-pr
+remote:
+To https://github.com/yuzibo/yuzibo.github.io.git
+* [new branch]      test-pr -&gt; test-pr
+分支 test-pr 设置为跟踪来自 origin 的远程分支 test-pr。
+</code></pre>
+
+<p>这个提示就说明在网站上有了rp请求，现在我的图床没法使用了，图片就先不适用了。你可以到github的仓库上去看一下，根据提示你应该没问题的，有问题的话，可以再找我咨询。</p>
+
+<p>有人会问这个request pull不一定找得到，根据提示你就可以访问URL即可。
+下面我贴一些详细的命令，效果是类似的.</p>
+
+<pre><code class="language-git">git push --set-upstream origin test-pr
+
+对象计数中: 4, 完成.
+Delta compression using up to 4 threads.
+压缩对象中: 100% (4/4), 完成.
+写入对象中: 100% (4/4), 1.84 KiB | 0 bytes/s, 完成.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+remote:
+remote: Create a pull request for 'test-pr' on GitHub by visiting:
+remote:      https://github.com/yuzibo/yuzibo.github.io/pull/new/test-pr
+remote:
+To https://github.com/yuzibo/yuzibo.github.io.git
+* [new branch]      test-pr -&gt; test-pr
+分支 test-pr 设置为跟踪来自 origin 的远程分支 test-pr。
+</code></pre>
+<h1 id="step-4--更新">step 4 : 更新</h1>
+
+<p>这里就是更新你的master.其他的分支接着跟进.</p>
+
+<pre><code class="language-git">git checkout master
+git fetch origin master
+git rebase origin/master
+</code></pre>
+
+<h1 id="命令行">命令行</h1>
+<p>上面的步骤是通过网站，这可能对于有些人来说不是很友好，下面介绍下如何通过命令行进行开发.</p>
+
+<p>首先，这个操作和上面的想法不太一样，来自<a href="https://stackoverflow.com/questions/26613329/git-request-pull-from-local-branch-to-remote-master">stackoverflow</a>。思路就是将自己开发分支的特性合并到master上去，让别人审阅master分支，而不是自己的开发分支。如下面这种情况：</p>
+
+<pre><code class="language-git">  A---B---C feature/awesomeFeature
+ /
+D---E---F---G origin/master
+              master
+</code></pre>
+<p>使用下面的命令即可完成这个工作.</p>
+
+<pre><code class="language-git">git request-pull origin/master feature/awesomeFeature
+</code></pre>
+
+<p>对于我的开发来说就是这个样子的:</p>
+
+<pre><code class="language-git">git request-pull origin/master test-prfatal: 'test-pr' does not appear to be a git repository
+fatal: 无法读取远程仓库。
+
+请确认您有正确的访问权限并且仓库存在。
+warn: No match for commit c3165d2416cdde49be09334f531e58379172567b found at test-pr
+warn: Are you sure you pushed 'HEAD' there?
+The following changes since commit c3165d2416cdde49be09334f531e58379172567b:
+
+Merge pull request #5 from yuzibo/test-pr (2018-11-02 10:57:30 +0800)
+
+are available in the git repository at:
+
+test-pr
+
+for you to fetch changes up to c3165d2416cdde49be09334f531e58379172567b:
+
+Merge pull request #5 from yuzibo/test-pr (2018-11-02 10:57:30 +0800)
+</code></pre>
+
+<p>然后你在master分支里，就看到最新的变化了，这样就省掉了网站request pull这一步。但是，如果你的开发分支不在同一个工作区如何操作？比如说两个电脑这种情况？</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

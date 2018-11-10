@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "基础差应该如何学习英语"
 category: experience
 tags: [experience,English]

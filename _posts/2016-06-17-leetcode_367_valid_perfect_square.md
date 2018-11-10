@@ -1,6 +1,6 @@
 ---
 title: "leetcode 367 valid perfect square"
-layout: article
+layout: post
 category: leetcode
 ---
 

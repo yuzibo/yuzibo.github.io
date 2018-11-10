@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python中类的用法</title>
+    <meta name="description" content="python 中类的用法请先看下面的例子代码:class Dog():    def __init__(self, name, age):        """ 初始化属性 name和age"""        self.name = name        self.age = age    def sit(s...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/15/python_class/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>python中类的用法</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-15
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="python-中类的用法">python 中类的用法</h1>
+<p>请先看下面的例子代码:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Dog</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="s">""" 初始化属性 name和age"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+    <span class="k">def</span> <span class="nf">sit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""模拟小狗被命令时蹲下"""</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span> <span class="s">" is now sitting"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">roll_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span> <span class="s">" is now rolling"</span><span class="p">)</span>
+
+
+<span class="n">my_dog</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s">'yubo'</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">" My dog,s name is "</span> <span class="o">+</span> <span class="n">my_dog</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="o">+</span> <span class="s">"."</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"My dog is "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">my_dog</span><span class="o">.</span><span class="n">age</span><span class="p">)</span> <span class="o">+</span> <span class="s">"."</span><span class="p">)</span>
+
+<span class="n">my_dog</span><span class="o">.</span><span class="n">sit</span><span class="p">()</span>
+<span class="n">my_dog</span><span class="o">.</span><span class="n">roll_over</span><span class="p">()</span>
+
+</code></pre></div></div>
+<p>小提示，在python2.x中，定义类时需要在括号里面填上<code class="highlighter-rouge">object</code>, 就像这样</p>
+
+<blockquote>
+  <p>def Dog(object)</p>
+</blockquote>
+
+<p>根据约定，在python中，首字母大写就是指的类，上面的这个类的括号里面是空的，这说明我们要从空白处新建立类。</p>
+
+<h3 id="init"><strong>init</strong></h3>
+<p>类中的函数称为方法，到目前位置，关于函数的使用方法都适用于类中，唯一的区别在于方法的调用。<code class="highlighter-rouge">__init__</code>是python中较为特殊的方法，每当你根据类创建实例时，python都会自动运行它，之所以有下划线就是为了让用户避免与其他的方法相混淆。</p>
+
+<p>方法<code class="highlighter-rouge">__init__</code>中有三个实参，self name和age，self必须位于第一位且不可缺少，python在调用<code class="highlighter-rouge">__init__</code>创建实例时，将自动传入实参self。每个与类相关联的方法都会传递实参self，它是一个指向实例本身的引用，这类似于c++的this指针。这里，你只需要把参数传递给你自己定义的参数。</p>
+
+<blockquote>
+  <p>def sit(self):</p>
+</blockquote>
+
+<p>这个语句就是对应着上面的解释，看，这里你只需要传递一个self，其他的参数就可以调用了。另外，以self为前缀的变量都可供类中的所有方法使用，我们还可以通过类的任何实例来访问这些变量。像这样可以通过实例访问的变量称为属性。</p>
+
+<h1 id="使用类和实例">使用类和实例</h1>
+
+<h3 id="给属性指定默认值">给属性指定默认值</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">class</span> <span class="nc">Car</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+        <span class="s">""" 初始化汽车属性"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">make</span> <span class="o">=</span> <span class="n">make</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="n">year</span>
+        <span class="s">''' 设置默认值， 可以不在形参中体现， 里程表的读数'''</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">odometer_read</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">get_describe_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">make</span>  <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+        <span class="k">return</span> <span class="n">long_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">read_meter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"This car has "</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">odometer_read</span><span class="p">)</span> <span class="o">+</span> <span class="s">"meters read "</span><span class="p">)</span>
+
+<span class="n">my_new_car</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">'Audio'</span><span class="p">,</span> <span class="s">'A4'</span><span class="p">,</span> <span class="s">'2016'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_new_car</span><span class="o">.</span><span class="n">get_describe_name</span><span class="p">())</span>
+<span class="n">my_new_car</span><span class="o">.</span><span class="n">read_meter</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="属该属性的值">属该属性的值</h3>
+<p>这里有三种方法: 直接通过实例进行修改、通过方法设置和通过方法进行递增。</p>
+
+<ol>
+  <li>直接修改属性的值
+在上面的例子中，我们在访问实例的时候，直接将里程表读数设置为112.</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Car</span><span class="p">():</span>
+	<span class="o">--</span><span class="n">snip</span><span class="o">--</span>
+
+<span class="n">my_new_car</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">'Audio'</span><span class="p">,</span> <span class="s">'A4'</span><span class="p">,</span> <span class="s">'2016'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_new_car</span><span class="o">.</span><span class="n">get_describe_name</span><span class="p">())</span>
+<span class="n">my_new_car</span><span class="o">.</span><span class="n">odometer_read</span> <span class="o">=</span> <span class="mi">112</span>
+<span class="n">my_new_car</span><span class="o">.</span><span class="n">read_meter</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>2.通过方法修改属性的值</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Car</span><span class="p">():</span>
+	<span class="o">--</span><span class="n">snip</span><span class="o">--</span>
+
+    <span class="k">def</span> <span class="nf">update_odometer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mileage</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">odometer_read</span> <span class="o">=</span> <span class="n">mileage</span>
+
+<span class="n">my_new_car</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">'Audio'</span><span class="p">,</span> <span class="s">'A4'</span><span class="p">,</span> <span class="s">'2016'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_new_car</span><span class="o">.</span><span class="n">get_describe_name</span><span class="p">())</span>
+<span class="n">my_new_car</span><span class="o">.</span><span class="n">update_odometer</span><span class="p">(</span><span class="mi">113</span><span class="p">)</span>
+<span class="n">my_new_car</span><span class="o">.</span><span class="n">read_meter</span><span class="p">()</span>
+</code></pre></div></div>
+<p>这种方案还是比较符合现代主流软件设计思潮的</p>
+
+<h3 id="继承">继承</h3>
+<p>集成就是利用父类已经让子类可以继续使用定义好的属性</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span>
+<span class="c1"># 自动继承父类的所有属性
+# python 2 中需要填写object,而且继承的子类必须声明自己的实例加上self
+# pyhton 3 中不需要这些
+</span>
+<span class="k">class</span> <span class="nc">Battery</span><span class="p">():</span>
+
+	<span class="s">"""将多个类分开，让子类多继承"""</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">battery_size</span> <span class="o">=</span> <span class="mi">70</span><span class="p">):</span>
+		<span class="s">""" 初始化电平属性"""</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">battery_size</span> <span class="o">=</span> <span class="n">battery_size</span>
+
+	<span class="k">def</span> <span class="nf">describe_battery</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="s">""" 打印一条电瓶容量的消息"""</span>
+
+		<span class="k">print</span><span class="p">(</span><span class="s">"This car has a "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">battery_size</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-kwh battery."</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="s">""" 打印一条消息，指出电瓶的续航里程"""</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">battery_size</span> <span class="o">==</span> <span class="mi">70</span><span class="p">:</span>
+			<span class="nb">range</span> <span class="o">=</span> <span class="mi">240</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">battery_size</span> <span class="o">==</span> <span class="mi">85</span><span class="p">:</span>
+			<span class="nb">range</span> <span class="o">=</span> <span class="mi">270</span>
+
+		<span class="n">message</span> <span class="o">=</span> <span class="s">" This car can go approximately "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">range</span><span class="p">)</span>
+		<span class="n">message</span> <span class="o">+=</span> <span class="s">" miles on a full charge "</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="s">""" 一次模拟汽车的简单尝试 """</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">make</span> <span class="o">=</span> <span class="n">make</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="n">year</span>
+		<span class="s">""" 默认值  里程表"""</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">odometer_reading</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="k">def</span> <span class="nf">get_describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">long_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">make</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+		<span class="k">return</span> <span class="n">long_name</span>
+
+	<span class="k">def</span> <span class="nf">read_odometer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">print</span><span class="p">(</span><span class="s">" This car has "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">odometer_reading</span><span class="p">)</span> <span class="o">+</span> <span class="s">" miles on it"</span><span class="p">)</span>
+	<span class="s">""" 禁止任何人将里程表往回拨"""</span>
+	<span class="k">def</span> <span class="nf">update_odometer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mileage</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">mileage</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">odometer_reading</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">odometer_reading</span> <span class="o">=</span> <span class="n">mileage</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">print</span><span class="p">(</span><span class="s">"You can't roll back an odometer!"</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">increment_odometer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miles</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">odometer_reading</span> <span class="o">+=</span> <span class="n">miles</span>
+
+<span class="k">class</span> <span class="nc">ElectricCar</span><span class="p">(</span><span class="n">Car</span><span class="p">):</span>
+	<span class="s">""" 电动汽车的特点"""</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+		<span class="s">""" 初始化父类的属性"""</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">ElectricCar</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">make</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span>
+		<span class="s">""" 以这样的方法继承Battery()"""</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">battery</span> <span class="o">=</span> <span class="n">Battery</span><span class="p">()</span>
+
+<span class="n">my_tesla</span> <span class="o">=</span> <span class="n">ElectricCar</span><span class="p">(</span><span class="s">'tesla'</span><span class="p">,</span> <span class="s">'model s'</span><span class="p">,</span> <span class="mi">2016</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_tesla</span><span class="o">.</span><span class="n">get_describe</span><span class="p">())</span>
+<span class="n">my_tesla</span><span class="o">.</span><span class="n">battery</span><span class="o">.</span><span class="n">describe_battery</span><span class="p">()</span>
+<span class="n">my_tesla</span><span class="o">.</span><span class="n">battery</span><span class="o">.</span><span class="n">get_range</span><span class="p">()</span>
+</code></pre></div></div>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/14/python_function/">python函数知识点</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/15/python_web/">python web开发框架</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "Debian解决触摸板无法使用的问题"
 category: debian
 ---

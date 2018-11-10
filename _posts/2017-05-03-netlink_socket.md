@@ -1,7 +1,7 @@
 ---
 title: "netlink嵌套字"
 category: network
-layout: article
+layout: post
 ---
 
 [redhat](https://people.redhat.com/nhorman/papers/netlink.pdf)

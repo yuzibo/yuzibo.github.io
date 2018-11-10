@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>12 linux 系统呼叫函数和 strace</title>
+    <meta name="description" content="强大的调试工具 stracestrace是一个优秀的调试工具，它调用的是系统函数ptrace(),缺点是导致应用程序运行的非常慢。使用strace -e open target-filestrace -o out ls# Slow the target command and print details for ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2015/01/14/KeySyscalls/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>12 linux 系统呼叫函数和 strace</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2015-01-14
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="强大的调试工具-strace">强大的调试工具 strace</h1>
+<p>strace是一个优秀的调试工具，它调用的是系统函数ptrace(),缺点是导致应用程序运行的非常慢。</p>
+
+<h1 id="使用">使用</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>strace -e open target-file
+strace -o out ls
+</code></pre></div></div>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Slow the target command and print details for each syscall:</span>
+strace <span class="nb">command</span>
+
+<span class="c"># Slow the target PID and print details for each syscall:</span>
+strace <span class="nt">-p</span> PID
+
+<span class="c"># Slow the target PID and any newly created child process, printing syscall details:</span>
+strace <span class="nt">-fp</span> PID
+
+<span class="c"># Slow the target PID and record syscalls, printing a summary:</span>
+strace <span class="nt">-cp</span> PID
+
+<span class="c"># Slow the target PID and trace open() syscalls only:</span>
+strace <span class="nt">-eopen</span> <span class="nt">-p</span> PID
+
+<span class="c"># Slow the target PID and trace open() and stat() syscalls only:</span>
+strace <span class="nt">-eopen</span>,stat <span class="nt">-p</span> PID
+
+<span class="c"># Slow the target PID and trace connect() and accept() syscalls only:</span>
+strace <span class="nt">-econnect</span>,accept <span class="nt">-p</span> PID
+
+<span class="c"># Slow the target command and see what other programs it launches (slow them too!):</span>
+strace <span class="nt">-qfeexecve</span> <span class="nb">command</span>
+
+<span class="c"># Slow the target PID and print time-since-epoch with (distorted) microsecond resolution:</span>
+strace <span class="nt">-ttt</span> <span class="nt">-p</span> PID
+
+<span class="c"># Slow the target PID and print syscall durations with (distorted) microsecond resolution:</span>
+strace <span class="nt">-T</span> <span class="nt">-p</span> PID</code></pre></figure>
+
+<h1 id="syscall-must-to-read-xx-man">syscall, must to read xx man</h1>
+
+<h3 id="read-read-bytes-from-a-file-descriptorfilesocket">read: read bytes from a file descriptor(file,socket)</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;unistd.h&gt;
+
+ssize_t read(int fd, void *buf, size_t count)
+</code></pre></div></div>
+
+<h3 id="write-write-bytes-into-a-file-descriptorfilesocket">write: write bytes into a file descriptor(file,socket)</h3>
+
+<p>open: open a file (return a file descriptor)</p>
+
+<p>close: close a file descriptor.</p>
+
+<p>fork: create a new process(current process is forked)</p>
+
+<p>exec: execute a new program</p>
+
+<p>connect: connect to a network host</p>
+
+<p>accept: accept a network connection</p>
+
+<p>stat: read file statistics</p>
+
+<p>ioctl: set I/O properies, or other miscellaneous functions</p>
+
+<p>mmap: map a file to the process memory address space</p>
+
+<p>brk: extend the heap pointer.</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2015/01/11/SimplyLinuxDeviceDrives/">MKNOD命令</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2015/01/19/BitOfOperations/">bits的一些操作</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

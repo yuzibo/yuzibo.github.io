@@ -1,6 +1,6 @@
 ---
 title: "oracle基本操作" 
-layout: article
+layout: post
 category: oracle
 ---
 

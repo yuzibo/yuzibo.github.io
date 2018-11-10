@@ -1,12 +1,12 @@
 ---
-layout: article
+layout: post
 category: kernel
 title: "linux kernel字符设备编程举例"
 ---
 
 # 这是字符设备,内核模块
 
-{% highlight c %}
+```c
 /*************************************************************************
 references:
 http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/
@@ -185,12 +185,12 @@ module_exit(yubochar_exit);
  *
  */
 
-{% endhighlight %}
+```
 
 # 装入内核
 这是Makefile
 
-{% highlight make %}
+```bash
 obj-m+=yubochar.o
 
 all:
@@ -200,12 +200,11 @@ all:
 clean:
 	make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) clean
 
-{% endhighlight %}
+```
 
 # 用户空间的程序
 
-{% highlight c %}
-
+```c
 /*
  * The User-space Program for testing the LKM
  *
@@ -252,7 +251,7 @@ int main()
 
 }
 
-{% endhighlight %}
+```
 
 # LKM 同步问题
 

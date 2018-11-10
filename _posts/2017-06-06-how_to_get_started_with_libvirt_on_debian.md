@@ -1,7 +1,7 @@
 ---
 title: "用libvirt安装debian"
 category: tools
-layout: article
+layout: post
 ---
 
 这篇文章主要聚焦于debian系统，其他的linux发行版的用法应该是一致的。
@@ -42,7 +42,7 @@ qemu://xxx/system
 qemu://xxx/session
 ```
 
-I will introduce more details about virsh in another article,now i am focus on the libvirt-vms.
+I will introduce more details about virsh in another post,now i am focus on the libvirt-vms.
 
 # Managing system VMS
 
@@ -183,7 +183,7 @@ sudo iptables -t nat -nvL
 
 # Managing storage
 
-Now we have a network running for our VMs,we need to worry about storage.This is similar to lvm, On this article, i just dedicated a directory  to storing images and volums.
+Now we have a network running for our VMs,we need to worry about storage.This is similar to lvm, On this post, i just dedicated a directory  to storing images and volums.
 
 But, you should mdkir needed dir with
 

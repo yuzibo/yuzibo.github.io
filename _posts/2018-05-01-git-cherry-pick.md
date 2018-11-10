@@ -1,7 +1,7 @@
 ---
 title: "git cherry-pick usage"
 category: git
-layout: article
+layout: post
 ---
 
 I often hear the ``cherry-pick`` usage,but, how to use it?

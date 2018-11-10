@@ -1,7 +1,7 @@
 ---
 title: "qemu,busybox调试linux kernel"
 category: tools
-layout: article
+layout: post
 ---
 
 # 安装自己编译的内核

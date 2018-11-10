@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "kernel进程管理API"
 category: kernel 
 ---

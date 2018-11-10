@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>perl安装模块的方法</title>
+    <meta name="description" content="今天到了这一步之前很多次想写一个网络爬虫，但是很多时候都无疾而终，这次，简单的记录一下。perl模块的安装可以有很多的方法，现在我只熟悉两种方法。cpan这一步是怎么安装的我忘了，下次可以再次补充上。install？？使用  cpan module-name最简单的杀器是 ：  man cpan但是这里有一点注意...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/05/10/perl-install-modules/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>perl安装模块的方法</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-05-10
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#perl" title="Category: perl" rel="category">perl</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>今天到了这一步
+之前很多次想写一个网络爬虫，但是很多时候都无疾而终，这次，简单的记录一下。
+perl模块的安装可以有很多的方法，现在我只熟悉两种方法。</p>
+
+<h1 id="cpan">cpan</h1>
+<p>这一步是怎么安装的我忘了，下次可以再次补充上。</p>
+
+<h3 id="install">install</h3>
+<p>？？</p>
+
+<h3 id="使用">使用</h3>
+<blockquote>
+  <p>cpan module-name</p>
+</blockquote>
+
+<p>最简单的杀器是 ：</p>
+
+<blockquote>
+  <p>man cpan</p>
+</blockquote>
+
+<p>但是这里有一点注意的是在vps上使用cpan会有限制的，特别是你的memory的值小于500
+MB的时候，那么，此时应该怎么办？应该使用下面的方法:cpanm</p>
+
+<h1 id="cpanm">cpanm</h1>
+<p>从字面上理解，这个就是cpan module的简写,其实这里只是一个巧合。下面简单的记录
+一下它的用法。</p>
+
+<h3 id="install-1">install</h3>
+
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">curl</span> <span class="o">-</span><span class="nv">L</span> <span class="o">-</span><span class="nv">K</span> <span class="nv">http:</span><span class="sr">//cpanmin</span><span class="o">.</span><span class="nv">us</span> <span class="o">|</span> <span class="nv">perl</span> <span class="o">-</span> <span class="o">--</span><span class="nv">self</span><span class="o">-</span><span class="nv">upgrade</span>
+<span class="sr">/usr/local/bin/cpanm</span> <span class="nb">local</span><span class="o">::</span><span class="nv">lib</span>
+<span class="nv">perl</span> <span class="o">-</span><span class="nv">I</span> <span class="sr">/usr/</span><span class="nv">bin</span><span class="sr">/perl -Mlocal::lib &gt;&gt; ~/</span><span class="o">.</span><span class="nv">bashrc</span>
+</code></pre></div></div>
+<p>解释几点：</p>
+
+<ol>
+  <li>curl -k选项，是忽略ssl认证失败的影响，否则无法访问网站。</li>
+  <li>上面第一条语句是安装cpanm，下面是安装相关的库文件。你安装后的cpanm很可能
+不是上面的目录，使用<code class="highlighter-rouge">which cpanm</code>即可找到cpanm的可执行路径，修改成对应的即可
+3 最后一条语句的含义是将相关的库文件的可执行路径放到.bashrc中去。</li>
+</ol>
+
+<h3 id="使用-1">使用</h3>
+<p>这两种方法安装模块的方法是大同小异，可以man一下，提醒一下，这里可以安装的文
+件：</p>
+
+<p>cpan上的模块；</p>
+
+<p>网上的压缩文件；</p>
+
+<p>本地文件；</p>
+
+<p>URL；</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/05/09/apue_fileio/">unix文件 io</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/05/11/linux_ip/">linux 内核栈基础</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

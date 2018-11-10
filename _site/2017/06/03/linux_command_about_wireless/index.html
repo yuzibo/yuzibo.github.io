@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux关于无线的命令</title>
+    <meta name="description" content="1. 首先确定你的无线网卡驱动lspcilspci | grep -i wirelesslspci | egrep -i --color 'wifi|wlan|wireless'我的输出是09:00.0 Network controller: Intel Corporation Centrino Wireless...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/03/linux_command_about_wireless/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux关于无线的命令</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-03
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="1-首先确定你的无线网卡驱动">1. 首先确定你的无线网卡驱动</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lspci
+
+lspci | <span class="nb">grep</span> <span class="nt">-i</span> wireless
+
+lspci | egrep <span class="nt">-i</span> <span class="nt">--color</span> <span class="s1">'wifi|wlan|wireless'</span>
+
+</code></pre></div></div>
+
+<p>我的输出是</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>09:00.0 Network controller: Intel Corporation Centrino Wireless-N 105
+<span class="o">(</span>rev c4<span class="o">)</span>
+</code></pre></div></div>
+
+<p>请记住 <strong>09:00.0</strong>利用他你可以找到设备名或者驱动名。</p>
+
+<h1 id="2-找出无线网卡的驱动信息">2. 找出无线网卡的驱动信息</h1>
+
+<p>我的机子上的信息是：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/wireless_1.png" alt="wireless_1.png" /></p>
+
+<h1 id="3-禁用无线网络">3. 禁用无线网络</h1>
+
+<p><a href="https://www.cyberciti.biz/faq/linux-remove-wireless-networking-wifi-802-11-support-drivers/">Here</a></p>
+
+<h1 id="4-配置一个无线网络接口">4. 配置一个无线网络接口</h1>
+
+<p>iwconfig 命令是一个类似于ifconfig命令的无线命令，顾名思义，就是管理网络的。它维护了基本的无线信息，比如ssid, mode,channel,bit rates, power或者更多其他的东西。下面是展示wlan0接口：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/wireless_2.png" alt="wireless_2.png" /></p>
+
+<p>上面的图片展示了这些内容：</p>
+
+<ol>
+  <li>
+    <p>MAC 网络协议</p>
+  </li>
+  <li>
+    <p>ssid</p>
+  </li>
+  <li>
+    <p>The NWID</p>
+  </li>
+  <li>
+    <p>频率</p>
+  </li>
+  <li>
+    <p>接入点</p>
+  </li>
+  <li>
+    <p>比特率</p>
+  </li>
+  <li>
+    <p>电源管理 …</p>
+  </li>
+</ol>
+
+<h2 id="查看连接质量">查看连接质量</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~<span class="nv">$ </span><span class="nb">sudo </span>iwconfig wlan0 | <span class="nb">grep</span> <span class="nt">-i</span> <span class="nt">--color</span> quality
+          Link <span class="nv">Quality</span><span class="o">=</span>64/70  Signal <span class="nv">level</span><span class="o">=</span><span class="nt">-46</span> dBm
+
+</code></pre></div></div>
+
+<h1 id="5-在屏幕上查看连接质量">5. 在屏幕上查看连接质量</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /proc/net/wireless
+</code></pre></div></div>
+
+<p><img src="http://yuzibo.qiniudn.com/wireless_3.png" alt="wireless_3.png" /></p>
+
+<h1 id="6-别忘了networkmanager">6. 别忘了Networkmanager</h1>
+
+<p>可惜的是，在debian的系统上，这个方法貌似不太好用，倒是在Ubuntu上使用的非常好，你可以直接新建一个（Shared）wifi热点。</p>
+
+<h1 id="7-wavemon">7. wavemon</h1>
+
+<p>算是一个神器了，字符图形界面的，可以试一试。安装完成后就可以直接运行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wavemon
+</code></pre></div></div>
+
+<p>命令即可。</p>
+
+<p>还有几个命令，暂时先写在这里，后来总结的记在这里。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/02/unix_configure/">linux/unix 安装软件过程</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/04/busybox_qemu_kernel/">qemu,busybox调试linux kernel</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

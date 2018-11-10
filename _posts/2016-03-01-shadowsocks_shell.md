@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: shell
 title: "ss连接的命令"
 ---

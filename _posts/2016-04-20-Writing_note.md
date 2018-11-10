@@ -1,6 +1,6 @@
 ---
 title:  "关于引号的问题"
-layout: article
+layout: post
 category: writing
 ---
 

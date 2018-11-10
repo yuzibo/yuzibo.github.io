@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>gdb调试举例</title>
+    <meta name="description" content="终于有机会总结gdb了首先声明一点吧，这是我一直以来的没有搞明白的地方。(gdb) b mainBreakpoint 1 at 0x5555555546e9: file my.c, line 21.(gdb) rStarting program: /home/yubo/test/myBreakpoint 1, m...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/03/04/gdb/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>gdb调试举例</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-03-04
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="终于有机会总结gdb了">终于有机会总结gdb了</h1>
+<p>首先声明一点吧，这是我一直以来的没有搞明白的地方。</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">b</span> <span class="n">main</span>
+<span class="n">Breakpoint</span> <span class="mi">1</span> <span class="n">at</span> <span class="mh">0x5555555546e9</span><span class="o">:</span> <span class="n">file</span> <span class="n">my</span><span class="p">.</span><span class="n">c</span><span class="p">,</span> <span class="n">line</span> <span class="mi">21</span><span class="p">.</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">r</span>
+<span class="n">Starting</span> <span class="n">program</span><span class="o">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yubo</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">my</span>
+
+<span class="n">Breakpoint</span> <span class="mi">1</span><span class="p">,</span> <span class="n">main</span> <span class="p">()</span> <span class="n">at</span> <span class="n">my</span><span class="p">.</span><span class="n">c</span><span class="o">:</span><span class="mi">21</span>
+<span class="mi">21</span>		<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">s</span>
+<span class="mi">22</span>		<span class="n">n</span><span class="o">++</span><span class="p">;</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="n">n</span>
+<span class="err">$</span><span class="mi">1</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>在这段代码中，我设置了一个断点并且运行起来，注意，断点处，21，这个21的n=1还没有被执行，只是下一次将要执行的语句，例证就是22的代码，你看，在22处， 虽然打印了n++,但是你打印 <code class="highlighter-rouge">p n</code>, 则还是n，说明n没有加1，所以这就是下一条语句要执行的过程。</p>
+
+<h1 id="下面的这个程序我还弄不明白继续debug">下面的这个程序我还弄不明白,继续debug</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+	<span class="kt">int</span> <span class="o">*</span><span class="n">ptr1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="o">*</span><span class="n">ptr2</span> <span class="o">=</span> <span class="p">((</span><span class="kt">int</span> <span class="o">*</span><span class="p">)(</span><span class="kt">int</span><span class="p">)</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%x,%x"</span><span class="p">,</span><span class="n">ptr1</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="o">*</span><span class="n">ptr2</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h1 id="list命令">list命令</h1>
+
+<h3 id="list-num">list num</h3>
+
+<p>显示源代码的num行的周围几行。</p>
+
+<h3 id="list-function">list function</h3>
+<p>显示函数。</p>
+
+<h1 id="p命令">p命令</h1>
+
+<h3 id="打印结构体元素">打印结构体元素</h3>
+
+<p>使用这个命令，还可以查看结构体的各元素值</p>
+
+<blockquote>
+  <p>p *pstDate</p>
+</blockquote>
+
+<h3 id="打印数组元素">打印数组元素</h3>
+
+<p>如果你想查看一个数组的各个元素，别像我似的傻乎乎的一个个 p a[i],节省生命的做
+法应该是：</p>
+
+<blockquote>
+  <p>p ArrayVal@itemnum</p>
+</blockquote>
+
+<p>什么意思？意思就是打印数组ArrayVal的前itemnum个元素。</p>
+
+<h3 id="格式控制">格式控制</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p /x Val    十六进制
+
+  /c		字符？
+
+  /f		浮点型？
+</code></pre></div></div>
+
+<h3 id="查看内存变量">查看内存变量</h3>
+
+<blockquote>
+  <p>x</p>
+</blockquote>
+
+<p>我也不知道这一个有什么作用现在为止</p>
+
+<h3 id="查看局部变量">查看局部变量</h3>
+
+<p>info local</p>
+
+<h1 id="run">run</h1>
+
+<h2 id="set-args-num1-num2-num3-">set args num1 num2 num3 ..</h2>
+<p>使用show args查看设置的参数。</p>
+
+<h1 id="break">break</h1>
+
+<h2 id="break-function">break function</h2>
+<p>你可以在一个函数前面加上b,到时候就可以在这个函数设置断点了。</p>
+
+<h2 id="break-lines">break lines</h2>
+
+<h2 id="break-filenamelinenum">break filename:linenum</h2>
+<p>在源文件filename的linenum行设置断点</p>
+
+<h2 id="break-filenamefunction">break filename:function</h2>
+<p>在源文件的filename的function设置断点</p>
+
+<h2 id="break-address">break *address</h2>
+<p>在程序运行的内存空间地址处停住.</p>
+
+<h2 id="break-1">break</h2>
+<p>没有参数时，表示在下一条指令处停住。</p>
+
+<h2 id="break-if-">break if <condition></condition></h2>
+<p>比如，设置</p>
+
+<blockquote>
+  <p>break if i = 10;</p>
+</blockquote>
+
+<p>就是在循环体内当i等于10的时候停住。</p>
+
+<p>方便一点的话，可以使用</p>
+
+<blockquote>
+  <p>filename:line_numbers if i == 5</p>
+</blockquote>
+
+<p>比如， 我想在文件gdb.c的循环体for内当I等于5的停下来，则：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">break</span> <span class="n">gdb</span><span class="p">.</span><span class="n">c</span><span class="o">:</span><span class="mi">6</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">5</span>
+</code></pre></div></div>
+
+<h1 id="单步执行-next和step">单步执行 next和step</h1>
+
+<p>在调用函数的那行，设置个断点，然后step就进入函数体内。
+扩展的用法是next<count>和step<count></count></count></p>
+
+<h1 id="finish">finish</h1>
+<p>运行程序直到当前函数完成返回，并打印函数的返回时的堆栈地址、返回值及参数值。</p>
+
+<h2 id="until">until</h2>
+<p>使用until退出循环体。这一条十分重要哈^_^.</p>
+
+<h2 id="stepisi-和nextini">stepi(si) 和nexti(ni)</h2>
+<p>stepi用于单步跟踪一条机器指令，另外使用</p>
+
+<blockquote>
+  <p>display/i $pc</p>
+</blockquote>
+
+<p>在打印出程序代码的同时打印出机器指令。</p>
+
+<h1 id="watch">watch</h1>
+<p>watch <exp> 为表达式exp设置一个观察点，一旦表达式的值发生变化，马上停止程序运行。</exp></p>
+
+<p>rwatch <expr> 当表达式被读时，停止程序运行。</expr></p>
+
+<p>awatch <expr> 当表达式的值被读或者被写时，停止程序运行。</expr></p>
+
+<p>info watchpoints: 列出当前所设置的所有观察点。</p>
+
+<h1 id="查看函数体内的变量值">查看函数体内的变量值</h1>
+
+<p>当我们使用 s 命令进入函数体内时，除了简单的 p 打印，还要更加丰富些，比如，使用backtrace(bt)</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">bt</span>
+<span class="cp">#0  add_range (low=1, high=10) at main.c:6
+#1  0x080483c1 in main () at main.c:14
+</span></code></pre></div></div>
+<p>从这里可以看出add_range()函数是main函数调用的，main传进来的参数是low=1，high=10，main的帧为1，add_range()的帧为0，使用i(info)来看函数局部变量的值。</p>
+
+<p>如果想查看main函数的当前局部变量也可以，先使用frame(f)命令,选择1号栈再查看局部变量的值：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">f</span> <span class="mi">1</span>
+<span class="cp">#1  0x080483c1 in main () at main.c:14
+</span><span class="mi">14</span>		<span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">i</span> <span class="n">locals</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">134513196</span><span class="p">,</span> <span class="mi">225011984</span><span class="p">,</span> <span class="o">-</span><span class="mi">1208685768</span><span class="p">,</span> <span class="o">-</span><span class="mi">1081160480</span><span class="p">,</span>
+<span class="p">...</span>
+  <span class="o">-</span><span class="mi">1208623680</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="一次性查看结构体各个成员的值">一次性查看结构体各个成员的值</h1>
+
+<p>比如，我有一个结构体结构是这样的：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*一个有权值的边集在图中*/</span>
+ <span class="k">struct</span> <span class="n">Edge</span><span class="p">{</span>
+ 	<span class="kt">int</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">weight</span><span class="p">;</span>
+
+ <span class="p">};</span>
+
+ <span class="cm">/* V: 顶点数 E：边数,无向图*/</span>
+ <span class="k">struct</span> <span class="n">Graph</span><span class="p">{</span>
+ 	<span class="kt">int</span> <span class="n">V</span><span class="p">,</span><span class="n">E</span><span class="p">;</span>
+ 	<span class="k">struct</span> <span class="n">Edge</span><span class="o">*</span> <span class="n">edge</span><span class="p">;</span>
+ <span class="p">};</span>
+</code></pre></div></div>
+
+<p>先定义一个graph,在完成一次loop操作后，这时我想查看其中的各个域的值，可以一次一次的使用：</p>
+
+<blockquote>
+  <p>p graph@v</p>
+</blockquote>
+
+<p>等进行查看，不过这样查看效率可是不高，所以在gdb中，需要使用脚本：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>gdb<span class="o">)</span> <span class="nb">set</span> <span class="nv">$i</span><span class="o">=</span>5
+<span class="o">(</span>gdb<span class="o">)</span> <span class="k">while</span> <span class="o">(</span><span class="nv">$i</span><span class="o">!=</span>0<span class="o">)</span>
+ <span class="o">&gt;</span>print graph-&gt;edge[<span class="nv">$i</span><span class="o">]</span>
+ <span class="o">&gt;</span><span class="nb">set</span> <span class="nv">$i</span> <span class="o">=</span> <span class="nv">$i</span> - 1
+ <span class="o">&gt;</span>end
+<span class="nv">$5</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 2, dest <span class="o">=</span> 4, weight <span class="o">=</span> 7<span class="o">}</span>
+<span class="nv">$6</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 4, dest <span class="o">=</span> 1, weight <span class="o">=</span> 6<span class="o">}</span>
+<span class="nv">$7</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 0, dest <span class="o">=</span> 4, weight <span class="o">=</span> 5<span class="o">}</span>
+<span class="nv">$8</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 49, dest <span class="o">=</span> 0, weight <span class="o">=</span> 0<span class="o">}</span>
+<span class="nv">$9</span> <span class="o">=</span> <span class="o">{</span>src <span class="o">=</span> 3, dest <span class="o">=</span> 2, weight <span class="o">=</span> 4<span class="o">}</span>
+</code></pre></div></div>
+<h1 id="补充assemble">补充(assemble)</h1>
+
+<p><code class="highlighter-rouge">disassembles /rm</code>这个函数就会显示当前函数的汇编信息，其中，<code class="highlighter-rouge">/r</code>是十六进制(raw instructions), <code class="highlighter-rouge">/m</code>,如果你对intel 的汇编语法感兴趣，可以使用这个命令。</p>
+
+<p><code class="highlighter-rouge">x/i $pc</code> 这条命令是AT&amp;T的语法格式的。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/03/03/bash_argc/">shell的命令行参数</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/03/05/qemu_debug_debian/">qemu调试kernel</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

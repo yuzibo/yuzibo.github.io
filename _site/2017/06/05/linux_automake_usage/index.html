@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux的automake使用方法-未完</title>
+    <meta name="description" content="这篇简单的介绍下了Makefile文件，但是如果你自己独自写一个完整的Makefile，这多少有些不现实。在类unix下，有个automake的工具，这个就可以好好利用.环境要求autoconf在我的linux上，使用autoconf  –version就可以知道有没有安装这个软件了。automake利用同样的测...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/05/linux_automake_usage/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux的automake使用方法-未完</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-05
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#make" title="Category: make" rel="category">make</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="http://www.aftermath.cn/Makefile.html">这篇</a>简单的介绍下了Makefile文件，但是如果你自己独自写一个完整的Makefile，这多少有些不现实。在类unix下，有个automake的工具，这个就可以好好利用.</p>
+
+<h1 id="环境要求">环境要求</h1>
+
+<h3 id="autoconf">autoconf</h3>
+<p>在我的linux上，使用<em>autoconf  –version</em>就可以知道有没有安装这个软件了。</p>
+
+<h3 id="automake">automake</h3>
+<p>利用同样的测试方法。</p>
+
+<h1 id="大体思路">大体思路</h1>
+
+<p>先后建立三个文件：hello.c -&gt; configure.in -&gt; Makefile.am 然后依次执行</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aclocal <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> automake <span class="nt">--add-missing</span>  <span class="se">\</span>
+<span class="o">&amp;&amp;</span> ./configure <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> ./hello
+
+</code></pre></div></div>
+
+<p>如果是安装软件的话，在上面的make后面添加 *make imstall *即可。</p>
+
+<h1 id="详细步骤">详细步骤</h1>
+
+<ol>
+  <li>新建立一个hello.c的文就:</li>
+</ol>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"hello,world</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+
+<ol>
+  <li>生成configure
+使用autoscan生成configure.in的模板文件configure.scan</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# autoscan
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">ls
+</span>autoscan.log  configure.scan  hello.c
+
+</code></pre></div></div>
+<p>看到上面的命令中生成了一个configure.scan文件，这个就是configure.in的模板(但是，我怎么记得现在推荐为configure.ac)</p>
+
+<p>首先将configure.scan文件命名为configure.in(现在好像推荐使用configure.ac)</p>
+
+<p>然后修改几个内容：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv </span>configure.scan configure.in
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">cat </span>configure.in
+<span class="c">#                                               -*- Autoconf -*-</span>
+<span class="c"># Process this file with autoconf to produce a configure script.</span>
+
+AC_PREREQ<span class="o">([</span>2.69]<span class="o">)</span>
+AC_INIT<span class="o">(</span>hello.c<span class="o">)</span> <span class="c"># 修改</span>
+<span class="c">#AC_CONFIG_SRCDIR([hello.c]) #修改</span>
+AC_CONFIG_HEADERS<span class="o">([</span>config.h]<span class="o">)</span>
+AM_INIT_AUTOMAKE<span class="o">(</span>hello.c, 1.0<span class="o">)</span> <span class="c"># 修改</span>
+
+<span class="c"># Checks for programs.</span>
+AC_PROG_CC
+
+<span class="c"># Checks for libraries.</span>
+
+<span class="c"># Checks for header files.</span>
+
+<span class="c"># Checks for typedefs, structures, and compiler characteristics.</span>
+
+<span class="c"># Checks for library functions.</span>
+
+AC_OUTPUT<span class="o">(</span>Makefile<span class="o">)</span> <span class="c">#修改</span>
+</code></pre></div></div>
+
+<p>上面的文件中，以AC开头的宏来自autoconf, 以AM开头的automake,这些宏都是用M4语言写成的。</p>
+
+<p>autoconf是用来生成自动配置软件源代码脚本(configure)的工具，它是非常独立地，不需要用户的干预。</p>
+
+<p>autoconf命令来处理configure.ac/configure.in文件，生成一个configure文件，生成的configure文件是一个可以移植的shell脚本，来决定哪些库是可以用的、所用的平台有哪些特征、哪些头文件和库已经找到等等，然后将收集到的这些信息，编译成标记，生成一个Makefile,同时生成一个包含已定义的预处理符号的config.h。</p>
+
+<p>要生成<em>configure</em>文件， 你必须告诉autoconf如何找到你所用的宏，方式是使用aclocal程序来生成你的aclocal.m4</p>
+
+<p>aclocal文件根据configure.in文件的内容，自动生成aclocal.m4文件，　aclocal根据configure.in文件的内容，自动生成aclocal.m4文件。aclocal是一个perl 脚本程序，它的定义是：“aclocal - create aclocal.m4 by scanning configure.ac”。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# aclocal
+aclocal: warning: autoconf input should be named <span class="s1">'configure.ac'</span>, not <span class="s1">'configure.in'</span>
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">ls
+</span>aclocal.m4  autom4te.cache  autoscan.log  configure.in	hello.c
+root@yubo-2:/home/yubo/test/makefile# autoconf
+root@yubo-2:/home/yubo/test/makefile# <span class="nb">ls
+</span>aclocal.m4  autom4te.cache  autoscan.log  configure  configure.in  hello.c
+</code></pre></div></div>
+
+<p>m4是一个宏处理器。将输入拷贝到输出，同时将宏展开。宏可以是内嵌的，也可以是用户定义的。除了可以展开宏，m4还有一些内建的函数，用来引用文件，执行命令，整数运算，文本操作，循环等。m4既可以作为编译器的前端，也可以单独作为一个宏处理器。</p>
+
+<p>接下来就是新建Makefile.am文件了。automake会根据你写的Makefile.am自动生成Makefile.in文件的。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# <span class="nb">cat </span>Makefile.am
+<span class="nv">AUTOMAKE_OPTIONS</span><span class="o">=</span>foreign
+<span class="nv">bin_PROGRAMS</span><span class="o">=</span>hello
+<span class="nv">hello_SOURCES</span><span class="o">=</span>hello.c
+
+</code></pre></div></div>
+
+<h3 id="automake-1">automake</h3>
+
+<p>这个命令的主要功能就是从Makefile.am文件产生Makefile.in文件，</p>
+
+<p>一个典型的automake输入文件只是一系列变量的定义，从而产生Makefile.in文件。</p>
+
+<p>接下来运行命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>automake <span class="nt">--add-missing</span>
+</code></pre></div></div>
+
+<p>下面是我的显示台上的输出：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:/home/yubo/test/makefile# automake <span class="nt">-add-missing</span>
+automake: error: unrecognized option <span class="s1">'-dd-missing'</span><span class="nb">.</span>
+automake: Try <span class="s1">'/usr/bin/automake --help'</span> <span class="k">for </span>more information.
+root@yubo-2:/home/yubo/test/makefile# automake <span class="nt">--add-missing</span>
+automake: warning: autoconf input should be named <span class="s1">'configure.ac'</span>, not <span class="s1">'configure.in'</span>
+configure.in:7: warning: AM_INIT_AUTOMAKE: two- and three-arguments forms are deprecated.  For more info, see:
+configure.in:7:
+http://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_005fINIT_005fAUTOMAKE-invocation
+configure.in:10: installing <span class="s1">'./compile'</span>
+configure.in:7: installing <span class="s1">'./install-sh'</span>
+configure.in:7: installing <span class="s1">'./missing'</span>
+configure.in:6: error: required file <span class="s1">'config.h.in'</span> not found
+Makefile.am: installing <span class="s1">'./depcomp'</span>
+automake: warning: autoconf input should be named <span class="s1">'configure.ac'</span>, not <span class="s1">'configure.in'</span>
+</code></pre></div></div>
+
+<p>再次声明，我在这篇教程里，不止一次提醒我有警告产生，而且意思非常明确，你可以试一试。我这里为了结果一致，暂时没有改正过来，需要大家的注意。</p>
+
+<p><a href="https://www.gnu.org/software/m4/m4.html">M4</a></p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/04/busybox_qemu_kernel/">qemu,busybox调试linux kernel</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/06/how_to_get_started_with_libvirt_on_debian/">用libvirt安装debian</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

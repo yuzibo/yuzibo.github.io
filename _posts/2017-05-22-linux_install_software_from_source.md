@@ -1,7 +1,7 @@
 ---
 title: "linux下源码安装软件"
 category: tools
-layout: article
+layout: post
 ---
 
 其实这就涉及到了unix下从configure、make、make install一系列的步骤。

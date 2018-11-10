@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>oracle proc编程Makefile模板</title>
+    <meta name="description" content="V 0.1这个版本的Makefile，是把命令行输入的东西放到Makefile中而已，或者说只是测试怎样使用proc编程。 注意，自己要将oracle的目录及库文件位置写正确 使用方法首先把下面的文件换成你要测试的文件，比如makech.pc,你应该或者或多或少的了解makefile的原理。最开始的就是你的最终目...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/04/14/Oracle_Proc_Makefile/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>oracle proc编程Makefile模板</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-04-14
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#oracle" title="Category: oracle" rel="category">oracle</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="v-01">V 0.1</h1>
+
+<p>这个版本的Makefile，是把命令行输入的东西放到Makefile中而已，或者说只是测试
+怎样使用proc编程。</p>
+
+<p><em> 注意，自己要将oracle的目录及库文件位置写正确 </em></p>
+
+<h3 id="使用方法">使用方法</h3>
+<p>首先把下面的文件换成你要测试的文件，比如makech.pc,你应该或者或多或少的了解
+makefile的原理。最开始的就是你的最终目标。我这里就是</p>
+
+<blockquote>
+  <p>makech &lt;— makech.c &lt;—makech.pc</p>
+</blockquote>
+
+<p>也就是说你要替换4个单词，直接make就可以了。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
+<span class="p">.</span><span class="n">SUFFIXES</span><span class="o">:</span> <span class="p">.</span><span class="n">pc</span> <span class="p">.</span><span class="n">c</span> <span class="p">.</span><span class="n">o</span>
+
+
+<span class="n">CC</span> <span class="o">=</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">o</span>
+<span class="n">PROC</span> <span class="o">=</span> <span class="n">proc</span>
+
+
+<span class="n">ORACLE_HOME</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">oracle</span><span class="o">/</span><span class="mi">11</span><span class="n">g</span>
+
+<span class="n">ORALIB</span> <span class="o">=</span> <span class="o">-</span><span class="n">lclntsh</span> <span class="o">-</span><span class="n">lpthread</span>
+
+<span class="n">makech</span><span class="o">:</span> <span class="n">makech</span><span class="p">.</span><span class="n">c</span>
+	<span class="err">$</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span>   <span class="err">$@</span> <span class="o">-</span><span class="n">g</span> <span class="err">$</span><span class="o">&lt;</span>  <span class="o">-</span><span class="n">I</span><span class="err">$</span><span class="p">(</span><span class="n">ORACLE_HOME</span><span class="p">)</span><span class="o">/</span><span class="n">precomp</span><span class="o">/</span><span class="n">public</span> <span class="o">-</span><span class="n">L</span><span class="err">$</span><span class="p">(</span><span class="n">ORACLE_HOME</span><span class="p">)</span><span class="o">/</span><span class="n">lib</span>  <span class="err">$</span><span class="p">(</span><span class="n">ORALIB</span><span class="p">)</span>
+<span class="n">makech</span><span class="p">.</span><span class="n">c</span><span class="o">:</span> <span class="n">makech</span><span class="p">.</span><span class="n">pc</span>
+	<span class="err">$</span><span class="p">(</span><span class="n">PROC</span><span class="p">)</span> <span class="n">INAME</span><span class="o">=</span><span class="err">$</span><span class="o">*</span><span class="p">.</span><span class="n">pc</span>  <span class="n">CODE</span><span class="o">=</span><span class="n">ANSI_C</span> <span class="n">PARSE</span><span class="o">=</span><span class="n">NONE</span> <span class="n">oname</span><span class="o">=</span><span class="err">$</span><span class="o">*</span><span class="p">.</span><span class="n">c</span>
+
+<span class="n">clean</span><span class="o">:</span>
+	<span class="err">@</span><span class="n">echo</span> <span class="s">"rm ..."</span>
+	<span class="err">@</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">*</span><span class="p">.</span><span class="n">c</span>
+	<span class="err">@</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">*</span><span class="p">.</span><span class="n">lis</span>
+
+</code></pre></div></div>
+
+<h1 id="v2">v.2</h1>
+<p>这一版本比上次有所提高，主要是打字少，还可以实现个性化。</p>
+
+<p>将PROCSRCS 的值换为你想编辑的.pc文件，EXE为你的目标文件即可。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="n">SUFFIXES</span><span class="o">:</span> <span class="p">.</span><span class="n">pc</span> <span class="p">.</span><span class="n">c</span> <span class="p">.</span><span class="n">o</span>
+
+<span class="n">CC</span> <span class="o">=</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">o</span>
+<span class="n">PROC</span> <span class="o">=</span> <span class="n">proc</span>
+
+<span class="n">ORACLE_HOME</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">oracle</span><span class="o">/</span><span class="mi">11</span><span class="n">g</span>
+
+<span class="n">ORALIB</span> <span class="o">=</span> <span class="o">-</span><span class="n">lclntsh</span> <span class="o">-</span><span class="n">lpthread</span>
+
+<span class="n">PROCSRCS</span> <span class="o">=</span> <span class="n">test_stu</span><span class="p">.</span><span class="n">pc</span>
+<span class="n">EXE</span>	<span class="o">=</span> <span class="mi">123</span>
+
+<span class="n">SRCS</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">PROCSRCS</span><span class="o">:</span><span class="p">.</span><span class="n">pc</span><span class="o">=</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>
+<span class="n">OBJS</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">SRCS</span><span class="o">:</span><span class="p">.</span><span class="n">c</span><span class="o">=</span><span class="p">.</span><span class="n">o</span><span class="p">)</span>
+
+<span class="err">$</span><span class="p">(</span><span class="n">EXE</span><span class="p">)</span><span class="o">:</span> <span class="err">$</span><span class="p">(</span><span class="n">SRCS</span><span class="p">)</span>
+	<span class="err">$</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span>   <span class="err">$@</span> <span class="o">-</span><span class="n">g</span> <span class="err">$</span><span class="p">(</span><span class="n">SRCS</span><span class="p">)</span>  <span class="o">-</span><span class="n">I</span><span class="err">$</span><span class="p">(</span><span class="n">ORACLE_HOME</span><span class="p">)</span><span class="o">/</span><span class="n">precomp</span><span class="o">/</span><span class="n">public</span> <span class="o">-</span><span class="n">L</span><span class="err">$</span><span class="p">(</span><span class="n">ORACLE_HOME</span><span class="p">)</span><span class="o">/</span><span class="n">lib</span>  <span class="err">$</span><span class="p">(</span><span class="n">ORALIB</span><span class="p">)</span>
+
+<span class="err">$</span><span class="p">(</span><span class="n">SRCS</span><span class="p">)</span><span class="o">:</span>
+	<span class="err">$</span><span class="p">(</span><span class="n">PROC</span><span class="p">)</span> <span class="n">INAME</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">PROCSRCS</span><span class="p">)</span>  <span class="n">CODE</span><span class="o">=</span><span class="n">ANSI_C</span> <span class="n">PARSE</span><span class="o">=</span><span class="n">NONE</span> <span class="n">oname</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">SRCS</span><span class="p">)</span>
+
+<span class="n">clean</span><span class="o">:</span>
+	<span class="err">@</span><span class="n">echo</span> <span class="s">"rm ..."</span>
+	<span class="err">@</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">*</span><span class="p">.</span><span class="n">c</span>
+	<span class="err">@</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">*</span><span class="p">.</span><span class="n">lis</span>
+	<span class="err">@</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">*</span><span class="p">.</span><span class="n">o</span>
+</code></pre></div></div>
+
+<h1 id="v03">v0.3</h1>
+
+<p>爽，实在是爽，不但解决了makech的问题，还解决了Makefile自动生成
+的文件放在相应的目录，只是简简单单的在将目标文件放在对应的目录
+即可，当然，这里的目标文件不只是指gcc生成的目标文件，这里广义
+的指你想操作的文件，比如：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="o">/</span>
+<span class="p">.</span><span class="o">/</span><span class="n">Makefile</span>
+<span class="p">.</span><span class="o">/</span><span class="n">src</span><span class="o">/*</span><span class="p">.</span><span class="n">c</span><span class="p">;</span><span class="o">*</span><span class="p">.</span><span class="n">h</span>
+<span class="p">.</span><span class="o">/</span><span class="n">obj</span><span class="o">/*</span><span class="p">.</span><span class="n">o</span>
+<span class="p">.</span><span class="o">/</span><span class="n">bin</span><span class="o">/&lt;</span><span class="n">executable</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p>类似于一个工程，各种不同的文件放在不同的目录，各司其职。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.SUFFIXES: .pc .c .o
+
+CC <span class="o">=</span> gcc <span class="nt">-o</span>
+PROC <span class="o">=</span> proc
+
+ORACLE_HOME <span class="o">=</span> /opt/oracle/11g
+BINDIR <span class="o">=</span> /home/oracle/src/tools/dbsvr/bin
+
+ORALIB <span class="o">=</span> <span class="nt">-lclntsh</span> <span class="nt">-lpthread</span>
+
+PROCSRCS <span class="o">=</span> makech.pc
+EXE	<span class="o">=</span> makech
+
+<span class="nv">SRCS</span><span class="o">=</span><span class="k">$(</span>PROCSRCS:.pc<span class="o">=</span>.c<span class="k">)</span>
+<span class="nv">OBJS</span><span class="o">=</span><span class="k">$(</span>SRCS:.c<span class="o">=</span>.o<span class="k">)</span>
+
+<span class="k">$(</span>BINDIR<span class="k">)</span>/<span class="k">$(</span>EXE<span class="k">)</span>: <span class="k">$(</span>SRCS<span class="k">)</span>
+	<span class="k">$(</span>CC<span class="k">)</span>   <span class="nv">$@</span> <span class="nt">-g</span> <span class="k">$(</span>SRCS<span class="k">)</span>  <span class="nt">-I</span><span class="k">$(</span>ORACLE_HOME<span class="k">)</span>/precomp/public <span class="nt">-L</span><span class="k">$(</span>ORACLE_HOME<span class="k">)</span>/lib  <span class="k">$(</span>ORALIB<span class="k">)</span>
+
+<span class="k">$(</span>SRCS<span class="k">)</span>:
+	<span class="k">$(</span>PROC<span class="k">)</span> <span class="nv">INAME</span><span class="o">=</span><span class="k">$(</span>PROCSRCS<span class="k">)</span>  <span class="nv">CODE</span><span class="o">=</span>ANSI_C <span class="nv">PARSE</span><span class="o">=</span>NONE <span class="nv">oname</span><span class="o">=</span><span class="k">$(</span>SRCS<span class="k">)</span>
+
+clean:
+	@echo <span class="s2">"rm ..."</span>
+	@rm <span class="nt">-f</span> <span class="k">*</span>.c
+	@rm <span class="nt">-f</span> <span class="k">*</span>.lis
+	@rm <span class="nt">-f</span> <span class="k">*</span>.o
+</code></pre></div></div>
+<p>看见没有，v3与v2的区别就在于新建了个BINDIR,然后使用$(BINDIR)/$(EXE)即可，
+相应的，如果在源目录src中寻找相应的源文件，加入相应的路径名即可。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/04/13/Oracle_Note/">oracle基本操作</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/04/18/linuxnewbies_notes_1/">linuxnewbie 问答总结(一)</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>模块编程(1)Hello,World</title>
+    <meta name="description" content="前戏看了这么多关于内核的东西，这两天终于上手实现了基于内核的编程——模块编程。这里，简单的记录一下，因为还是有些东西需要牢记的。先说点题外话，看到资料上说模块机制、设备机制、驱动机制是在linux上很重要的三种机制之一，所以，看起来，这真是万里长征的第一步。先建立一个源文件，module.c#include&lt...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/06/LinuxModuleProgram1/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>模块编程(1)Hello,World</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-06
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="前戏">前戏</h1>
+<p>看了这么多关于内核的东西，这两天终于上手实现了基于内核的编程——模块编程。
+这里，简单的记录一下，因为还是有些东西需要牢记的。
+先说点题外话，看到资料上说模块机制、设备机制、驱动机制是在linux上很重要的三种机制之一，所以，看起来，这真是万里长征的第一步。</p>
+
+<h2 id="先建立一个源文件modulec">先建立一个源文件，module.c</h2>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include&lt;linux/init.h&gt;
+#include&lt;linux/module.h&gt;
+#include&lt;linux/kernel.h&gt;
+</span><span class="c1">//上面的三个头文件必须有</span>
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span><span class="c1">//模块许可声明</span>
+<span class="cm">/*下面的__init 是一个宏，在include/linux/init.h里面*/</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">hello_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"Hello,world</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__exit</span> <span class="nf">hello_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"GoodBye</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cm">/*初始化*/</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">hello_init</span><span class="p">);</span>
+<span class="cm">/*退出时使用*/</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">hello_exit</span><span class="p">);</span></code></pre></figure>
+
+<p>简单解释一下，一个模块源程序的</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.头文件(必有)
+2.模块参数(可选)
+3.模块功能函数(optional)
+4.模块加载函数(必有)
+5.模块卸载函数(必有)
+6.模块许可声明(必有)。
+</code></pre></div></div>
+
+<h2 id="在相同目录下创建一个-makefile文件">在相同目录下创建一个 Makefile文件</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ifeq <span class="o">(</span><span class="k">$(</span>KERNELRELEASE<span class="k">)</span>,<span class="o">)</span>
+	VERSION_NUM :<span class="o">=</span><span class="k">$(</span>shell <span class="nb">uname</span> <span class="nt">-r</span><span class="k">)</span>
+    CURRENT_PATH :<span class="o">=</span><span class="k">$(</span>shell <span class="nb">pwd</span><span class="k">)</span>
+	KERNEL_DIR :<span class="o">=</span>/usr/src/linux-headers-<span class="k">$(</span>VERSION_NUM<span class="k">)</span>
+
+modules:
+	<span class="k">$(</span>MAKE<span class="k">)</span> <span class="nt">-C</span> <span class="k">$(</span>KERNEL_DIR<span class="k">)</span> <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> modules
+modules_installs:
+	<span class="k">$(</span>MAKE<span class="k">)</span> <span class="nt">-C</span> <span class="k">$(</span>KERNEL_DIR<span class="k">)</span> <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> modules_installs
+clean:
+	<span class="nb">rm</span> <span class="nt">-rf</span> <span class="k">*</span>.o <span class="k">*</span>~ core .depend .<span class="k">*</span>.cmd <span class="k">*</span>.ko <span class="k">*</span>.mod.c .tmp_versions <span class="k">*</span>.order <span class="k">*</span>.symvers
+<span class="k">else
+	</span>obj-m :<span class="o">=</span> module.o
+endif</code></pre></figure>
+
+<p>关于Makefile文件的知识不是这篇文章的内容，但我们会努力讲解的简单明了一些。其中使用了shell中的选择判断语句，先取得当前系统的版本号，模块源文件所在的目录、内核文件的目录、然后就是目标依赖关系，当然这部分我自己也是不很明白，还需要彻底了解一下相关知识。看上去先产生模块，然后安装modules,这些都是make命令执行后运行的东西。如果我们执行 make clean 紧接着就是清除所在目录产生的中间文件文件，当然，你可以添加自己的规则。</p>
+
+<h3 id="2017-02-08-add">2017-02-08 add</h3>
+
+<p>上面的 Makefile是针对于你的发行版的，找到你的镜像(kernel)头文件包，下面是 linux kernel tree编译内核模块的方法</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">obj</span><span class="o">-</span><span class="n">m</span> <span class="o">+=</span> <span class="n">module</span><span class="p">.</span><span class="n">o</span>
+
+<span class="n">all</span><span class="o">:</span>
+	<span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="err">$</span><span class="p">(</span><span class="n">shell</span> <span class="n">uname</span> <span class="o">-</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="n">build</span> <span class="n">M</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">PWD</span><span class="p">)</span> <span class="n">modules</span>
+
+<span class="n">clean</span><span class="o">:</span>
+	<span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="err">$</span><span class="p">(</span><span class="n">shell</span> <span class="n">uname</span> <span class="o">-</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="n">build</span> <span class="n">M</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">PWD</span><span class="p">)</span> <span class="n">clean</span>
+</code></pre></div></div>
+
+<p>使用这个  Makefile 就可以在自己编译的内核中编译自己的模块，记住一点，你正在运行的内核与 linux kernel tree必须一致，不然会有错误报出。</p>
+
+<p>好，我们将所有的准备工作做好后，执行一下,(sudo 模式)</p>
+
+<p><strong>make</strong></p>
+
+<p>我们会看到如下信息：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/2014-11-06-makeafter.png" alt="图片" /></p>
+
+<p>紧接着执行</p>
+
+<p><strong>insmod module.ko</strong></p>
+
+<p>,我们打开另一个终端，执行命令</p>
+
+<p><strong>tail -f /var/log/message</strong></p>
+
+<p>我们回到原来的窗口再执行</p>
+
+<p><strong>rmmod module.ko</strong></p>
+
+<p>这两条命令执行后在另一个窗口我们会看到如下信息：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/2014-11-06-modulesofresult.png" alt="图片" /></p>
+
+<p>回到原来的窗口，我们执行 <strong>make clean</strong>,就只剩下了原来的文件。</p>
+
+<h1 id="模块的操作">模块的操作</h1>
+
+<p>Linux为用户提供了modutils工具，用来操作模块，包括以下命令</p>
+
+<h2 id="insmod">insmod</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>这个命令是加载模块，使用 <strong>insmod module.ko</strong>可以加载module.ko模块，执行该命令后如果终端没有消息，则可以使用命令 demsg</td>
+      <td>tail 命令查看文件的最后几行.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="rmmod">rmmod</h2>
+
+<p>rmmod module.ko就是将module.ko模块卸载。</p>
+
+<h2 id="modprobe">modprobe</h2>
+
+<p>比较高级的加载和卸载模块的命令，可以解决模块之间的依赖性。</p>
+
+<h2 id="modinfo">modinfo</h2>
+<p>用于查询模块的相关信息，如作者、版权等。</p>
+
+<h1 id="模块加载后文件系统的变化">模块加载后文件系统的变化</h1>
+
+<h2 id="在procmodules中会增加相关的模块信息如下">在/proc/modules中会增加相关的模块信息,如下，</h2>
+
+<p><img src="http://yuzibo.qiniudn.com/2014-11-06-proc-module.png" alt="图片" /></p>
+
+<h2 id="procdevices没有变化">/proc/devices没有变化</h2>
+<h2 id="在sysmodules会增加一个module目录我们用-tree--a-module会发现如下信息">在/sys/modules会增加一个module目录，我们用 <strong>tree -a module</strong>,会发现如下信息：</h2>
+
+<p><img src="http://yuzibo.qiniudn.com/2014-11-06-treeforsysmodule.png" alt="图片" /></p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/04/DebianInstallBochs/">Debian安装Bochs</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/11/DebianBuildKernel/">Debian编译linux内核</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python之爬虫简介</title>
+    <meta name="description" content="基本的知识架构为python基础-&gt;urllib2库基本用法或者requests基本用法-&gt;正则表达式，这样你的爬虫的效果才会更好，更进一步。urllib2import urllib2response = urllib2.urlopen("http://www.baidu.com")print res...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/06/19/python_spider/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>python之爬虫简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-06-19
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>基本的知识架构为python基础-&gt;urllib2库基本用法或者requests基本用法-&gt;正则表达式，这样你的爬虫的效果才会更好，更进一步。</p>
+
+<h1 id="urllib2">urllib2</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">"http://www.baidu.com"</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>将这段代码保存为demo.py,运行之后你就会看到满屏的内容，哈哈，这就是第一个爬虫代码.
+首先我们调用的是urllib2库里面的urlopen方法，传入一个URL，这个网址是百度首页，协议是HTTP协议，当然你也可以把HTTP换做FTP,FILE,HTTPS 等等，只是代表了一种访问控制协议，urlopen一般接受三个参数，它的参数如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>urlopen(url, data, timeout)
+</code></pre></div></div>
+
+<p>第二个参数data是访问URL时要传送的数据，第三个timeout是设置超时时间。第二三个参数是可以不传送的，data默认为空None，timeout默认为 socket._GLOBAL_DEFAULT_TIMEOUT.第一个参数URL是必须要传送的，在这个例子里面我们传送了百度的URL，执行urlopen方法之后，返回一个response对象，返回信息便保存在这里面。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print response.read()
+</code></pre></div></div>
+
+<p>response 对象有一个read方法，可以返回获取到的网页内容。</p>
+
+<p>这段代码可以改进一下:<em>构造Request</em>
+这里可以传入一个request请求，这就是一个Request类的实例，构造时需要传入Url,Data等等的内容，比如，上面的两行代码，我们可以这么改写:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">"http://www.aftermath.cn"</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="post-和get--方式">post 和　get  方式</h3>
+<p>[IMPORTANT]，这块后来补充
+先上一张正则表达式的图片</p>
+
+<p><img src="http://yuzibo.qiniudn.com/sp_1.png" alt="sp_1.png" /></p>
+
+<h1 id="requests-库的使用">requests 库的使用</h1>
+
+<p>requests的方法如下:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/reguests.png" alt="reguests.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://gitbook.cn/'</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>现在你可以看一下这个代码，这样你就将很多文本型的内容打印出来了.
+下面这段代码与上面的代码是一样的，我这里只是想探究一下字符编码的问题。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://www.biqukan.com/1_1094/5403177.html'</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">target</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
+<p>效果:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/requests_1.png" alt="requests_1.png" /></p>
+
+<p>注意源码中的编码字符集，这个对于以后的中文处理字符有很大的作用.
+也就是说从这里开始，requests得到的字符可以在我的电脑上显示出来，在你的电脑上不一定显示出来，这一点在我一开始处理代码时就这样。</p>
+
+<h1 id="beautiful-soup">Beautiful Soup</h1>
+
+<p>目前这种方法的编码有问题.(应该新开一篇单独讲这个问题)</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://www.biqukan.com/1_1094/5403177.html'</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">text</span>
+    <span class="c1">#html = urllib2.urlopen(target)
+</span>    <span class="c1">#content = html.read().decode('gbk', 'ignore')
+</span>    <span class="c1">#下面可以不指定fromEncoding，bs 可以自己搞定
+</span>    <span class="n">bf_1</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="s">'lxml'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"------------</span><span class="se">\n\n</span><span class="s">"</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">bf_1</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'div'</span><span class="p">,</span> <span class="n">class_</span> <span class="o">=</span> <span class="s">'showtxt'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"type(texts)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"len(texts)="</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">each_div</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"type(each_div)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">each_div</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">"each_div.string="</span><span class="p">,</span> <span class="n">each_div</span><span class="o">.</span><span class="n">string</span> <span class="c1"># 输出soup的属性
+</span>        <span class="k">print</span> <span class="s">"type(each_div.string)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">each_div</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">"each_div="</span><span class="p">,</span> <span class="n">each_div</span>
+        <span class="k">print</span> <span class="s">"each_div.renderContents()="</span><span class="p">,</span> <span class="n">each_div</span><span class="o">.</span><span class="n">renderContents</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">"each_div.__str__('GBK')="</span><span class="p">,</span> <span class="n">each_div</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+</code></pre></div></div>
+<p>为什么这么啰嗦呢，关键问题在于字符编码的问题影响了事情的发展。BeautifulSoup将输入的内容自己转换为unicode的编码了，需要我们在输出的时候，人为的指定输出格式.</p>
+
+<p>效果如下:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/sp_1.png" alt="sp_1.png" /></p>
+
+<p>参考这篇<a href="https://www.crifan.com/beautifulsoup_already_got_unicode_soup_but_print_messy_code/">文章</a></p>
+
+<p>在上面的效果中，你会发现还有<br />标签什么，下面是去掉<br />的代码，</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s">'gbk'</span><span class="p">)</span>
+<span class="c1"># 这一个对于编码的工作也是至关重要
+</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s">'http://www.biqukan.com/1_1094/5403177.html'</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">bf_1</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span><span class="s">'lxml'</span><span class="p">)</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">bf_1</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'div'</span><span class="p">,</span> <span class="n">class_</span> <span class="o">=</span> <span class="s">'showtxt'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"type(texts)="</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"len(texts)="</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\xa0</span><span class="s">'</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span><span class="s">'</span><span class="se">\n\n</span><span class="s">'</span><span class="p">))</span>
+</code></pre></div></div>
+<p>这一段代码与前面的代码的区别在哪里相信大家一定能够看出来，其实，上面的代码后面几行代码就是测试使用的。</p>
+
+<p>如果不加入最前面的三行代码，python会报出unicodedecodeerror error,这里面不知道大家有没有看出门道，就是你要抓取的网页源代码是什么样的编码格式，在最前面的sys.setdefaultencoding()就要指定python的编码格式，这样在传递给BeautifulSoup处理的时候就是gbk了(这里是我自己的推断，不一定正确)</p>
+
+<p>总结如下：</p>
+
+<p>不能再对Unicode编码再进行解码(decode)了，这时候你应该对其进行对应于你的终端上的编码格式进行编码(encode)</p>
+
+<p>效果如下：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/request_2.png" alt="request_2.png" /></p>
+
+<h3 id="关于编码的问题">关于编码的问题</h3>
+<p>这里有一篇好的文章，请参考一下<a href="http://www.cnblogs.com/huxi/archive/2010/12/05/1897271.html">here</a></p>
+
+<p>(ascii编码)[http://blog.csdn.net/songjinshi/post/details/7868866]</p>
+
+<p>正则表达式:</p>
+
+<p><img src="http://yuzibo.qiniudn.com/04.png" alt="04.png" /></p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/06/18/pygame_note/">pygame知识点总结</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/06/20/python_beautifulsoup/">python爬虫之beautifulsoup用法</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

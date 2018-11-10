@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "什么是爱情"
 category: mood
 ---

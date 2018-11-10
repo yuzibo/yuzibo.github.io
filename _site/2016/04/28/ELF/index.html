@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ELF文件介绍</title>
+    <meta name="description" content="研究这一块的必须工具：readelf将可执行文件内的内容读出来hexdump根据上一个工具readelf读出相应地址的内容 ?objdump反汇编代码ELF 简介请先参考这篇文章ELF(Executable and Linking Format)是一种对象文件格式,从名字上我们也能窥探出他的作用来。这里主要三种类...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/04/28/ELF/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>ELF文件介绍</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-04-28
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#system" title="Category: system" rel="category">system</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="研究这一块的必须工具">研究这一块的必须工具：</h1>
+
+<h3 id="readelf">readelf</h3>
+
+<p>将可执行文件内的内容读出来</p>
+
+<h3 id="hexdump">hexdump</h3>
+
+<p>根据上一个工具readelf读出相应地址的内容 ?</p>
+
+<h1 id="objdump">objdump</h1>
+
+<p>反汇编代码</p>
+
+<h1 id="elf-简介">ELF 简介</h1>
+<p><a href="http://yuzibo.github.io/linux-dynamic-link-lib.html">请先参考这篇文章</a>
+ELF(Executable and Linking Format)是一种对象文件格式,从名字上我们也能窥探出
+他的作用来。这里主要三种类型的。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 可重定位(relocalable)
+
+2 可执行文件(Exectuable)
+
+3 共享目标文件(shared object file)
+</code></pre></div></div>
+
+<p>gcc生成的object文件在linking和Execution的角度来看是不一样的。
+先说在Linking的角度：</p>
+
+<pre>
+  linking view
+_________________
+|    ELF Header  |
+|----------------|
+|Program Header  |   
+| Table Optional |
+|----------------|
+|	Section 1    |
+|----------------|
+|       ...      |
+|----------------|
+|    Section n   |
+|----------------|
+|Section Header  |
+|   Table        |
+|----------------|
+</pre>
+
+<p>还是在这里分开吧</p>
+
+<pre>
+	Executeable View
+|----------------|
+|  ELF   Header  |
+|----------------|
+| Program Header |
+|	Table        |
+|----------------|
+|                |
+|   segment 1    |
+|----------------|
+|				 |
+|   segment 2    |
+|----------------|
+|    ...         |
+|----------------|
+| section Header |
+| Table Optional |
+|________________|
+
+
+</pre>
+<p>其实上面的图示忽略了一点，即segment是由多个Section组成的。</p>
+
+<p>在这两种的观点来看，都是包含着指令、数据、符号表、重定位等信息。
+program header table 告诉系统如何创造一个进程镜像 .在链接阶段必须有一个
+section header table.</p>
+
+<h1 id="as">as</h1>
+<p>as输出的目标文件至少有三个section，他们是text,data,bss段。你如果不写出.text
+或者.data段，但是目标文件依然会有他们，只不过是空的。</p>
+
+<p>update: as 汇编器连接的.S文件生成的是.o文件，这是一个重定位文件
+然后才是ld的任务生成可执行文件,当生成了可执行文件， 
+以静态连接为例，作为ld的输入文件，可重定位文件x.o的包含了好几个sections:指令
+、被初始化的全局变量、未初始化的变量。</p>
+
+<blockquote>
+  <p>./p</p>
+</blockquote>
+
+<p>会激活装载器(loader)，它的作用是将可执行文件中的数据和代码复制到内存中去。
+然后开始执行程序</p>
+
+<pre>
+
+Address 0 ----&gt;|--------------|
+               |     .text    |
+			   |______________|
+               |     .data    |
+			   |______________|
+			   |     .bss     |
+			   |______________|
+
+</pre>
+
+<p>#</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/04/21/DHC/">关于DHC的事</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/04/29/linux-dynamic-link-lib/">linux下动态连接库的问题</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

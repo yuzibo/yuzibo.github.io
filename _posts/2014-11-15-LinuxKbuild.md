@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "kbuild学习心得"
 category: kernel
 ---

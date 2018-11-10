@@ -1,6 +1,6 @@
 ---
 title: "利用udev安装内核modules"
-layout: article
+layout: post
 category: kernel
 ---
 

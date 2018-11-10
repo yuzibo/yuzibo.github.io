@@ -1,6 +1,6 @@
 ---
 title: "c语言的输入输出函数总结"
-layout:  article 
+layout:  post 
 category: c
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "ipv4协议"
 category: network
-layout: article
+layout: post
 ---
 
 # ipv4 Racket Header

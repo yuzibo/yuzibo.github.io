@@ -1,0 +1,39 @@
+<hr />
+<p>layout: post
+category: network
+title: “虚拟机与主机的连接方式”
+—</p>
+<h1 id="问题">问题</h1>
+<p>主机与虚拟机的连接方式有 bridged(桥连)，NAT(网络地址转换模式)和host-only(主机模式)，不同的连接方式对应不同的网卡。</p>
+
+<h1 id="补充">补充</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在Linux下面ifconfig显示的eth0是第一个网卡ip(eth就是ethenet以太网，这里指网络接口)
+
+1. 桥连方式(bridged)
+
+在桥连方式下你可以把虚拟出来的操作系统看成一部独立的主机，你需要手工为虚拟系统配合ip地址、子网掩码、而且还要和宿主机器处于同一网段，这样虚拟机才能和宿主机器进行通行。从名字上讲，我们可以把宿主系统看作一座桥，连接的就是虚拟机器，利用这种方式连接的机器，就像连接在同一 hub的两台机器。如果你想利用虚拟机的机器提供网络服务，就应该选择 bridged方式。这种方式最简单，直接将虚拟网卡接到一个物理网卡上，和linux下一个网卡绑定两个不同的地址类似，实际上是将网卡设置为混杂模式，从而达到侦听多个ip的能力。
+
+2. 网络地址转换(NAT)
+
+说的简单一点，这种方式就是利用虚拟机给虚拟系统(DHCP服务器)给虚拟系统分配一个可上网的ip，简单明了，还可以实现 Host Os和Guest Os的双向访问(这句话明显有错误)，但与Host Os同一网段的其他机器无法像桥连方式那样轻松访问Guest Os。
+
+你可以简单的认为虚拟机中的数据都是由宿主系统提供的，虚拟机可以通过网络访问主机，主机无法通过网络访问虚拟机。
+
+ip:10.0.2.15
+
+网关: 10.0.2.2
+
+DNS: 10.0.2.3
+
+
+
+3.Host-only
+
+在某些特殊的网络调试环境中，我们需要将虚拟机器与外部其他机器分开，所以我们这时可以采用Host-only方式，默认情况下，虚拟机只能到宿主机器访问，这可能也就是取名为 host-only的原因。
+</code></pre></div></div>
+
+<h1 id="说了这么多问题还没有解决">说了这么多，问题还没有解决</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>但知识点已经掌握了，还是综合一下记录吧
+
+我在 win7上安装了 VirtualBox,在网络共享那多出了一个 Virtual Host-Only Network网卡“ip： 192.168.56.1“因为VirtualBox的DHCP服务器是192.168.56.100,要在同一网段。
+</code></pre></div></div>

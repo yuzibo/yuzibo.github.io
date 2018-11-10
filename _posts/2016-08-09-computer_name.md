@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "计算机专有名词解释"
 category: OS
 ---

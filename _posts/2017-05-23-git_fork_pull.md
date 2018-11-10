@@ -1,7 +1,7 @@
 ---
 title: "git fork && pull 工作流"
 category: git
-layout: article
+layout: post
 ---
 
 # 创造一个Fork

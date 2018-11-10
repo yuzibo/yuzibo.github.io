@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>c语言指针知识点总结</title>
+    <meta name="description" content="c函数指针总结首先明白的是，函数在内存中有一个物理地址，这类似与数组。这个地址可以赋给一个指针。函数的地址就是函数的入口，因此，函数指针可以用来调用一个函数声明type (* pointer_var)();返回值为type类型的函数指针，表示pointer_var是一个指向函数入口的指针变量。要和以下的区别：ty...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2015/02/01/c-pointer-sum/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>c语言指针知识点总结</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2015-02-01
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="c函数指针总结">c函数指针总结</h1>
+
+<p>首先明白的是，函数在内存中有一个物理地址，这类似与数组。这个地址可以赋给一个
+指针。函数的地址就是函数的入口，因此，函数指针可以用来调用一个函数</p>
+
+<h3 id="声明">声明</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type (* pointer_var)();
+</code></pre></div></div>
+
+<p>返回值为type类型的函数指针，表示pointer_var是一个指向函数入口的指针变量。要
+和以下的区别：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type *pointer_var();
+</code></pre></div></div>
+
+<p>这是一个返回type *的函数，举两个例子:</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">pmax</span><span class="p">)();</span>
+	<span class="kt">int</span> <span class="n">z</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">c</span><span class="p">;</span>
+	<span class="n">pmax</span> <span class="o">=</span> <span class="n">max</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input two numbers:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">z</span><span class="p">,</span><span class="o">&amp;</span><span class="n">x</span><span class="p">);</span>
+	<span class="cm">/*
+	 *这里，你可以sum(z,x);
+	 * c=(*pmax)();
+	 */</span>
+	<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">pmax</span><span class="p">)(</span><span class="n">z</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+	<span class="n">print</span><span class="p">(</span><span class="s">"Max number is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>从上面我们可以看出来，先定义函数指针，<del>将函数指向函数指针后</del>，将函
+数指针指向函数后，就可以像使用原函数那样进行调用。</p>
+
+<p>那么，这两个函数返回值类型也必须一致</p>
+
+<p>看下面的例子：</p>
+
+<blockquote>
+  <p>void (*fptr) ();</p>
+</blockquote>
+
+<p>把函数的地址赋值给函数指针，可以采用下面两种形式：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">Function</span><span class="p">;</span>
+<span class="n">fptr</span> <span class="o">=</span> <span class="n">Function</span><span class="p">;</span>
+</code></pre></div></div>
+<p>取地址运算符&amp;不是必需的，因为单单一个函数标识符就表示了它的地址,上面的程序代码就是直接拿的函数名。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">fptr</span><span class="p">)();</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">fptr</span><span class="p">();</span>
+</code></pre></div></div>
+<p>两种函数调用的方式。倾向使用第一种方式，前面接收的那个变量的类型要与调用的函数的类型一致。</p>
+
+<h1 id="指针函数">指针函数</h1>
+<p>指针函数是带指针的函数，与上面的极易混淆，下面看一下具体形式</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>类型标识符  *函数名(参数表)
+int *f(x,y)
+</code></pre></div></div>
+
+<p><del>当然了，由于返回的是一个地址，所以类型说明符一般都是int。</del>void,float也都有返回的地址，什么都是可以的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">GetDate</span><span class="p">(</span><span class="kt">int</span> <span class="n">wk</span><span class="p">,</span><span class="kt">int</span> <span class="n">ddy</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="kt">int</span> <span class="n">wk</span><span class="p">,</span><span class="n">dy</span><span class="p">;</span>
+	<span class="k">do</span><span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Enter week(1-5)day(1-7)</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">wk</span><span class="p">,</span><span class="o">&amp;</span><span class="n">dy</span><span class="p">);</span>
+	<span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">wk</span><span class="o">&lt;</span><span class="mi">1</span> <span class="o">||</span> <span class="n">wk</span><span class="o">&gt;</span><span class="mi">5</span> <span class="o">||</span> <span class="n">dy</span><span class="o">&lt;</span><span class="mi">1</span> <span class="o">||</span> <span class="n">dy</span><span class="o">&gt;</span><span class="mi">7</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="o">*</span><span class="n">GetDate</span><span class="p">(</span><span class="n">wk</span><span class="p">,</span><span class="n">dy</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">GetDate</span><span class="p">(</span><span class="kt">int</span> <span class="n">wk</span><span class="p">,</span><span class="kt">int</span> <span class="n">dy</span><span class="p">){</span>
+	<span class="k">static</span> <span class="kt">int</span> <span class="n">calendar</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span>
+	<span class="p">{</span>
+		<span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,},</span>
+		<span class="p">{</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">},</span>
+		<span class="p">{</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">},</span>
+		<span class="p">{</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">},</span>
+		<span class="p">{</span><span class="mi">29</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">31</span><span class="p">}</span>
+	<span class="p">};</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">calendar</span><span class="p">[</span><span class="n">wk</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">dy</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>首先这是一个函数，函数的返回值是地址。返回值必须用同类型的指针变量来接受，(当然了)，也就是说，指针函数一定有返回值，在
+主调函数中，函数的返回值必须赋给同类型的指针变量。</p>
+
+<p>在调用它的时候，由返回值类型确定相应的格式类型(对于printf函数而言)。</p>
+
+<p>看下面的例子：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A) char *(*fun1)(char * p1,char * p2);
+
+B) char **fun2(char * p1,char * p2);
+
+C) char *fun3(char * p1,char * p2);
+</code></pre></div></div>
+
+<p>C): fun3是函数名，p1,p2是参数，返回char *.</p>
+
+<p>B): 同上，只不过返回值是 char **</p>
+
+<p>A):  fun1不是函数，只是个指针变量，它指向一个函数，返回值是char *.</p>
+
+<p>请看下面的例子：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kt">char</span> <span class="o">*</span><span class="nf">fun</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p1</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p2</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">p1</span><span class="p">;</span>
+		<span class="k">else</span>
+			<span class="k">return</span> <span class="n">p2</span><span class="p">;</span>
+		<span class="cm">/*Note:
+		 Connect return value with char *
+		 */</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">pf</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">p1</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p2</span><span class="p">);</span>
+		<span class="n">pf</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">fun</span><span class="p">;</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">pf</span><span class="p">)</span> <span class="p">(</span><span class="s">"aa"</span><span class="p">,</span><span class="s">"bb"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>我们使用指针的时候，需要通过解引用符号取出指向其内存里的内容,上面我们是通过（*pf）取出存在这个地址上的函数,然后调用它。</p>
+
+<h3 id="int-p是什么">*(int *)&amp;p是什么</h3>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">Function</span> <span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">" Hello,world</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)();</span>
+	<span class="cm">/*define pointer of function,argument and return value are void*/</span>
+	<span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">Function</span><span class="p">;</span>
+	<span class="cm">/*&amp;p, it's aim to address of p,then 把这个地址强制转换成指向
+	  int类型的指针，(int)Function是把函数的入口地址强制转换
+	 成int型*/</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)();</span>
+	<span class="c1">//call Function</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="what-is-void0-">what is (<em>(void(</em>)())0)() ?</h3>
+<p>1.void(*)(),这是一个函数指针类型，没有参数，没有返回值</p>
+
+<p>2.(void(*)())0 将0强制转换成函数指针类型，0是一个地址，也就是说一个函数存在首地址为0的一段区域内.</p>
+
+<p>3.(<em>(void(</em>)())0) 去0地址开始开始的一段内存里面的内容，其内容就是保存在起始地址为0的函数</p>
+
+<p>4.(<em>(void(</em>)())0)() 就是函数调用了</p>
+
+<h3 id="函数指针数组">函数指针数组</h3>
+<p>现在我们清楚表达式“char * (*pf)(char * p)”定义的是一个函数指针pf。既然pf 是一个指针，那就可以储存在一个数组里。把上式修改一下：</p>
+
+<p>char * (*pf[3])(char * p);</p>
+
+<p>这是定义一个函数指针数组。它是一个数组，数组名为pf，数组内存储了3 个指向函数的指针。这些指针指向一些返回值类型为指向字符的指针、参数为一个指向字符的指针的函数。这念起来似乎有点拗口。不过不要紧，关键是你明白这是一个指针数组，是数组。</p>
+
+<p>它有什么作用呢？</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="nf">fun1</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">p</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="nf">fun2</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">p</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+
+<span class="p">}</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="nf">fun3</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">p</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">pf</span><span class="p">[</span><span class="mi">3</span><span class="p">])(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">);</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fun1</span><span class="p">;</span><span class="c1">//首个可以直接使用函数名</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">fun2</span><span class="p">;</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">fun3</span><span class="p">;</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="s">"fun1"</span><span class="p">);</span>
+	<span class="c1">//感觉不对</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="s">"fun2"</span><span class="p">);</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="s">"fun3"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="函数指针数组指针">函数指针数组指针</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">pf</span><span class="p">)[</span><span class="mi">3</span><span class="p">])(</span><span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>注意，这里的pf 和上一节的pf 就完全是两码事了。上一节的pf 并非指针，而是一个数组名；这里的pf 确实是实实在在的指针。这个指针指向一个包含了3 个元素的数组；这个数字里面存的是指向函数的指针；这些指针指向一些返回值类型为指向字符的指针、参数为一个指向字符的指针的函数。这比上一节的函数指针数组更拗口。其实你不用管这么多，明白这是一个指针就ok 了。其用法与前面讲的数组指针没有差别。下面列一个简单的例子：</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="nf">fun1</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="nf">fun2</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="nf">fun3</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">])(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">);</span>
+	<span class="kt">char</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">pf</span><span class="p">)[</span><span class="mi">3</span><span class="p">])(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">p</span><span class="p">);</span>
+	<span class="n">pf</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+	<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fun1</span><span class="p">;</span>
+	<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">fun2</span><span class="p">;</span>
+	<span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">fun3</span><span class="p">;</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">](</span><span class="s">"fun1"</span><span class="p">);</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="s">"fun2"</span><span class="p">);</span>
+	<span class="n">pf</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">](</span><span class="s">"fun3"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="指针概念一二">指针概念一二</h1>
+<p>&amp;运算符的操作数必须是左值，因为只有左值才表示一个内存单元，才会有地址，运算结果是指针类型。<em>运算符的操作数必须是指针类型，运算结果可以做左值。所以，如果表达式E可以做左值，</em>&amp;E和E等价，如果表达式E是指针类型，&amp;*E和E等价。</p>
+
+<h3 id="指针初始化">指针初始化</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+	<span class="p">...</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>我们知道，在堆栈上分配的变量初始值是不确定的，也就是说指针p所指向的内存地址是不确定的，后面用*p访问不确定的地址就会导致不确定的后果，如果导致段错误还比较容易改正，如果意外改写了数据而导致随后的运行中出错，就很难找到错误原因了。像这种指向不确定地址的指针称为“野指针”（Unbound Pointer），为避免出现野指针，在定义指针变量时就应该给它明确的初值，或者把它初始化为NULL：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">...</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>讲到这里就该讲一下void *类型了。在编程时经常需要一种通用指针，可以转换为任意其它类型的指针，任意其它类型的指针也可以转换为通用指针，最初C语言没有void *类型，就把char *当通用指针，需要转换时就用类型转换运算符()，ANSI在将C语言标准化时引入了void *类型，void *指针与其它类型的指针之间可以隐式转换，而不必用类型转换运算符。注意，只能定义void *指针，而不能定义void型的变量，因为void *指针和别的指针一样都占4个字节，而如果定义void型变量（也就是类型暂时不确定的变量），编译器不知道该分配几个字节给变量。同样道理，void *指针不能直接Dereference，而必须先转换成别的类型的指针再做Dereference。void *指针常用于函数接口，比如：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">pv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* *pv = 'A' is illegal */</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">pchar</span> <span class="o">=</span> <span class="n">pv</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">pchar</span> <span class="o">=</span> <span class="sc">'A'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	<span class="n">func</span><span class="p">(</span><span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2015/01/24/linux_kernel_config/">linux kernel 配置</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2015/03/20/kernel_learn_method/">内核学习方法</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

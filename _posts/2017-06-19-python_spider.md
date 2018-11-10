@@ -1,7 +1,7 @@
 ---
 title: "python之爬虫简介"
 category: python
-layout: article
+layout: post
 ---
 
 基本的知识架构为python基础->urllib2库基本用法或者requests基本用法->正则表达式，这样你的爬虫的效果才会更好，更进一步。
@@ -151,7 +151,7 @@ if __name__ == '__main__':
 ### 关于编码的问题
 这里有一篇好的文章，请参考一下[here](http://www.cnblogs.com/huxi/archive/2010/12/05/1897271.html)
 
-(ascii编码)[http://blog.csdn.net/songjinshi/article/details/7868866]
+(ascii编码)[http://blog.csdn.net/songjinshi/post/details/7868866]
 
 正则表达式:
 

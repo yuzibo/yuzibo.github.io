@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "linux下汇编小结"
 category: assembly 
 ---

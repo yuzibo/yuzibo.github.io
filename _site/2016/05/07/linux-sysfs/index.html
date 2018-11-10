@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>linux sysfs和kobject简介</title>
+    <meta name="description" content="引言sysfs是什么？—内核中，sysfs是一个动态生成的目录，断电后就玩完了。sysfs - the filesystem for exporting kernel objects.sysfs 是kobject的？继承。只要你在配置系统的时候定义了CONFIG_SYSFS，那么挂载的方法是  mount -t ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/05/07/linux-sysfs/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>linux sysfs和kobject简介</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-05-07
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#kernel" title="Category: kernel" rel="category">kernel</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="引言">引言</h1>
+<p>sysfs是什么？—内核中，sysfs是一个动态生成的目录，断电后就玩完了。</p>
+
+<p>sysfs - <em>the</em> filesystem for exporting kernel objects.</p>
+
+<p>sysfs 是kobject的？继承。只要你在配置系统的时候定义了CONFIG_SYSFS，那么挂载
+的方法是</p>
+
+<blockquote>
+  <p>mount -t sysfs sysfs /sys</p>
+  <h1 id="一-用处">一 用处</h1>
+</blockquote>
+
+<h2 id="11-创造目录">1.1 创造目录</h2>
+<p>只要一个kobject注册到了系统中，就在/sys目录中创造了一个目录。在kobject结构体
+体中kernfs_node与这个目录有关。</p>
+
+<h2 id="12-属性">1.2 属性</h2>
+
+<p>在sys_create_file(struct kobject * kobj, const struct attribute * attr),中，
+那个attribute结构体需要自己写。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">attribute</span> <span class="p">{</span>
+	<span class="kt">char</span>	<span class="o">*</span> <span class="n">name</span><span class="p">;</span>
+	<span class="k">struct</span>	<span class="o">*</span><span class="n">owner</span><span class="p">;</span>
+	<span class="n">umode_t</span>	<span class="n">mode</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>这里还可以丰富attribute的定义，详细情况请了解内核代码Document/filesystem/sysfs.txt.</p>
+
+<h2 id="13-子系统回调">1.3 子系统回调</h2>
+
+<p>…</p>
+
+<h1 id="二-kobject">二 kobject</h1>
+<p>kobject是组成设备模型的基本结构，类似于c++的基类。尽管不懂，但还是有种似曾相
+识的感觉。
+它嵌入更大的容器中–所谓的容器就是用来描述设备模型的组件，如bus,devices,都是
+容器，这些容器通过kobject连接起来，形成一个树形结构，这个树状结构与/sys对应</p>
+
+<p>kobject结构为大的数据结构和子系统提供了基本的对象管理，避免了类似机能的重复
+使用。这些机能包括：</p>
+
+<p>-对象引用计数
+-维护对象链表
+-对象上锁
+-在用户空间的表示</p>
+
+<h2 id="21-嵌入式kobject">2.1 嵌入式kobject</h2>
+<p>很少有代码会单独使用kobject,一般都是嵌入在其他结构中。把它看成一个抽象类用面
+向对象的观点来看的话，这里也使用了继承的思想。内核中的link list也有这种思想
+。</p>
+
+<p>举个例子，drivers/uio/uio.c中：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">struct</span> <span class="n">uio_map</span><span class="p">{</span>
+		<span class="k">struct</span> <span class="n">kobject</span>	<span class="n">kobj</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="n">uio_map</span>	<span class="o">*</span><span class="n">mem</span><span class="p">;</span>
+	
+	<span class="p">};</span>
+</code></pre></div></div>
+<p>这样，你可以轻松如意的使用uio_map的kobject.但是，问题经常会反过来：给你一个
+kobject指针，怎么找到宿主结构体的指针呢？千万别假设kobject位于一个结构体的哪
+个位置。使用container_of()宏即可。</p>
+
+<blockquote>
+  <p>container_of(pointer, type, member);</p>
+</blockquote>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/05/06/english-learn/">英语学习tip</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/05/09/apue_fileio/">unix文件 io</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>gcc 编译过程解释</title>
+    <meta name="description" content="输入文件的后缀含义输入文件的后缀解释如下：	  .c                 C source file      .i                 Preprocessed C or C++ source file      .a                 Archive file      ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/07/11/gcc-options/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>gcc 编译过程解释</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-07-11
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#system" title="Category: system" rel="category">system</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="输入文件的后缀含义">输入文件的后缀含义</h1>
+
+<p>输入文件的后缀解释如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	  .c                 C source file
+
+      .i                 Preprocessed C or C++ source file
+
+      .a                 Archive file
+
+      .o                 Object file for ld command
+
+      .s                 Assembler source file
+
+      .S                 Assembler source file that
+                         needs preprocessing
+
+      .so                Shared object file
+</code></pre></div></div>
+
+<p>其他需要注意的选项：</p>
+
+<p>-L dir   在库函数(lib)的搜索路径列表中添加dir目录</p>
+
+<p>-l dir	在头文件(#include&lt;&gt;)的搜索路径列表中添加dir目录</p>
+
+<p>-static  链接静态库</p>
+
+<p>-llibrary  链接名为library的库文件</p>
+
+<h1 id="输出控制选项--options">输出控制选项 [-options:]</h1>
+
+<h3 id="-c">-c:</h3>
+
+<p>指示编译器将源文件只是编译，编译后的源文件不会被送给链接器,生成一个目标文件
+：file_name.o.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-c</span> hello.c 
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.o
+</code></pre></div></div>
+
+<h3 id="-c-c">-C|-C!:</h3>
+
+<p>Preserves or removes comments in preprocessed output.  When -C is used with the -E option, comments are written to standard output; with the -P option, comments are written to an output file.  When -C! is in effect, comments are removed.</p>
+
+<h3 id="-e">-E:</h3>
+
+<p>Preprocess only; do not compile, assemble or link</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-E</span> hello.c 
+<span class="c"># 1 "hello.c"</span>
+<span class="c"># 1 "&lt;command-line&gt;"</span>
+<span class="c"># 1 "hello.c"</span>
+....
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c
+
+</code></pre></div></div>
+
+<p>在屏幕上打印出非常多的预处理信息，就是简单一条printf函数，就接近900多行的预处理，使用这个选项，默认输出到标准输出。不会产生任何文件。</p>
+
+<h3 id="-s">-S:</h3>
+
+<p>Compile only; do not assemble or link</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-S</span> hello.c 
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.s
+
+
+</code></pre></div></div>
+
+<p>只是产生了一个.s的汇编源文件</p>
+
+<h3 id="-c-1">-c:</h3>
+
+<p>Compile and assemble, but do not link</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-c</span> hello.c 
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.o
+root@yubo-2:~/test/unix_linux/tmp# 
+
+</code></pre></div></div>
+
+<h3 id="-o">-o:</h3>
+
+<blockquote>
+  <p>Place the output into <file></file></p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.o
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">rm </span>hello.o
+root@yubo-2:~/test/unix_linux/tmp# 
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-S</span> hello.c <span class="nt">-o</span> place_name
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  place_name
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">cat </span>place_name 
+	.file	<span class="s2">"hello.c"</span>
+	.section	.rodata
+...
+
+</code></pre></div></div>
+
+<p>这个选项尤其引起我的注意，这个意思是说任何选项后面加上这个选项，原来默认的输出的文件名会被设置为place_name,这是为了控制输出的文件名。</p>
+
+<p>默认为 -o a.out</p>
+
+<h3 id="-pie">-pie:</h3>
+
+<p>Create a position independent executable</p>
+
+<h3 id="-shared">-shared:</h3>
+
+<p>Create a shared library</p>
+
+<h1 id="编译过程">编译过程</h1>
+
+<p>有了上面的知识储备，现在就能更好理解编译的过程了。</p>
+
+<h4 id="预处理pre-processing">预处理(pre-processing)</h4>
+
+<h4 id="编译compile">编译(Compile)</h4>
+
+<h4 id="汇编assembling">汇编(Assembling)</h4>
+
+<h4 id="链接linking">链接(Linking)</h4>
+
+<h3 id="预处理">预处理</h3>
+
+<p>接着上面的例子：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-E</span> hello.c <span class="nt">-o</span> hello.i
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.i
+
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">cat </span>hello.i | <span class="nb">head</span> <span class="nt">-n</span> 5
+<span class="c"># 1 "hello.c"</span>
+<span class="c"># 1 "&lt;command-line&gt;"</span>
+<span class="c"># 1 "hello.c"</span>
+
+
+</code></pre></div></div>
+
+<p>与上面的一样，只是多了一个目标文件hello.i,预处理就是把源程序用到的库函数、宏加载到hello.i中。</p>
+
+<h3 id="编译">编译</h3>
+
+<p>这个阶段，编译器检查代码的规范性、是否有语法错误等，以确定代码的实际要做的工作，在检查无误后，gcc把代码翻译成汇编语言。使用”-S”选项来进行查看，该选项只进行编译而不进行汇编，生成汇编代码。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.i
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-S</span> hello.i <span class="nt">-o</span> hello.s
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">cat </span>hello.s | <span class="nb">head</span> <span class="nt">-n</span> 5
+	.file	<span class="s2">"hello.c"</span>
+	.section	.rodata
+.LC0:
+	.string	<span class="s2">"hello, world"</span>
+	.text
+root@yubo-2:~/test/unix_linux/tmp# 
+
+</code></pre></div></div>
+<h3 id="汇编阶段">汇编阶段</h3>
+
+<p>汇编阶段是把编译阶段生成的”.s”文件转成目标文件，在此可使用选项”-c”就可看到汇编代码已转化为”.o”的二进制目标代码了</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.i  hello.s
+root@yubo-2:~/test/unix_linux/tmp# gcc <span class="nt">-c</span> hello.s <span class="nt">-o</span> hello.o
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.i  hello.o  hello.s
+root@yubo-2:~/test/unix_linux/tmp# 
+
+</code></pre></div></div>
+
+<h3 id="链接">链接</h3>
+
+<p>将库函数的函数链接进来，库分为动态和静态两种，这里就涉及另外的知识了，先不讲</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello.c  hello.i  hello.o  hello.s
+root@yubo-2:~/test/unix_linux/tmp# gcc hello.o <span class="nt">-o</span> hello
+root@yubo-2:~/test/unix_linux/tmp# <span class="nb">ls
+</span>hello  hello.c	hello.i  hello.o  hello.s
+root@yubo-2:~/test/unix_linux/tmp# ./hello
+hello, world
+root@yubo-2:~/test/unix_linux/tmp# 
+
+</code></pre></div></div>
+
+<p>gcc好像是一个工具包，其实各个阶段有不同的工具负责，这里应该分开讲清楚的。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/07/08/hacker-introduce/">1337 暗语</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/07/20/algorithm-sum-up/">常用算法归类</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

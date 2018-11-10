@@ -1,6 +1,6 @@
 ---
 title: "linux 编译错误"
-layout: article
+layout: post
 category: kernel
 ---
 

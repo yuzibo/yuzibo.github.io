@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "Debian安装Bochs"
 category: tools
 ---

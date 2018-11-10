@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "在Thinkpad E130上安装Archlinux"
 category: tools
 tags: linux

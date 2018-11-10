@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: tools
 title: "Debian 安装FTP"
 ---

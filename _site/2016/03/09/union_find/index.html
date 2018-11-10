@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>并查集原理及实现</title>
+    <meta name="description" content="很久之前接触过这个东西，这是很久的事情了。现在又是重新捡起来。简单说一下，所谓的并查集，顾名思义，就是一个合并、查找的过程。查找的过程相对简单点，合并的过程需要防止形成单链，理解起来可能有点麻烦。find其实，很多时候都是自己的数据结构没有学好，连数据的存储形式都搞不明白。这里我们用数组来模拟一下。  pre[i...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/03/09/union_find/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>并查集原理及实现</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-03-09
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#DS" title="Category: DS" rel="category">DS</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>很久之前接触过这个东西，这是很久的事情了。现在又是重新捡起来。</p>
+
+<p>简单说一下，所谓的并查集，顾名思义，就是一个合并、查找的过程。
+查找的过程相对简单点，合并的过程需要防止形成单链，理解起来可能有
+点麻烦。</p>
+
+<h1 id="find">find</h1>
+<p>其实，很多时候都是自己的数据结构没有学好，连数据的存储形式都搞不明
+白。这里我们用数组来模拟一下。</p>
+
+<blockquote>
+  <p>pre[i]</p>
+</blockquote>
+
+<p>比如pre[3] = 15,就是3的前导点是15,当一个pre[i] == i的时候，就说明
+它的前导点就是它自己了，这也是我们的一个过程。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kt">int</span> <span class="n">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
+		<span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+		<span class="cm">/*直到找到自己的前导点为自己*/</span>
+		<span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">!=</span> <span class="n">pre</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
+			<span class="n">r</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+		<span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>比如说，在一个集合内含有{1,2,3,4},”1” 为根节点，那么使用
+__find(4)__都可以找到1,上面的代码的作用就是这样的.其实，从上面
+介绍中，我们也可以看出，这是一棵树。在下面合并的过程中，如果只是
+单单把根节点合并在一起，只有两个集合还可以，有很多个集合就会费很大
+的力气。为此，我们在查找的过程中，可以适当做一些优化，这一步被成为
+路径压缩。比如：</p>
+
+<pre>
+        1			        	1----
+	   / \     优化成：	       /|\  |
+	  2   5   ——————--&gt;       2 4 5 6
+	 /     \
+	4       6
+</pre>
+
+<h3 id="压缩路径思路">压缩路径思路</h3>
+<p>利用上面的<code class="highlighter-rouge">find</code>函数，找到了x的根节点，那么，我们可以认为在这个查
+找的过程中，所经历的节点的根节点都是x的根节点，那么：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kt">int</span> <span class="n">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
+		<span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+		<span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">!=</span> <span class="n">pre</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
+			<span class="n">r</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+		<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+		<span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">!=</span> <span class="n">pre</span><span class="p">[</span><span class="n">j</span><span class="p">]){</span>
+			<span class="n">i</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+			<span class="cm">/*根节点赋值给经过路径上的节点*/</span>
+			<span class="n">pre</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+			<span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="union">union</h1>
+<p>这一步就是将两个树形节点合并起来。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kt">void</span> <span class="k">union</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">){</span>
+		<span class="kt">int</span> <span class="n">tx</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+		<span class="kt">int</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+		<span class="cm">/*将y的前导点设置为x*/</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">tx</span> <span class="o">!=</span> <span class="n">ty</span><span class="p">)</span>
+			<span class="n">pre</span><span class="p">[</span><span class="n">ty</span><span class="p">]</span> <span class="o">=</span> <span class="n">tx</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="应用">应用</h1>
+
+<p>来自hdu上的题目。连通点：
+给定n个节点，m条边，接下来是m条边的两个端点，问只需要连接几条边，就可以将
+所有的边连接起来且没有回路.</p>
+
+<p>这道题目就是简简单单的问连通集的个数，连成一条线的话就再减去1.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include&lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="n">pre</span><span class="p">[</span><span class="mi">1050</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1050</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
+	<span class="cm">/* you must don't forget */</span>
+	<span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">!=</span> <span class="n">pre</span><span class="p">[</span><span class="n">r</span><span class="p">]){</span>
+		<span class="n">r</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">r</span><span class="p">){</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+		<span class="n">pre</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+		<span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">mix</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">root_a</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">root_b</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">root_a</span> <span class="o">!=</span> <span class="n">root_b</span><span class="p">)</span>
+		<span class="n">pre</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+	<span class="n">freopen</span><span class="p">(</span><span class="s">"find.in"</span><span class="p">,</span><span class="s">"r"</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="o">&amp;</span><span class="n">m</span><span class="p">);</span>
+
+		<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+			<span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+			<span class="cm">/*将自己本身设为自己的前导点*/</span>
+			<span class="n">flags</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+			<span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+			<span class="n">mix</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+		<span class="p">}</span>
+
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">flags</span><span class="p">[</span><span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">flags</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+			<span class="n">ans</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"total ans is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ans</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/03/09/keep_in_my_memory/">最近一段时间的总结</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/03/10/keys_in_c/">c中的一些简单认识</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,7 +1,7 @@
 ---
 title: "python web开发框架"
 category: python
-layout: article
+layout: post
 ---
 
 # 简介

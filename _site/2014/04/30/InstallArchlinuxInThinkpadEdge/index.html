@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>在Thinkpad E130上安装Archlinux</title>
+    <meta name="description" content="A.简述本配置使用于 EFI+GPT ，并且最优是单系统，如果要双系统的话需要注意变通。B.准备下载地址：mirrors.163.comWindows下制作安装盘软件rufus.akeo.ieUEFI 命令loader EFI/boot/bootx64.efi联网wifi-menudhcpcdsystemctl ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/04/30/InstallArchlinuxInThinkpadEdge/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>在Thinkpad E130上安装Archlinux</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-04-30
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#tools" title="Category: tools" rel="category">tools</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a-->
+        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h1 id="a简述">A.简述</h1>
+
+<p>本配置使用于<code class="highlighter-rouge"> EFI+GPT </code>，并且最优是单系统，如果要双系统的话需要注意变通。</p>
+
+<h1 id="b准备">B.准备</h1>
+
+<h2 id="下载地址">下载地址：</h2>
+
+<p><a href="http://mirrors.163.com/">mirrors.163.com</a></p>
+
+<h2 id="windows下制作安装盘软件">Windows下制作安装盘软件</h2>
+
+<p><a href="http://rufus.akeo.ie">rufus.akeo.ie</a></p>
+
+<h2 id="uefi-命令">UEFI 命令</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>loader EFI/boot/bootx64.efi
+</code></pre></div></div>
+
+<h2 id="联网">联网</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wifi-menu
+dhcpcd
+systemctl enable dhcpcd
+</code></pre></div></div>
+
+<h2 id="使用ssh远程登录">使用ssh远程登录</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> passwd
+ systemctl start sshd
+ systemctl enable sshd
+</code></pre></div></div>
+
+<h1 id="c分区">C.分区</h1>
+
+<h2 id="命令分区工具用来产生硬盘前的2m空闲空间">命令分区工具，用来产生硬盘前的2M空闲空间</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fdisk /dev/sda
+</code></pre></div></div>
+
+<p>命令参数</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n   #创建一个新分区
+t   #改变新分区类型
+w   #写入并保存设置
+</code></pre></div></div>
+
+<p>伪图形分区工具</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cfdisk /dev/sda                # mbr
+cgdisk /dev/sda                # gpt
+</code></pre></div></div>
+
+<h2 id="lvm命令">LVM命令</h2>
+
+<p><a href="https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">参考链接</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pvcreate /dev/sda3                #建立物理卷
+vgcreate LVM /dev/sda3            #创建卷组
+lvcreate -C y -L 50G LVM -n root  #创建逻辑卷挂载/
+lvcreate -C y -L 9G LVM -n swap   #创建逻辑卷挂载swap
+lvcreate -l 100%FREE LVM -n home  #使用剩下的空间挂载home
+</code></pre></div></div>
+
+<h2 id="格式化分区">格式化分区</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkswap /dev/LVM/swap       #将sda3格式化成swap
+mkfs.ext4 /dev/LVM/root    #将sda1格式化成ext4
+mkfs.ext4 /dev/LVM/home    #将sda2格式化成ext4
+mkfs.vfat -F32 /dev/sda1   #将EFI分区格式化成FAT32格式，（选用）
+</code></pre></div></div>
+
+<h2 id="挂载分区">挂载分区</h2>
+
+<p>将 live cd /mnt分区作为新系统的 / 分区</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mount /dev/LVM/root /mnt        #挂载根分区
+swapon /dev/LVM/swap            #启用swap
+mkdir /mnt/home                 #创建home目录
+mount /dev/LVM/home /mnt/home   #挂载home目录
+mkdir -p /mnt/boot/EFI          #创建EFI目录
+mount /dev/sda1 /mnt/boot/EFI   #挂载EFI目录
+</code></pre></div></div>
+
+<h1 id="d安装基本系统">D.安装基本系统</h1>
+
+<h2 id="修改源">修改源</h2>
+
+<p>编辑 ` /etc/pacman.d/mirrorlist `，在文件最前面添加以下条目</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Server = http://mirror.bjtu.edu.cn/archlinux/$repo/os/$arch
+Server = http://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+Server = http://mirrors.163.com/archlinux/$repo/os/$arch
+Server = http://mirrors.sohu.com/archlinux/$repo/os/$arch
+</code></pre></div></div>
+
+<p>更新源</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -Syy
+</code></pre></div></div>
+
+<h2 id="安装基本系统">安装基本系统</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacstrap -i /mnt base base-devel        #在/mnt分区安装基本系统
+genfstab -U -p /mnt &gt;&gt; /mnt/etc/fstab   #生成磁盘挂载列表
+arch-chroot /mnt                        #切换到新系统
+</code></pre></div></div>
+
+<h1 id="e对新系统进行基本设置">E.对新系统进行基本设置</h1>
+
+<h2 id="编码设定">编码设定</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo LANG=en_US.UTF-8 &gt; /etc/locale.conf
+
+vi /etc/locale.gen
+</code></pre></div></div>
+
+<p>去掉en_US和zh_CN几行前的注释，然后更新编码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locale-gen
+</code></pre></div></div>
+
+<h2 id="配置时区">配置时区</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+hwclock --systohc --localtime
+</code></pre></div></div>
+
+<h2 id="配置主机名">配置主机名</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo Arch &gt; /etc/hostname
+</code></pre></div></div>
+
+<h2 id="创建-ramdisk-环境">创建 ramdisk 环境</h2>
+
+<p>因为使用lvm，所以需要在在mkinitcpio.conf中加入lvm的hook，不然无法正常引导，需要保证udev和lvm2两个mkinitcpio钩子启用。udev通常已经预设好，编辑/etc/mkinitcpio.conf文件，在block和filesystem两项中间加入lvm2：
+HOOKS=“…block lvm2 filesystems…”</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vi /etc/mkinitcpio.conf
+</code></pre></div></div>
+
+<h2 id="生成内核的启动镜象">生成内核的启动镜象</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkinitcpio -p linux
+</code></pre></div></div>
+
+<h2 id="安装grub">安装grub</h2>
+
+<h3 id="biosmbr环境下">BIOS+MBR环境下：</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S os-prober grub
+grub-install --target=i386-pc --recheck /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div></div>
+
+<h3 id="uefigpt环境下">UEFI+GPT环境下：</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mount -t efivarfs efivarfs /sys/firmware/efi/efivars     # 若已挂载则无视
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div></div>
+
+<h2 id="设定root密码">设定root密码</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passwd
+</code></pre></div></div>
+
+<h2 id="添加普通用户">添加普通用户</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useradd -m yourname
+passwd yourname
+</code></pre></div></div>
+
+<p>将新建的普通用户添加到可以使用sudo的组中</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gpasswd -a yourname wheel
+visudo
+</code></pre></div></div>
+
+<p>反注释以下行，然后保存退出</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%wheel ALL=(ALL) ALL
+</code></pre></div></div>
+
+<h1 id="f安装图形界面">F.安装图形界面</h1>
+
+<h2 id="安装显卡驱动">安装显卡驱动</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S xf86-video-vesa         # 通用显卡驱动，不提供任何2D和3D加速功能
+pacman -S xf86-video-intel        # Intel
+pacman -S xf86-video-nouveau nouveau-dri  #Nvidia开源驱动。    开机无法进入系统
+pacman -S nvidia nvidia-utils     # Nvidia专有闭源驱动。适用于GT7xxx以上的显卡  
+pacman -S nvidia-304xx lib32-nvidia-libgl # Nvidia专有闭源驱动。适用于GT6/7xxx的显卡  推荐
+pacman -S xf86-video-ati          # Ati
+</code></pre></div></div>
+
+<h2 id="安装x">安装X</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils
+</code></pre></div></div>
+
+<p>测试(非必须)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S xorg-twm xorg-xclock xterm
+startx
+exit
+pkill X
+</code></pre></div></div>
+
+<h2 id="安装lxde和slim">安装lxde和slim</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S lxde slim
+</code></pre></div></div>
+
+<p>为了启动 LXDE,在 /etc/slim.conf 与 ~/.xinitrc。加入：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exec startlxde
+exec lxde-session
+</code></pre></div></div>
+
+<p>设置slim开机自启动并启动lxde</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl enable slim.service
+</code></pre></div></div>
+
+<p>启动图形界面</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>slim    #在重启之前不要运行此命令
+</code></pre></div></div>
+
+<p>slim的登录会话信息在/usr/share/xsession文件夹下。</p>
+
+<h2 id="安装字体">安装字体</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S wqy-zenhei wqy-microhei wqy-microhei-lite wqy-bitmapfont
+</code></pre></div></div>
+
+<h1 id="g退出安装模式">G.退出安装模式</h1>
+
+<h2 id="退出arch-root">退出arch-root</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exit
+</code></pre></div></div>
+
+<h2 id="卸载分区">卸载分区</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>umount -R /mnt
+
+fuser -m -v -i -k /mnt     #umount 时出现 "Device is busy" 的解法
+</code></pre></div></div>
+
+<h2 id="重启">重启</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>reboot
+</code></pre></div></div>
+
+<h1 id="h使用设定">H.使用设定</h1>
+
+<h2 id="网络管理">网络管理</h2>
+<p><a href="https://wiki.archlinux.org/index.php/NetworkManager_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">参考链接</a></p>
+
+<p>先在任务栏上开启任务托盘，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S networkmanager   #管理核心
+pacman -S network-manager-applet xfce4-notifyd hicolor-icon-theme gnome-icon-theme  #图形前端
+pacman -S gnome-keyring     #存储验证信息
+systemctl start NetworkManager  #立即启动
+systemctl enable NetworkManager  #开机自启动
+</code></pre></div></div>
+
+<h2 id="安装输入法">安装输入法</h2>
+<p><a href="https://wiki.archlinux.org/index.php/Fcitx_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">参考链接</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S fcitx-im fcitx-configtool
+</code></pre></div></div>
+
+<p>向 ~/.xinitrc 添加</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+</code></pre></div></div>
+
+<h2 id="启动aur">启动AUR</h2>
+
+<p>在/etc/pacman.conf中加入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[archlinuxcn]
+SigLevel = Optional TrustAll
+Server   = http://repo.archlinuxcn.org/$arch
+</code></pre></div></div>
+
+<p>或者：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[archlinux]
+Server = http://repo.archlinux.fr/$arch
+</code></pre></div></div>
+
+<p>安装yaourt</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S yaourt
+</code></pre></div></div>
+
+<p><em>AUR异常处理</em></p>
+
+<p>错误：无法提交处理 (无效或已损坏的软件包 (PGP 签名))</p>
+
+<p>解决办法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>修改/etc/pacman.conf，将repo中的SigLevel = PackageRequired注释掉，添加SigLevel = Never即可。
+</code></pre></div></div>
+
+<h2 id="xinitrc设置">.xinitrc设置</h2>
+
+<p>区域与语言设置一定要放在桌面环境前（多么痛的领悟）,这里设置的是英文环境但可以显示并输入中文</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export LANG=en_US.UTF-8
+export LC_CTYPE=zh_CN.UTF-8
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+exec startlxde
+exec lxde-session
+</code></pre></div></div>
+
+<h2 id="32位兼容库">32位兼容库</h2>
+
+<p>编辑 /etc/pacman.conf中去掉下面两行前的”#”</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[multilib]
+Include = /etc/pacman.d/mirrorlist
+
+pacman -S lib32-glibc
+</code></pre></div></div>
+
+<h2 id="启用ssh远程登录">启用ssh远程登录</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S openssh
+systemctl enable sshd
+</code></pre></div></div>
+
+<h1 id="i常用软件">I.常用软件</h1>
+
+<h2 id="应用软件">应用软件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S bash-completion gvfs gvfs-afc ntfs-3g wget axel openntpd dos2unix
+pacman -S xarchiver unzip unrar zip p7zip arj lzop cpio
+yaourt -S jdk7 chromium-pepper-flash powerpill
+pacman -S chromium leafpad gvim emacs epdfview eclipse git
+pacman -S net-tools dnsutils inetutils iproute2
+pacman -S linux-headers linux-lts-headers
+</code></pre></div></div>
+
+<h1 id="j安装参考">J.安装参考</h1>
+
+<p><a href="https://wiki.archlinux.org/index.php/General_Recommendations_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">总述</a></p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Systemd_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">systemd</a></p>
+
+<p><a href="http://bbs.archlinuxcn.org/viewtopic.php?id=1037">安装教程1</a></p>
+
+<p><a href="http://www.cnblogs.com/exiahan/p/3513025.html">安装教程2</a></p>
+
+<p><a href="http://wiki.klniu.com/zh/Archlinux/LXDE%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEs">LXDE桌面配置</a></p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_T420_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">ThinkPad T420</a></p>
+
+<p><a href="http://cuihao.is-programmer.com/posts/37388.html">ThinkPad L430</a></p>
+
+<p><a href="http://www.lainme.com/doku.php/blog/2012/08/%E7%AE%80%E5%8D%95%E7%9A%84thinkpad%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">thinkpad简单配置</a></p>
+
+<h1 id="进阶设置">进阶设置</h1>
+
+<h2 id="高级配置与电源接口-acpid">高级配置与电源接口 acpid</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S acpid
+</code></pre></div></div>
+
+<p><a href="https://wiki.archlinux.org/index.php/Acpid_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">具体设置</a></p>
+
+<h2 id="cpu频率调节">cpu频率调节</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S cpupower
+</code></pre></div></div>
+
+<p><a href="https://wiki.archlinux.org/index.php/CPU_Frequency_Scaling_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">具体设置</a></p>
+
+<h2 id="全新的电源挂起和电源状态设置框架">全新的电源挂起和电源状态设置框架</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S pm-utils
+</code></pre></div></div>
+
+<p><a href="https://wiki.archlinux.org/index.php/Pm-utils_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">具体设置</a></p>
+
+<h2 id="笔记本模式">笔记本模式</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yaourt -S laptop-mode-tools
+</code></pre></div></div>
+
+<p><a href="https://wiki.archlinux.org/index.php/Laptop_Mode_Tools_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">具体设置</a>
+<a href="https://wiki.archlinux.org/index.php/Laptop_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">参考</a>
+<a href="https://wiki.archlinux.org/index.php/Power_Management_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">Power Management</a></p>
+
+<h2 id="风扇转速">风扇转速</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yaourt -S thinkfan
+</code></pre></div></div>
+
+<p><a href="http://burnyfox.hostzi.com/?p=1136">具体操作</a></p>
+
+<h2 id="电源充电管理保护电池过冲延长寿命">电源充电管理，保护电池过冲，延长寿命</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yaourt -S tpacpi-bat
+</code></pre></div></div>
+
+<p><a href="http://blog.sina.com.cn/s/blog_49895cf10101dmvw.html">具体操作</a></p>
+
+<h2 id="待机--休眠到磁盘">待机 / 休眠到磁盘：</h2>
+
+<p>在linux中当计算机进入休眠后，计算机会把内存中的所有信息保存到交换分区（swap partition）… 那么要求你的交换分区有足够的空间来保存RAM信息。
+为啥我休眠后唤醒却正常开机呢？原因是缺少必要设置。解决办法如下：</p>
+
+<p>1）增加内核启动参数</p>
+
+<p>需要添加resume参数
+对于GRUB2，需要修改 /boot/grub/grub.cfg的”linux”行，例如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux   /boot/vmlinuz-linux root=/dev/disk/by-uuid/818dc030-8108-4428-8859-b73a58d0b0f3 rw quiet resume=/dev/sda12
+</code></pre></div></div>
+
+<p>其中，sda12是swap分区。</p>
+
+<p>2）resume hook 添加到 initrd image</p>
+
+<p>使用ROOT权限编辑/etc/mkinitcpio.conf 并且将 resume 添加到 HOOKS 中：
+HOOKS=”base udev autodetect ide scsi sata resume filesystems “</p>
+
+<p>其中，resume 必须放在 ‘ide’, ‘scsi’ and/or ‘sata’ 之后 ，但必须在 ‘filesystems’之前。</p>
+
+<p>然后，必须重新制作内核镜像：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkinitcpio -p linux
+</code></pre></div></div>
+
+<p>现在就可以了，休眠试试，开机直接就回来了。</p>
+
+<h2 id="安装声卡">安装声卡</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S alsa-utils pulseaudio
+</code></pre></div></div>
+
+<h2 id="安装蓝牙">安装蓝牙</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yaourt -S blueman-bzr
+</code></pre></div></div>
+
+<p><a href="https://wiki.archlinux.org/index.php/Bluetooth_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87\)">具体设置</a></p>
+
+<p><a href="https://wiki.archlinux.org/index.php/Blueman">最新设置</a></p>
+
+<h2 id="安装触摸板">安装触摸板</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S xf86-input-synaptics
+</code></pre></div></div>
+
+<p>新建 /etc/X11/xorg.conf.d/50-thinkpad-trackpoint.conf 写入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "InputClass"
+    Identifier      "ThinkPad TrackPoint"
+    MatchProduct    "TPPS/2 IBM TrackPoint"
+    MatchDevicePath "/dev/input/event*"
+    Option          "EmulateWheel"          "true"
+    Option          "EmulateWheelButton"    "2"
+    Option          "XAxisMapping"          "6 7"
+    Option          "YAxisMapping"          "4 5"
+EndSection
+</code></pre></div></div>
+
+<p>新建 /etc/X11/xorg.conf.d/50-twofingerscroll.conf 写入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "InputClass"
+    Identifier      "two finger scrolling"
+    Driver          "synaptics"
+    MatchProduct    "SynPS/2 Synaptics TouchPad"
+    MatchDevicePath "/dev/input/event*"
+    Option          "VertTwoFingerScroll"   "on"
+    Option          "HorizTwoFingerScroll"  "on"
+    Option          "EmulateTwoFingerMinW"  "8"
+    Option          "EmulateTwoFingerMinZ"  "40"
+    Option          "TapButton1"            "1"
+EndSection
+</code></pre></div></div>
+
+<h2 id="时间设置">时间设置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S openntpd
+systemctl enable openntpd
+hwclock --set --date="05/13/2007 12:10:20"
+hwclock --systohc
+</code></pre></div></div>
+
+<h2 id="下载加速">下载加速</h2>
+
+<p>A.pacman单个包的多线程下载，编辑</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/pacman.conf
+</code></pre></div></div>
+
+<p>找到，类似xfercommand的话,注释掉,加上下面这句</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>XferCommand = /usr/bin/axel -o %o %u
+</code></pre></div></div>
+
+<p>2.yaourt的aur多线程下载,编辑</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/makepkg.conf
+</code></pre></div></div>
+
+<p>找到类似的句子,改成下面这样</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http::/usr/bin/axel -o %o %u
+</code></pre></div></div>
+
+<p>(当然,https,ftp等,自己可以看情况自己照着改)</p>
+
+<p>3.powerpill撑满你的带宽(powerpill的具体配置自己搜索吧里面的贴子,或者是去官方wiki),编辑</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/powerpill.conf
+</code></pre></div></div>
+
+<p>找到类似句子,改成下面这样</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PacmanBin = /usr/bin/pacman-color
+</code></pre></div></div>
+
+<p>4.实现让yaourt在下载多个包的时候能够用powerpill同时下载，编辑</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/yaourtrc
+</code></pre></div></div>
+
+<p>找到类似句子,改成下面这样</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PACMAN="powerpill"
+</code></pre></div></div>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/03/25/SettingOfDebian7/">Debian7设置</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/05/06/WebsiteKnowledge/">网站知识体系结构</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

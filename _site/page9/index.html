@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>vimer</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/page9/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to here</h1>
+        <small>简单即生活</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/05/12/unix_exec/">unix之shell解释器(exec)</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-05-12
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>在unix中，一个shell的执行流程如下：</p>
+
+<p>时间轴
+————————»</p>
+
+<p>读入命令
+      <strong>_                    __</strong>
+sh—-|  |——————-|   |
+ ^    |<strong>|                   |</strong><em>|
+ |      |    新进程            |
+ |      |</em><strong><em>&gt;”ls”—&gt;退出     |</em></strong>_&gt;”ps”
+“ls”</p>
+
+<h1 id="一个程序如何运行另一个程序">一个程序如何运行另一个程序？</h1>
+
+<p>使用execvp，这个函数有两个参数：要运行的程序名称和这个程序的命令行参数组。当程序运行时命令行参数以argv[]的形式传递给程序. <font color="#FF0000"> 注意，将数组的第一个元素设置为程序的名称，最后一个元素必须是Null. </font></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+
+	<span class="n">arglist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">"ls"</span><span class="p">;</span>
+	<span class="n">arglist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">"-l"</span><span class="p">;</span>
+	<span class="n">arglist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"***中断这个程序的执行***</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">execvp</span><span class="p">(</span><span class="s">"ls"</span><span class="p">,</span> <span class="n">arglist</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"ls is done, bye</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span>./exec
+<span class="k">***</span>中断这个程序的执行<span class="k">***</span>
+总用量 88
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo  6108  5月 18 06:40 <span class="nb">exec</span>
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   407  5月 18 07:08 exec1.c
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   801  5月 16 19:28 execute.c
+<span class="nt">-rw-r--r--</span> 1 yubo yubo 29520  5月 16 19:05 segfault
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 13680  5月 16 19:30 smsh
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   811  5月 16 19:30 smsh1.c
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   389  5月 16 19:09 smsh.h
+<span class="nt">-rw-r--r--</span> 1 yubo yubo  2630  5月 16 19:30 splitline.c
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo  6188  5月 16 19:49 <span class="nb">test</span>
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   265  5月 16 19:48 test.c
+</code></pre></div></div>
+
+<p>这里你有没有注意到上面程序中的第二条printf语句消息了。这里书上的解释是：内核将新进程载入到当前进程，替换了当前进程的代码和数据，也就是说，execvp这个函数将“ls”这个命令加入到当前的程序，代替了后面的语句，从而使后面的printf语句消失掉。</p>
+
+<p>下面的代码更深入一步：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+</span>
+<span class="cp">#define MAXARGS		20 </span><span class="cm">/* cmdline args */</span><span class="cp">
+#define ARGLEN		100 </span><span class="cm">/* token length */</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">execute</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">arglist</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">execvp</span><span class="p">(</span><span class="n">arglist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arglist</span><span class="p">);</span>
+	<span class="n">perror</span><span class="p">(</span><span class="s">"execvp failed"</span><span class="p">);</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="nf">makestring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">;</span>
+	<span class="n">buf</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+	<span class="n">cp</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">cp</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"no memory</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">cp</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[</span><span class="n">MAXARGS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">numargs</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">argbuf</span><span class="p">[</span><span class="n">ARGLEN</span><span class="p">];</span> <span class="cm">/* read stuff from here */</span>
+	<span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span><span class="p">(</span> <span class="n">numargs</span> <span class="o">&lt;</span> <span class="n">MAXARGS</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Arg[%d]?"</span><span class="p">,</span> <span class="n">numargs</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">argbuf</span><span class="p">,</span> <span class="n">ARGLEN</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">argbuf</span> <span class="o">!=</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">makestring</span><span class="p">(</span><span class="n">argbuf</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">numargs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">argbuf</span><span class="p">);</span>
+				<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">execute</span><span class="p">(</span><span class="n">arglist</span><span class="p">))</span>
+				<span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+<p>下面是演示：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span>./psh
+Arg[0]?ls
+Arg[1]?-l
+Arg[2]?.
+Arg[3]?
+
+总用量 28
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 6108  5月 18 18:01 <span class="nb">exec</span>
+<span class="nt">-rw-r--r--</span> 1 yubo yubo  413  5月 18 18:01 exec1.c
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 9012  5月 18 19:17 psh
+<span class="nt">-rw-r--r--</span> 1 yubo yubo 1116  5月 18 19:17 psh1.c
+yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span><span class="nb">ls
+exec  </span>exec1.c  psh  psh1.c
+</code></pre></div></div>
+
+<p>这个代码，条理还是比较清楚的。</p>
+
+<h1 id="如何输入连续的shell命令">如何输入连续的shell命令</h1>
+
+<p>上面的程序只可运行一次，如果想继续使用，需要再一次运行程序。那么，如何使用真正的shell呢？</p>
+
+<p>答案是fork().</p>
+
+<p>在<a href="http://www.aftermath.cn/linux_process.html">这篇文章</a>里，我们详细讲解了fork的用法。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="cp">#define MAXARGS		20
+#define ARGLEN		100
+</span>
+<span class="kt">void</span> <span class="n">execute</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="p">);</span> <span class="cm">/* execvp */</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">makestring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">);</span> <span class="cm">/* to restore args vector */</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[</span><span class="n">MAXARGS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">argbuf</span><span class="p">[</span><span class="n">ARGLEN</span><span class="p">];</span>
+
+	<span class="k">while</span><span class="p">(</span><span class="n">numargs</span> <span class="o">&lt;</span> <span class="n">MAXARGS</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Arg[%d]"</span><span class="p">,</span> <span class="n">numargs</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">argbuf</span><span class="p">,</span> <span class="n">ARGLEN</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">argbuf</span> <span class="o">!=</span> <span class="sc">'\n'</span><span class="p">)</span>
+			<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">makestring</span><span class="p">(</span><span class="n">argbuf</span><span class="p">);</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">numargs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+				<span class="n">execute</span><span class="p">(</span><span class="n">arglist</span><span class="p">);</span>
+				<span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">execute</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">pid</span><span class="p">,</span> <span class="n">existstatus</span><span class="p">;</span>
+
+	<span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>	<span class="cm">/* make new process */</span>
+	<span class="k">switch</span><span class="p">(</span><span class="n">pid</span><span class="p">){</span>
+		<span class="k">case</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"fork failed"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">execvp</span><span class="p">(</span><span class="n">arglist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arglist</span><span class="p">);</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"execvp failed"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="nl">default:</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">existstatus</span><span class="p">)</span> <span class="o">!=</span> <span class="n">pid</span><span class="p">)</span>
+				<span class="p">;</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"child exited with status %d, %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+					<span class="n">existstatus</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">,</span> <span class="n">existstatus</span> <span class="o">&amp;</span><span class="mo">0377</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">makestring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">;</span>
+	<span class="n">buf</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+	<span class="n">cp</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">cp</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">){</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"no memory</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">cp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>下面是输出结果：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span>./psh
+Arg[0]ls
+Arg[1]-l
+Arg[2].
+Arg[3]
+总用量 24
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 6108  5月 18 18:01 <span class="nb">exec</span>
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 9440  5月 18 23:00 psh
+<span class="nt">-rw-r--r--</span> 1 yubo yubo 1336  5月 18 23:00 psh2.c
+child exited with status 0, 0
+Arg[0]ps
+Arg[1]
+  PID TTY          TIME CMD
+ 3393 pts/1    00:00:00 bash
+ 3940 pts/1    00:00:00 psh
+ 3944 pts/1    00:00:00 ps
+child exited with status 0, 0
+Arg[0]
+
+</code></pre></div></div>
+
+<p>但是，有一点是比较遗憾的：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./psh
+Arg[0]tr
+Arg[1][a-z]
+Arg[2][A-Z]
+Arg[3]
+hello
+HELLO
+now to press
+NOW TO PRESS
+^C
+yubo@debian:~/test/tmp/unix/shell<span class="err">$</span>
+
+</code></pre></div></div>
+
+<p>针对tr程序（psh的子进程）的Ctrl+C将psh也给停止了，正确的做法是不影响父进程。</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/05/12/unix_exec/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/05/06/icmp/">icmp分析</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-05-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>ICMP是layer 4协议，用户可以使用icmp来得到自己想要的东西。大名鼎鼎的<strong>ping</strong>就是利用ICMP的api写成的。</p>
+
+<p>这个协议主要是用来处理(L3)层的错误信息与控制信息的，</p>
+
+<h1 id="icmpv4">ICMPv4</h1>
+
+<p>这里主要是两类： 错误报文和消息报文。著名的ip（来自于iputils包）就是打开 raw socket并且发送一个ICMP_ECHO报文、产生ICMP_REPLY报文作为回应。</p>
+
+<h2 id="icmpv4初始化">icmpv4初始化</h2>
+
+<p>首先，在/net/ipv4/icmp.c中首先呼叫<strong>inet_init()(在boot阶段)</strong>,方法，此方法激活<strong>icmp_init()</strong>方法，然后就会呼叫<strong>icmp_sk_init()</strong>产生ICMP包。</p>
+
+<p>在 net/ipv4/af_inet.c 中有各种协议的注册。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">inet_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inet_protosw</span> <span class="o">*</span><span class="n">q</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="o">*</span><span class="n">r</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+	<span class="n">sock_skb_cb_check_size</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">inet_skb_parm</span><span class="p">));</span>
+
+	<span class="n">rc</span> <span class="o">=</span> <span class="n">proto_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tcp_prot</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">rc</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+	<span class="n">rc</span> <span class="o">=</span> <span class="n">proto_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">udp_prot</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">rc</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out_unregister_tcp_proto</span><span class="p">;</span>
+
+	<span class="n">rc</span> <span class="o">=</span> <span class="n">proto_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">raw_prot</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">rc</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out_unregister_udp_proto</span><span class="p">;</span>
+
+	<span class="cm">/*
+	 *	Tell SOCKET that we are alive...
+	 */</span>
+
+	<span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">sock_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inet_family_ops</span><span class="p">);</span>
+
+<span class="cp">#ifdef CONFIG_SYSCTL
+</span>	<span class="n">ip_static_sysctl_init</span><span class="p">();</span>
+<span class="cp">#endif
+</span>
+	<span class="cm">/*
+	 *	Add all the base protocols.
+	 */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">inet_add_protocol</span><span class="p">(</span><span class="o">&amp;</span><span class="n">icmp_protocol</span><span class="p">,</span> <span class="n">IPPROTO_ICMP</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">pr_crit</span><span class="p">(</span><span class="s">"%s: Cannot add ICMP protocol</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">inet_add_protocol</span><span class="p">(</span><span class="o">&amp;</span><span class="n">udp_protocol</span><span class="p">,</span> <span class="n">IPPROTO_UDP</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">pr_crit</span><span class="p">(</span><span class="s">"%s: Cannot add UDP protocol</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">inet_add_protocol</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tcp_protocol</span><span class="p">,</span> <span class="n">IPPROTO_TCP</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">pr_crit</span><span class="p">(</span><span class="s">"%s: Cannot add TCP protocol</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+<span class="cp">#ifdef CONFIG_IP_MULTICAST
+</span>	<span class="k">if</span> <span class="p">(</span><span class="n">inet_add_protocol</span><span class="p">(</span><span class="o">&amp;</span><span class="n">igmp_protocol</span><span class="p">,</span> <span class="n">IPPROTO_IGMP</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">pr_crit</span><span class="p">(</span><span class="s">"%s: Cannot add IGMP protocol</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+<span class="cp">#endif
+</span>
+	<span class="cm">/* Register the socket-side information for inet_create. */</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">r</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">inetsw</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="o">&amp;</span><span class="n">inetsw</span><span class="p">[</span><span class="n">SOCK_MAX</span><span class="p">];</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span>
+		<span class="n">INIT_LIST_HEAD</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">q</span> <span class="o">=</span> <span class="n">inetsw_array</span><span class="p">;</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="o">&amp;</span><span class="n">inetsw_array</span><span class="p">[</span><span class="n">INETSW_ARRAY_LEN</span><span class="p">];</span> <span class="o">++</span><span class="n">q</span><span class="p">)</span>
+		<span class="n">inet_register_protosw</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+
+	<span class="cm">/*
+	 *	Set the ARP module up
+	 */</span>
+
+<span class="o">-------&gt;-------</span>
+
+</code></pre></div></div>
+
+<p>接下来看看 icmp_protocal的结构</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">net_protocol</span> <span class="n">icmp_protocol</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">handler</span> <span class="o">=</span>	<span class="n">icmp_rcv</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">err_handler</span> <span class="o">=</span>	<span class="n">icmp_err</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">no_policy</span> <span class="o">=</span>	<span class="mi">1</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">netns_ok</span> <span class="o">=</span>	<span class="mi">1</span><span class="p">,</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<h4 id="handler">handler</h4>
+
+<p>首先看看handler, 当接受到由外面发来的包，只要在ip头部等于IPPROTO_ICMP(0x1), icmp_rcv就会触发。</p>
+
+<h4 id="no_policy">no_policy</h4>
+
+<p>当设置为1,意味着不需要表现IPsec策略检查(policy check)，</p>
+
+<h4 id="netns_ok">netns_ok</h4>
+
+<p>设置为1时提醒协议是network命名空间</p>
+
+<p><strong>icmp_sk_init()</strong> 位于net/ipv4/icmp.c 中</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="n">__net_init</span> <span class="nf">icmp_sk_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">err</span><span class="p">;</span>
+
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">icmp_sk</span> <span class="o">=</span> <span class="n">alloc_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">icmp_sk</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">;</span>
+
+		<span class="n">err</span> <span class="o">=</span> <span class="n">inet_ctl_sock_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="p">,</span> <span class="n">PF_INET</span><span class="p">,</span>
+					   <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">IPPROTO_ICMP</span><span class="p">,</span> <span class="n">net</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">fail</span><span class="p">;</span>
+
+		<span class="o">*</span><span class="n">per_cpu_ptr</span><span class="p">(</span><span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">icmp_sk</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sk</span><span class="p">;</span>
+
+		<span class="cm">/* Enough space for 2 64K ICMP packets, including
+		 * sk_buff/skb_shared_info struct overhead.
+		 */</span>
+		<span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_sndbuf</span> <span class="o">=</span>	<span class="mi">2</span> <span class="o">*</span> <span class="n">SKB_TRUESIZE</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">);</span>
+
+		<span class="cm">/*
+		 * Speedup sock_wfree()
+		 */</span>
+		<span class="n">sock_set_flag</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">SOCK_USE_WRITE_QUEUE</span><span class="p">);</span>
+		<span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">pmtudisc</span> <span class="o">=</span> <span class="n">IP_PMTUDISC_DONT</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Control parameters for ECHO replies. */</span>
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">sysctl_icmp_echo_ignore_all</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">sysctl_icmp_echo_ignore_broadcasts</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="cm">/* Control parameter - ignore bogus broadcast responses? */</span>
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">sysctl_icmp_ignore_bogus_error_responses</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="cm">/*
+	 * 	Configurable global rate limit.
+	 *
+	 *	ratelimit defines tokens/packet consumed for dst-&gt;rate_token
+	 *	bucket ratemask defines which icmp types are ratelimited by
+	 *	setting	it's bit position.
+	 *
+	 *	default:
+	 *	dest unreachable (3), source quench (4),
+	 *	time exceeded (11), parameter problem (12)
+	 */</span>
+
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">sysctl_icmp_ratelimit</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">HZ</span><span class="p">;</span>
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">sysctl_icmp_ratemask</span> <span class="o">=</span> <span class="mh">0x1818</span><span class="p">;</span>
+	<span class="n">net</span><span class="o">-&gt;</span><span class="n">ipv4</span><span class="p">.</span><span class="n">sysctl_icmp_errors_use_inbound_ifaddr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="icmpv4-header">ICMPv4 Header</h2>
+
+<p>主要参考下面的这幅图片就可以了：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/icmp-v4-header.png" alt="icmp-v4-header.png" /></p>
+
+<p>前64 bits是属于头文件的部分，后面的Payload包括原始包IPv4头文件和它的的负载。</p>
+
+<p>头部的定义在include/uapi/linux/icmp.h</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">icmphdr</span> <span class="p">{</span>
+  <span class="n">__u8</span>		<span class="n">type</span><span class="p">;</span>
+  <span class="n">__u8</span>		<span class="n">code</span><span class="p">;</span>
+  <span class="n">__sum16</span>	<span class="n">checksum</span><span class="p">;</span>
+  <span class="k">union</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="p">{</span>
+		<span class="n">__be16</span>	<span class="n">id</span><span class="p">;</span>
+		<span class="n">__be16</span>	<span class="n">sequence</span><span class="p">;</span>
+	<span class="p">}</span> <span class="n">echo</span><span class="p">;</span>
+	<span class="n">__be32</span>	<span class="n">gateway</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="p">{</span>
+		<span class="n">__be16</span>	<span class="n">__unused</span><span class="p">;</span>
+		<span class="n">__be16</span>	<span class="n">mtu</span><span class="p">;</span>
+	<span class="p">}</span> <span class="n">frag</span><span class="p">;</span>
+	<span class="n">__u8</span>	<span class="n">reserved</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+  <span class="p">}</span> <span class="n">un</span><span class="p">;</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<p>通过这张表，是不是可以得出这样一个结论：在网络协议中，它的bits size可以通过它的的类型的大小推断出来。</p>
+
+<p>然后ICMPv4模块定义了<strong>icmp_control</strong>对象， 命名为 icmp_pointer,这个对象被ICMpv4消息的类型索引。</p>
+
+<p>该定义位于 include/uapi/linux/icmp.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ *	ICMP control array. This specifies what to do with each ICMP.
+ */</span>
+
+<span class="k">struct</span> <span class="n">icmp_control</span> <span class="p">{</span>
+	<span class="n">bool</span> <span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">);</span>
+	<span class="kt">short</span>   <span class="n">error</span><span class="p">;</span>		<span class="cm">/* This ICMP is classed as an error message */</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">icmp_control</span> <span class="n">icmp_pointers</span><span class="p">[</span><span class="n">NR_ICMP_TYPES</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+
+</code></pre></div></div>
+
+<p>其中， error是1,代表着错误消息(ICMP_DEST_UNREACH), 为0代表着正常消息(ICMP_ECHO)。 而handler有时会被赋值超过一种类型。</p>
+
+<p>ping_rcv()接受一个ping的回应(ICMP_ECHOREPLY)。 位于net/ipv4/icmp.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">ping_rcv</span><span class="p">(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span> <span class="o">=</span> <span class="n">dev_net</span><span class="p">(</span><span class="n">skb</span><span class="o">-&gt;</span><span class="n">dev</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">icmphdr</span> <span class="o">*</span><span class="n">icmph</span> <span class="o">=</span> <span class="n">icmp_hdr</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+
+	<span class="cm">/* We assume the packet has already been checked by icmp_rcv */</span>
+
+	<span class="n">pr_debug</span><span class="p">(</span><span class="s">"ping_rcv(skb=%p,id=%04x,seq=%04x)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+		 <span class="n">skb</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">icmph</span><span class="o">-&gt;</span><span class="n">un</span><span class="p">.</span><span class="n">echo</span><span class="p">.</span><span class="n">id</span><span class="p">),</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">icmph</span><span class="o">-&gt;</span><span class="n">un</span><span class="p">.</span><span class="n">echo</span><span class="p">.</span><span class="n">sequence</span><span class="p">));</span>
+
+	<span class="cm">/* Push ICMP header back */</span>
+	<span class="n">skb_push</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">skb</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">-</span> <span class="p">(</span><span class="n">u8</span> <span class="o">*</span><span class="p">)</span><span class="n">icmph</span><span class="p">);</span>
+
+	<span class="n">sk</span> <span class="o">=</span> <span class="n">ping_lookup</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">skb</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">icmph</span><span class="o">-&gt;</span><span class="n">un</span><span class="p">.</span><span class="n">echo</span><span class="p">.</span><span class="n">id</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb2</span> <span class="o">=</span> <span class="n">skb_clone</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">GFP_ATOMIC</span><span class="p">);</span>
+
+		<span class="n">pr_debug</span><span class="p">(</span><span class="s">"rcv on socket %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">sk</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">skb2</span><span class="p">)</span>
+			<span class="n">ping_queue_rcv_skb</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">skb2</span><span class="p">);</span>
+		<span class="n">sock_put</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">pr_debug</span><span class="p">(</span><span class="s">"no socket, dropping</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">ping_rcv</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>在3.0以前的内核版本中，你需要在用户空间程序中创建一个raw socket，当接收到一个(ICMP_ECHOREPLY)消息， 原来的raw socket处理它（理解不准确）。为了详细理解这个过程，先看一个函数。</p>
+
+<p>在 /net/ipv4/in_input.c中。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="nf">ip_local_deliver_finish</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span>
+		<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">__skb_pull</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">skb_network_header_len</span><span class="p">(</span><span class="n">skb</span><span class="p">));</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">protocol</span> <span class="o">=</span> <span class="n">ip_hdr</span><span class="p">(</span><span class="n">skb</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">protocol</span><span class="p">;</span>
+		<span class="k">const</span> <span class="k">struct</span> <span class="n">net_protocol</span> <span class="o">*</span><span class="n">ipprot</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">raw</span><span class="p">;</span>
+
+	<span class="nl">resubmit:</span>
+		<span class="n">raw</span> <span class="o">=</span> <span class="n">raw_local_deliver</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+
+		<span class="n">ipprot</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">inet_protos</span><span class="p">[</span><span class="n">protocol</span><span class="p">]);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ipprot</span><span class="p">)</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ipprot</span><span class="o">-&gt;</span><span class="n">no_policy</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">xfrm4_policy_check</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">XFRM_POLICY_IN</span><span class="p">,</span> <span class="n">skb</span><span class="p">))</span> <span class="p">{</span>
+					<span class="n">kfree_skb</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+					<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+				<span class="p">}</span>
+				<span class="n">nf_reset</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">ipprot</span><span class="o">-&gt;</span><span class="n">handler</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">protocol</span> <span class="o">=</span> <span class="o">-</span><span class="n">ret</span><span class="p">;</span>
+				<span class="k">goto</span> <span class="n">resubmit</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">__IP_INC_STATS</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">IPSTATS_MIB_INDELIVERS</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">raw</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">xfrm4_policy_check</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span>
+						<span class="n">XFRM_POLICY_IN</span><span class="p">,</span> <span class="n">skb</span><span class="p">))</span> <span class="p">{</span>
+					<span class="n">__IP_INC_STATS</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">IPSTATS_MIB_INUNKNOWNPROTOS</span><span class="p">);</span>
+					<span class="n">icmp_send</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">ICMP_DEST_UNREACH</span><span class="p">,</span>
+						  <span class="n">ICMP_PROT_UNREACH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+				<span class="p">}</span>
+				<span class="n">kfree_skb</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="n">__IP_INC_STATS</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">IPSTATS_MIB_INDELIVERS</span><span class="p">);</span>
+				<span class="n">consume_skb</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+ <span class="nl">out:</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/05/06/icmp/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/05/03/netlink_socket/">netlink嵌套字</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-05-03
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p><a href="https://people.redhat.com/nhorman/papers/netlink.pdf">redhat</a></p>
+
+<p>如果你有用户空间的程序去测试，请参考这篇文章<a href="https://home.regit.org/netfilter-en/nftables-quick-howto/">1</a></p>
+
+<p>在net/下，有af_netlink.c af_netlink.h genetlink.c和diag.c</p>
+
+<p>af_netlink 文件中提供了绝大多数的API，genetlink提供了新的API，这使得更容易创建netlink消息。diag.c是为了dump netlink消息，里面是相关的API。</p>
+
+<p>netlink较其他内核与用户空间的交流方式具有以下优势：</p>
+
+<p>不需要poll模式，<a href="http://www.aftermath.cn/liinux_network_flow.html">前文</a>我们说了。一个用户空间的程序打开一个socket，然后直接recvmsg(),如果没有从内核发送过来信息，就进入一个阻塞状态。例如，iproute2包中/lib/libnetlink.c中的 rtnl_listen()方法。还有一个优势是可以允许内核发送异步消息到用户空间，这不需要用户空间的程序去特定的抓取。最后一个优势就是netlink支持多播传输机制。</p>
+
+<p>同样，创建netlink嵌套字使用socket()方法，类型可以是SOCK_RAW或者SOCK_DGRAM.</p>
+
+<p>netlink嵌套字既可以在用户空间创建，也可以在内核空间创建。内核里使用方法<strong>netlink_kernel_create()</strong>去创建，这两者都会产生一个netlink_sock对象。用户空间的会被<strong>netlink_create()</strong>方法处理。内核里是<strong>__netlink_kernel_create()</strong>,这个方法设置了<strong>NETLINK_KERNEL_SOCKET_</strong>标志。最终所有的方法会调用<strong>__netlink_create()</strong>(源头其实是sk_alloc()),</p>
+
+<p>用户空间的程序：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">socket</span><span class="p">(</span><span class="n">AF_NETLINK</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">NETLINK_ROUTE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>然后创造一个<strong>sockaddr_nl</strong>的对象实例</p>
+
+<h1 id="使用netlink-sockets-库">使用netlink sockets 库</h1>
+
+<p>libnl是与内核空间交流的用户空间程序的API，iproute2就是使用的libnl库，一般在这个源代码包的下面，有基本核心库(libnl),它支持一般netlink家族(libnl-genl),路由家族(libnl-route)和netfilter家族(libnl-nf).还有一个最小化的用户空间的库函数叫libmnl.</p>
+
+<p>相关的源代码在这里<a href="https://www.infradead.org/~tgr/libnl/">here</a>,下面就是结构图:</p>
+
+<p>进行开发的文档在<a href="https://www.infradead.org/~tgr/libnl/doc/core.html">这里</a></p>
+
+<p><img src="http://yuzibo.qiniudn.com/2018-05-21-netlink_user.png" alt="2018-05-21-netlink_user.png" /></p>
+
+<p>先来一段用户空间的程序，看看大体概貌</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;netlink/netlink.h&gt;
+#include &lt;errno.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">nl_sock</span> <span class="o">*</span><span class="n">h</span><span class="p">[</span><span class="mi">1025</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">nl_socket_alloc</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Created handle with port 0x%x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+			<span class="n">nl_socket_get_local_port</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+	<span class="n">nl_socket_free</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+	<span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">nl_socket_alloc</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Created handle with port 0x%x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+			<span class="n">nl_socket_get_local_port</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+	<span class="n">nl_socket_free</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1025</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nl_socket_alloc</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+			<span class="n">nl_perror</span><span class="p">(</span><span class="n">ENOMEM</span><span class="p">,</span> <span class="s">"Unable to allocate socket"</span><span class="p">);</span>
+		<span class="k">else</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Created handle with port 0x%x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+				<span class="n">nl_socket_get_local_port</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这是在编译的时候，有些麻烦，</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gcc</span> <span class="n">program</span><span class="p">.</span><span class="n">c</span> <span class="err">$</span><span class="p">(</span><span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="o">--</span><span class="n">cflags</span> <span class="o">--</span><span class="n">libs</span> <span class="n">libnl</span><span class="o">-</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>这里涉及了<strong>pkg-config</strong>的用法。这个工具还是非常有用的，他解决了有关已安装的库函数中的种种使用的问题。比如，库函数的版本、链接位置…pkg-config的具体以后补充。</p>
+
+<h2 id="message-format">Message Format</h2>
+<p><img src="http://yuzibo.qiniudn.com/2018-05-21-nlmsghdr.png" alt="2018-05-21-nlmsghdr.png" /></p>
+
+<h3 id="netlink-header">Netlink Header</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">nlmsghdr</span><span class="p">{</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_len</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_type</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_flags</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_seq</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_pid</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>from &lt;linux/uapi/linux/netlink.h&gt;．这里重点介绍几个。</p>
+
+<p><code class="highlighter-rouge">nlmsg_len</code> is the length of the message including the header</p>
+
+<p><code class="highlighter-rouge">nlmsg_type</code> four basic netlink message header types:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NLMSG_NOOP : no operations, message must be discarded
+NLMSG_ERROR: Error occured
+NLMSG_DONE: A multipart message is terminated
+NLMSG_OVERRUN: error, data was lost
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">nlmsg_flags</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NLM_F_REQUEST - Message is a request, see Message Types.
+
+NLM_F_MULTI - Multipart message, see Multipart Messages
+
+NLM_F_ACK - ACK message requested, see ACKs.
+
+NLM_F_ECHO - Request to echo the request.
+
+NLM_F_ROOT - Return based on root of tree.
+
+NLM_F_MATCH - Return all matching entries.
+
+NLM_F_ATOMIC - Obsoleted, once used to request an atomic operation.
+
+NLM_F_DUMP - Return a list of all objects (NLM_F_ROOT|NLM_F_MATCH).
+
+NLM_F_REPLACE - Replace an existing object if it exists.
+
+NLM_F_EXCL - Do not update object if it exists already.
+
+NLM_F_CREATE - Create object if it does not exist yet.
+
+NLM_F_APPEND - Add object at end of list.
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">nlmsg_seq</code>: the message sequence number</p>
+
+<p><code class="highlighter-rouge">nlmsg_pid</code>: is the sending port id</p>
+
+<p>看一下<strong>sockaddr_nl</strong>的结构体</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">sockaddr_nl</span> <span class="p">{</span>
+	<span class="n">__kernel_sa_family_t</span>	<span class="n">nl_family</span><span class="p">;</span>	<span class="cm">/* AF_NETLINK	*/</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>	<span class="n">nl_pad</span><span class="p">;</span>		<span class="cm">/* zero		*/</span>
+	<span class="n">__u32</span>		<span class="n">nl_pid</span><span class="p">;</span>		<span class="cm">/* port ID	*/</span>
+       	<span class="n">__u32</span>		<span class="n">nl_groups</span><span class="p">;</span>	<span class="cm">/* multicast groups mask */</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>上面的成员参数可以看注释，这里说一下nl_pid,它是netlink socket的单播地址，对于内核来说，它应该是0;对于用户空间来说，应该是运行它的的pid(使用getpid()).</p>
+
+<h2 id="socket-monitoring-interface">socket monitoring interface</h2>
+
+<p><strong>sock_diag</strong>就是提供了基于netlink子系统、可以得到有关socket的信息。有关网络的工具<strong>ss</strong>就是大量使用了sock_diag.</p>
+
+<h4 id="netlink_sock_diag">NETLINK_SOCK_DIAG</h4>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/05/03/netlink_socket/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/03/06/python_note/">python新手注意的知识点</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-03-06
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#python" title="Category: python" rel="category">python</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="复制对象和可改变行">复制对象和可改变行</h1>
+
+<p>不可变对象是传值的，可变对象是传引用的。</p>
+
+<p>其中，标量类型（整数、元组）是不可变类型， 剩下的列表、字典、类、实例都是可变的。</p>
+
+<p>请看下面的例子：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">mylist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="p">[</span><span class="s">'foo'</span><span class="p">,</span><span class="s">'bar'</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mylist2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mylist</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mylist2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mylist2</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">'biz'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">mylist</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="p">[</span><span class="s">'biz'</span><span class="p">,</span> <span class="s">'bar'</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">mylist2</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="p">[</span><span class="s">'biz'</span><span class="p">,</span> <span class="s">'bar'</span><span class="p">]]</span>
+
+
+</code></pre></div></div>
+<p>注意区分浅复制和深度复制</p>
+
+<h1 id="元组-">元组 ()</h1>
+
+<p>含有一个元素的元组(1,)， 别忘了最后的”,”</p>
+
+<h1 id="初始化程序">初始化程序</h1>
+
+<p>注意python中类的使用</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">ctime</span>
+<span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">"instance created at:"</span><span class="p">,</span> <span class="n">date</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">(</span><span class="n">ctime</span><span class="p">())</span>
+<span class="n">instance</span> <span class="n">created</span> <span class="n">at</span><span class="p">:</span> <span class="n">Fri</span> <span class="n">May</span> <span class="mi">12</span> <span class="mi">11</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">06</span> <span class="mi">2017</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ctime</span><span class="p">()</span>
+<span class="s">'Fri May 12 11:03:13 2017'</span>
+</code></pre></div></div>
+
+<p>也就是这个类，使用self实例化，self类似与c++的this，上面的例子中object传递给了date</p>
+
+<h1 id="动态实例属性">动态实例属性</h1>
+
+<p>其他语言中使用new关键字新添属性，在python中，可以直接使用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">AddressBook</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+<span class="o">...</span>         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<span class="o">...</span>         <span class="bp">self</span><span class="o">.</span><span class="n">phone</span> <span class="o">=</span> <span class="n">phone</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">john</span> <span class="o">=</span> <span class="n">AddressBook</span><span class="p">(</span><span class="s">'john Doe'</span><span class="p">,</span> <span class="s">'18263896585'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">jane</span> <span class="o">=</span> <span class="n">AddressBook</span><span class="p">(</span><span class="s">'Chun He'</span><span class="p">,</span> <span class="s">'188'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">john</span><span class="o">.</span><span class="n">name</span>
+<span class="n">john</span> <span class="n">Doe</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">join</span><span class="o">.</span><span class="n">sex</span> <span class="o">=</span> <span class="s">'Female'</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s">"&lt;console&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="nb">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s">'join'</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">john</span><span class="o">.</span><span class="n">sex</span> <span class="o">=</span> <span class="s">'Female'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">john</span>
+<span class="o">&lt;</span><span class="n">AddressBook</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0xa952eec</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">john</span><span class="o">.</span><span class="n">sex</span>
+<span class="n">Female</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/03/06/python_note/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/02/05/liinux_network_flow/">linux 网络流程</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-02-05
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="参考">参考</h1>
+
+<p><a href="https://wiki.linuxfoundation.org/networking/kernel_flow">here</a></p>
+
+<h1 id="基本分析">基本分析</h1>
+
+<p>首先记住，linux kernel networking layers 分为L2(link layer)、L3（ipv4、ipv6)、L4(TCP/UDP)</p>
+
+<h2 id="network-device">Network Device</h2>
+
+<p>Network device drivers 就在L2中，与此对应的，你应该知道net_device结构，这是对network stack理解的基础。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">net_device</span> <span class="p">{</span>
+	<span class="kt">char</span>			<span class="n">name</span><span class="p">[</span><span class="n">IFNAMSIZE</span><span class="p">];</span>
+	<span class="k">struct</span>	<span class="n">hlist_node</span>	<span class="n">name_hlist</span><span class="p">;</span>
+	<span class="kt">char</span>			<span class="o">*</span><span class="n">ifalias</span><span class="p">;</span>
+	<span class="cm">/* I/O specific fields */</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">men_end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">men_start</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">base_addr</span><span class="p">;</span>
+	<span class="kt">int</span>			<span class="n">irq</span><span class="p">;</span>
+	<span class="p">...</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">net_device_ops</span> <span class="o">*</span><span class="n">netdev_ops</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">ethtool_ops</span> <span class="o">*</span><span class="n">ethtool_ops</span><span class="p">;</span>
+
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">header_ops</span> <span class="o">*</span><span class="n">header_ops</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">flags</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">priv_flags</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">gflags</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">padded</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">operstate</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">link_mode</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">if_port</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">dma</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">mtu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">min_mtu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">max_mtu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">type</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>		<span class="n">hard_header_len</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">min_header_len</span><span class="p">;</span>
+	<span class="p">...</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<p>最好的方式是阅读源代码的注释。</p>
+
+<p>当promiscuity计数器大于0的时候，网络栈不会丢弃不是发给本地主机的包。</p>
+
+<h2 id="napi">NAPI</h2>
+
+<p>在old版本中的网络内核中，网络设备驱动是工作在中断驱动模式下的，这就意味着当内核接收到一个packet时，就会陷入中断，这种模式，已经被证明是低效的，尤其是在高负载的情况下。</p>
+
+<p>所以，内核就引入了NAPI(New API)模式，这样， 网络就会工作在polling模式下，当接收到一个包，会缓存进入网络buffer，而不是基于中断驱动了。然后再一个一个进行解包。</p>
+
+<p>对于每一个包，网络子系统在处理的时候，会依据路由子系统对包对出相应的处理从而决定是转发还是发送哪一个接口。路由子系统不是影响这个唯一的因素，比如，在netfilter子系统，有5个钩子函数可以被注册。头一个是NF_INET_PRE_ROUTING.当一个packet被一个由宏NF_HOOK()引发的回调函数处理的时候，它将会根据verdict回调函数继续在内核栈中旅行，比如， 如果verdict是NF_DROP，这个包将会被丢弃;如果verdict是NF_ACCEPT,这个包继续往下;netfilter回调是被nf_register_hook()方法或者nf_register_hooks()方法注册的。</p>
+
+<p>除了netfilter钩子函数，IPsec子系统也会影响包的去行。Ipsec提供了一个网络层的安全解决方案，并且它使用ESP和AH协议。IPsec在IPV6中是强制的，在IPv4中是可选的。它有两种操作模式：传输模式和隧道模式。这是实现一些VPN(virtual private network)方案的基础，当然，也有一些非Ipsec实现VPN的VPN。</p>
+
+<p>这里还有其他因素决定网络包的行程。比如， 被转发包中Ipv4中头部ttl的值。当packet被转发一个设备，ttl的值就会减1.当他为0的时候，这个packet就会丢弃，并且一个ICMPv4消息：”时间超出”随着”ttl count exceeded”的代码返回。每转发一次，这个ttl就会减1.在Ipv6中ttl被替换为hop_limit.</p>
+
+<p>packet在内核中的旅行有很多的变动：大的包在发送之前会被分拆;另一方面，被分拆的包需要组装。不同的包处理的方式也是不同的，比如，多播packet被一组主机处理(这一点很明显与目的地址是特定的单播packets不同)。多播技术可以用在流媒体，这样可以减少网络资源。在ipv4中，The Internet Group Management Protocol(IGMP)处理多波成员。</p>
+
+<p>为了更好的理解网络的流程，你需要知道sk_buff,无论是Rx，还是Tx，都离不开这个结构。&lt;include/linux/skbuff.h&gt;</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ *	struct sk_buff - socket buffer
+ *	@next: Next buffer in list
+ *	@prev: Previous buffer in list
+ *	@tstamp: Time we arrived/left
+ *	@rbnode: RB tree node, alternative to next/prev for netem/tcp
+ *	@sk: Socket we are owned by
+ *	@dev: Device we arrived on/are leaving by
+ *	@cb: Control buffer. Free for use by every layer. Put private vars here
+ *	@_skb_refdst: destination entry (with norefcount bit)
+ *	@sp: the security path, used for xfrm
+ *	@len: Length of actual data
+ *	@data_len: Data length
+ *	@mac_len: Length of link layer header
+ *	@hdr_len: writable header length of cloned skb
+ *	@csum: Checksum (must include start/offset pair)
+ *	@csum_start: Offset from skb-&gt;head where checksumming should start
+ *	@csum_offset: Offset from csum_start where checksum should be stored
+ *	@priority: Packet queueing priority
+ *	@ignore_df: allow local fragmentation
+ *	@cloned: Head may be cloned (check refcnt to be sure)
+ *	@ip_summed: Driver fed us an IP checksum
+ *	@nohdr: Payload reference only, must not modify header
+ *	@pkt_type: Packet class
+ *	@fclone: skbuff clone status
+ *	@ipvs_property: skbuff is owned by ipvs
+ *	@tc_skip_classify: do not classify packet. set by IFB device
+ *	@tc_at_ingress: used within tc_classify to distinguish in/egress
+ *	@tc_redirected: packet was redirected by a tc action
+ *	@tc_from_ingress: if tc_redirected, tc_at_ingress at time of redirect
+ *	@peeked: this packet has been seen already, so stats have been
+ *		done for it, don't do them again
+ *	@nf_trace: netfilter packet trace flag
+ *	@protocol: Packet protocol from driver
+ *	@destructor: Destruct function
+ *	@_nfct: Associated connection, if any (with nfctinfo bits)
+ *	@nf_bridge: Saved data about a bridged frame - see br_netfilter.c
+ *	@skb_iif: ifindex of device we arrived on
+ *	@tc_index: Traffic control index
+ *	@hash: the packet hash
+ *	@queue_mapping: Queue mapping for multiqueue devices
+ *	@xmit_more: More SKBs are pending for this queue
+ *	@ndisc_nodetype: router type (from link layer)
+ *	@ooo_okay: allow the mapping of a socket to a queue to be changed
+ *	@l4_hash: indicate hash is a canonical 4-tuple hash over transport
+ *		ports.
+ *	@sw_hash: indicates hash was computed in software stack
+ *	@wifi_acked_valid: wifi_acked was set
+ *	@wifi_acked: whether frame was acked on wifi or not
+ *	@no_fcs:  Request NIC to treat last 4 bytes as Ethernet FCS
+ *	@dst_pending_confirm: need to confirm neighbour
+  *	@napi_id: id of the NAPI struct this skb came from
+ *	@secmark: security marking
+ *	@mark: Generic packet mark
+ *	@vlan_proto: vlan encapsulation protocol
+ *	@vlan_tci: vlan tag control information
+ *	@inner_protocol: Protocol (encapsulation)
+ *	@inner_transport_header: Inner transport layer header (encapsulation)
+ *	@inner_network_header: Network layer header (encapsulation)
+ *	@inner_mac_header: Link layer header (encapsulation)
+ *	@transport_header: Transport layer header
+ *	@network_header: Network layer header
+ *	@mac_header: Link layer header
+ *	@tail: Tail pointer
+ *	@end: End pointer
+ *	@head: Head of buffer
+ *	@data: Data head pointer
+ *	@truesize: Buffer size
+ *	@users: User count - see {datagram,tcp}.c
+ */</span>
+<span class="k">struct</span> <span class="n">sk_buff</span> <span class="p">{</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="p">{</span>
+			<span class="cm">/* These two members must be first. */</span>
+			<span class="k">struct</span> <span class="n">sk_buff</span>		<span class="o">*</span><span class="n">next</span><span class="p">;</span>
+			<span class="k">struct</span> <span class="n">sk_buff</span>		<span class="o">*</span><span class="n">prev</span><span class="p">;</span>
+
+			<span class="k">union</span> <span class="p">{</span>
+				<span class="n">ktime_t</span>		<span class="n">tstamp</span><span class="p">;</span>
+				<span class="k">struct</span> <span class="n">skb_mstamp</span> <span class="n">skb_mstamp</span><span class="p">;</span>
+			<span class="p">};</span>
+		<span class="p">};</span>
+		<span class="k">struct</span> <span class="n">rb_node</span>	<span class="n">rbnode</span><span class="p">;</span> <span class="cm">/* used in netem &amp; tcp stack */</span>
+	<span class="p">};</span>
+	<span class="k">struct</span> <span class="n">sock</span>		<span class="o">*</span><span class="n">sk</span><span class="p">;</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">net_device</span>	<span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+		<span class="cm">/* Some protocols might use this space to store information,
+		 * while device pointer would be NULL.
+		 * UDP receive path is one user.
+		 */</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">dev_scratch</span><span class="p">;</span>
+	<span class="p">};</span>
+	<span class="cm">/*
+	 * This is the control buffer. It is free to use for every
+	 * layer. Please put your private variables there. If you
+	 * want to keep them across layers you have to do a skb_clone()
+	 * first. This is owned by whoever has the skb queued ATM.
+	 */</span>
+	<span class="kt">char</span>			<span class="n">cb</span><span class="p">[</span><span class="mi">48</span><span class="p">]</span> <span class="n">__aligned</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">_skb_refdst</span><span class="p">;</span>
+	<span class="kt">void</span>			<span class="p">(</span><span class="o">*</span><span class="n">destructor</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">);</span>
+<span class="cp">#ifdef CONFIG_XFRM
+</span>	<span class="k">struct</span>	<span class="n">sec_path</span>	<span class="o">*</span><span class="n">sp</span><span class="p">;</span>
+<span class="cp">#endif
+#if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
+</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		 <span class="n">_nfct</span><span class="p">;</span>
+<span class="cp">#endif
+#if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
+</span>	<span class="k">struct</span> <span class="n">nf_bridge_info</span>	<span class="o">*</span><span class="n">nf_bridge</span><span class="p">;</span>
+<span class="cp">#endif
+</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">len</span><span class="p">,</span>
+				<span class="n">data_len</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">mac_len</span><span class="p">,</span>
+				<span class="n">hdr_len</span><span class="p">;</span>
+
+	<span class="cm">/* Following fields are _not_ copied in __copy_skb_header()
+	 * Note that queue_mapping is here mostly to fill a hole.
+	 */</span>
+	<span class="n">kmemcheck_bitfield_begin</span><span class="p">(</span><span class="n">flags1</span><span class="p">);</span>
+	<span class="n">__u16</span>			<span class="n">queue_mapping</span><span class="p">;</span>
+
+<span class="cm">/* if you move cloned around you also must adapt those constants */</span>
+<span class="cp">#ifdef __BIG_ENDIAN_BITFIELD
+#define CLONED_MASK	(1 &lt;&lt; 7)
+#else
+#define CLONED_MASK	1
+#endif
+#define CLONED_OFFSET()		offsetof(struct sk_buff, __cloned_offset)
+</span>
+	<span class="n">__u8</span>			<span class="n">__cloned_offset</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="n">__u8</span>			<span class="n">cloned</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">nohdr</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">fclone</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span>
+				<span class="n">peeked</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">head_frag</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">xmit_more</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+				<span class="n">__unused</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span> <span class="cm">/* one bit hole */</span>
+	<span class="n">kmemcheck_bitfield_end</span><span class="p">(</span><span class="n">flags1</span><span class="p">);</span>
+
+	<span class="cm">/* fields enclosed in headers_start/headers_end are copied
+	 * using a single memcpy() in __copy_skb_header()
+	 */</span>
+	<span class="cm">/* private: */</span>
+	<span class="n">__u32</span>			<span class="n">headers_start</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="cm">/* public: */</span>
+
+<span class="cm">/* if you move pkt_type around you also must adapt those constants */</span>
+<span class="cp">#ifdef __BIG_ENDIAN_BITFIELD
+#define PKT_TYPE_MAX	(7 &lt;&lt; 5)
+#else
+#define PKT_TYPE_MAX	7
+#endif
+#define PKT_TYPE_OFFSET()	offsetof(struct sk_buff, __pkt_type_offset)
+</span>
+	<span class="n">__u8</span>			<span class="n">__pkt_type_offset</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="n">__u8</span>			<span class="n">pkt_type</span><span class="o">:</span><span class="mi">3</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">pfmemalloc</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">ignore_df</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">__u8</span>			<span class="n">nf_trace</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">ip_summed</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">ooo_okay</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">l4_hash</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">sw_hash</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">wifi_acked_valid</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">wifi_acked</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">__u8</span>			<span class="n">no_fcs</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="cm">/* Indicates the inner headers are valid in the skbuff. */</span>
+	<span class="n">__u8</span>			<span class="n">encapsulation</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">encap_hdr_csum</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_valid</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_complete_sw</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_level</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">csum_bad</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">__u8</span>			<span class="n">dst_pending_confirm</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_IPV6_NDISC_NODETYPE
+</span>	<span class="n">__u8</span>			<span class="n">ndisc_nodetype</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+<span class="cp">#endif
+</span>	<span class="n">__u8</span>			<span class="n">ipvs_property</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">inner_protocol_type</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">remcsum_offload</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_NET_SWITCHDEV
+</span>	<span class="n">__u8</span>			<span class="n">offload_fwd_mark</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#endif
+#ifdef CONFIG_NET_CLS_ACT
+</span>	<span class="n">__u8</span>			<span class="n">tc_skip_classify</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">tc_at_ingress</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">tc_redirected</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">tc_from_ingress</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+<span class="cp">#ifdef CONFIG_NET_SCHED
+</span>	<span class="n">__u16</span>			<span class="n">tc_index</span><span class="p">;</span>	<span class="cm">/* traffic control index */</span>
+<span class="cp">#endif
+</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="n">__wsum</span>		<span class="n">csum</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="p">{</span>
+			<span class="n">__u16</span>	<span class="n">csum_start</span><span class="p">;</span>
+			<span class="n">__u16</span>	<span class="n">csum_offset</span><span class="p">;</span>
+		<span class="p">};</span>
+	<span class="p">};</span>
+	<span class="n">__u32</span>			<span class="n">priority</span><span class="p">;</span>
+	<span class="kt">int</span>			<span class="n">skb_iif</span><span class="p">;</span>
+	<span class="n">__u32</span>			<span class="n">hash</span><span class="p">;</span>
+	<span class="n">__be16</span>			<span class="n">vlan_proto</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">vlan_tci</span><span class="p">;</span>
+<span class="cp">#if defined(CONFIG_NET_RX_BUSY_POLL) || defined(CONFIG_XPS)
+</span>	<span class="k">union</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">int</span>	<span class="n">napi_id</span><span class="p">;</span>
+		<span class="kt">unsigned</span> <span class="kt">int</span>	<span class="n">sender_cpu</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="cp">#endif
+#ifdef CONFIG_NETWORK_SECMARK
+</span>	<span class="n">__u32</span>		<span class="n">secmark</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="n">__u32</span>		<span class="n">mark</span><span class="p">;</span>
+		<span class="n">__u32</span>		<span class="n">reserved_tailroom</span><span class="p">;</span>
+	<span class="p">};</span>
+
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="n">__be16</span>		<span class="n">inner_protocol</span><span class="p">;</span>
+		<span class="n">__u8</span>		<span class="n">inner_ipproto</span><span class="p">;</span>
+	<span class="p">};</span>
+
+	<span class="n">__u16</span>			<span class="n">inner_transport_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">inner_network_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">inner_mac_header</span><span class="p">;</span>
+
+	<span class="n">__be16</span>			<span class="n">protocol</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">transport_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">network_header</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">mac_header</span><span class="p">;</span>
+
+	<span class="cm">/* private: */</span>
+	<span class="n">__u32</span>			<span class="n">headers_end</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="cm">/* public: */</span>
+
+	<span class="cm">/* These elements must be at the end, see alloc_skb() for details.  */</span>
+	<span class="n">sk_buff_data_t</span>		<span class="n">tail</span><span class="p">;</span>
+	<span class="n">sk_buff_data_t</span>		<span class="n">end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">head</span><span class="p">,</span>
+				<span class="o">*</span><span class="n">data</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">truesize</span><span class="p">;</span>
+	<span class="n">atomic_t</span>		<span class="n">users</span><span class="p">;</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<p>就捡着重要的知识说一说。你要熟悉SKB的API。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transport_header</span><span class="p">();</span>
+<span class="cm">/*tcp udp icmp and more  */</span>
+
+<span class="n">network_header</span><span class="p">();</span>
+<span class="cm">/*ip ipv6 arp*/</span>
+
+<span class="n">mac_header</span><span class="p">();</span>
+<span class="cp">#link layer
+</span></code></pre></div></div>
+
+<p>如果你想使用skb-&gt;data,你不应该直接使用它，相反，你应该这样</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_pull_inline</span><span class="p">();</span>
+<span class="cm">/* 或者 */</span>
+
+<span class="n">skb_pull</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>如果你想fetch L4（transport header）,你应该使用</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_transport_header</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>同样， L3(network header),你需要</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_network_header</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>如果你想fetch L2(MAC header)</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">skb_mac_header</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>这三个方法将SKB作为唯一的参数。分别返回头部的指针。</p>
+
+<p>当一个包来临的时候，一个SKB被netdev_alloc_skb()方法分配(或者dev_alloc_skb(),这个方法也是调用netdev_alloc_skb(),但是第一个参数是NULL)。如果遇到包被丢弃的情景，我们将会调用kfree_skb()或者dev_kfree_skb().</p>
+
+<p>在SKB中的一些成员，会被L2层决定，例如，这个pkt_type 就会被eth_type_trans()方法决定，这个方法根据目的的Ethernet地址，如果这个地址是（多播）multicast，就会被设置为PACKET_MULTICASE,如果是(广播)broadcast，则会被设置为PACKET_BROADCASE;如果是本地主机地址，则是PACKET_HOST.绝大多数Ethernet驱动将会在Rx路径调用eth_type_trans()这个方法。这个eth_type_trans()方法也会设置SKB的协议域根据Ethernet的头部。这个方法也会调用skb_pull_inline()提前预付SKB的数据指针，大小为14(ETH_HLEN),这就是Ethernet header的大小。</p>
+
+<p>请看下面的图片：</p>
+
+<p><img src="http://yuzibo.qiniudn.com/net-1.png" alt="net-1.png" /></p>
+
+<p>每一个SKB有一个dev成员，这是一个net_device结构的实例化。接收和发出的包是不同的。在这个过程中，需要不停的fetch能影响包在内核栈中行程的信息。比如MTU。每一个传输的SKB有一个sock对象赋予它(sk),如果这个包是被转发的包，这个sk为NULL，因为它不是有本地主机生成。</p>
+
+<p>每一个接收的包应该通过网络层协议处理，比如，一个ipv4包应该被ip_rcv()方法处理，ipv6应该是ipv6_rcv(),相反的过程，这二者都需要dev_add_pack()方法去注册协议。ip_rcv()方法检查自己的参数，一切没有问题的话被NF_INET_PRE_ROUTING钩子调用。接下来是ip_rcv_finish()方法。在路由子系统中，会建立一个目的缓存项(dst_entry),同时在dst_entry中会有input和output方法。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">input</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">)(</span><span class="k">struct</span> <span class="n">sk_buff</span><span class="p">);</span>
+
+</code></pre></div></div>
+<p><em>input()</em>可以被下面的函数指定：　ip_local_deliver(),ip_forward(), ip_mr_input(),ip_error()或者dst_discard_in.</p>
+
+<p><em>output()</em> 可以被下面的使用ip_output,ip_mc_output, ip_rt_bug或者dst_discard_out</p>
+
+<p>在这里简单说一下v4和v6的区别。地址空间不说了，v6的header 是40字节，而v4是20～40,这样v6的性能就会提升了一大截;在ICMP中，v6也加入了很多其他的东西。</p>
+
+<p>接收包被网络设备驱动传递给ipv4或者ipv6-网络层，如果是局部传输，他们会被传递给传输层（l4）的监听socket处理。在L4层上，有UDP和TCP两种协议。此外，还有两种新的协议，Stream Control Transmission Protocol(SCTP)，Datagram Congestion Control Protocol(DCCP),这两者结合了tcp和udp的特征。</p>
+
+<p>本地主机产生的packets由L4的TCP或者UDP负责。这些都是Sockets APi可以提供。struct socket是提供给用户空间的接口，struct sock提供L3的接口。</p>
+
+<p>每一个L2网络层接口有一个L2的地址去鉴别它。在Ethernet中，这是一个48位的地址，并且MAC地址被赋予每一个Ethernet网络接口（唯一），每一个Ethernet包以Ethernet header开始，它包含Ethernet 类型（2-bit）， 源MAC地址（6-bit），目的MAC地址（6-bit）.注意，Ethernet 的类型值ipv4是0x0800,ipv6是0x86DD.对于发出的包来讲，一个Ethernet Header也应该被创建，其中的目的MAC地址通过邻居子系统找到。邻居协议被IPv4中的ARP处理(ipv6中的NDISC)，这两者在处理上也有不同的地方。ARP协议依靠于发送广播请求，而NDISC依靠ICMPv6请求，该者实际上是多播请求。</p>
+
+<p>netlink为内核和用户空间之间的交流提供通道。iproute2就是依靠netlink实现的。</p>
+
+<h1 id="路由子系统">路由子系统</h1>
+
+<p>路由子系统可以帮助我们找到net设备、找到被发送包的目的主机。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">fib_lookup</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">flowi4</span> <span class="o">*</span><span class="n">flp</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">fib_result</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fib_table</span> <span class="o">*</span><span class="n">tb</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENETUNREACH</span><span class="p">;</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+
+	<span class="n">tb</span> <span class="o">=</span> <span class="n">fib_get_table</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">RT_TABLE_MAIN</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">fib_table_lookup</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">flp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">flags</span> <span class="o">|</span> <span class="n">FIB_LOOKUP_NOREF</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="o">-</span><span class="n">EAGAIN</span><span class="p">)</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENETUNREACH</span><span class="p">;</span>
+
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+	<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">struct</span> <span class="n">fib_table</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span>	<span class="n">tb_hlist</span><span class="p">;</span>
+	<span class="n">u32</span>			<span class="n">tb_id</span><span class="p">;</span>
+	<span class="kt">int</span>			<span class="n">tb_num_default</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span>		<span class="n">rcu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> 		<span class="o">*</span><span class="n">tb_data</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">__data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>这个结构位于include/net/ip_net.h. <em>FIB</em>的意思是”Forwarding Information Base”</p>
+
+<p>这里有两个默认的基本表(在没有配置的情况下)，比如，局部表(local FIB table)（ip_fib_local_table: ID 255）和主表(main fib table)(ip_fib_main_table; ID 254)</p>
+
+<p>主路由表可以有３种方式改变：</p>
+
+<p>1.系统命令(route add/ip route) 2. (routing daemons) 3.(ICMP 重定向)</p>
+
+<p>fib_loolup 首先寻找local FIB 表，其次再寻找main　FIB,<em>route -C</em>这个命令可以查看缓存。另一种就是<em>cat /proc/net/rt_cache</em>,在这样的情况下，地址是十六进制的。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">rtable</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">dst_entry</span>	<span class="n">dst</span><span class="p">;</span>
+
+	<span class="kt">int</span>			<span class="n">rt_genid</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">rt_flags</span><span class="p">;</span>
+	<span class="n">__u16</span>			<span class="n">rt_type</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">rt_is_input</span><span class="p">;</span>
+	<span class="n">__u8</span>			<span class="n">rt_uses_gateway</span><span class="p">;</span>
+
+	<span class="kt">int</span>			<span class="n">rt_iif</span><span class="p">;</span>
+
+	<span class="cm">/* Info on neighbour */</span>
+	<span class="n">__be32</span>			<span class="n">rt_gateway</span><span class="p">;</span>
+
+	<span class="cm">/* Miscellaneous cached information */</span>
+	<span class="n">u32</span>			<span class="n">rt_pmtu</span><span class="p">;</span>
+
+	<span class="n">u32</span>			<span class="n">rt_table_id</span><span class="p">;</span>
+
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">rt_uncached</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">uncached_list</span>	<span class="o">*</span><span class="n">rt_uncached_list</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>分配一个rtable的实例可以使用<em>dst_alloc()</em>方法来进行(net/core/dst.c)。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">void</span> <span class="o">*</span><span class="nf">dst_alloc</span><span class="p">(</span><span class="k">struct</span> <span class="n">dst_ops</span> <span class="o">*</span><span class="n">ops</span><span class="p">,</span> <span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span>
+		<span class="kt">int</span> <span class="n">initial_ref</span><span class="p">,</span> <span class="kt">int</span> <span class="n">initial_obsolete</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">dst_entry</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">gc</span> <span class="o">&amp;&amp;</span> <span class="n">dst_entries_get_fast</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ops</span><span class="o">-&gt;</span><span class="n">gc_thresh</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">gc</span><span class="p">(</span><span class="n">ops</span><span class="p">))</span>
+			<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">dst</span> <span class="o">=</span> <span class="n">kmem_cache_alloc</span><span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">kmem_cachep</span><span class="p">,</span> <span class="n">GFP_ATOMIC</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dst</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">dst_init</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">initial_ref</span><span class="p">,</span> <span class="n">initial_obsolete</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">dst</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>顺序有些乱，先凑活着看，到时候我再一并整理。</p>
+
+<h1 id="网络层-network-layer">网络层 network layer</h1>
+<p>首先看一下ip packet:
+<img src="http://yuzibo.qiniudn.com/2018-05-16-ip_packet.png" alt="2018-05-16-ip_packet.png" /></p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/02/05/liinux_network_flow/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2017/02/04/git_send_email_tips/">git产生patch并使用git send-email发送</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2017-02-04
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="1">1</h1>
+<h1 id="产生patch">产生patch</h1>
+<p>git 产生patch还是非常简单的，我们使用最多的就是<code class="highlighter-rouge">git format-patch</code>命令了。
+产生单个patch</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> ~/patch/ HEAD^
+</code></pre></div></div>
+<p>注意这里的HEAD^(HEAD~也可以),如果只有HEAD是不可以的,当然，如果你查看log的话，使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log <span class="nt">--pretty</span><span class="o">=</span>oneline <span class="nt">--abbrev-commit</span>
+git show HEAD  <span class="c"># 展示的第一个commit日志</span>
+</code></pre></div></div>
+<h2 id="发送单个patch">发送单个patch</h2>
+<h3 id="mutt方法">mutt方法</h3>
+<p>很简单的一点就是 mutt -H your-pacth,then send it,oh, sure, don not forget maintainer of address and who is them.
+如何得到维护人的地址或者相关列表呢？使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git show HEAD | perl scripts/get_maintainer.pl <span class="nt">--separator</span> , <span class="nt">--nokeywords</span> <span class="nt">--nogit</span> <span class="nt">--nogit-fallback</span> <span class="nt">--norolestats</span> <span class="nt">--nol</span>
+perl scripts/get_maintainer.pl <span class="nt">--separator</span> , <span class="nt">--nokeywords</span> <span class="nt">--nogit</span> <span class="nt">--nogit-fallback</span> <span class="nt">--norolestats</span> <span class="nt">--nol</span> <span class="nt">-f</span> source-files
+</code></pre></div></div>
+
+<h3 id="git-send-email">git send-email</h3>
+<p>way 1: git send-email –annotate HEAD^,这一个方式不可控。
+way 2: git send-email your-patch.使用这个方法，你上面产生patch的格式稍微复杂些：使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> ~/patch/ <span class="nt">--cc</span><span class="o">=</span>mail-list1  <span class="nt">--to</span><span class="o">=</span>maintainer@xx.com HEAD^
+</code></pre></div></div>
+<p>上面的地址在上面的命令中挑出即可。为什么我们在这里这么费劲地产生一个patch,这种方式貌似有些复杂，其实用起来就很简单的。</p>
+<h1 id="2">2</h1>
+<p>git send-email是为了提交patch而产生的，所以，你使用它提交patch会非常容易，那么，如果你想提交普通文件的话，需要使用下面的命令：</p>
+<h2 id="单个文件">单个文件</h2>
+<p>对，接着使用你上面产生的patch，因为它已经包含相应的信息了，所以仅仅使用：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git send-email   <span class="nt">--to</span><span class="o">=</span>tsu.yubo@gmail.com your-patch
+</code></pre></div></div>
+<p>一直按”y”即可，这样单个patch就发出去了。(上面的–to你可以用，也可以不用)</p>
+
+<h1 id="3产生多个文件">3.产生多个文件</h1>
+<p><a href="https://burzalodowa.wordpress.com/2013/10/05/how-to-send-patches-with-git-send-email/">here</a>我是参考的这篇文章。
+例如，你要产生patch的commit如下：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>db868ad xhci: remove conversion from generic to pci device <span class="k">in </span>xhci_mem.c
+c010f0c xhci: remove unnecessary check <span class="k">in </span>xhci_free_stream_info<span class="o">()</span>
+a166493 xhci: fix SCT_FOR_CTX<span class="o">(</span>p<span class="o">)</span> macro
+56e4cd3 xhci: replace USB_MAXINTERFACES with config-&gt;desc.bNumInterface
+</code></pre></div></div>
+<p>接下来就是两种方法：
+way 1: git format-patch -o ~/patches/ -3 HEAD
+这样你就会得到从<code class="highlighter-rouge">c010f0c</code>,<code class="highlighter-rouge">a166493</code>,<code class="highlighter-rouge">56e4cd3</code>的patch.
+还有一种方式就是 在commit-id 处使用 <code class="highlighter-rouge">56e4cd3^..c010f0c</code>,这样也能满足上面的方案。
+way 2: git format-patch -o ~/patches/ -3 c010f0c(这一个是重点，我觉得可以用+号往上产生，比如，产生头两个)
+这里很有意思的一件事就是：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> ~/patch/  <span class="nt">-3</span>
+</code></pre></div></div>
+<p>就会产生前三个commit的patch.同时，如果你查看0001-xx.patch，你就会看到[PATCH 1/n],这个n就是你上面的”-n”.
+你以为这样就结束了，”–to”什么的忘了吗？</p>
+<h2 id="带封皮的cover-letter的patchset">带封皮的cover-letter的patchset</h2>
+<p>使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git format-patch <span class="nt">-o</span> /tmp/ <span class="nt">--cover-letter</span> <span class="nt">-n</span> <span class="nt">--thread</span><span class="o">=</span>shallow <span class="nt">--cc</span><span class="o">=</span><span class="s2">"linux-usb@vger.kernel.org"</span> <span class="nt">-3</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2017/02/04/git_send_email_tips/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page8" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">9/36</span>
+          
+            <a href="/page10" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page36" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2018/09/20/blog-update-themes/">blog更换主题</a></li>
+                    
+                        <li><a href="/2018/09/16/debian-desktop/">debian桌面系统</a></li>
+                    
+                        <li><a href="/2018/08/31/sdn_summary/">SDN之OVS学习</a></li>
+                    
+                        <li><a href="/2018/06/12/git-push/">git pull-request使用简介</a></li>
+                    
+                        <li><a href="/2018/06/04/libvirt-trouble-summary/">libvirt问题汇总</a></li>
+                    
+                        <li><a href="/2018/06/03/ebpf-kernel/">ebpf基础知识</a></li>
+                    
+                        <li><a href="/2018/06/02/neomutt-imap-126/">Neomutt使用126邮箱的imap</a></li>
+                    
+                        <li><a href="/2018/05/22/leetcode-easy/">leetcode easy task</a></li>
+                    
+                        <li><a href="/2018/05/21/xdp-introducation/">xdp简介</a></li>
+                    
+                        <li><a href="/2018/05/13/bpf-bcc/">BPF-bcc usage</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#experience" class="categories-list-item" cate="experience">
+                            <span class="name">
+                                experience
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#debian" class="categories-list-item" cate="debian">
+                            <span class="name">
+                                debian
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#tools" class="categories-list-item" cate="tools">
+                            <span class="name">
+                                tools
+                            </span>
+                            <span class="badge">28</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#plan" class="categories-list-item" cate="plan">
+                            <span class="name">
+                                plan
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#algorithm" class="categories-list-item" cate="algorithm">
+                            <span class="name">
+                                algorithm
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#DS" class="categories-list-item" cate="DS">
+                            <span class="name">
+                                DS
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mood" class="categories-list-item" cate="mood">
+                            <span class="name">
+                                mood
+                            </span>
+                            <span class="badge">7</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#OS" class="categories-list-item" cate="OS">
+                            <span class="name">
+                                OS
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#shell" class="categories-list-item" cate="shell">
+                            <span class="name">
+                                shell
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kernel" class="categories-list-item" cate="kernel">
+                            <span class="name">
+                                kernel
+                            </span>
+                            <span class="badge">26</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#book" class="categories-list-item" cate="book">
+                            <span class="name">
+                                book
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#git" class="categories-list-item" cate="git">
+                            <span class="name">
+                                git
+                            </span>
+                            <span class="badge">12</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#c" class="categories-list-item" cate="c">
+                            <span class="name">
+                                c
+                            </span>
+                            <span class="badge">13</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#perl" class="categories-list-item" cate="perl">
+                            <span class="name">
+                                perl
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#assembly" class="categories-list-item" cate="assembly">
+                            <span class="name">
+                                assembly
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#make" class="categories-list-item" cate="make">
+                            <span class="name">
+                                make
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#python" class="categories-list-item" cate="python">
+                            <span class="name">
+                                python
+                            </span>
+                            <span class="badge">18</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#java" class="categories-list-item" cate="java">
+                            <span class="name">
+                                java
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#mysql" class="categories-list-item" cate="mysql">
+                            <span class="name">
+                                mysql
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#network" class="categories-list-item" cate="network">
+                            <span class="name">
+                                network
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#unix" class="categories-list-item" cate="unix">
+                            <span class="name">
+                                unix
+                            </span>
+                            <span class="badge">10</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#css" class="categories-list-item" cate="css">
+                            <span class="name">
+                                css
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#dhc" class="categories-list-item" cate="dhc">
+                            <span class="name">
+                                dhc
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#javascript" class="categories-list-item" cate="javascript">
+                            <span class="name">
+                                javascript
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#oracle" class="categories-list-item" cate="oracle">
+                            <span class="name">
+                                oracle
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#system" class="categories-list-item" cate="system">
+                            <span class="name">
+                                system
+                            </span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#english" class="categories-list-item" cate="english">
+                            <span class="name">
+                                english
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#writing" class="categories-list-item" cate="writing">
+                            <span class="name">
+                                writing
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#math" class="categories-list-item" cate="math">
+                            <span class="name">
+                                math
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#word" class="categories-list-item" cate="word">
+                            <span class="name">
+                                word
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#leetcode" class="categories-list-item" cate="leetcode">
+                            <span class="name">
+                                leetcode
+                            </span>
+                            <span class="badge">4</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#H4X0r" class="categories-list-item" cate="H4X0r">
+                            <span class="name">
+                                H4X0r
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#django" class="categories-list-item" cate="django">
+                            <span class="name">
+                                django
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#life" class="categories-list-item" cate="life">
+                            <span class="name">
+                                life
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#nft" class="categories-list-item" cate="nft">
+                            <span class="name">
+                                nft
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#kvms" class="categories-list-item" cate="kvms">
+                            <span class="name">
+                                kvms
+                            </span>
+                            <span class="badge">2</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#patent" class="categories-list-item" cate="patent">
+                            <span class="name">
+                                patent
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#bpf" class="categories-list-item" cate="bpf">
+                            <span class="name">
+                                bpf
+                            </span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#xdp" class="categories-list-item" cate="xdp">
+                            <span class="name">
+                                xdp
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#sdn" class="categories-list-item" cate="sdn">
+                            <span class="name">
+                                sdn
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#experience" style="font-size: 18pt; color: #000;">experience</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#CS" style="font-size: 9pt; color: #999;">CS</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#English" style="font-size: 9pt; color: #999;">English</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 9pt; color: #999;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#mood" style="font-size: 9pt; color: #999;">mood</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#She" style="font-size: 9pt; color: #999;">She</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#FreeDos" style="font-size: 9pt; color: #999;">FreeDos</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

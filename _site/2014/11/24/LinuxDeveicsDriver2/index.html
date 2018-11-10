@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>LDD读书笔记(2)</title>
+    <meta name="description" content="#Debugging Techniques无论什么样的原因你都应该自己编译内核,在__kernel hacking__ menu 下,你最好开启以下选项.###CONFIG_DEBUG_KERNELthe option just makes other debugging options available.##...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2014/11/24/LinuxDeveicsDriver2/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>LDD读书笔记(2)</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2014-11-24
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#book" title="Category: book" rel="category">book</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>#Debugging Techniques
+无论什么样的原因你都应该自己编译内核,在__kernel hacking__ menu 下,你最好开启以下选项.
+###CONFIG_DEBUG_KERNEL
+the option just makes other debugging options available.
+###CONFIG_DEBUG_SLAB
+这对于内核内存分配函数非常关键,	它可以推断溢出的内存的数量以及未初始化的错误,每一个被分配的内存的字节在处理之前是0xa5,当被释放后是0x6b…
+###CONFIG_DEBUG_PAGEALLOC
+Full pages are removed from the kernel address space,the option can slow it,also point out certain kinds of memory corruption errors
+###CONFIG_DEBUG_SPINLOCK
+It catches uninitialized spinlock and other errors(such as unlocking a lock twice)</p>
+
+<p>###CONFIG_DEBUG_SPINLOCK_SLEEP
+开启这个选项,如果你呼叫一个潜在(可能不是)的sleep函数,它就会发出警告.
+###CONFIG_INIT_DEBUG
+Items marked with <strong>init(__initdata)在系统初始化完成后或模块加载完毕后被丢弃.
+###CONFIG_DEBUG_INFO
+The information debugging with __gdb</strong>,You also want to enable CONFIG_FRAME_POINTER.
+###CONFIG_MAGIC_SYSRQ</p>
+
+<p>###CONFIG_DEBUG_STACKOVERFLOW AND CONFIG_DEBUG_STACK_USAGE
+These options can help trace down kernel stack overflows.
+###CONFIG_KALLSYMS
+This option (under “General setup/Stardsrd features”) causes kernel symbol information to be built into the kernel.
+###CONFIG_IKCONFIG AND CONFIG_IKCONFIG_PROC
+These options (under “General setup”) cause the full kernel configuration state and to be made available via /proc.
+###CONFIG_ACPI_DEBUG</p>
+
+<p>###CONFIG_DEBUG_DRIVER
+It is useful to trace down the low-level support code.
+###CONFIG_SCSI_CONSTANTS
+The item (under “Device drivers/SCSI device support”)
+###CONFIG_INPUT_EVBUG
+The item (“Device drivers/Input device suuport”) including security implications and however: it logs everything you type.
+###CONFIG_PROFILING</p>
+
+<p>#Debugging by Printing
+The variable console_loglevel is initialized to DEFAULT_CONSOLE_LOGLEVEL AND can be modified through the sys_syslog system call,P95 这一段没看明白.
+###Redirecting Console Messages
+同样没有看懂
+###How Messages Get Logged
+The printk function writes messages into a circular buffer that is __LOG_BUF_LEN bytes long (from 4 KB to 1 MB) while configuring the kernel.</p>
+
+<p>###系统日志那块很麻烦
+###Rate Limit
+如果你的设备有错误,但是你只是想打印一次的错误,那可以考虑</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int printk_ratelimit(void);
+</code></pre></div></div>
+
+<p>如果这个函数返回一个非0的数,那么继续打印消息,典型的应用是</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (printk_ratelimit())
+	printk(KERN_NOTICE "The printer is still on fire\n");
+</code></pre></div></div>
+
+<p>这个函数的行为可以通过 /proc/sys/kernel/printk_ratelimit改变.
+###print device numbers
+Defined in &lt;linux/kdev_t.h&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int print_dev_t(char *buffer, dev_t dev);
+char *format_dev_t(char *buffer, dev_t dev);
+</code></pre></div></div>
+
+<p>这一块学的真垃圾.</p>
+
+<p>###Using the /proc/ Filesystem</p>
+
+<p>这个目录下的文件是内核把硬件信息告诉外界./proc是很重要在linux system中,许多命令例如ps,top,uptime严重依赖这个目录.你的驱动也可以使用这个东西,并且是动态的.
+我们最好使用 sysfs去调试信息.</p>
+
+<p>&lt;linux/proc_fs.h&gt;是所有工作在/proc的模块的头文件,当有进程访问/proc下的文件,内核首先分配一页内存(4096 kb),此内存用来将数据发往用户空间,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int (*read_proc)(char *page, char **start, off_t offset, int count,
+		int *eof, void *data)
+</code></pre></div></div>
+
+<p>其中的offset和count同read方法的一致,其他的就可以按照字面上的理解.这个函数的参数需要注意.</p>
+
+<p>下面是一个简单的例子:</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c">	<span class="kt">int</span> <span class="nf">scull_read_procmen</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">start</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">,</span>
+			<span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">eof</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">count</span> <span class="o">-</span><span class="mi">80</span><span class="p">;</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">scull_nr_devs</span> <span class="o">&amp;&amp;</span> <span class="n">len</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">struct</span> <span class="n">scull_dev</span> <span class="o">*</span><span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">scull_devices</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="k">struct</span> <span class="n">scull_qset</span> <span class="o">*</span><span class="n">qs</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">down_interruptible</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">sem</span><span class="p">))</span>
+				<span class="k">return</span> <span class="o">-</span><span class="n">ERESTARTSYS</span><span class="p">;</span>
+			<span class="n">len</span> <span class="o">+=</span> <span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">len</span><span class="p">,</span><span class="s">"</span><span class="se">\n</span><span class="s">Device %i: qset %i, q %i, sz %li</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+					<span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">qset</span><span class="p">,</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">quantum</span><span class="p">,</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+			<span class="k">for</span> <span class="p">(;</span><span class="n">qs</span> <span class="o">&amp;&amp;</span> <span class="n">len</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">;</span> <span class="n">qs</span> <span class="o">=</span> <span class="n">qs</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">len</span> <span class="o">+=</span> <span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">len</span><span class="p">,</span> <span class="s">" item at %p, qset at %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+						<span class="n">qs</span><span class="p">,</span> <span class="n">qs</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">qs</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">qs</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span><span class="cm">/*dump only last item*/</span>
+					<span class="k">for</span> <span class="p">(</span><span class="n">qs</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+						<span class="n">len</span> <span class="o">+=</span> <span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">len</span><span class="p">,</span>
+								<span class="s">"	% 4i:%8p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+								<span class="n">j</span><span class="p">,</span> <span class="n">qs</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+			<span class="p">}</span>
+		<span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">scull_devices</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sem</span><span class="p">);</span>
+
+		<span class="p">}</span>
+		<span class="o">*</span><span class="n">eof</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">len</span><span class="p">;</span>
+	
+	<span class="p">}</span></code></pre></figure>
+
+<p>##kdb内核调试器</p>
+
+<p>1.在编译内核时，首先将支持kdb的选项打开，在 Linux hacking » KGDB</p>
+
+<p>2.在控制台下，按下 Pause Break 键启动调试，当内核发生oops，或者到达一个断点时也会开启调试。</p>
+
+<p>3.具体用到的时候再说
+##并发和竞争</p>
+
+<p>1.当一个linux process reaches a point where it cannot make any further process it goes to sleep (or “block”)</p>
+
+<p>2.使用锁机制容易造成“sleep”，所以使用信号量来避免，在linux中，有一对函数叫做P，V。在进入临界区前，首先呼叫p，并且将value-1,V 释放这个信号量。当这两个函数出现意外时，需要等待…</p>
+
+<p>3.实现</p>
+
+<p>为了使用semaphore,需要包括&lt;asm/semaphore&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct semaphore;
+
+void sem_init(struct semaphore *sem, int val); 
+// val is the inital value to assign to a semaphore.
+</code></pre></div></div>
+
+<p>还可以使用MACROS</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DECLARE_MUTEX(NAME); // ==&gt;&gt; 1
+
+DECLARE_MUTEX_LOCKED(NAME); // ==&gt;&gt; 0
+</code></pre></div></div>
+
+<p>如果在运行时进行初始化，可以使用以下两种方法</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void init_MUTEX(struct semaphore *sem);
+void init_MUTEX_LOCKED(struct semaphore *sem);
+</code></pre></div></div>
+
+<p>使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void down (struct semaphore *sem);
+void down_interruptible(struct semaphore *sem); 
+//产生不可杀的进程(D state in PS command)
+int down_trylock(struct semaphore *sem);
+//立即返回nonzero
+
+void up(struct semaphore *sem);
+</code></pre></div></div>
+
+<p>使用信号量通过down获得，也就是说在你的目标代码中使用上述的的down xx（），可以获得这个信号量;当你离开这个临界区时，通过up()释放。</p>
+
+<p>首先我们在设备文件中设置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct semaphore sem;
+init_MUTEX(&amp;scull_devices[i].sem);
+//一定要在设备分配之前使用
+
+up(&amp;dev-&gt;sem);
+//must clean up
+</code></pre></div></div>
+
+<p>###Read/write semaphore
+如果只是仅仅访问收保护的临界区，我们可以使用rwsem(“reader/writer semaphore”), it comes from &lt;linux/rwsem.h&gt;.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void down_read(struct rw_semaphore *sem);
+int down_read_trylock(struct rw_semaphore * sem);
+void up_read(struct rw_semaphore *sem);
+</code></pre></div></div>
+
+<p>down_read只是使用可读的权限使用被保护的数据，还可以是并发的。它可以把呼叫程序处于一种不可中断的睡眠。down_read_trylock如果成功的话返回非0,不成功返回0,这一点与其它的内核函数一样。一个 rwsem使用down_read到的，必须使用up_read释放。</p>
+
+<p>for writer:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void down_write(struct rw_semaphore *sem);
+int down_write_trylock(struct rw_semaphore *sem);
+void up_write(struct rw_semaphore *sem);
+void downgrade_write(struct rw_semaphore *sem);
+</code></pre></div></div>
+
+<p>综合rwsem的表现，我们拥有rwsem的时间不能过长，否则会出问题.
+###completion
+即便使用信号量我们也不能保障临界区的安全使用，in the 2.4.7 kernel,we can use completion that allow one thread to tell another that job is done. &lt;linux/completion.h&gt;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DECLARE_COMPLETION(my_completion);
+</code></pre></div></div>
+
+<p>如果动态的使用，则</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct completion my_completion;
+/*...*/
+init_completion(&amp;my_completion); wait.
+
+void wait_for_completion(strcut completion *c);
+</code></pre></div></div>
+
+<p>这个函数是不可中断的，如果使用后不及时释放，会产生不可杀的进程.</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2014/11/24/LinuxDeveicsDriver/">LDD读书笔记(1-4)</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2014/11/24/Perl/">perl学习笔记(1)</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>netlink嵌套字</title>
+    <meta name="description" content="redhat如果你有用户空间的程序去测试，请参考这篇文章1在net/下，有af_netlink.c af_netlink.h genetlink.c和diag.caf_netlink 文件中提供了绝大多数的API，genetlink提供了新的API，这使得更容易创建netlink消息。diag.c是为了dump ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/05/03/netlink_socket/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>netlink嵌套字</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-05-03
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#network" title="Category: network" rel="category">network</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="https://people.redhat.com/nhorman/papers/netlink.pdf">redhat</a></p>
+
+<p>如果你有用户空间的程序去测试，请参考这篇文章<a href="https://home.regit.org/netfilter-en/nftables-quick-howto/">1</a></p>
+
+<p>在net/下，有af_netlink.c af_netlink.h genetlink.c和diag.c</p>
+
+<p>af_netlink 文件中提供了绝大多数的API，genetlink提供了新的API，这使得更容易创建netlink消息。diag.c是为了dump netlink消息，里面是相关的API。</p>
+
+<p>netlink较其他内核与用户空间的交流方式具有以下优势：</p>
+
+<p>不需要poll模式，<a href="http://www.aftermath.cn/liinux_network_flow.html">前文</a>我们说了。一个用户空间的程序打开一个socket，然后直接recvmsg(),如果没有从内核发送过来信息，就进入一个阻塞状态。例如，iproute2包中/lib/libnetlink.c中的 rtnl_listen()方法。还有一个优势是可以允许内核发送异步消息到用户空间，这不需要用户空间的程序去特定的抓取。最后一个优势就是netlink支持多播传输机制。</p>
+
+<p>同样，创建netlink嵌套字使用socket()方法，类型可以是SOCK_RAW或者SOCK_DGRAM.</p>
+
+<p>netlink嵌套字既可以在用户空间创建，也可以在内核空间创建。内核里使用方法<strong>netlink_kernel_create()</strong>去创建，这两者都会产生一个netlink_sock对象。用户空间的会被<strong>netlink_create()</strong>方法处理。内核里是<strong>__netlink_kernel_create()</strong>,这个方法设置了<strong>NETLINK_KERNEL_SOCKET_</strong>标志。最终所有的方法会调用<strong>__netlink_create()</strong>(源头其实是sk_alloc()),</p>
+
+<p>用户空间的程序：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">socket</span><span class="p">(</span><span class="n">AF_NETLINK</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">NETLINK_ROUTE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>然后创造一个<strong>sockaddr_nl</strong>的对象实例</p>
+
+<h1 id="使用netlink-sockets-库">使用netlink sockets 库</h1>
+
+<p>libnl是与内核空间交流的用户空间程序的API，iproute2就是使用的libnl库，一般在这个源代码包的下面，有基本核心库(libnl),它支持一般netlink家族(libnl-genl),路由家族(libnl-route)和netfilter家族(libnl-nf).还有一个最小化的用户空间的库函数叫libmnl.</p>
+
+<p>相关的源代码在这里<a href="https://www.infradead.org/~tgr/libnl/">here</a>,下面就是结构图:</p>
+
+<p>进行开发的文档在<a href="https://www.infradead.org/~tgr/libnl/doc/core.html">这里</a></p>
+
+<p><img src="http://yuzibo.qiniudn.com/2018-05-21-netlink_user.png" alt="2018-05-21-netlink_user.png" /></p>
+
+<p>先来一段用户空间的程序，看看大体概貌</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;netlink/netlink.h&gt;
+#include &lt;errno.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">nl_sock</span> <span class="o">*</span><span class="n">h</span><span class="p">[</span><span class="mi">1025</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">nl_socket_alloc</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Created handle with port 0x%x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+			<span class="n">nl_socket_get_local_port</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+	<span class="n">nl_socket_free</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+	<span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">nl_socket_alloc</span><span class="p">();</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Created handle with port 0x%x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+			<span class="n">nl_socket_get_local_port</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+	<span class="n">nl_socket_free</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1025</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nl_socket_alloc</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+			<span class="n">nl_perror</span><span class="p">(</span><span class="n">ENOMEM</span><span class="p">,</span> <span class="s">"Unable to allocate socket"</span><span class="p">);</span>
+		<span class="k">else</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Created handle with port 0x%x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+				<span class="n">nl_socket_get_local_port</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这是在编译的时候，有些麻烦，</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gcc</span> <span class="n">program</span><span class="p">.</span><span class="n">c</span> <span class="err">$</span><span class="p">(</span><span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="o">--</span><span class="n">cflags</span> <span class="o">--</span><span class="n">libs</span> <span class="n">libnl</span><span class="o">-</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>这里涉及了<strong>pkg-config</strong>的用法。这个工具还是非常有用的，他解决了有关已安装的库函数中的种种使用的问题。比如，库函数的版本、链接位置…pkg-config的具体以后补充。</p>
+
+<h2 id="message-format">Message Format</h2>
+<p><img src="http://yuzibo.qiniudn.com/2018-05-21-nlmsghdr.png" alt="2018-05-21-nlmsghdr.png" /></p>
+
+<h3 id="netlink-header">Netlink Header</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">nlmsghdr</span><span class="p">{</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_len</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_type</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_flags</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_seq</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">nlmsg_pid</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>from &lt;linux/uapi/linux/netlink.h&gt;．这里重点介绍几个。</p>
+
+<p><code class="highlighter-rouge">nlmsg_len</code> is the length of the message including the header</p>
+
+<p><code class="highlighter-rouge">nlmsg_type</code> four basic netlink message header types:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NLMSG_NOOP : no operations, message must be discarded
+NLMSG_ERROR: Error occured
+NLMSG_DONE: A multipart message is terminated
+NLMSG_OVERRUN: error, data was lost
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">nlmsg_flags</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NLM_F_REQUEST - Message is a request, see Message Types.
+
+NLM_F_MULTI - Multipart message, see Multipart Messages
+
+NLM_F_ACK - ACK message requested, see ACKs.
+
+NLM_F_ECHO - Request to echo the request.
+
+NLM_F_ROOT - Return based on root of tree.
+
+NLM_F_MATCH - Return all matching entries.
+
+NLM_F_ATOMIC - Obsoleted, once used to request an atomic operation.
+
+NLM_F_DUMP - Return a list of all objects (NLM_F_ROOT|NLM_F_MATCH).
+
+NLM_F_REPLACE - Replace an existing object if it exists.
+
+NLM_F_EXCL - Do not update object if it exists already.
+
+NLM_F_CREATE - Create object if it does not exist yet.
+
+NLM_F_APPEND - Add object at end of list.
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">nlmsg_seq</code>: the message sequence number</p>
+
+<p><code class="highlighter-rouge">nlmsg_pid</code>: is the sending port id</p>
+
+<p>看一下<strong>sockaddr_nl</strong>的结构体</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">sockaddr_nl</span> <span class="p">{</span>
+	<span class="n">__kernel_sa_family_t</span>	<span class="n">nl_family</span><span class="p">;</span>	<span class="cm">/* AF_NETLINK	*/</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span>	<span class="n">nl_pad</span><span class="p">;</span>		<span class="cm">/* zero		*/</span>
+	<span class="n">__u32</span>		<span class="n">nl_pid</span><span class="p">;</span>		<span class="cm">/* port ID	*/</span>
+       	<span class="n">__u32</span>		<span class="n">nl_groups</span><span class="p">;</span>	<span class="cm">/* multicast groups mask */</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>上面的成员参数可以看注释，这里说一下nl_pid,它是netlink socket的单播地址，对于内核来说，它应该是0;对于用户空间来说，应该是运行它的的pid(使用getpid()).</p>
+
+<h2 id="socket-monitoring-interface">socket monitoring interface</h2>
+
+<p><strong>sock_diag</strong>就是提供了基于netlink子系统、可以得到有关socket的信息。有关网络的工具<strong>ss</strong>就是大量使用了sock_diag.</p>
+
+<h4 id="netlink_sock_diag">NETLINK_SOCK_DIAG</h4>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/03/06/python_note/">python新手注意的知识点</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/05/06/icmp/">icmp分析</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

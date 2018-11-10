@@ -1,7 +1,7 @@
 ---
 title: "linux 网络流程"
 category: network
-layout: article
+layout: post
 ---
 
 # 参考

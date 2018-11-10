@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title: "MKNOD命令"
 category: shell
 ---

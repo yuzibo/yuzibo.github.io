@@ -1,6 +1,6 @@
 ---
 title: "Vbox主机ssh访问虚拟机"
-layout: article
+layout: post
 category: tools 
 ---
 

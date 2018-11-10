@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>unix之文件和目录</title>
+    <meta name="description" content="code这篇文章这两篇文章是有共同点的。stat fstat lstat这三个函数的作用是类似的。区别只是在参数上的不同。int stat(const char *restrict pathname, struct stat *restrict buf);int fstat(int fd, struct stat...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/06/20/apue_ch4/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>unix之文件和目录</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-06-20
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#c" title="Category: c" rel="category">c</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><a href="https://github.com/yuzibo/Apue/tree/master/ch4_file-and-dir">code</a></p>
+
+<p><a href="http://yuzibo.github.io/ls_commands.html">这篇文章</a></p>
+
+<p>这两篇文章是有共同点的。</p>
+
+<h1 id="stat-fstat-lstat">stat fstat lstat</h1>
+
+<p>这三个函数的作用是类似的。区别只是在参数上的不同。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">stat</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">pathname</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">buf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">fstat</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="n">buf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">lstat</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">pathname</span><span class="p">,</span> <span class="k">struct</span> <span class="n">stat</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">buf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">fstatat</span><span class="p">(....)</span>
+</code></pre></div></div>
+
+<p>fstat 是传递的文件描述符，lstat是符号链接。这几个函数统一都返回stat结构体，这个结构体的
+内容如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">struct</span> <span class="n">stat</span> <span class="p">{</span>
+               <span class="n">dev_t</span>     <span class="n">st_dev</span><span class="p">;</span>     <span class="cm">/* ID of device containing file */</span>
+               <span class="n">ino_t</span>     <span class="n">st_ino</span><span class="p">;</span>     <span class="cm">/* inode number */</span>
+               <span class="n">mode_t</span>    <span class="n">st_mode</span><span class="p">;</span>    <span class="cm">/* protection */</span>
+               <span class="n">nlink_t</span>   <span class="n">st_nlink</span><span class="p">;</span>   <span class="cm">/* number of hard links */</span>
+               <span class="n">uid_t</span>     <span class="n">st_uid</span><span class="p">;</span>     <span class="cm">/* user ID of owner */</span>
+               <span class="n">gid_t</span>     <span class="n">st_gid</span><span class="p">;</span>     <span class="cm">/* group ID of owner */</span>
+               <span class="n">dev_t</span>     <span class="n">st_rdev</span><span class="p">;</span>    <span class="cm">/* device ID (if special file) */</span>
+               <span class="kt">off_t</span>     <span class="n">st_size</span><span class="p">;</span>    <span class="cm">/* total size, in bytes */</span>
+               <span class="n">blksize_t</span> <span class="n">st_blksize</span><span class="p">;</span> <span class="cm">/* blocksize for file system I/O */</span>
+               <span class="n">blkcnt_t</span>  <span class="n">st_blocks</span><span class="p">;</span>  <span class="cm">/* number of 512B blocks allocated */</span>
+               <span class="kt">time_t</span>    <span class="n">st_atime</span><span class="p">;</span>   <span class="cm">/* time of last access */</span>
+               <span class="kt">time_t</span>    <span class="n">st_mtime</span><span class="p">;</span>   <span class="cm">/* time of last modification */</span>
+               <span class="kt">time_t</span>    <span class="n">st_ctime</span><span class="p">;</span>   <span class="cm">/* time of last status change */</span>
+           <span class="p">};</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>尤其注意 st_mode位</p>
+</blockquote>
+
+<h3 id="access-faccessat">access faccessat</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">access</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">faccessat</span><span class="p">(</span><span class="n">ing</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flag</span><span class="p">);</span>
+</code></pre></div></div>
+<p>access - check real user’’s permissions for a file</p>
+
+<p>确定文件和目录的访问权限。</p>
+
+<p>参数1是文件或者文件夹的路径。</p>
+
+<p>参数2是要判断的模式,可能值是一个或者多个R_OK、W_OK、X_OK和F_OK(文件是否存在)的组合体。</p>
+
+<p>在<unistd.h>中定义如下：</unistd.h></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define R_OK 4 </span><span class="cm">/* Test for read permission */</span><span class="cp">
+#define W_OK 2 </span><span class="cm">/* Test for write permission */</span><span class="cp">
+#define X_OK 1 </span><span class="cm">/* Test for execute permission */</span><span class="cp">
+</span></code></pre></div></div>
+<p>返回说明，成功为0，失败返回-1，errno被设定为以下的某个值。<a href="!http://fushijieabc.blog.163.com/blog/static/49677316201231814624291/">参考</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EINVAL： 模式值无效   
+EACCES： 文件或路径名中包含的目录不可访问 
+ELOOP ： 解释路径名过程中存在太多的符号连接 
+ENAMETOOLONG：路径名太长 
+ENOENT：  路径名中的目录不存在或是无效的符号连接 
+ENOTDIR： 路径名中当作目录的组件并非目录 
+EROFS： 文件系统只读 
+EFAULT： 路径名指向可访问的空间外 
+EIO：  输入输出错误 
+ENOMEM： 不能获取足够的内核内存 
+ETXTBSY：对程序写入出错 
+</code></pre></div></div>
+<p>相关的代码放在了github上。</p>
+
+<h3 id="chmod-fchmodfchmodat">chmod, fchmod,fchmodat</h3>
+
+<p>这里主要是利用 “或”的关系将那几个模式选中或者删除。</p>
+
+<h3 id="file-truncatioh">file Truncatioh</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">truncate</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pathname</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">ftruncate</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>这两个函数截取length长得bytes在相应的文件中。</p>
+
+<h1 id="许可位与特殊属性位">许可位与特殊属性位</h1>
+
+<h3 id="1建立文件的模式">1.建立文件的模式</h3>
+
+<blockquote>
+  <p>fd = creat(“newfile”, 0744);</p>
+</blockquote>
+
+<p>指定新创建文件的许可位为</p>
+
+<blockquote>
+  <p>rwxr–r–;</p>
+</blockquote>
+
+<p>这个参数只是请求，而不是命令， 内核会通过”新建文件掩码”来得到文件的最终模式
+，啥是”新建文件掩码”呢，简单地说，就是，比如说，你要一个文件不能被同组用户和
+其他用户修改，那么，你的原意就是将文件的许可位关掉：</p>
+
+<blockquote>
+  <p>—-w–w-</p>
+</blockquote>
+
+<p>这样即可达到目的。</p>
+
+<p>我们使用</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">umask</span><span class="p">(</span><span class="mo">022</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>实现了同样的目的。</p>
+
+<h3 id="2改变文件的模式">2.改变文件的模式</h3>
+
+<p>程序可以通过系统调用chmod来改变文件的模式。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chmod</span> <span class="p">(</span><span class="s">"/tmp/myfile"</span><span class="p">,</span> <span class="mo">04764</span><span class="p">);</span>
+<span class="n">chmod</span> <span class="p">(</span><span class="s">"/tmp/myfile"</span><span class="p">,</span> <span class="n">S_ISUID</span> <span class="o">|</span> <span class="n">S_IRWXU</span> <span class="o">|</span> <span class="n">S_IRGRP</span> <span class="o">|</span> <span class="n">S_IRGRP</span> <span class="o">|</span> <span class="n">S_IROTH</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="3文件所有者与组">3.文件所有者与组</h3>
+
+<p>文件所有者就是创建文件的用户，用户通过creat 建立文件时，内核把文件所有者设为
+运行程序的用户，如果程序具有set-user-ID位，那么新文件所有者就是程序的文件所
+有者。</p>
+
+<p>修改文件所有者和组</p>
+
+<blockquote>
+  <p>chown(“file1”, 200,40);</p>
+</blockquote>
+
+<h3 id="file-systems">file systems</h3>
+
+<p>每一个i-node有一个连接计数，只有当link count为0的时候，这个i-node才可以被删除。这个信息是stat中的st_nlink表示。每一个i-node指向了n个data block，这里面存放就是文件的数据。</p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/06/19/who_and_more/">c下实现who和more命令-time</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/06/22/leetcode-344-reversestring/">leetcode-344 字符反转</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

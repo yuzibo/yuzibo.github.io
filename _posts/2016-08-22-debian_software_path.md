@@ -1,6 +1,6 @@
 ---
 title: "debian系统目录"
-layout: article
+layout: post
 category: debian
 ---
 

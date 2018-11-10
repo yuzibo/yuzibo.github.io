@@ -1,6 +1,6 @@
 ---
 title: "debian常用命令"
-layout: article
+layout: post
 category: debian
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "linux中关于进程之fork()的认识"
-layout: article
+layout: post
 category: unix
 ---
 

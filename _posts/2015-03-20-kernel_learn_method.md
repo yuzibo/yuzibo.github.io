@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 category: OS 
 title: "内核学习方法"
 ---

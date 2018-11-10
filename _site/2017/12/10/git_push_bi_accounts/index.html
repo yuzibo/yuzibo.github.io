@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>一台电脑绑定两个github账号</title>
+    <meta name="description" content="在一台电脑上管理两个github账号，需要大家做以下步骤.一、生成两个SSH Key比如说，你有一个126的邮箱和一个gmail邮箱，名字分别取x和y.在.ssh/目录下使用下面的命令：ssh-keygen -t rsa -C "x@126.com"ssh-keygen -t rsa -C "y@gmail.co...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/12/10/git_push_bi_accounts/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>一台电脑绑定两个github账号</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-12-10
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#git" title="Category: git" rel="category">git</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p><img src="http://yuzibo.qiniudn.com/截图_2018-01-09_13-15-15.png" alt="截图_2018-01-09_13-15-15.png" /></p>
+
+<p>在一台电脑上管理两个github账号，需要大家做以下步骤.</p>
+
+<h1 id="一生成两个ssh-key">一、生成两个SSH Key</h1>
+<p>比如说，你有一个126的邮箱和一个gmail邮箱，名字分别取x和y.在.ssh/目录下使用下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-C</span> <span class="s2">"x@126.com"</span>
+
+ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-C</span> <span class="s2">"y@gmail.com"</span>
+</code></pre></div></div>
+
+<p>在键入第一条命令的时候，不要一路回车，需要你重命名一下，可以直接以<em>id_rsa_x</em>和<em>id_rsa_y</em>来命令，第二个提示框可以按回车直接进行下一步。这样就会生成四个文件:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>id_rsa_x.pub      id_rsa_y.pub
+id_rsa_x          id_rsa_y
+</code></pre></div></div>
+<p>上面以*.pub结尾的文件需要你填入你的两个github上面的设置的<em>ssh key and gpg</em></p>
+
+<p><img src="http://yuzibo.qiniudn.com/2.png" alt="2.png" /></p>
+
+<p>单击上面的<em>New ssh Key</em>,把pub文件的内容填入对应的ssh的对应框。</p>
+
+<h1 id="二添加私钥">二、添加私钥</h1>
+
+<ol>
+  <li>打开ssh-agent</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-agent <span class="nt">-s</span>
+</code></pre></div></div>
+
+<ol>
+  <li>添加私钥</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-add ~/.ssh/id_rsa_x
+
+ssh-add ~/.ssh/id_rsa_y
+</code></pre></div></div>
+
+<h1 id="三创建config文件">三、创建config文件</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+	Host x.github.com
+	hostName github.com
+	PreferredAuthentications publickey
+
+	IdentityFile ~/.ssh/id_rsa_x
+
+	User x
+
+Host y.github.com
+HostName github.com
+User y
+IdentityFile ~/.ssh/id_rsa_y
+</code></pre></div></div>
+
+<h1 id="四远程测试">四、远程测试</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-T</span> x.github.com
+
+ssh <span class="nt">-T</span> y.github.com
+</code></pre></div></div>
+
+<h1 id="五克隆并设置git的配置文件">五、克隆并设置git的配置文件</h1>
+
+<p>将你的项目_clone_到本地，</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:wahtever
+</code></pre></div></div>
+
+<p>还有一个重要的问题就是你的git配置文件大部分都设置为了全局文件，那么就要设置新的config文件，这是针对你的项目而言的。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 取消全局　用户名/邮箱　配置,下面的user.name是你的原来的真实名字</span>
+git config <span class="nt">--global</span> <span class="nt">--unset</span> user.name
+git config <span class="nt">--global</span> <span class="nt">--unset</span> user.email
+
+<span class="c">#为每个repo设置不同的　用户名/邮箱</span>
+git config user.email <span class="s2">"x@x.com"</span>
+git config user.name <span class="s2">"x"</span>
+</code></pre></div></div>
+
+<h1 id="重建origin">重建origin</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote <span class="nb">rm </span>origin
+git remote add origin git@ieit.github.com:whatever
+
+<span class="c"># 重新push</span>
+
+git push origin master
+</code></pre></div></div>
+
+<p>Enjoy!</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/09/10/git-reset-push-commit/">git撤销已经push到远端的commit</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/12/11/apply_patent/">申请专利简单记录</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>unix之shell解释器(exec)</title>
+    <meta name="description" content="在unix中，一个shell的执行流程如下：时间轴————————»读入命令      _                    __sh—-|  |——————-|   | ^    ||                   || |      |    新进程            | |      |&gt...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2017/05/12/unix_exec/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>unix之shell解释器(exec)</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2017-05-12
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>在unix中，一个shell的执行流程如下：</p>
+
+<p>时间轴
+————————»</p>
+
+<p>读入命令
+      <strong>_                    __</strong>
+sh—-|  |——————-|   |
+ ^    |<strong>|                   |</strong><em>|
+ |      |    新进程            |
+ |      |</em><strong><em>&gt;”ls”—&gt;退出     |</em></strong>_&gt;”ps”
+“ls”</p>
+
+<h1 id="一个程序如何运行另一个程序">一个程序如何运行另一个程序？</h1>
+
+<p>使用execvp，这个函数有两个参数：要运行的程序名称和这个程序的命令行参数组。当程序运行时命令行参数以argv[]的形式传递给程序. <font color="#FF0000"> 注意，将数组的第一个元素设置为程序的名称，最后一个元素必须是Null. </font></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+
+	<span class="n">arglist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">"ls"</span><span class="p">;</span>
+	<span class="n">arglist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">"-l"</span><span class="p">;</span>
+	<span class="n">arglist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"***中断这个程序的执行***</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">execvp</span><span class="p">(</span><span class="s">"ls"</span><span class="p">,</span> <span class="n">arglist</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"ls is done, bye</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span>./exec
+<span class="k">***</span>中断这个程序的执行<span class="k">***</span>
+总用量 88
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo  6108  5月 18 06:40 <span class="nb">exec</span>
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   407  5月 18 07:08 exec1.c
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   801  5月 16 19:28 execute.c
+<span class="nt">-rw-r--r--</span> 1 yubo yubo 29520  5月 16 19:05 segfault
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 13680  5月 16 19:30 smsh
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   811  5月 16 19:30 smsh1.c
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   389  5月 16 19:09 smsh.h
+<span class="nt">-rw-r--r--</span> 1 yubo yubo  2630  5月 16 19:30 splitline.c
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo  6188  5月 16 19:49 <span class="nb">test</span>
+<span class="nt">-rw-r--r--</span> 1 yubo yubo   265  5月 16 19:48 test.c
+</code></pre></div></div>
+
+<p>这里你有没有注意到上面程序中的第二条printf语句消息了。这里书上的解释是：内核将新进程载入到当前进程，替换了当前进程的代码和数据，也就是说，execvp这个函数将“ls”这个命令加入到当前的程序，代替了后面的语句，从而使后面的printf语句消失掉。</p>
+
+<p>下面的代码更深入一步：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+</span>
+<span class="cp">#define MAXARGS		20 </span><span class="cm">/* cmdline args */</span><span class="cp">
+#define ARGLEN		100 </span><span class="cm">/* token length */</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">execute</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">arglist</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">execvp</span><span class="p">(</span><span class="n">arglist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arglist</span><span class="p">);</span>
+	<span class="n">perror</span><span class="p">(</span><span class="s">"execvp failed"</span><span class="p">);</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="nf">makestring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">;</span>
+	<span class="n">buf</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+	<span class="n">cp</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">cp</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"no memory</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">cp</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[</span><span class="n">MAXARGS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">numargs</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">argbuf</span><span class="p">[</span><span class="n">ARGLEN</span><span class="p">];</span> <span class="cm">/* read stuff from here */</span>
+	<span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span><span class="p">(</span> <span class="n">numargs</span> <span class="o">&lt;</span> <span class="n">MAXARGS</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Arg[%d]?"</span><span class="p">,</span> <span class="n">numargs</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">argbuf</span><span class="p">,</span> <span class="n">ARGLEN</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">argbuf</span> <span class="o">!=</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">makestring</span><span class="p">(</span><span class="n">argbuf</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">numargs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">argbuf</span><span class="p">);</span>
+				<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">execute</span><span class="p">(</span><span class="n">arglist</span><span class="p">))</span>
+				<span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+<p>下面是演示：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span>./psh
+Arg[0]?ls
+Arg[1]?-l
+Arg[2]?.
+Arg[3]?
+
+总用量 28
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 6108  5月 18 18:01 <span class="nb">exec</span>
+<span class="nt">-rw-r--r--</span> 1 yubo yubo  413  5月 18 18:01 exec1.c
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 9012  5月 18 19:17 psh
+<span class="nt">-rw-r--r--</span> 1 yubo yubo 1116  5月 18 19:17 psh1.c
+yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span><span class="nb">ls
+exec  </span>exec1.c  psh  psh1.c
+</code></pre></div></div>
+
+<p>这个代码，条理还是比较清楚的。</p>
+
+<h1 id="如何输入连续的shell命令">如何输入连续的shell命令</h1>
+
+<p>上面的程序只可运行一次，如果想继续使用，需要再一次运行程序。那么，如何使用真正的shell呢？</p>
+
+<p>答案是fork().</p>
+
+<p>在<a href="http://www.aftermath.cn/linux_process.html">这篇文章</a>里，我们详细讲解了fork的用法。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="cp">#define MAXARGS		20
+#define ARGLEN		100
+</span>
+<span class="kt">void</span> <span class="n">execute</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="p">);</span> <span class="cm">/* execvp */</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">makestring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">);</span> <span class="cm">/* to restore args vector */</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[</span><span class="n">MAXARGS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">argbuf</span><span class="p">[</span><span class="n">ARGLEN</span><span class="p">];</span>
+
+	<span class="k">while</span><span class="p">(</span><span class="n">numargs</span> <span class="o">&lt;</span> <span class="n">MAXARGS</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Arg[%d]"</span><span class="p">,</span> <span class="n">numargs</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">argbuf</span><span class="p">,</span> <span class="n">ARGLEN</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">argbuf</span> <span class="o">!=</span> <span class="sc">'\n'</span><span class="p">)</span>
+			<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">makestring</span><span class="p">(</span><span class="n">argbuf</span><span class="p">);</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">numargs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">arglist</span><span class="p">[</span><span class="n">numargs</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+				<span class="n">execute</span><span class="p">(</span><span class="n">arglist</span><span class="p">);</span>
+				<span class="n">numargs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">execute</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">arglist</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">pid</span><span class="p">,</span> <span class="n">existstatus</span><span class="p">;</span>
+
+	<span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>	<span class="cm">/* make new process */</span>
+	<span class="k">switch</span><span class="p">(</span><span class="n">pid</span><span class="p">){</span>
+		<span class="k">case</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"fork failed"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">execvp</span><span class="p">(</span><span class="n">arglist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arglist</span><span class="p">);</span>
+			<span class="n">perror</span><span class="p">(</span><span class="s">"execvp failed"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="nl">default:</span>
+			<span class="k">while</span><span class="p">(</span><span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">existstatus</span><span class="p">)</span> <span class="o">!=</span> <span class="n">pid</span><span class="p">)</span>
+				<span class="p">;</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"child exited with status %d, %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+					<span class="n">existstatus</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">,</span> <span class="n">existstatus</span> <span class="o">&amp;</span><span class="mo">0377</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">makestring</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">;</span>
+	<span class="n">buf</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+	<span class="n">cp</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">cp</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">){</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"no memory</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">cp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>下面是输出结果：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix/shell<span class="nv">$ </span>./psh
+Arg[0]ls
+Arg[1]-l
+Arg[2].
+Arg[3]
+总用量 24
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 6108  5月 18 18:01 <span class="nb">exec</span>
+<span class="nt">-rwxr-xr-x</span> 1 yubo yubo 9440  5月 18 23:00 psh
+<span class="nt">-rw-r--r--</span> 1 yubo yubo 1336  5月 18 23:00 psh2.c
+child exited with status 0, 0
+Arg[0]ps
+Arg[1]
+  PID TTY          TIME CMD
+ 3393 pts/1    00:00:00 bash
+ 3940 pts/1    00:00:00 psh
+ 3944 pts/1    00:00:00 ps
+child exited with status 0, 0
+Arg[0]
+
+</code></pre></div></div>
+
+<p>但是，有一点是比较遗憾的：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./psh
+Arg[0]tr
+Arg[1][a-z]
+Arg[2][A-Z]
+Arg[3]
+hello
+HELLO
+now to press
+NOW TO PRESS
+^C
+yubo@debian:~/test/tmp/unix/shell<span class="err">$</span>
+
+</code></pre></div></div>
+
+<p>针对tr程序（psh的子进程）的Ctrl+C将psh也给停止了，正确的做法是不影响父进程。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2017/05/06/icmp/">icmp分析</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2017/05/17/python-signal/">python signal处理</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

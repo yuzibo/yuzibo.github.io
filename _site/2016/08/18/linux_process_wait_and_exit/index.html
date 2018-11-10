@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>unix中关于进程之wait的认识</title>
+    <meta name="description" content="这篇文章介绍wait和exit的知识。*1.wait*1.1实例*1.2通信*2.exit*2.1实例1.wait系统调用wait做两件事，首先，wait暂停调用它的进程，直到子进程结束，然后，wait取得子进程结束时传递给exit的值。#include &lt;stdio.h&gt;#include &lt;s...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://0.0.0.0:4000/2016/08/18/linux_process_wait_and_exit/">
+    <link rel="alternate" type="application/rss+xml" title="vimer" href="http://0.0.0.0:4000/feed.xml ">
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">vimer</a>
+        <small>linux kernel 爱好者</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>unix中关于进程之wait的认识</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2016-08-18
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#unix" title="Category: unix" rel="category">unix</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <p>这篇文章介绍wait和exit的知识。</p>
+
+<p>*<a href="#1">1.wait</a></p>
+
+<p>*<a href="#1.1">1.1实例</a></p>
+
+<p>*<a href="#1.2">1.2通信</a></p>
+
+<p>*<a href="#2">2.exit</a></p>
+
+<p>*<a href="#2.1">2.1实例</a></p>
+
+<h2 id="1">1.wait</h2>
+
+<p>系统调用wait做两件事，首先，wait暂停调用它的进程，直到子进程结束，然后，wait取得子进程结束时传递给exit的值。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+
+<span class="cp">#define DELAY 2
+</span>
+<span class="kt">void</span> <span class="n">child_code</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="n">parent_code</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">newpid</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Before: mypid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">newpid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"fork"</span><span class="p">);</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">newpid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">child_code</span><span class="p">(</span><span class="n">DELAY</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">parent_code</span><span class="p">(</span><span class="n">newpid</span><span class="p">);</span>
+
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">child_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">delay</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child %d here, will sleep for %d seconds</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">(),</span> <span class="n">delay</span><span class="p">);</span>
+	<span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child done ,about to exit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">17</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">parent_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">childpid</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">wait_rec</span><span class="p">;</span> <span class="cm">/* return value from wait() */</span>
+	<span class="n">wait_rec</span> <span class="o">=</span> <span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"done waiting for %d. Wait returned: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">childpid</span><span class="p">,</span> <span class="n">wait_rec</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>注意这个wait，返回了子进程的某个值。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix<span class="nv">$ </span>./test
+Before: mypid is 21708
+child 21709 here, will <span class="nb">sleep </span><span class="k">for </span>2 seconds
+child <span class="k">done</span> ,about to <span class="nb">exit
+</span><span class="k">done </span>waiting <span class="k">for </span>21709. Wait returned: 21709
+yubo@debian:~/test/tmp/unix<span class="err">$</span>
+</code></pre></div></div>
+
+<h2 id="1.2">通信</h2>
+
+<p>wait的目的之一就是通知父进程子进程结束运行了，第二个目的是告诉父进程子进程是如何结束的。</p>
+
+<p>一个进程以（成功、失败或死亡）之一来结束运行了。通常情况下，成功的程序调用exit（0）退出或者从main函数中return 0。</p>
+
+<p>一个进程有可能内存不足导致执行失败，这个时候，unix的编程标准是给exit一个非0
+的值，这样你就告诉程序员这个程序是由于何种的原因导致失败的。</p>
+
+<p>最后一种就是进程有可能被被别的信号杀死。</p>
+
+<p>wait返回结束的子进程的pid给父进程，父进程是如何知道子进程是以何种的方式退出的呢？</p>
+
+<p>答案是传递给wait的参数之中。这个整型变量的地址传递给函数，由3部分构成–8位记录退出值，7位记录信号序号，还有一位是标识位：产生了内核镜像(code dump).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="cp">#define DELAY 5
+</span>
+
+<span class="kt">void</span> <span class="n">child_code</span><span class="p">(</span><span class="kt">int</span> <span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">parent_code</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">newpid</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Before, mypid is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">getpid</span><span class="p">());</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">newpid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"fork"</span><span class="p">);</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">newpid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">child_code</span><span class="p">(</span><span class="n">DELAY</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">parent_code</span><span class="p">(</span><span class="n">newpid</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">child_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">delay</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child %d here,will sleep for %d seconds</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">delay</span><span class="p">);</span>
+
+	<span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"child done, about to exit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="n">exit</span><span class="p">(</span><span class="mi">17</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">parent_code</span><span class="p">(</span><span class="kt">int</span> <span class="n">childpid</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">wait_rv</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">child_status</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">high_8</span><span class="p">,</span> <span class="n">low_7</span><span class="p">,</span> <span class="n">bit_7</span><span class="p">;</span>
+
+	<span class="n">wait_rv</span> <span class="o">=</span> <span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child_status</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"done waiting for %d,Wait returned: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">childpid</span><span class="p">,</span> <span class="n">wait_rv</span><span class="p">);</span>
+	<span class="n">high_8</span> <span class="o">=</span> <span class="n">child_status</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">;</span> <span class="cm">/** 1111 1111 0000 0000 */</span>
+	<span class="n">low_7</span> <span class="o">=</span> <span class="n">child_status</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">;</span> <span class="cm">/* 0000 0000 0111 1111 */</span>
+	<span class="n">bit_7</span> <span class="o">=</span> <span class="n">child_status</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">;</span> <span class="cm">/* 0000 0000 1000 0000 */</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"status: exit  = %d, sig = %d, core = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">high_8</span><span class="p">,</span> <span class="n">low_7</span><span class="p">,</span> <span class="n">bit_7</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>第一次运行可以有以下结果：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix<span class="nv">$ </span>./test
+Before, mypid is 7711
+child 7712 here,will <span class="nb">sleep </span><span class="k">for </span>5 seconds
+child <span class="k">done</span>, about to <span class="nb">exit
+</span><span class="k">done </span>waiting <span class="k">for </span>7712,Wait returned: 7712
+status: <span class="nb">exit</span>  <span class="o">=</span> 17, sig <span class="o">=</span> 0, core <span class="o">=</span> 0
+</code></pre></div></div>
+
+<p>这里大约会停顿5秒中的时间用来等待子进程。</p>
+
+<p>第二次运行时要注意，另开一个后台，当运行这个程序时，看到子进程的pid时，立即回到另一个终端，kill child-pid，这时候你再看看返回的结果。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yubo@debian:~/test/tmp/unix<span class="nv">$ </span>./test
+Before, mypid is 7768
+child 7769 here,will <span class="nb">sleep </span><span class="k">for </span>5 seconds
+<span class="k">done </span>waiting <span class="k">for </span>7769,Wait returned: 7769
+status: <span class="nb">exit</span>  <span class="o">=</span> 0, sig <span class="o">=</span> 15, core <span class="o">=</span> 0
+
+</code></pre></div></div>
+
+<p>你可以将程序中的DELAY的值设置的大一些。</p>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2016/08/17/udev_and_hotplug/">利用udev安装内核modules</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2016/08/22/debian_software_path/">debian系统目录</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             技术笔记！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/yuzibo" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>  
+            <a href="mailto:yuzibode@126.com" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>        
+        </p>
+        <p>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/prism.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <script type="text/javascript">
+	$('pre').addClass("line-numbers");
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

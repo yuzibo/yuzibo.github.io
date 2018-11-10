@@ -1,6 +1,6 @@
 ---
 title: "在windows下使用linux软件"
-layout: article
+layout: post
 category: tools
 ---
 

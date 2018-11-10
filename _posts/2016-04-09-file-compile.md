@@ -1,6 +1,6 @@
 ---
 title: "文件编译过程"
-layout: article
+layout: post
 category: system
 ---
 
