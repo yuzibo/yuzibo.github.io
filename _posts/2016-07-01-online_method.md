@@ -4,6 +4,9 @@ category: tools
 layout: post
 ---
 
+* content
+{:toc}
+
 # 提前声明
 
 我真的不讨厌GFW，因为现在话语权不在我们的手中，我们必须保护自己。至于外网上

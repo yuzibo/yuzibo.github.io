@@ -4,6 +4,9 @@ title: "kbuild学习心得"
 category: kernel
 ---
 
+* content
+{:toc}
+
 # 起因
 最近想写linux设备驱动，发现不同参考书上的Makefile文件风格不一致，不一致是小事，我自己对这方面知识的欠缺总感觉穿着很重的鞋子走路。当然，网上的资料也是良莠不齐，自己看内核代码Document/kbuild中的文件算是做一下读书笔记，有错误的话还请谅解。
 

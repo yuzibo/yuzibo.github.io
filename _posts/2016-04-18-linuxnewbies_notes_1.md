@@ -4,6 +4,9 @@ layout: post
 category: kernel
 ---
 
+* content
+{:toc}
+
 # 代码格式
 
 scripts/checkpatch.pl -f patch_or_code_c

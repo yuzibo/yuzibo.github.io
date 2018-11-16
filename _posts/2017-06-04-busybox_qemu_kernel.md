@@ -4,6 +4,9 @@ category: tools
 layout: post
 ---
 
+* content
+{:toc}
+
 # 安装自己编译的内核
 
 基本上这篇[文章](http://www.cnblogs.com/senix/archive/2013/02/21/2921221.html)就够了。

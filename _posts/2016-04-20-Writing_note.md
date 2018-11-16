@@ -4,6 +4,9 @@ layout: post
 category: writing
 ---
 
+* content
+{:toc}
+
 [转自](http://www.jisibar.com/thread/index/13589)
 
 句号应该放在引号里面还是外面？

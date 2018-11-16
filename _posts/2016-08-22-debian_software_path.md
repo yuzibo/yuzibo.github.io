@@ -4,6 +4,9 @@ layout: post
 category: debian
 ---
 
+* content
+{:toc}
+
 # 系统目录
 
 这个就不用具体讲了，系统的调用就是寻找这个值。

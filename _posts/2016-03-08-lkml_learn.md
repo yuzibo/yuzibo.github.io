@@ -4,6 +4,9 @@ category: kernel
 title: "在lkml上学到的"
 ---
 
+* content
+{:toc}
+
 kernel的维护者，表面上很光鲜，其实他们的责任很大。
 
 暂时先将lkml上看到的自己总结下来，每天看列表也是成为maintainer的基本功:)

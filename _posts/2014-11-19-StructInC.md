@@ -4,6 +4,9 @@ title: "struct和字节对齐的一些东西"
 category: c
 ---
 # 一 起因
+* content
+{:toc}
+
 原本是想看Linux Kernel内核的，结果...
 这篇文章纯属自己回忆瞎写，请不要当真。
 ## 结构声明

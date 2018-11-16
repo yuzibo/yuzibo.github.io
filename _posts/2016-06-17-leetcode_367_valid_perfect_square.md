@@ -4,6 +4,9 @@ layout: post
 category: leetcode
 ---
 
+* content
+{:toc}
+
 /**
  *	思路： 一开始我使用的枚举，结果说我运行超时，肯定是
  *	效率不高

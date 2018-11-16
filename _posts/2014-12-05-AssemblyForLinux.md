@@ -4,6 +4,9 @@ title: "linux下汇编小结"
 category: assembly 
 ---
 
+* content
+{:toc}
+
 # 起因
 哪有什么起因啊，看着在linux kernel中大行其道的汇编代码，自己只能硬着头皮去找点资料来学习，不成想居然找到这么一个强悍的文章，如果你打算自己写一个编译器，那么这篇文章就是为你准备的，[在这里](http://www3.nd.edu/~dthain/courses/cse40243/fall2008/ia32-intro.html)
 

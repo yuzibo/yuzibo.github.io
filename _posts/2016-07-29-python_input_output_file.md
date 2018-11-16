@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 这是我的python基础教程，入门级别的
 
 # 中文编码

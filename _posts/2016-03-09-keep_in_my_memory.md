@@ -4,6 +4,9 @@ category: mood
 layout: post
 ---
 
+* content
+{:toc}
+
 # 〇
 
 为了减少以后不必要的麻烦，这里暂时把时间日期打乱了，自己心里有数就行。[2016-09-27]

@@ -4,6 +4,9 @@ category: network
 title: "虚拟机与主机的连接方式"
 ---
 # 问题
+* content
+{:toc}
+
 主机与虚拟机的连接方式有 bridged(桥连)，NAT(网络地址转换模式)和host-only(主机模式)，不同的连接方式对应不同的网卡。
 
 # 补充

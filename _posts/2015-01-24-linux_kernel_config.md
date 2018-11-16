@@ -4,6 +4,9 @@ title: "linux kernel 配置"
 category: kernel
 ---
 
+* content
+{:toc}
+
 # 好工具
 之前一直为笔记本的驱动找不到合适的驱动，现在，有这么一个网站：
 

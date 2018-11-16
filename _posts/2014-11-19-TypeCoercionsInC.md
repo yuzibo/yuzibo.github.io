@@ -4,6 +4,9 @@ title: "c语言中的强制转换类型"
 category: c
 ---
 
+* content
+{:toc}
+
 # 这是看到的文章
 
 [原文地址](http://www.cnblogs.com/ArtsCrafts/p/C%E6%8C%87%E9%92%88.html)

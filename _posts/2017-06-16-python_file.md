@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 使用`with`的打开方式更加符合python的变成习惯，希望你能喜欢这种编程风格。
 下面使用一个文件pi.txt 来测试一下这个问题。
 

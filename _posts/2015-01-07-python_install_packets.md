@@ -4,6 +4,9 @@ title: "python安装软件"
 category: python
 ---
 
+* content
+{:toc}
+
 # debain安装python3
 
 因为debian在自带的python为2.7,在执行其他的一些东西时会碰上各种各样的问题,所以,升级版本是唯一的选择.

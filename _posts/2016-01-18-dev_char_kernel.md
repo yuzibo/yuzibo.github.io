@@ -4,6 +4,9 @@ category: kernel
 title: "linux kernel字符设备编程举例"
 ---
 
+* content
+{:toc}
+
 # 这是字符设备,内核模块
 
 ```c

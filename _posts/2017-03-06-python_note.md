@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 # 复制对象和可改变行
 
 不可变对象是传值的，可变对象是传引用的。

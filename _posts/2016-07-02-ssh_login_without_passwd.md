@@ -4,6 +4,9 @@ category: shell
 layout: post
 ---
 
+* content
+{:toc}
+
 
 
 # 主要解决的是 ssh telnet

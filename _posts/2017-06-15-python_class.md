@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 # python 中类的用法
 请先看下面的例子代码:
 

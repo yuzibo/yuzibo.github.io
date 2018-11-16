@@ -4,6 +4,9 @@ category: DS
 title: "红黑树简介"
 ---
 
+* content
+{:toc}
+
 # 性质
 
 性质一. 节点是红色或者黑色的

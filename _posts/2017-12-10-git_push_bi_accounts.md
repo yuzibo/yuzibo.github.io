@@ -4,6 +4,9 @@ category: git
 layout: post
 ---
 
+* content
+{:toc}
+
 ![截图_2018-01-09_13-15-15.png](http://yuzibo.qiniudn.com/截图_2018-01-09_13-15-15.png)
 
 在一台电脑上管理两个github账号，需要大家做以下步骤.

@@ -4,6 +4,9 @@ layout: post
 category: system
 ---
 
+* content
+{:toc}
+
 # 简单的命令
 
 ## gcc -O1 -o p p1.c p2.c

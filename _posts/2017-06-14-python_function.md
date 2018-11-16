@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 # 简介
 相信函数大家都比较熟悉了，这里就是简单的记录一点。
 

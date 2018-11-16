@@ -4,6 +4,9 @@ title: "在虚拟机中解决 FreeDos与宿主机文件交换的问题"
 category: tools 
 tags: FreeDos
 ---
+* content
+{:toc}
+
 
 最近在看于渊编写的<<自己动手写操作系统>>，里面编写基于 IA32的保护模式下 COM文件，于是乎下载FreeDos iso并在 VirtualBox 安装，其[详细手册请参阅](http://www.freedos.org/wiki/index.php/Main_Page) 
 

@@ -4,6 +4,9 @@ layout: post
 category: unix
 ---
 
+* content
+{:toc}
+
 这篇文章介绍wait和exit的知识。
 
 *[1.wait](#1)

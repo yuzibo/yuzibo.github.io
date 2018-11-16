@@ -4,6 +4,9 @@ category: tools
 layout: post
 ---
 
+* content
+{:toc}
+
 其实这就涉及到了unix下从configure、make、make install一系列的步骤。
 
 一般来说，拿到source packet后，我们首先运行./configure命令

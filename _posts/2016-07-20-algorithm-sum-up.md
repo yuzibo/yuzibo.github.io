@@ -4,6 +4,9 @@ layout: post
 category: algorithm
 ---
 
+* content
+{:toc}
+
 [poj题目分类](http://www.cnblogs.com/kuangbin/archive/2011/07/29/2120667.html)
 
 # 贪心算法(greed)

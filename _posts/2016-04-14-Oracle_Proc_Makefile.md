@@ -4,6 +4,9 @@ layout: post
 category: oracle
 ---
 
+* content
+{:toc}
+
 # V 0.1
 
 这个版本的Makefile，是把命令行输入的东西放到Makefile中而已，或者说只是测试

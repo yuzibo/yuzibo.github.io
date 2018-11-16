@@ -4,6 +4,9 @@ title: "什么是爱情"
 category: mood
 ---
 #什麼是愛情
+* content
+{:toc}
+
 
 
 致我所有的朋友

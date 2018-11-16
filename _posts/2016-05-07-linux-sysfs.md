@@ -4,6 +4,9 @@ layout: post
 category: kernel 
 ---
 
+* content
+{:toc}
+
 # 引言
 sysfs是什么？---内核中，sysfs是一个动态生成的目录，断电后就玩完了。
 

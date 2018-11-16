@@ -4,6 +4,9 @@ layout: post
 category: java
 ---
 #java
+* content
+{:toc}
+
 
 下载完JDK包后,路径配置我放到了 /etc/profile
 

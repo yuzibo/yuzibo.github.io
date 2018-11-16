@@ -4,6 +4,9 @@ category: kernel
 title: "linux的内存浅析"
 ---
 
+* content
+{:toc}
+
 # page
 先说说有关的数据结构，内核中的这个数据结构映射的是物理地址，里面
 有个`count`的数据域，它标记着这个页的使用的量。返回值是-1,就说明

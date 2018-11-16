@@ -4,6 +4,9 @@ layout: post
 category: DS 
 ---
 
+* content
+{:toc}
+
 # 摘要
 
 二叉树是一种非常重要的数据结构，今天我们来讲讲它。

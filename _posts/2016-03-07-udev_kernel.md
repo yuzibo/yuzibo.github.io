@@ -4,6 +4,9 @@ title: "udev用户空间设备管理"
 category: kernel
 ---
 内核提供机制，但不能在内核中提供策略。
+* content
+{:toc}
+
 比如所谈恋爱，内核不但可以允许我们谈恋爱，而且也不能限制我们和谁谈。
 以前利用devfs实现的时候，第一个相亲的女孩为/dev/girl01,第二个相亲的女孩为
 /dev/girl02,在udev的实现下，不管第几个女孩，统一称为/dev/mygirl.

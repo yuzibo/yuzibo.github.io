@@ -4,6 +4,9 @@ layout: post
 category: unix 
 ---
 
+* content
+{:toc}
+
 # 代码不是重点，重点是陌生的东西
 
 [who](https://github.com/yuzibo/linux-programming/blob/master/unix_linux_programming/who1.c)

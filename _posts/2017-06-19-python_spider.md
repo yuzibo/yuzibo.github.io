@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 基本的知识架构为python基础->urllib2库基本用法或者requests基本用法->正则表达式，这样你的爬虫的效果才会更好，更进一步。
 
 # urllib2

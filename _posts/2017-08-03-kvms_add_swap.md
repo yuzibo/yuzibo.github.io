@@ -4,6 +4,9 @@ category: kvms
 layout: post
 ---
 
+* content
+{:toc}
+
 This is a new post and it is sister message for http://www.aftermath.cn/kvms-resize.html
 
 # How to add Swap space

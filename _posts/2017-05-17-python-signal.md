@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 # Ctrl + c
 Here is a task for tutorial_bcc_python_developer,how to deal with ``ctrl +c ``.From stackoverflow,the answer will be performaced:
 

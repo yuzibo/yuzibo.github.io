@@ -4,6 +4,9 @@ category: git
 layout: post
 ---
 
+* content
+{:toc}
+
 I often hear the ``cherry-pick`` usage,but, how to use it?
 
 ![2018-05-24-git-cherry-pik.png](http://yuzibo.qiniudn.com/2018-05-24-git-cherry-pik.png)

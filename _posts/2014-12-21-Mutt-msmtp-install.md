@@ -4,6 +4,9 @@ title: "Mutt,msmtp,fetchmail,procmail的配合使用"
 category: tools
 ---
 
+* content
+{:toc}
+
 想要真正使用mutt，必须详细了解邮件系统的运作机制
 
 首先是安装必须的软件

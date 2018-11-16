@@ -4,6 +4,9 @@ title: "bits的一些操作"
 category: c
 ---
 
+* content
+{:toc}
+
 ## 首先解释下关于位操作的概念
 
 位屏蔽(bitmask): 所谓位屏蔽(bitmask)就是利用一个二进制字串与已有的二进制字串

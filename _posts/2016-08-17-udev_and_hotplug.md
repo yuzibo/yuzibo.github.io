@@ -4,6 +4,9 @@ layout: post
 category: kernel
 ---
 
+* content
+{:toc}
+
 [上文](http://www.aftermath.cn/udev_rules.html)介绍了udev的编写，这篇文章就结合一个usb键盘，亲自测试udev的应用。
 
 # 实验

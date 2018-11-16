@@ -4,6 +4,9 @@ category: debian
 layout: post
 ---
 
+* content
+{:toc}
+
 结合最近同学们对于Nvidia显卡的问题，我想有必要整理一下相关的概念。
 
 这里只是简单的说说Debian系统。

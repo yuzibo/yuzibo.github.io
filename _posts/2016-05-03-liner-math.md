@@ -4,6 +4,9 @@ layout: post
 category: math
 ---
 
+* content
+{:toc}
+
 # 研究对象
 
 ## n元线性方程组

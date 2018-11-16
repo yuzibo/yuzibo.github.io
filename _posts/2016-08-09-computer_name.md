@@ -4,6 +4,9 @@ title: "计算机专有名词解释"
 category: OS
 ---
 
+* content
+{:toc}
+
 # 简单扫盲
 
 ## SCSI(Small Computer System Interface)

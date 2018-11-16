@@ -4,6 +4,9 @@ categroy: c
 title: "c语言的文件操作"
 ---
 
+* content
+{:toc}
+
 ```c
 #include<stdio.h>
 #include<sys/types.h>

@@ -4,6 +4,9 @@ layout: post
 category: DS
 ---
 
+* content
+{:toc}
+
 
 我自己都感觉这样下去得出事，分类做的扩展性不好。
 

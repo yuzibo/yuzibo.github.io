@@ -4,6 +4,9 @@ layout:  post
 category: c
 ---
 
+* content
+{:toc}
+
 输入输出函数是一个函数族，尤其在c中，这个知识点必须掌握。
 
 # 输出函数(printf)

@@ -4,6 +4,9 @@ category: tools
 layout: post
 ---
 
+* content
+{:toc}
+
 首先这次更换主题为 [HyG](https://github.com/Gaohaoyang/gaohaoyang.github.io)
 
 有几个改进的地方：

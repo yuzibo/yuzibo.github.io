@@ -4,6 +4,9 @@ layout: post
 category: python
 ---
 # 这篇文章的内容有
+* content
+{:toc}
+
 
 迭代 查找单词collections.Counter()
 

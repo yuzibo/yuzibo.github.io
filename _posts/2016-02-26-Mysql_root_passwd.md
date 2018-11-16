@@ -4,6 +4,9 @@ title: "mysql忘记root密码"
 category: mysql
 ---
 
+* content
+{:toc}
+
 # 忘记root密码 
 
 1. 停止mysqld； 

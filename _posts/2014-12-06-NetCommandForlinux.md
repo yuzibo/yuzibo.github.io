@@ -4,6 +4,9 @@ title: "10个重要的linux网络命令"
 category: shell
 ---
 # 最基础的linux网络命令
+* content
+{:toc}
+
 
 ### hostname
 

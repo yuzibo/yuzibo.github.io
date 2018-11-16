@@ -4,6 +4,9 @@ title: "git追踪linux kerenl技巧"
 category: git
 ---
 
+* content
+{:toc}
+
 # 先介绍点简单的
 
 1. 从linus那里pull,当然，前提是你先从linus那里clone一份代码树。

@@ -4,6 +4,9 @@ layout: post
 category: tools
 ---
 
+* content
+{:toc}
+
 之前安装过Bochs,但是本身也没有怎么用，看到网上说使用qemu效果好一些，也就简
 简单单的安装下来。
 

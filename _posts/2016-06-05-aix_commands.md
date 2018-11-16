@@ -4,6 +4,9 @@ layout: post
 category: shell
 ---
 
+* content
+{:toc}
+
 # 主要命令的补全
 
 补全命令：

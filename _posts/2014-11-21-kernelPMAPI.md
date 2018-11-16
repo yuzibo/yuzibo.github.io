@@ -4,6 +4,9 @@ title: "kernel进程管理API"
 category: kernel 
 ---
 #函数
+* content
+{:toc}
+
 __task_pid_nr_ns(struct task_struct \*task,enum pid_type type,struct pid_namespace *ns)
 #文件包含
 \#include<linux/sched.h>

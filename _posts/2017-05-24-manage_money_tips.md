@@ -4,6 +4,9 @@ category: life
 layout: post
 ---
 
+* content
+{:toc}
+
 
 # <<穷爸爸，富爸爸>>
 

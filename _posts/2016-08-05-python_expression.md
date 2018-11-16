@@ -4,6 +4,9 @@ layout: post
 category: python
 ---
 
+* content
+{:toc}
+
 # for的使用
 
 for的使用主要注意， 后面的冒号。

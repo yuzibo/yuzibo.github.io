@@ -4,6 +4,9 @@ title: "LDD读书笔记(2)"
 category: book
 ---
 
+* content
+{:toc}
+
 #Debugging Techniques
 无论什么样的原因你都应该自己编译内核,在__kernel hacking__ menu 下,你最好开启以下选项.
 ###CONFIG_DEBUG_KERNEL

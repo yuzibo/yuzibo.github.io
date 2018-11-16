@@ -4,6 +4,9 @@ category: unix
 layout: post
 ---
 
+* content
+{:toc}
+
 做一次文章的搬运工吧！
 
 [Here](https://stackoverflow.com/questions/3782994/any-difference-between-configure-ac-and-configure-in-and-makefile-am-and-makefi)

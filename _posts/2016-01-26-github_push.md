@@ -4,6 +4,9 @@ layout: post
 category: git
 ---
 在github上每次push要求输入密码和用户名着实烦恼,那么,怎么样可以不用这样呢
+* content
+{:toc}
+
 
 ### linux
 

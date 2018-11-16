@@ -4,6 +4,9 @@ category: django
 layout: post
 ---
 
+* content
+{:toc}
+
 # 安装python
 
 如果你的python版本是2.7.x，貌似不用额外安装，另外我的博客里有3.7.x的安装教程。

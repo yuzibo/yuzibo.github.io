@@ -4,6 +4,9 @@ category: tools
 title: "Debian 安装FTP"
 ---
 
+* content
+{:toc}
+
 # 零
     最近又想折腾 LFS，在debian系统上安装了个 VirtualBox,里面也安装了 linxu，突然想到要使用文件传输的功能，最直接的想到了 ftp ，这里简单把安装过程记录一下。
 	首先，

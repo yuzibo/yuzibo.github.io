@@ -4,6 +4,9 @@ title: "LDD读书笔记(1-4)"
 category: book
 ---
 
+* content
+{:toc}
+
 1.insmod 是系统调用 kernel/module.c，The function sys_init_module allocates kernel memory(how)=>（ The memory is allocated with vmalloc function）,系统调用函数把模块复制到内存区，通过内核符号表解决内核引用的问题，并且呼叫模块初始化函数使一切准备就绪。
 
 2.在内核源代码中，使用前缀sys_ 就是系统调用。

@@ -4,6 +4,9 @@ layout: post
 category: perl
 ---
 
+* content
+{:toc}
+
 # Encode
 
 在程序里必须注意数据在获取和转移的过程中数据编码的问题。perl的模块Encode

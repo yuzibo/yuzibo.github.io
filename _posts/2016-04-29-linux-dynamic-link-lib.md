@@ -4,6 +4,9 @@ layout: post
 category: system
 ---
 
+* content
+{:toc}
+
 # 简介
 linux下c或者c++编程始终离不开动态动态库"*.so",具体它是怎么产生的、如何使用，
 现在就简单介绍一下。

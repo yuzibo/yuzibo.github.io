@@ -4,6 +4,9 @@ category: python
 layout: post
 ---
 
+* content
+{:toc}
+
 ### pygame中加载位图、绘制位图
 pygame中有这些类和函数：
 

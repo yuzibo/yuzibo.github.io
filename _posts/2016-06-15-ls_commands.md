@@ -4,6 +4,9 @@ layout: post
 category: unix
 ---
 
+* content
+{:toc}
+
 关于对单个文件的操作，应该关注这篇[文章](http://yuzibo.github.io/apue_ch4.html)
 
 # 如何读取目录的内容

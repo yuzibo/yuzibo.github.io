@@ -4,6 +4,9 @@ layout: post
 category: unix
 ---
 
+* content
+{:toc}
+
 # 规范模式
 
 (需要插入unix编程实践6.2的代码)

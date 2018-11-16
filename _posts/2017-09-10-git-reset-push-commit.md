@@ -4,6 +4,9 @@ category: git
 layout: post
 ---
 
+* content
+{:toc}
+
 # question
 
 If you have pushed commit into remote,how to reset it?

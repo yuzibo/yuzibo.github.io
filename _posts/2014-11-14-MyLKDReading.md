@@ -4,6 +4,9 @@ title: "LKD读书笔记"
 category: "book"
 ---
 #Linux Kernel Development 读书笔记
+* content
+{:toc}
+
 (8/10/14)
 
 ==========================day01===================

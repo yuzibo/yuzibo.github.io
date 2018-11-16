@@ -4,6 +4,9 @@ layout: post
 category: kernel
 ---
 
+* content
+{:toc}
+
 这篇文章在分类的时候让我犹豫了一下，我想还是归到kernel的类别下。
 
 # udev是干什么的

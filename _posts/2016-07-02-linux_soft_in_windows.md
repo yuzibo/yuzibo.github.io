@@ -4,6 +4,9 @@ layout: post
 category: tools
 ---
 
+* content
+{:toc}
+
 # 在windows下使用linux的小软件
 linux下的小软件，绝对的性价比高，这次为了加快上网的速度，决定使用lynx，能使
 用，但是有展示效果的问题，接下来，要说一说两种工具了。

@@ -4,6 +4,9 @@ category: tools
 layout: post
 ---
 
+* content
+{:toc}
+
 这篇文章主要聚焦于debian系统，其他的linux发行版的用法应该是一致的。
 
 # Setup

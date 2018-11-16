@@ -4,6 +4,9 @@ layout: post
 category: oracle
 ---
 # 先期条件
+* content
+{:toc}
+
 
 ## apt-get install list
  sudo apt-get install gcc make binutils gawk x11-utils rpm build-essential

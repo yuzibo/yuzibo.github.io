@@ -4,6 +4,9 @@ title: "12 linux 系统呼叫函数和 strace"
 category: kernel
 ---
 # 强大的调试工具 strace
+* content
+{:toc}
+
 strace是一个优秀的调试工具，它调用的是系统函数ptrace(),缺点是导致应用程序运行的非常慢。
 
 # 使用

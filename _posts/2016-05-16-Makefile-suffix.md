@@ -4,6 +4,9 @@ layout: post
 category: make
 ---
 
+* content
+{:toc}
+
 # make中的通配符原则
 
 ```bash

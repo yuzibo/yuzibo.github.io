@@ -4,6 +4,9 @@ category: kernel
 title: "linux中的vfs"
 ---
 # 什么是vfs
+* content
+{:toc}
+
 vfs(virtual filesystem)是内核给予用户空间、用于对内核文件操作的接口。
 举个例子： `sys_write()`或者`sys_open()`.
 

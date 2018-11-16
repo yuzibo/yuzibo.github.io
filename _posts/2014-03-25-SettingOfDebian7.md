@@ -4,6 +4,9 @@ title: "Debian7设置"
 category: debian
 ---
 
+* content
+{:toc}
+
 本配置适用于debian7，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。
 其中$、#是提示符，表示当前终端账户是普通还是root,并不需要输入。
 

@@ -4,6 +4,9 @@ category: kernel
 layout: post
 ---
 
+* content
+{:toc}
+
 # 补充材料
 
 [here](http://stackoverflow.com/questions/18456155/what-is-the-difference-between-misc-drivers-and-char-drivers)

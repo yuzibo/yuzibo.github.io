@@ -4,6 +4,9 @@ layout: post
 category: kernel 
 ---
 # /proc/cmdline
+* content
+{:toc}
+
 
 这个用于给出内核启动的命令行,它和用于进程的cmdline项非常像
 

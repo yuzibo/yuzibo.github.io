@@ -4,6 +4,9 @@ title: "在Thinkpad E130上安装Archlinux"
 category: tools
 tags: linux
 ---
+* content
+{:toc}
+
 
 
 # A.简述

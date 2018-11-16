@@ -4,6 +4,9 @@ title: "linux中的段"
 category: kernel 
 ---
 
+* content
+{:toc}
+
 # 简介
 保护模式下段描述表分为全局描述符表(GDT)、中断描述表（IDT）、局部描述符表（LDT）。
 

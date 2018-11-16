@@ -4,6 +4,9 @@ layout: post
 category: kernel
 ---
 
+* content
+{:toc}
+
 # 缓冲区的大小对性能的影响
 
 对大小是2500字节的文件进行copy操作，

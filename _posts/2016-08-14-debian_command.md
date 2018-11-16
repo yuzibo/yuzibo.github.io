@@ -4,6 +4,9 @@ layout: post
 category: debian
 ---
 
+* content
+{:toc}
+
 [原文](http://askubuntu.com/questions/17823/how-to-list-all-installed-packages)
 
 前言。
