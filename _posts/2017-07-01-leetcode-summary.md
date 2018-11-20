@@ -12,4 +12,5 @@ layout: post
 
 ### easy
 
-逆置(reverse)单链表。[题目](https://leetcode.com/problems/reverse-linked-list)
+1. 逆置(reverse)单链表。[题目](https://leetcode.com/problems/reverse-linked-list)
+[解答](http://www.aftermath.cn/2018/09/23/leetcode-list/#reverse-linked-list%E9%80%86%E7%BD%AE%E9%93%BE%E8%A1%A8)
