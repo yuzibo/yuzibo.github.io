@@ -137,3 +137,33 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 ```
 效率只能说符合题目要求，但是还没有爆机，还得找。
 
+# remove node from linked-list(删除节点)
+删除节点的题目无论在计算机工作面试中还是计算机考研中，这方面的题目还是非常多的，今天的这道题目是这样的，删除给定链表的指定数据，这和删除指定位置的数据是不一样的。比如，**1->2->4->6->5->6**删除6，则为**1->2->4->5**,这道题如果使用普通的删除节点的，是有些复杂的。下面的代码是可以达到这个目的的，有些不一样，你能看的懂吗？
+
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* removeElements(struct ListNode* head, int val) {
+       struct ListNode *dump = (struct ListNode*)malloc(sizeof(struct ListNode));
+       dump->next = head;
+
+      struct ListNode *pre = dump;
+      struct ListNode *cur = head;
+      while(cur){
+             if(cur->val == val){
+                  pre->next = cur->next;
+             }
+             else {
+              pre = cur;
+              }
+              cur = cur->next;
+     }
+     return dump->next;
+												      }
+```
+
