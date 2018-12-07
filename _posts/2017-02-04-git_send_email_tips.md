@@ -59,10 +59,13 @@ a166493 xhci: fix SCT_FOR_CTX(p) macro
 56e4cd3 xhci: replace USB_MAXINTERFACES with config->desc.bNumInterface
 ```
 接下来就是两种方法：
-way 1: git format-patch -o ~/patches/ -3 HEAD
+
+#### way 1: git format-patch -o ~/patches/ -3 HEAD
+
 这样你就会得到从`c010f0c`,`a166493`,`56e4cd3`的patch.
 还有一种方式就是 在commit-id 处使用 `56e4cd3^..c010f0c`,这样也能满足上面的方案。
-way 2: git format-patch -o ~/patches/ -3 c010f0c(这一个是重点，我觉得可以用+号往上产生，比如，产生头两个)
+#### way 2: git format-patch -o ~/patches/ -3 c010f0c
+
 这里很有意思的一件事就是：
 ```bash
 git format-patch -o ~/patch/  -3
@@ -74,5 +77,31 @@ git format-patch -o ~/patch/  -3
 
 ```bash
 git format-patch -o /tmp/ --cover-letter -n --thread=shallow --cc="linux-usb@vger.kernel.org" -3
+```
+## 实战
+下面这个实战是我自己的例子，也是目前为止最复杂的一个。
+比如，我已经commited两个改变，git log如下：
+
+```bash
+yubo-2@debian:~/git/linux$ git log --abbrev-commit --oneline
+f03d23a34df3 kobject: drop newline from msg string
+662efd36ef9a kobject: use pr_warn to replace printk
+b72f711a4efa Merge branch 'spectre' of git://git.armlinux.org.uk/~rmk/linux-arm
+7e40b56c776f Merge branch 'fixes' of git://git.armlinux.org.uk/~rmk/linux-arm
+'''
+```
+
+那么，我使用如下命令：
+
+```bash
+yubo@debian:~/git/linux$ git format-patch -o ~/patch -2 f03d23a34df3  --subject-prefix="PATCH v3" --cover-letter -n --thread=shallow --cc="linux-kernel@vger.kernel.org" --to="gregkh@linuxfoundation.org" --to="rafael@kernel.org" --cc="joe@perches.com" --cc="yuzibode@126.com"
+```
+结果如下所示：
+
+```bash
+/home/yubo-2/patch/0000-cover-letter.patch
+/home/yubo-2/patch/0001-kobject-use-pr_warn-to-replace-printk.patch
+/home/yubo-2/patch/0002-kobject-drop-newline-from-msg-string.patch
+
 ```
 
