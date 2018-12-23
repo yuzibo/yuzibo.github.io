@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Debian7设置"
+title: "Debian 9设置"
 category: debian
 ---
 
 * content
 {:toc}
 
-本配置适用于debian7，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。
+本配置适用于debian9，图形界面使用的是xfce4.8，编辑器默认使用xfce中的mousepad。
 其中$、#是提示符，表示当前终端账户是普通还是root,并不需要输入。
 
 以下所有操作均使用`root`权限。
@@ -27,23 +27,16 @@ category: debian
 
 在文件最前面添加以下条目
 
-    #######主要，开源，闭源
-    deb http://mirrors.163.com/debian wheezy main non-free contrib
-    deb-src http://mirrors.163.com/debian wheezy main non-free contrib
-
-    #######wheezy-proposed-updates建议更新
-    deb http://mirrors.163.com/debian wheezy-proposed-updates main contrib non-free
-    deb-src http://mirrors.163.com/debian wheezy-proposed-updates main contrib non-free
-
-    #######wheezy-updates推荐更新
-    deb http://mirrors.163.com/debian wheezy-updates main contrib non-free
-    deb-src http://mirrors.163.com/debian wheezy-updates main contrib non-free
-
-    #######wheezy/updates安全更新
-    deb http://mirrors.163.com/debian-security wheezy/updates main contrib non-free
-    deb-src http://mirrors.163.com/debian-security wheezy/updates main contrib non-free
-    deb http://http.us.debian.org/debian wheezy main contrib non-free
-    deb http://security.debian.org wheezy/updates main contrib non-free
+```bash
+deb http://mirrors.ustc.edu.cn/debian/ stretch main non-free contrib
+deb http://mirrors.ustc.edu.cn/debian/ stretch-updates main non-free contrib
+deb http://mirrors.ustc.edu.cn/debian/ stretch-backports main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian/ stretch main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian/ stretch-updates main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian/ stretch-backports main non-free contrib
+deb http://mirrors.ustc.edu.cn/debian-security/ stretch/updates main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/debian-security/ stretch/updates main non-free
+```
 
 关闭文本编辑器，然后在终端中输入
 
@@ -105,6 +98,8 @@ sudo可以让非root用户具有管理员的权限，安装好的Debian后还不
 
      nvidia-xconfig
 
+Update:
+这块的教程没有及时更新，请大家认真参考其他资料
 
 ## 解决笔记本无法调节亮度
 
@@ -297,3 +292,10 @@ sudo可以让非root用户具有管理员的权限，安装好的Debian后还不
 这里使用shutter软件
 
      apt-get install shutter
+
+# debian-9 安装无线网卡
+这是我这篇文章修改的原因，如果大家知道自己计算机使用的什么厂商的无线网卡最好不过了，否则就使用
+
+	apt get install firmware-*
+
+这样就把一些硬件的驱动安装进来。
