@@ -8,6 +8,218 @@ layout: post
 
 # easy
 
+### design the linked list
+[707](https://leetcode.com/problems/design-linked-list/)
+这是一道基础题，但是有许多值得称道的地方，主要是边界的处理，这么说吧，现在，数据结构参考书上很多的代码都是错的，或者说不是全面的，因为没有处理一个边界值的问题。
+
+这个题目有几个注意的地方：
+
+	list的长度是多少？是结点的个数。obj->1->2->null,那么这个长度是2.
+
+	index 是从0开始的，以上面的例子举例子，也就是1是第0个，2是第1个。
+
+我处理的失误是，删除元素没有想到最后一个元素的问题。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct list_node {
+	int val;
+	struct list_node *next;
+} MyLinkedList;
+
+/* Initialize data struct */
+MyLinkedList *myLinkedListCreate(){
+	MyLinkedList *obj = (MyLinkedList *)malloc(sizeof(MyLinkedList));
+	if (obj == NULL)
+	{
+		printf("error\n");
+	}
+	/* here, the linkedlist has head node , so, when you reverse the node, you must pass the tempery list with obj->next */
+	obj->next = NULL;
+	return obj;
+}
+/* insert node with head, we must master it */
+void myLinkedListAddAtHead(MyLinkedList *obj, int val){
+	MyLinkedList *p = obj; // alter ways
+	MyLinkedList *temp = (MyLinkedList *)malloc(sizeof(MyLinkedList));
+	if (temp == NULL)
+	{
+		printf("error\n");
+		/* code */
+	}
+	temp->val = val;
+	temp->next = p->next;
+	p->next = temp;
+}
+/** Append a node of value val to the last element of the linked list. */
+void myLinkedListAddAtTail(MyLinkedList* obj, int val) {
+	MyLinkedList *temp = (MyLinkedList *)malloc(sizeof(MyLinkedList));
+	MyLinkedList *p = obj;
+	if(temp == NULL)
+	{
+			printf("error\n");
+	}
+	while(p->next != NULL){
+		p = p->next;
+	}
+	temp->val = val;
+	temp->next = NULL;
+	p->next = temp;
+
+}
+/* 0-index */
+int myLinkedListLength(MyLinkedList *obj)
+{
+	int length = 0;
+	MyLinkedList *p = obj;
+	if (obj->next == NULL)
+	{
+		return 0;
+		/* code */
+	}
+	while(p->next != NULL)
+	{
+		length++;
+		p = p->next;
+	}
+	return length;
+}
+/** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list,
+ the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
+	MyLinkedList *p = obj;
+	int length = myLinkedListLength(obj);
+	int i = 0;
+	if( index < 0 || index > length){
+		//printf("index is greater than the list\n");
+		return ;
+	}
+	if (index == length)
+	{
+		myLinkedListAddAtTail(p, val);
+		return ;
+		/* code */
+	}
+	while(p->next && i < index){
+		p = p->next;
+		i++;
+	}
+	MyLinkedList *temp = (MyLinkedList *)malloc(sizeof(MyLinkedList));
+	if (temp == NULL)
+	{
+		printf("error\n");
+		/* code */
+	}
+	temp->val = val;
+	temp->next = p->next;
+	p->next = temp;
+}
+/* 很多程序*/
+/** Delete the index-th node in the linked list, if the index is valid. */
+void myLinkedListDeleteAtIndex(MyLinkedList* obj, int index) {
+
+	MyLinkedList *p = obj->next, *p_temp;
+	int length = myLinkedListLength(obj);
+	int i = 0;
+	if( index < 0 || index > length){
+		printf("index is greater than the list\n");
+		exit(1);
+	}
+
+	while(p && i < index-1){
+		p = p->next;
+		i++;
+	}
+	if (p == NULL)
+		return ;
+	else
+	{
+		p_temp = p->next;
+		if (p_temp == NULL)
+		{
+			return ;
+		}
+		else
+		{
+
+			p->next = p_temp->next;
+			free(p_temp);
+		}
+
+	}
+
+}
+/** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+int myLinkedListGet(MyLinkedList* obj, int index) {
+	MyLinkedList *p = obj;
+	int length = myLinkedListLength(obj);
+	int i = 0;
+	if( index < 0 || index >= length){
+		//printf("index is greater than the list\n");
+		return -1;
+	}
+	if(length == 0)
+		return -1;
+	while(p->next && i <= index){
+		p = p->next;
+		i++;
+	}
+	return p->val;
+
+}
+void myLinkedListFree(MyLinkedList* obj) {
+	MyLinkedList *p;
+	while(obj){
+		p = obj->next;
+		obj = p;
+		free(p);
+	}
+
+}
+void myLinkedListshow(MyLinkedList *obj)
+{
+	MyLinkedList *p = obj->next;
+	while(p)
+	{
+		printf("%d->", p->val);
+		p = p->next;
+	}
+}
+int main()
+{
+	MyLinkedList *obj = myLinkedListCreate();//= myLinkListCreate();
+	//int rc = myLinkedListGet(obj, 0);
+	//printf("0-index is %d\n", rc);
+	//myLinkedListAddAtIndex(obj, 1,2);
+	//int rc2 = myLinkedListGet(obj, 0);
+	myLinkedListAddAtHead(obj, 1);
+//	myLinkedListAddAtTail(obj, 3);
+	myLinkedListAddAtIndex(obj, 1,2);
+//	myLinkedListDeleteAtIndex(obj, 1);
+	//printf("b,0-index is %d\n", rc2);
+	myLinkedListshow(obj);
+	//int len = myLinkedListLength(obj);
+int 	rc1 = myLinkedListGet(obj, 1);
+int 	rc2 = myLinkedListGet(obj, 0);
+int 	rc3 = myLinkedListGet(obj, 2);
+	printf("\nthe is %d  %d %d  \n", rc1, rc2,rc3);
+/*	myLinkedListAddAtIndex(obj, 1,2);
+	myLinkedListshow(obj);
+	printf("\n");
+	myLinkedListDeleteAtIndex(obj, 1);
+	rc = myLinkedListGet(obj, 1);
+	printf("\nthe %d-th is %d\n", 1, rc);
+	myLinkedListshow(obj);
+	myLinkedListFree(obj);
+	len = myLinkedListLength(obj);
+	printf("\nthe last length is 5\n");
+	*/
+}
+```
+
+int main函数是我方便测试写的，希望大家注意。
+
 ### reverse-linked-list(逆置链表)
 
 [leetcode](https://leetcode.com/problems/reverse-linked-list)
