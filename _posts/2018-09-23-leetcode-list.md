@@ -6,6 +6,8 @@ layout: post
 * content
 {:toc}
 
+已经确认了，leetcode的题目没有头结点，都是不带头结点的。
+
 # easy
 
 ### design the linked list
@@ -349,6 +351,31 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 ```
 效率只能说符合题目要求，但是还没有爆机，还得找。
 
+# 删除重复结点
+[leetcode](https://leetcode.com/problems/remove-duplicates-from-sorted-list)
+很简单的一个问题，就是将一个排序好的链表中重复的结点去除掉，注意头结点的问题。
+
+```c
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+    struct ListNode *p = head, *q, *r;
+    if(p == NULL)
+        return head;
+    while(p){
+        for(r = p, q = p->next; q != NULL; q = q->next){
+            if(q->val == p->val){
+                r->next = q->next;
+                free(q);
+                q = r;
+            }
+            else
+                r = r->next;
+        }
+        p = p->next;
+    }
+    return head;
+    
+}
+```
 # remove node from linked-list(删除节点)
 删除节点的题目无论在计算机工作面试中还是计算机考研中，这方面的题目还是非常多的，今天的这道题目是这样的，删除给定链表的指定数据，这和删除指定位置的数据是不一样的。比如，**1->2->4->6->5->6**删除6，则为**1->2->4->5**,这道题如果使用普通的删除节点的，是有些复杂的。下面的代码是可以达到这个目的的，有些不一样，你能看的懂吗？
 
