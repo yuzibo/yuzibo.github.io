@@ -7,6 +7,14 @@ title: "在lkml上学到的"
 * content
 {:toc}
 
+# 内核中如何处理Reviewed-by tags
+
+I have given you an R-by for this one already, so why haven't you added it here?
+
+Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
+什么意思呢？就是如果你在V2,V3,,,版本中一定加上此前别的hacker给你添加的R-by tags， 记住它
+
 kernel的维护者，表面上很光鲜，其实他们的责任很大。
 
 暂时先将lkml上看到的自己总结下来，每天看列表也是成为maintainer的基本功:)
