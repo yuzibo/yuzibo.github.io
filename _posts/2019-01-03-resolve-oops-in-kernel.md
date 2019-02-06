@@ -114,23 +114,29 @@ Let's cat dmesg:
 # Understanding the Oops dump
 Let's have a closer look at the above dump, to understand some of the important bits of information.
 
-
+```bash
 [ 3341.170623] oops: loading out-of-tree module taints kernel.
 [ 3341.170628] oops: module license 'unspecified' taints kernel.
 [ 3341.170629] Disabling lock debugging due to kernel taint
 [ 3341.170907] oops from the module
+```
 
 This is basic information to show the module.
 
+```bash
 [ 3341.170913] BUG: unable to handle kernel NULL pointer dereference at 00000000
-
+```
 It is obvious that to show the type of oops.
 
+```bash
 [ 3341.170919] *pdpt = 0000000029111001 *pde = 0000000000000000
+```
 
 May be this is relative to page table entry.If you have definited understanding about this, please tell me, thanks :)
 
+```bash
 [ 3341.170924] Oops: 0002 [#1] SMP PTI
+```
 
 This is the error code value in hex. Each bit has a significance of its own:
 
@@ -141,8 +147,9 @@ bit 2 == 0 means kernel, 1 means user-mode
 
 Refer to above the site.
 
+```c
 [ 3341.170928] CPU: 3 PID: 4066 Comm: insmod Tainted: P           O      5.0.0-rc4 #3
-
+```
 This is your choice to have a look at kernel/panic.c:
 
 ```c
@@ -173,20 +180,30 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
 };
 
 ```
+
+```bash
 [ 3341.170937] EIP: my_oops_init+0x12/0x1000 [oops]
+```
+
 There is oop happened on the program. my_oops_init+0x12/0x21 is the <symbol> + the offset/length.
 
+```bash
 [ 3341.170942] Code: Bad RIP value.
+```
+
 Oh, Is it a bug? Should it be Bad EIP value?
 Now， it will show the information about original code.RIP is the CPU register containing the address of the instruction that is getting executed.
 
+```bash
 [ 3341.170945] EAX: 00000014 EBX: f86d1000 ECX: f6f755ac EDX: 00000007
 [ 3341.170947] ESI: 00000001 EDI: f86d4000 EBP: e7ce7dec ESP: e7ce7de8
 [ 3341.170950] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS: 00010246
 [ 3341.170953] CR0: 80050033 CR2: f86d3fe8 CR3: 27c32000 CR4: 000406f0
+```
 
 I do not know it.
 
+```bash
 [ 3341.170955] Call Trace:
 [ 3341.170962]  do_one_initcall+0x42/0x1ae
 [ 3341.170966]  ? _cond_resched+0x18/0x40
@@ -197,21 +214,27 @@ I do not know it.
 [ 3341.170986]  sys_finit_module+0xa7/0xe0
 [ 3341.170990]  do_fast_syscall_32+0x7f/0x1d0
 [ 3341.170993]  entry_SYSENTER_32+0x6b/0xbe
+```
 
 Interesting...
 
+```bash
 [ 3341.170995] EIP: 0xb7f81851
 [ 3341.170997] Code: 8b 98 58 cd ff ff 85 d2 89 c8 74 02 89 0a 5b 5d c3 8b 04 24 c3 8b 14 24 c3 8b 1c 24 c3 8b 3c 24 c3 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d 76 00 58 b8 77 00 00 00 cd 80 90 8d 76
 [ 3341.170999] EAX: ffffffda EBX: 00000003 ECX: 004dc970 EDX: 00000000
 [ 3341.171001] ESI: 01d19d90 EDI: 01d1a7a8 EBP: 004dae9c ESP: bfe2a18c
 [ 3341.171003] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00000292
+```
 
 Ok
 
+```bash
 [ 3341.171005] Modules linked in: oops(PO+) ctr ...
+```
 
 Used module in linked list maybe.
 
+```bash
 [ 3341.171049] CR2: 0000000000000000
 [ 3341.171052] ---[ end trace dd8bceded905e5e1 ]---
 [ 3341.171054] EIP: my_oops_init+0x12/0x1000 [oops]
@@ -220,10 +243,12 @@ Used module in linked list maybe.
 [ 3341.171060] ESI: 00000001 EDI: f86d4000 EBP: e7ce7dec ESP: c5a27ddc
 [ 3341.171062] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS: 00010246
 [ 3341.171064] CR0: 80050033 CR2: f86d3fe8 CR3: 27c32000 CR4: 000406f0
+```
 
 # Debugging an Oops dump
 The first step is to load the  offending module into the GDB debugger, as follows:
 
+```bash
 yubo@debian:~/lit$ gdb oops.ko
 GNU gdb (Debian 7.12-6) 7.12.0.20161007-git
 Copyright (C) 2016 Free Software Foundation, Inc.
@@ -280,7 +305,7 @@ Now, to pin point the actual line of offending code, we add the starting address
 15	static int __init my_oops_init(void)
 16	{
 (gdb)
-
+```
 So, we have found it.
 
 
