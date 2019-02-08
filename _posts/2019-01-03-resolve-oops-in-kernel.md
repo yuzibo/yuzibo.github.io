@@ -271,11 +271,13 @@ add symbol table from file "oops.o" at
 .text_addr = 0xf86d4000
 (y or n) y
 Reading symbols from oops.o...done.
+```
 
 Next, add the symbol file to the debugger. The add-symbol-file command’s first argument is oops.o and the second argument is the address of the text section of the module. You can obtain this address from /sys/module/oops/sections/.init.text (where oops is the module name):
 
 From the RIP instruction line, we can get the name of the offending function, and disassemble it.
 
+```bash
 (gdb) disassemble my_oops_init
 Dump of assembler code for function my_oops_init:
 0x00000024 <+0>:	call   0x25 <my_oops_init+1>
@@ -289,9 +291,11 @@ Dump of assembler code for function my_oops_init:
 0x00000043 <+31>:	ret
 End of assembler dump.
 (gdb)
+```
 
 Now, to pin point the actual line of offending code, we add the starting address and the offset. The offset is available in the same RIP instruction line. In our case, we are adding 0x00000024 + 0x12(which is came from    my_oops_init+0x12/0x1000 ) = 0x00000036.It points the 0x00000036 the instruction. It is a movl instruction.
 
+```bash
 (gdb) list *0x00000036
 0x36 is in my_oops_init (/home/yubo/lit/oops.c:12).
 7	#include <linux/kernel.h>
