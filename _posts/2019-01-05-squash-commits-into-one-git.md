@@ -6,7 +6,7 @@ layout: post
 * content
 {:toc}
 
-<h1>如何将多个commits合并成一个commit</>
+<h1>如何将多个commits合并成一个commit</h1>
 As an open source code management tool, Git's excellent collaboration features quickly capture the market for code management and become a qualified programmer.
 Standard. You can learn this skill from 0. This article is a brief introduction to one of the features: Combine multiple commits into one
 Commit.
@@ -15,8 +15,8 @@ Git作为一个开源的代码管理工具，其优异的协作特性迅速占�
 标配。你可以从0开始学习这个技能，本篇文章就是简单介绍其中的一个特性：将多个commits合并成一个
 commit。
 
-#1 Step 1: choose your starting commit
-#2 第一步：选择你想合并的开始commit
+# Step 1: choose your starting commit
+# 第一步：选择你想合并的开始commit
 
 The first thing to do is to invoke git to start an interactive rebase session:
 首先要做的是调用git来启动交互式rebase会话：
@@ -68,8 +68,8 @@ In fact, there is one commit only to squash, simple.
 git rebase --interactive HEAD~[2]
 ```
 
-###3 If i have tons of commits to squash, do i have to count them one bu one?
-###3 如果我有成千上百的commits需要去squah,难道我一个一个去数吗？
+### If i have tons of commits to squash, do i have to count them one bu one?
+### 如果我有成千上百的commits需要去squah,难道我一个一个去数吗？
 
 No， not at all.You just put `git commit-hash` , which efore the first one you want
 to rewrite from.
@@ -86,8 +86,8 @@ git rebase --interactive old
 Remenber, please put a replace with hash-value
 例如，上面中的a,b,c是你想要合并的commits，你仅仅把上面命令中的a替换成commit value就行
 
-#2 Step 2:picking and squashing
-#2 第二步： picking and squashing
+# Step 2:picking and squashing
+# 第二步： picking and squashing
 
 When you type command above,your editor will show up :
 当你键入上面的命令，你的编辑器将会展示：
@@ -102,7 +102,7 @@ pick 9d814b2a0e78  fs/proc: fix minor error
 Save the file and exit
 保存文件并且退出
 
-#3 Create a new commit
-#3 第三步： 创建新的commit
+# Create a new commit
+# 第三步： 创建新的commit
 
 
