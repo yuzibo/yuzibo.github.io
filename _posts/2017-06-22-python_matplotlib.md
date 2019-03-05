@@ -7,6 +7,20 @@ layout: post
 * content
 {:toc}
 
+# where is installed matplotlibrc
+
+```python
+import matplotlib
+
+print (matplotlib.matplotlib_fname())
+```
+执行：
+
+```bash
+$ python chinese_issue.py
+D:\Program File\python\lib\site-packages\matplotlib\mpl-data\matplotlibrc
+```
+可以修改配置文件
 
 # install
 
