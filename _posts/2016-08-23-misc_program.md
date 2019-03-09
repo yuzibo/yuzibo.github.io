@@ -221,5 +221,18 @@ int main()
 }
 
 ```
+# 改编misc权限
+上面生成的`misc`文件可以配合`udev`进行。但是如果需要在内核中进行权限设置，则需要
+[参考](https://stackoverflow.com/questions/23424884/linux-kernel-setting-the-permissions-for-a-dev-file-that-was-created-via-crea)
+
+```c
+struct miscdevice misc_device = {
+	.minor = MISC_DYNAMIC_MINOR,
+	.name = "eudyptula",
+	.fops = &dev_fops,
+	.mode = 0666,
+};
+
+```
 
 为了保密需要，我将自己的id进行了替换。

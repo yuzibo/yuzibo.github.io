@@ -97,7 +97,11 @@ yubo@debian:~/git/configure_file/kernel-fast-dev$ ./eudyptula-boot --kernel ~/sr
 [∗] QEMU PID is 28311.
 [∗] Spawning a shell.
 ```
-
+其中，请注意
+```bash
+[∗] GDB server listening on /tmp/tmp.0NkeE3lzn9/vm-eudyptula-5-0-0-rc7+-gdb.pipe.
+```
+这个语句可以用来调试内核的。
 看到没有，已经启动了一个VM，可以看一下内核版本：
 
 ```bash
@@ -107,4 +111,59 @@ root@eudyptula-5-0-0-rc7+:~/git/configure_file/kernel-fast-dev# uname -r
 
 大家发现了没有，我们在主操作系统中开了一个镜像进程，而且这个内核居然可以使用原来用户空间的程序。
 
+# 调试内核
+
+经过上面的准备，我们要对修改的代码进行验证才可以。
+[教材](https://vincent.bernat.ch/en/blog/2014-eudyptula-boot)
+这个文章就是根据这篇改编过来。
+
+这个部分是我后来补写的，那么，`gdb server`的信息为
+
+```bash
+[∗] GDB server listening on /tmp/tmp.Aec21mkPjO/vm-eudyptula-5-0-0-next-20190306-00003-g801cbc0c69c2-dirty-gdb.pipe.
+```
+1. 打开一个新的终端,gdb你刚才产生的vmlinux：这个`vmlinux`可以是你内核代码源目录下的那个，也可以是`~/src/kernel-dev/lib/build/vmlinux`文件。
+
+```bash
+gdb vmlinux
+GNU gdb (Debian 7.12-6) 7.12.0.20161007-git
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from vmlinux...done.
+warning: File "/home/yubo/git/linux/scripts/gdb/vmlinux-gdb.py" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
+To enable execution of this file add
+add-auto-load-safe-path /home/yubo/git/linux/scripts/gdb/vmlinux-gdb.py
+line to your configuration file "/home/yubo/.gdbinit".
+To completely disable this security protection add
+set auto-load safe-path /
+line to your configuration file "/home/yubo/.gdbinit".
+For more information about this security protection see the
+---Type <return> to continue, or q <return> to quit---
+"Auto-loading safe path" section in the GDB manual.  E.g., run from the shell:
+info "(gdb)Auto-loading safe path"
+(gdb)
+
+```
+## 第二步，监听gdb server的地址：
+```bash
+(gdb) target remote | socat UNIX:/tmp/tmp.6pDwCfUhbz/vm-eudyptula-5-0-0-next-20190306-00003-g801cbc0c69c2-dirty-gdb.pipe -
+Remote debugging using | socat UNIX:/tmp/tmp.6pDwCfUhbz/vm-eudyptula-5-0-0-next-20190306-00003-g801cbc0c69c2-dirty-gdb.pipe -
+__read_once_size (size=<optimized out>, res=<optimized out>, p=<optimized out>)
+at ./include/linux/compiler.h:197
+ 197		__READ_ONCE_SIZE;
+(gdb)
+
+```
+注意，我的监听地址变化了好几次，请注意。注意上面的地址。
 有什么问题大家可以问我，谢谢大家
