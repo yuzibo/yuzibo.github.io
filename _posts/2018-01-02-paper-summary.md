@@ -15,3 +15,8 @@ layout: post
 
 # 总体
 [好文](http://www.jzus.zju.edu.cn/download/write-chinese.pdf)
+
+
+# 综述类文章
+[链接1](https://www.zhihu.com/question/29507254)
+[链接2](http://blog.sciencenet.cn/blog-755833-634306.html)
