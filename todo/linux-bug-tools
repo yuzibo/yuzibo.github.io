@@ -1,0 +1,7 @@
+dev-tools/coccinelle.rst.
+
+usage:
+
+```bash
+make coccicheck MODE=report COCCI=scripts/coccinelle/null/deref_null.cocci M=drivers/net/
+```
