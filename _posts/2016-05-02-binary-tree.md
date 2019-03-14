@@ -1,7 +1,7 @@
 ---
 title: "二叉树的性质和使用"
 layout: post
-category: DS 
+category: DS
 ---
 
 * content
@@ -13,7 +13,7 @@ category: DS
 
 滚粗。。。老子不是遇到很好的知识点，我才懒得理你呢。。。
 
-# 重要特性 
+# 重要特性
 
 以下性质暗含root node 为第一层
 
@@ -48,6 +48,7 @@ n2+1
 # 以数组表示二叉树
 
 如果使用数组代表二叉树的话，那么数组里的元素依次就是从根节点水平方向读取来的
+(也就是依照层进行读取的)
 
 如果根节点在数组的下标是从1开始,那么就有如下性质：
 
@@ -59,12 +60,72 @@ n2+1
 
 如果根节点从数组下标为0开始，那么有如下性质：
 
-	
-	PARENT(i)		return floor[(i-1)/2] 
+
+	PARENT(i)		return floor[(i-1)/2]
 
 	LEFT(i)			return 2*i+1
 
 	RIGHT(i)		return 2i + 2
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+};
+
+struct TreeNode *newNode(int data)
+{
+	struct TreeNode *p = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+	p->val = data;
+	p->left = p->right = NULL;
+}
+struct TreeNode *createBinaryTree(struct TreeNode *root,int *array, int pos, int nums)
+{
+	if ( pos < nums) {
+		struct TreeNode *p = newNode(array[pos]);
+		root = p;
+
+		// left
+		root->left = createBinaryTree(root->left, array, 2*pos + 1, nums);
+		root->right = createBinaryTree(root->right, array, 2*pos +2, nums);
+
+	}
+	return root;
+
+}
+void show(struct TreeNode *p)
+{
+	if(p == NULL)
+		return ;
+	else {
+		show(p->left);
+		if(p->val == -1)
+			printf("#\t");
+		else
+			printf("%d\t", p->val);
+		show(p->right);
+	}
+}
+int main()
+{
+	//int a[] = {1,4,5,1,9,6,5};
+	int a [] = {1,2,3,4,-1,-1,7,-1,9,-1,-1,-1,-1,4};
+	int n = sizeof(a)/sizeof(a[0]);
+	struct TreeNode *root = createBinaryTree(root,a, 0,n);
+	show(root);
+	printf("\n");
+}
+
+```
+
+上面的代码就是按层次遍历依次读进二叉树，`-1`代表空节点。打印的时候是先打印左孩子，再是根节点，最后是右节点。
+
+下面可以看做是有关树的API操作。
 
 # 以链表表示二叉树
 
