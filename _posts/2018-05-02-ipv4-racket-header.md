@@ -11,6 +11,32 @@ layout: post
 
 ![2018-05-16-ipv4_racket_header.png](http://yuzibo.qiniudn.com/2018-05-16-ipv4_racket_header.png)
 
+图片的问题因为图床的原因，所以挂了。我再找找其他方案
+
+```bash
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |Version|  IHL  |Type of Service|          Total Length         |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |         Identification        |Flags|     Fragment Offset     |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |  Time to Live |    Protocol   |        Header Checksum        |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                         Source Address                        |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                      Destination Address                      |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                    Options                    |    Padding    |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+```
+
+看到这幅图片，请不要惊讶我的耐心，这是我发现的一个ascii利器，详细的介绍
+在[这里](https://github.com/luismartingarcia/protocol) 还可以自己制定协议
+字节什么的，那么，最上面的１表示什么呢?就是十位数上的数字而已.
+
+
 Let's walk throught all these fields, but this is not bits in the pic:
 
 ``Version`` the first field tells us which IP version we are using, only IPv4 uses this header so you will always find decimal value 4 here.
