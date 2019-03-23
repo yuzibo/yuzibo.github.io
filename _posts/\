@@ -1,0 +1,216 @@
+---
+title: "ipv4协议－通过实验参看三次握手"
+category: network
+layout: post
+---
+
+* content
+{:toc}
+
+
+# 访问daytime
+
+首先，我们可以写一个简单的网络服务测试，基于客户端的，产生一个最基本的tcp访问，然后通过tcpdump把里面的各个过程展示出来。
+daytime是一个unix的很老的服务了，其端口号是13. debian下面的daytime由**xinetd**,安装完成后是默认不开启服务的，需要自己:
+
+```c
+ls /etc/xinetd.d/
+chargen  daytime  discard  echo     time
+```
+把daytime的配置文件中的disable字段设置`no`. 接着使用:
+
+```bash
+/etc/init.d/xinetd status  # 查看状态
+/etc/init.d/xinetd start/restart/stop # 控制xinetd的行为
+```
+# 实验
+我在debian的系统里面使用了一个虚拟机，该虚拟机在主机上面的网卡叫**virbr0**，这个可以通过　
+**ifconfig**命令去查看。
+
+```c
+       122.1  virbr0   122.173
+	host <=======> vm1
+
+```
+通过在host去访问vm1中的daytime服务，建立一个最基本的tcp链接，观察三次握手过程。
+
+## 虚拟机
+ 在虚拟机里面编译以下程序，作为访问daytime服务的client程序。
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <string.h> // bzero
+#include <arpa/inet.h>
+
+#define MAXSIZEDATA 2048
+int main(int argc, char **argv)
+{
+	int socketfd, nbytes;
+	char recvline[MAXSIZEDATA + 1];
+	struct sockaddr_in serveraddr;
+
+	if (argc != 2){
+		perror("Usage, too small ");
+		exit(1);
+	}
+
+	if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+
+		perror("socket error\n");
+		exit(1);
+	}
+
+	bzero(&serveraddr, sizeof(serveraddr));
+	/* 上面就是一个简单的申请*/
+	/* 填充 socket 封装头　*/
+	serveraddr.sin_family = AF_INET;
+	serveraddr.sin_port = htons(13);
+
+	if (inet_pton(AF_INET, argv[1], &serveraddr.sin_addr) <= 0){
+		perror("inet_pton is error\n");
+	}
+	/* 如果有domin的话，需要使用 inet_pton 转化为　ip*/
+	if (connect(socketfd, (struct sockaddr *)&serveraddr, sizeof(struct sockaddr)) == -1){
+		perror("connect error\n");
+		exit(1);
+	}
+
+	while(( nbytes = read(socketfd, recvline, MAXSIZEDATA)) > 0){
+		recvline[nbytes] = '\0'; /* 网络编程尤其注意这一点　*/
+		if (fputs(recvline, stdout) == EOF)
+			perror("fputs, error");
+	}
+
+	if (nbytes < 0)
+		perror("read error\n");
+
+	exit(0);
+}
+
+```
+这个代码可以直接gcc,并不依赖其他的网络库。
+```c
+gcc -g tcp_capture.c -o tcp
+```
+
+# host捕捉
+使用**tcpdump**去捕捉相应的包即可。在主机中，使用:
+```c
+sudo tcpdump -i virbr0 tcp port 13 -X -s0
+```
+其中，　**-i**是指定网卡，**tcp**是制定捕捉的协议，**-X**为以十六进制，
+就是以十六进制打印数据报文，但是不显示以太网祯的报头，只显示IP层的内容
+**-s0**是抓报长度，一般设置为0，即65535字节
+
+同时在虚拟机里面：
+```c
+yubo-2@debian:~/test$ ./tcp 192.168.122.1
+22 MAR 2019 15:31:32 HKT
+```
+这个时候在主机就会产生：
+
+```c
+yubo@debian:~$ sudo tcpdump -i virbr0 tcp port 13 -x -s0
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on virbr0, link-type EN10MB (Ethernet), capture size 262144 bytes
+15:31:32.411059 IP bogon.59432 > bogon.daytime: Flags [S], seq 3886862313, win 29200, options [mss 1460,sackOK,TS val 2598220276 ecr 0,nop,wscale 7], length 0
+	0x0000:  4500 003c 8fac 4000 4006 3510 c0a8 7aad
+	0x0010:  c0a8 7a01 e828 000d e7ac cfe9 0000 0000
+	0x0020:  a002 7210 762e 0000 0204 05b4 0402 080a
+	0x0030:  9add b1f4 0000 0000 0103 0307
+15:31:32.411099 IP bogon.daytime > bogon.59432: Flags [S.], seq 1126042841, ack 3886862314, win 65160, options [mss 1460,sackOK,TS val 457846070 ecr 2598220276,nop,wscale 7], length 0
+	0x0000:  4500 003c 0000 4000 4006 c4bc c0a8 7a01
+	0x0010:  c0a8 7aad 000d e828 431e 0cd9 e7ac cfea
+	0x0020:  a012 fe88 762e 0000 0204 05b4 0402 080a
+	0x0030:  1b4a 2d36 9add b1f4 0103 0307
+15:31:32.411275 IP bogon.59432 > bogon.daytime: Flags [.], ack 1, win 229, options [nop,nop,TS val 2598220276 ecr 457846070], length 0
+	0x0000:  4500 0034 8fad 4000 4006 3517 c0a8 7aad
+	0x0010:  c0a8 7a01 e828 000d e7ac cfea 431e 0cda
+	0x0020:  8010 00e5 7626 0000 0101 080a 9add b1f4
+	0x0030:  1b4a 2d36
+15:31:32.411364 IP bogon.daytime > bogon.59432: Flags [P.], seq 1:27, ack 1, win 510, options [nop,nop,TS val 457846071 ecr 2598220276], length 26
+	0x0000:  4500 004e 6f21 4000 4006 5589 c0a8 7a01
+	0x0010:  c0a8 7aad 000d e828 431e 0cda e7ac cfea
+	0x0020:  8018 01fe 7640 0000 0101 080a 1b4a 2d37
+	0x0030:  9add b1f4 3232 204d 4152 2032 3031 3920
+	0x0040:  3135 3a33 313a 3332 2048 4b54 0d0a
+15:31:32.411380 IP bogon.daytime > bogon.59432: Flags [F.], seq 27, ack 1, win 510, options [nop,nop,TS val 457846071 ecr 2598220276], length 0
+	0x0000:  4500 0034 6f22 4000 4006 55a2 c0a8 7a01
+	0x0010:  c0a8 7aad 000d e828 431e 0cf4 e7ac cfea
+	0x0020:  8011 01fe 7626 0000 0101 080a 1b4a 2d37
+	0x0030:  9add b1f4
+15:31:32.411583 IP bogon.59432 > bogon.daytime: Flags [.], ack 27, win 229, options [nop,nop,TS val 2598220276 ecr 457846071], length 0
+	0x0000:  4500 0034 8fae 4000 4006 3516 c0a8 7aad
+	0x0010:  c0a8 7a01 e828 000d e7ac cfea 431e 0cf4
+	0x0020:  8010 00e5 7626 0000 0101 080a 9add b1f4
+	0x0030:  1b4a 2d37
+15:31:32.412117 IP bogon.59432 > bogon.daytime: Flags [F.], seq 1, ack 28, win 229, options [nop,nop,TS val 2598220277 ecr 457846071], length 0
+	0x0000:  4500 0034 8faf 4000 4006 3515 c0a8 7aad
+	0x0010:  c0a8 7a01 e828 000d e7ac cfea 431e 0cf5
+	0x0020:  8011 00e5 7626 0000 0101 080a 9add b1f5
+	0x0030:  1b4a 2d37
+^C
+7 packets captured
+8 packets received by filter
+1 packet dropped by kernel
+
+```
+看到没有，这个时候就是７个包，可以说就是完整的包含了三次握手、四次挥手的过程。
+# ipv4 Racket Header
+
+![2018-05-16-ipv4_racket_header.png](http://yuzibo.qiniudn.com/2018-05-16-ipv4_racket_header.png)
+
+图片的问题因为图床的原因，所以挂了。我再找找其他方案
+
+```bash
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |Version|  IHL  |Type of Service|          Total Length         |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |         Identification        |Flags|     Fragment Offset     |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |  Time to Live |    Protocol   |        Header Checksum        |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                         Source Address                        |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                      Destination Address                      |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                    Options                    |    Padding    |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+```
+
+看到这幅图片，请不要惊讶我的耐心，这是我发现的一个ascii利器，详细的介绍
+在[这里](https://github.com/luismartingarcia/protocol) 还可以自己制定协议
+字节什么的，那么，最上面的１表示什么呢?就是十位数上的数字而已.
+
+
+Let's walk throught all these fields, but this is not bits in the pic:
+
+**Version** the first field tells us which IP version we are using, only IPv4 uses this header so you will always find decimal value 4 here.
+
+
+**Header Length** this 4 bits field tells us the length(bytes) of the IP header in 32 bit increments.If here is 20 bytes in the ip header, the value of 5 here, if the value is 15(0x1111), the IHL is 60 bytes.
+Please note here, you would better to think it why it is the 5 and 20. Hint: 5 bytes = 5 * 32 (160) bits.If you have other data, must add it of 4 bytes(20, 24, 28...).And i think you must master it : the description is **bytes** unit.
+
+**Type of service** This is used for Qos.
+
+**Total Length** The minimum size is 20 bytes(if you have no data) and the maximum size is 65536 bytes.
+
+``Identification`` If the IP packet is fragmented then each fragment packet will use the same 16 bit identification number to identify to which IP packet they belone to.
+
+``IP Flags`` : The first bit is alway set to 0; The second bit is called ``DF``(dont fragment) and indicates this packet should not be fragmented.The third bit is called the ``MF``(more fragments) bit and is set on all fragment packets except the last one.
+
+``Fragment Offset``: this 13 bit field specifies the position of the fragment in the original fragmented IP packet.
+
+``Time to live``: only ttl value is 0, the packet will be dropped. ICMP.
+
+``Header Checksum``, ``Source address``, ``Destination Address``, ``IP option``...
