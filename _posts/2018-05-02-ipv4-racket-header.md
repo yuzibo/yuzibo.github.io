@@ -241,8 +241,8 @@ Please note here, you would better to think it why it is the 5 and 20. Hint: 5 b
 由 **bogon.59432**发出的数据，这个字段依次为:[0x8fac]->[0x8fad]->[0x8fae]->[0x8faf].说明没有分片。
 
 ``IP Flags`` : The first bit is alway set to 0; The second bit is called ``DF``(dont fragment) and indicates this packet should not be fragmented.The third bit is called the ``MF``(more fragments) bit and is set on all fragment packets except the last one.
-[0x4]=>[0100] 3 bits 其实，虽然占了4位，但是只使用了3bits.剩下的那一位和下面的一起使用.按照协议，第一位不应该设置为１，_flag_的第一位被称为_evei bits_.
-这里有一个问题就是，虽然ip　flag的位数是３为，但是在0x进制下还是４喂，就会导致0x40的情况，感觉是第一位被置１了。注意。
+[0x4]=>[0b0100] 3 bits 其实，虽然占了4位，但是只使用了3bits.剩下的那一位和下面的一起使用.按照协议，第一位不应该设置为１，**flag**的第一位被称为**evei bits**.
+这里有一个问题就是，虽然ip　flag的位数是３ bits，但是在0x进制下还是４bits，就会导致0x40的情况，感觉是第一位被置１了。注意。
 
 ``Fragment Offset``: this 13 bit field specifies the position of the fragment in the original fragmented IP packet.
 [0x000] : 13 bits 要借用前面的一位。本分片在原先数据报文中相对首位的偏移位。（需要再乘以8）
@@ -356,6 +356,8 @@ If the SYN flag is clear (0), that a packet with Congestion Experienced flag set
 8. SYN (1 bit): Synchronize sequence numbers. Only the first packet sent from each end should have this flag set. Some other flags and fields change meaning based on this flag, and some are only valid when it is set, and others when it is clear.
 9. FIN (1 bit): Last packet from sender.
 从这里我们发现，只有SYN置为1.只有第一个包发出时才置１只有第一个包发出时才置１
+
+剩下的三次握手可以着重观看一下这些字段，
 
 _windows_:
 [0x7210] 16 bits: 十进制29200。正好与tcpdump的win大小一致。

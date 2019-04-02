@@ -30,6 +30,14 @@ $ sudo ./test_verifier
 # libbpf
 位于`tools/lib/bpf`.这个库很明显就是为了加载eBPF程序，当然，FB工程师也维护了一个[github](https://github.com/libbpf/libbpf)
 
+```c
+git submodule add https://github.com/libbpf/libbpf/ libbpf
+```
+将这个添加到自己练习的项目。后面使用：
+
+```c
+git submodule update --init
+```
 
 # Main features
 If you want to learn what type of  ebpf program is supported, you can use:
