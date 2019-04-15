@@ -20,3 +20,6 @@ layout: post
 # 综述类文章
 [链接1](https://www.zhihu.com/question/29507254)
 [链接2](http://blog.sciencenet.cn/blog-755833-634306.html)
+
+# 写作策略
+https://www.douban.com/note/584364368/

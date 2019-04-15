@@ -25,6 +25,10 @@ layout: post
 # 最全的积累
 [github](https://github.com/zoidbergwill/awesome-ebpf)
 
+# 相关资料
+https://blog.cloudflare.com/tag/ebpf/
+
+https://blogs.oracle.com/linux/notes-on-bpf-1
 
 
 
