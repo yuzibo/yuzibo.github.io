@@ -40,10 +40,10 @@ ovs-vsctl add-port br-ext eth1
 这个端口的作用就是自动创建一个同名接口(interface) 挂载到新建立的Port上。
 
 ```c
-ovs-vsctl add-br br0   
+ovs-vsctl add-br br0
 ovs-vsctl add-port br0 p0 -- set Interface p0 type=internal
- 
-#查看网桥br0   
+
+#查看网桥br0
 ovs-vsctl show br0
     Bridge "br0"
         fail_mode: secure
@@ -74,7 +74,7 @@ ovs-vsctl add-br br1
 ovs-vsctl \
 -- add-port br0 patch0 -- set interface patch0 type=patch options:peer=patch1 \
 -- add-port br1 patch1 -- set interface patch1 type=patch options:peer=patch0
- 
+
 #结果如下
 #ovs-vsctl show
     Bridge "br0"
@@ -100,3 +100,7 @@ https://www.usenix.org/system/files/conference/nsdi15/nsdi15-paper-pfaff.pdf
 
 
 [how to do reasch at under?]http://www.ece.rutgers.edu/~pompili/index_file/extra/HowToDoResearch_ANRG_WP02001.pdf
+
+有关在ovs下的Qos命令
+http://www.programmersought.com/article/294415472/
+
