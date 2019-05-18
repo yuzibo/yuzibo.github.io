@@ -11,7 +11,13 @@ layout: post
 
 网络调参[1](https://arthurchiao.github.io/blog/tuning-stack-tx-zh-1/)
 
+# English
 
+## 网络数据发送流程以及调参
+对应上面的网络调参的英文[Monitoring and Tuning the Linux Networking Stack: Receiving Data](https://blog.packagecloud.io/eng/2016/06/22/monitoring-tuning-linux-networking-stack-receiving-data/)
+
+## 流量控制
+[Traffic Control HOWTO](http://tldp.org/HOWTO/Traffic-Control-HOWTO/)
 
 
 
