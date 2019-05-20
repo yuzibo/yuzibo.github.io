@@ -19,6 +19,12 @@ layout: post
 ## 流量控制
 [Traffic Control HOWTO](http://tldp.org/HOWTO/Traffic-Control-HOWTO/)
 
+## lock相关
+这是中国科学技术大学一个比较早的[pdf](http://staff.ustc.edu.cn/~james/em2005/5.pdf)
 
+## 中科大网络神人
+[张老师](http://staff.ustc.edu.cn/~james/)
+
+[孟宁老师](http://staff.ustc.edu.cn/~mengning/)  跟随着孟老师的课程可以理解os的运行原理还有内核网络的核心代码
 
 PS; 如果你有好的资源，欢迎提交rp,thx
