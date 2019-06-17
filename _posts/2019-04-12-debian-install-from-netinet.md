@@ -1,7 +1,7 @@
 ---
 title: 最小化安装debian
 category: debian
-article: post
+layout: post
 ---
 
 为了节省时间，我在这次安装debian的时候使用了最小化安装的方式，期间遇到了一点小问题，所以记录在这里。
