@@ -26,3 +26,22 @@ EP3思博伦赛项系列讲座之三: STCa的配置与安装[第三期录屏](ht
 EP3思博伦赛项系列讲座之四：网络测试领域“旗舰”工具Spirent TestCenter简介 [第四期录屏](https://spirent.zoom.us/recording/share/LWOOwzMM9EbjEPqdWo8IbgNckIe9ZoR7l_OQa1CoSXY)
 
 仅供参考，不保证信息的准确，有问题请联系 yuzibode#126.com (#=>@)
+
+学习之前一定定一个目标才可以.
+# sdn基础知识
+
+转载[packet_in and  packet_out](https://www.cnblogs.com/mrwuzs/p/10366269.html)
+
+##  packet_in
+
+使用Packet-In消息的目的是为了将到达OpenFlow交换机的数据包发送至OpenFlow控制器。以下2种情况即可发送Packet-In消息
+
+	不存在与流表项一致的项目时（Table-miss），OFPR_NO_MATCH
+	匹配的流表项中记载的行动为“发送至OpenFlow控制器”时，OFPR_ACTION
+
+发送Packet-In消息时OpenFlow交换机分为两种情况，一种是缓存数据包，一种是不缓存数据包。如果不通过OpenFlow交换机缓存数据包，那么Packet-In消息的buffer_id字段设置为-1，将整个数据包发送至OpenFlow控制器。 如果通过OpenFlow交换机缓存数据包，那么以通过SET_CONFIG消息设置的miss_send_len为最大值的数据包数据将发送至OpenFlow控制器。 miss_send_len的默认值为128。未实施SET_CONFIG消息的交换时，使用该默认值
+
+## packet_out
+
+cket-Out消息是从OpenFlow控制器向OpenFlow交换机发送的消息，是包含数据包发送命令的消息”。 若OpenFlow交换机的缓存中已存在数据包，而OpenFlow控制器发出“发送该数据包”的命令时，该消息指定了表示相应数据包的buffer_id。使用Packet-Out消息还可将OpenFlow控制器创建的数据包发送至OpenFlow交换机。此时，buffer_id置为-1，在Packet-Out消息的最后添加数据包数据。
+
