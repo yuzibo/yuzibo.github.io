@@ -222,6 +222,27 @@ int 	rc3 = myLinkedListGet(obj, 2);
 
 int main函数是我方便测试写的，希望大家注意。
 
+**update:2019-07-14**:为什么这里更新了呢？大家有没有发现，这里使用一级指针的问题在哪？对了，就是处理特殊节点显得特别啰嗦，那怎么办？我们选择一个二级指针就可以轻松解决
+这个问题。
+
+```c
+
+void push(Node** head_ref, int new_key)
+{
+    /* allocate node */
+    Node* new_node = new Node();
+
+    /* put in the key */
+    new_node->key = new_key;
+
+    /* link the old list off the new node */
+    new_node->next = (*head_ref);
+
+    /* move the head to point to the new node */
+    (*head_ref) = new_node;
+}
+```
+
 ### reverse-linked-list(逆置链表)
 
 [leetcode](https://leetcode.com/problems/reverse-linked-list)
@@ -373,7 +394,7 @@ struct ListNode* deleteDuplicates(struct ListNode* head) {
         p = p->next;
     }
     return head;
-    
+
 }
 ```
 # remove node from linked-list(删除节点)
