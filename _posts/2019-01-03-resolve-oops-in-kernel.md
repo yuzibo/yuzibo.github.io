@@ -312,9 +312,6 @@ Now, to pin point the actual line of offending code, we add the starting address
 ```
 So, we have found it.
 
-
-
-
-
-
+Here is some usefully link:
+[Shi shougang](http://wiki.dreamrunner.org/public_html/Embedded-System/kernel/determine-line-of-oops.html)
 
