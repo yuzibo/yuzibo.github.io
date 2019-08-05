@@ -1,0 +1,14 @@
+linux中有六个状态转换:
+
+是在 就绪 <<==>运行<<==>>睡眠之间切换
+
+[TASK_RUNNING（就绪）] -> schedule() -> [占用cpu] -> 时间片耗尽 -》 [TASK_RUNNING(就绪)] **闭环**
+
+[占用cpu] -> sleep_on()/schedule() -> [TASK_UNINTERRUPTER 深度睡眠] -》 wake_up(资源到位) -> [TASK_UNINTERRUPTER(就绪)]，这一条是单线，不会有反方向
+
+[占用cpu ] -> schedule()/ptrace() -> [[TASK_STOPPED]] -> wake_up()/收到信号SIGCONT->[TASK_RUNNING]
+
+[占用cpu] -> interruptble_sleep_on()/schedule()(等待资源到位) -> [[TASK_INTERRUPTBLE深度睡眠]] -> wake_up()/wake_up_interruptble()(资源到位) -> [TASK_RUNNING]
+
+[占用 CPU] -> do_exit -> [[TASK_ZOMBIE 僵死]]
+[here](https://blog.acean.vip/post/linux-kernel/gai-shu-linuxnei-he-san-jia-ma-che-zhi-jin-cheng-guan-li)
