@@ -88,5 +88,83 @@ int numDecodings(char * s){
 
 
 # 62 Unique Paths
+A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
 
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+How many possible unique paths are there?
+
+看看，这是标准的动态规划的问题呀人！
+Example 1:
+
+```c
+Input: m = 3, n = 2
+Output: 3
+Explanation:
+From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+1. Right -> Right -> Down
+2. Right -> Down -> Right
+3. Down -> Right -> Right
+```
+按照题目给的样例，这里有一个问题，貌似就是起点为(1,1)。
+If we initial an 2-D array, it must begin from 0 to n(numbers of elements n - 1 we assume).
+
+Yeap, In the problem, i resolved the issue that firstly was **mallocing** a 2-D array.I allocate a **M x N**array.
+
+1. allocte int **dp
+
+```c
+int **dp = (char **)malloc(sizeof(int \*) \* m);
+```
+Becasue we allocate a 2-D array, which has m row(行).That is said to be allocated row's elements.
+
+2. allocate column
+```c
+for(i = 0; i < m; i++)
+	dp[i] = (char *)malloc(sizeof(char) * n);
+```
+In the statement, we alloc the each row with n (column 列元素) elements.
+
+3. initial array
+We think the program again, if "Finish" is always located in dp[i][0](0<=i <=m) or dp[0][j](0 <= j <= n).Is there has how many paths from Robots to Finish? Yes, the answer is one. Why? The Robot has two dirctories only: down and right,so.If "finish" always be located on the far side of the matrix.There is one path only.
+
+```c
+ for(i  = 0; i < n; i++)
+        dp[0][i] = 1;
+ for(i = 0; i < m; i++)
+        dp[i][0] = 1;
+```
+
+4. state transition equation
+If the "finish" be located (i, j)(1 <= i, j <= m), the previous path must be located in (i -1, j) or (i, j - 1).So, the (i, j) sum of path is dp[i - 1][j] + dp[i][j - 1]
+
+```c
+int uniquePaths(int m, int n){
+    if(m == 0 || n == 0)
+        return 0;
+    if (m == 1 || n == 1)
+        return 1;
+    int **dp = (int **)malloc(sizeof(int *) * m);
+    int i, j,ret = 0;;
+
+    for(i  = 0; i < m; i++)
+        dp[i] = (int *)malloc(sizeof(int) * n);
+    /* malloc 2-d array */
+    for(i  = 0; i < n; i++)
+        dp[0][i] = 1;
+    for(i = 0; i < m; i++)
+        dp[i][0] = 1;
+    for(i = 1; i < m;  i++)
+        for(j = 1; j < n;j++){
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        }
+    ret = dp[i- 1][j - 1];
+    free(dp);
+    return ret;
+}
+```
 # 509 Fibonacci Numbers
+oThe Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+F(0) = 0,   F(1) = 1
+F(N) = F(N - 1) + F(N - 2), for N > 1.
