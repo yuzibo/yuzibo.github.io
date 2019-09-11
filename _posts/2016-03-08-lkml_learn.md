@@ -50,3 +50,11 @@ passed to free().
 Fixes: d85b758f72b0 ("virtio_net: fix support for small rings")
 ```
 后者才是正确的，被社区认可的。
+
+
+## 内存分配标志
+```c
+When allocating memory, the GFP_KERNEL cannot be used during the
+spin_lock period. It may cause scheduling when holding spin_lock
+```
+未证实这个论断的正确性，这里需要知道的知识点包括 内存分配的 标志 和 锁相关的原理和机制
