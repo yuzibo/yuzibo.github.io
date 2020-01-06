@@ -266,7 +266,15 @@ You must use `sudo` command to execute the command,next, you will enter into lin
 
 `--disk=pool=devel,size=10,format=qcow2` means it have 10GB space disk to support your VMs.
 
+virt-install version 1.5.1报错debian没有在它的安装字典中，可以尝试着使用debian9.
 
+
+# how to delete a vm
+
+```bash
+sudo virt-install destroy domain
+sudo virt-install undefine domain
+```
 
 # Managing a vitual machine
 This is my first wrong step to try it.I missed it.
@@ -308,6 +316,7 @@ sudo virt-viewer --connect qemu:///system 8
 ```
 
 Congratulations! Enjoy it:)
+
 
 
 # 后记
