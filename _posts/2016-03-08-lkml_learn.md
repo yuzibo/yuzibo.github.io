@@ -7,6 +7,89 @@ title: "在lkml上学到的"
 * content
 {:toc}
 
+# merge window
+## 2020-01-12  (v5.5-rc6)
+这一周期在内核中至关重要，refer to [the article](https://www.kernel.org/doc/html/latest/process/2.Process.html?highlight=merge%20window)
+`merge window`大约维持两周的时间，其实，如果我没记错的话，也就是最后一个<font color = "red">rc</font>释放出来
+就是`merge window`的开始时间。原话是这样说的:
+
+```c
+The merge window lasts for approximately two weeks. At the end of this time, Linus Torvalds will declare that the window is closed and release the first of the “rc” kernels.
+```
+这里有一个与中文思维差异很大的命名方式，下面的原文:
+
+```c
+or the kernel which is destined to be 2.6.40, for example, the release which happens at the end of the merge window will be called 2.6.40-rc1. The -rc1 release is the signal that the time to merge new features has passed, and that the time to stabilize the next kernel has begun.
+```
+`2.6.40-rc1`一直到`2.6.40-rc7`（反正最后一个rc）是为了`2.6.41`准备的。那么，具体到什么版本的rcx作为`stable`版本，
+这里也没有一个确切的规定，一般是人为的认为bug最少(regression)。等到stable版本出来之后，就会选择其中的一个交给Greg HK维护。
+`stable`版本也会接受patch,但是必须接受以下两点:
+
+	1. 一个有效的bug fix;
+	2. patch已经合并到主线内核中
+
+```c
+The selection of a kernel for long-term support is purely a matter of a maintainer
+having the need and the time to maintain that release. There are no known plans for
+long-term support for any specific upcoming release.
+```
+这句话的意思：长期版本的支持(long term)内核的选择，这对于维护人来说是需要花费时间去维护的。
+对于任何即将发布的特定版本，没有已知的长期支持计划。
+
+也就是说，你的patch是你需要的，但是stable没有支持，这就需要你ccing stable团队，将patch吸收进去，
+而且，能不能成功，这也是一个未知数。
+
+## 有关merge window的疑问
+The merge window lasts for approximately two weeks. At the end of this time, Linus Torvalds will declare that the window is closed and release the first of the “rc” kernels. 这句话的意思是说，rc1的发布就意味着merge window的结束吧
+但是，When the merge window opens, top-level maintainers will ask Linus to “pull” the patches they have selected for merging from their repositories. 这里，就感觉相互矛盾了呢。在git log中，随处可见子系统维护人tag 为rc3,rc4的pull请求，难道，merge window的开始时间不是最后一版的rc吗 ？
+
+[根据Greg HK](https://www.mail-archive.com/kernelnewbies@kernelnewbies.org/msg10206.html)
+
+THe merge window is for kernel subsystem maintainers, as a "normal"
+developer, you usually don't have to worry about that at all.
+
+一个"rc"的持续时间大约一周，所以，一个次版本(minor version)的开发时间大约6~8周.
+
+“rc1”的发布很关键。
+
+[这篇文章](https://www.mail-archive.com/kernelnewbies@kernelnewbies.org/msg19018.html)说的很清楚了。
+
+---->>>
+
+> My question is about what to do during the closed window? I don't think I
+> should submit patches as I assume I'll create a backlog for the maintainer
+> who'll possibly be flooded when the window re-opens. Similarly I could create
+> patches but not send them until the window re-opens, but again I'll just be
+> creating a backlog.
+
+Just keep going. The maintainers will keep a queue of patches and then try to
+apply them in order when the merge window -rc1 is released for the next one.
+
+Worse cases would be that the patches will no longer apply (in which case, a V2
+will be needed) or, if you haven't heard anything for a while after the -rc1,
+then a patch RESEND should do the trick.
+----<<<
+
+## next tree
+
+Hi Lucas,
+
+To follow changes to the linux-tree tree you need to first do a remote
+update (this will get all the changes from the remote linux-next branch
+to the local origin/master tracking branch) and then reset the HEAD
+pointer of current checked out branch to the HEAD of linux-next remote
+tracking branch (i.e origin/master).
+```bash
+$ git remote update
+$ git reset --hard origin/master
+```
+This will make your current branch (master) *exactly* like the remote
+linux-next tree. You cannot do pull or merge from the remote tracking
+branch.
+
+## How to get patches from e-mail client?
+[the link](https://www.mail-archive.com/kernelnewbies@kernelnewbies.org/msg17376.html)
+
 # 内核中如何处理Reviewed-by tags
 
 I have given you an R-by for this one already, so why haven't you added it here?
