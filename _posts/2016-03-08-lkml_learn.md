@@ -87,8 +87,21 @@ This will make your current branch (master) *exactly* like the remote
 linux-next tree. You cannot do pull or merge from the remote tracking
 branch.
 
+[SO](https://stackoverflow.com/questions/19327523/explain-linux-kernel-state-terminology-e-g-net-next-linux-next-net-git)
+有关net net-next  next-的解释。
+
+next树包含的所有next树的信息在[here](https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Next/Trees?id=HEAD)
+
+
 ## How to get patches from e-mail client?
 [the link](https://www.mail-archive.com/kernelnewbies@kernelnewbies.org/msg17376.html)
+
+## git tree?
+有许多向linus发送pull请求的git仓库并不一定在git.kernel.org网站，比如：
+
+Merge tag 'drm-fixes-2020-01-10' of git://anongit.freedesktop.org/drm/drm
+
+drm的tree就在freedesktop.org网站上。
 
 # 内核中如何处理Reviewed-by tags
 
