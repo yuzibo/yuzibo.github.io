@@ -8,10 +8,24 @@ category: tools
 {:toc}
 
 
-[github](https://github.com/yuzibo/configure_file/tree/master/mutt)
+[配置文件](https://github.com/yuzibo/configure_file/tree/master/mutt)
 
+# 如何打开已发送邮箱
+除了可以在配置文件外指定已发送邮箱存储的文件，如果不这样，你第一次使用mutt 的时候，会提示你自动创建sent邮箱。
+当你再次键入`neomutt`命令时，进入的是收件箱的UI.怎么才能找到发件箱呢？
+
+方法；type `c` then display `Open mailbox('?' for list mailbox)`.So you can type `sent`.If you want to return
+to mailbox(received mail box),you can type the mailbox of dir,in my example it is `/var/mail/me`
+# Delete duplicate mails
+[the article](http://promberger.info/linux/2008/03/31/mutt-delete-duplicate-e-mail-messages/).
+The method: first you must be enable configure option `duplicate_threads = yes`.you can type `:set ?duplicate_threads` to ensure the results.
+
+Then you can type <font color='red'>o</font> to resort all mails in certainly pattern.For example`d`,which will be sort mail as `date` model.
+
+As last you say <font color='red'>T</font> tag pattern,put in `~=` as the pattern.Duplicate mail are now tagged.The mail tagged will show start with a `*`.To delete them,either type just `d`or type `;` then hit `d`.
+
+You can add configure option in `.muttrc` to delete duplicate mail automatically.
 # 删除某个邮箱的全部信件
-
 订阅了lkml,可是经常有很多的邮件看不了而删了。现在，强大的命令来了，请接招:
 
 首先，使用命令
