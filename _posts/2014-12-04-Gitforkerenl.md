@@ -246,3 +246,15 @@ Choose the linux-next version that you will work from, and create a local branch
     $ git checkout -b my_local_branch next-20140625
     Switched to a new branch 'my_local_branch'
 
+## git pull&fetch&
+There are some confusseions about `git remote update`、`git pull` and `git fetch`.
+According to the [link](https://stackoverflow.com/questions/17712468/what-is-the-difference-between-git-remote-update-git-fetch-and-git-pull/17712553)
+
+Here:
+
+`git remote update`: will update all of your branches set to track remote ones,but <font color='red'>not merge</font> any changes in.
+
+`git fetch`: will update only the branch you're on, but not merge any changes in.It will update other branches, if you want.Try `git fetch --all`
+
+`git pull`: will <font colot='red'>update and merge </font>any remote changes of the current branch you're on
+. This would be the one you use to update a local branch.
