@@ -8,6 +8,7 @@ title: "在lkml上学到的"
 {:toc}
 
 # merge window
+## 2020-01-19 (v5.5-rc7)
 ## 2020-01-12  (v5.5-rc6)
 这一周期在内核中至关重要，refer to [the article](https://www.kernel.org/doc/html/latest/process/2.Process.html?highlight=merge%20window)
 `merge window`大约维持两周的时间，其实，如果我没记错的话，也就是最后一个<font color = "red">rc</font>释放出来
