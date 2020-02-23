@@ -61,6 +61,29 @@ target triple = "x86_64-unknown-linux-gnu"
 llvm所处理的IR最高层的类为```Module```。上面我们可以知道的另外的信息是该计算机的架构为小端（e），
 如果为大端的话，则为大写字母E，
 
+```c
+; Function Attrs: noinline nounwind optnone uwtable
+define dso_local i32 @sum(i32, i32) #0 {
+  %3 = alloca i32, align 4
+  %4 = alloca i32, align 4
+  store i32 %0, i32* %3, align 4
+  store i32 %1, i32* %4, align 4
+  %5 = load i32, i32* %3, align 4
+  %6 = load i32, i32* %4, align 4
+  %7 = add nsw i32 %5, %6
+  ret i32 %7
+}
+```
 
+```c
+define dso_local i32 @sum(i32, i32) #0 {
+```
+这条语句返回一个类型为i32的值，两个i32的参数，`局部变量`需要 `%`符号作为前缀，全局变量使用`@`作为前缀。
+下面几个也很重要。
 
+1. 任意大小的整数以iN的形式（i32, i64, i128）。
+
+2. 浮点类型（32-bit单精度float和64-bit双精度double）
+
+3. 数组以 `x >`的形式。
 
