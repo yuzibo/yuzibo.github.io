@@ -1,5 +1,5 @@
 ---
-layout: post 
+layout: post
 title: "c++中string的用法"
 category: c++
 ---
@@ -35,7 +35,7 @@ string作为c++的一个标准stl,仅凭这一点就应该比c方便很多了（
     cout << s9<<endl;
 
 ```
-如果输入的位置超出了字符的长度，则会抛出一个out_of_range的异常。    
+如果输入的位置超出了字符的长度，则会抛出一个out_of_range的异常。
 ## insert
 先看代码。
 
@@ -68,7 +68,7 @@ std::string str("This is c++");
    std::cout << str<<'\n';//This c++ 擦除迭代器所处的位置上的内容
    str.erase(str.begin()+6, str.end());
    std::cout << str << '\n';//This c  擦除迭代器之间的内容
-````
+```
 
 ## append() 和replace()
 
@@ -119,7 +119,7 @@ std::string base="this is a test string.";
     str.replace(str.begin()+8,str.begin()+14,"is coolness",7);    // "replace is cool!!!"    (4)
     str.replace(str.begin()+12,str.end()-4,4,'o');                // "replace is cooool!!!"  (5)
     str.replace(str.begin()+11,str.end(),str4.begin(),str4.end());// "replace is useful."    (6)
-    std::cout << str << '\n';   
+    std::cout << str << '\n';
     return 0;
 }
 ```
@@ -224,3 +224,47 @@ int main()
 }
 ```
 
+# osstringstream
+这是一个处理I/O输入输出流的大招，在头文件<sstream>文件下使用。这里，先简单介绍一个很特殊的用法
+比如，如果在程序中需要将数字(int)和string组合在一块，现在可以有以下几个方法：
+
+1. 纯c
+```c
+char *str = (char *)malloc(sizeof (x));
+sprinf(str, "%s %d", int-x);
+str[last] = '\0';
+```
+
+2. c/c++
+首先将int转化为char\*
+```c
+string s = "Hello";
+int a = 520;
+char* buf = new char[10]; // 2147483647  int的最大值
+_itoa(a, buf ,10); // 注意，这里float或者double转化有一些问题
+		//重点是第三个参数，决定了进制
+cout << s + buf << endl;
+```
+
+3. 纯c++的风格
+主要使用osstringstream这个方法，其还是继承于string class，还包括istringstream(输入操作)、 ostringstream(输出操作)，这些方法是可以处理类似c的字符串格式。
+
+```c
+osstringstream oss;
+int a = 4520;
+string str = " hello";
+oss << str << a; // 现在，str和a的内容已经进入oss对象中
+cout << oss.str() << endl; // 可以正常输出了
+```
+
+4. c++11的特性
+哈哈， C++的复杂之处就在这里体现出来了，版本更新太快了，据说20即将面试了。
+```c
+int a = 520;
+float b = 5.20;
+string str = "Hello";
+string res = str + to_string(a);
+res.resize(4); // here， we need to be noticed
+cout << res << endl;
+```
+[参考](https://blog.csdn.net/PROGRAM_anywhere/article/details/63720261)
