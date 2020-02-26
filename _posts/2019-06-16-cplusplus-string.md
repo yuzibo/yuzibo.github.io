@@ -1,8 +1,9 @@
 ---
-layout: post
 title: "c++中string的用法"
 category: c++
+layout: post
 ---
+
 [参考这篇](https://blog.csdn.net/tengfei461807914/article/details/52203202)
 
 # string
@@ -247,7 +248,8 @@ cout << s + buf << endl;
 ```
 
 3. 纯c++的风格
-主要使用osstringstream这个方法，其还是继承于string class，还包括istringstream(输入操作)、 ostringstream(输出操作)，这些方法是可以处理类似c的字符串格式。
+主要使用osstringstream这个方法，其还是继承于string class，还包括istringstream(输
+入操作)、 ostringstream(输出操作)，这些方法是可以处理类似c的字符串格式。
 
 ```c
 osstringstream oss;
@@ -268,3 +270,54 @@ res.resize(4); // here， we need to be noticed
 cout << res << endl;
 ```
 [参考](https://blog.csdn.net/PROGRAM_anywhere/article/details/63720261)
+
+# StringStream
+这个方法也很特殊，他可以自己在一串混合字符串中自动摘取整型或者其他你指定的东西。
+比如:
+
+```c
+stringstream ss("23,4,56");
+char ch;
+int a, b, c;
+ss >> a >> ch >> b >> ch >> c;  // a = 23, b = 4, c = 56
+```
+下面的题目要求是在一串"24,5,26"的字符串中，将数字提取出来并存放到vector中。
+
+1. way one
+```c
+vector<int> parseInts(string str)
+{
+	vector<int> vec;
+	stringstream ss(str); // Declares a stringstream object to deal
+	char ch; // -> ','
+	int temp;
+	while(ss){ // ss will be terminated by NULL byte
+		ss >> temp >> ch; // Extract the comma with >> operators
+		vec.push_back(temp);
+	}
+	return vec;
+}
+```
+上面一定注意`stringstream()`实例化的参数就是你要处理的`string`
+
+2. way two
+还可以使用`strtok`这个函数，当然，在c++中，如果要直接使用`string`类型的东西交给
+`strtok`处理，需要首先转化为`char* `。
+
+```c
+vector<int> parseInts(string str) {
+    vector<int> nums;
+    char* s_char = (char *)str.c_str(); // 这个转换将string -> char *
+    const char* spilt = ","; // const 好习惯
+    char* p = strtok(s_char, spilt);  // 需要知道这个函数的实现
+    int a;                          // "24,25,26"
+    while(p != NULL){
+        // char* -> int
+	sscanf(p, "%d", &a);
+        nums.push_back(a);
+        p = strtok(NULL, spilt);
+    }
+    s_char = NULL;
+    return nums;
+}
+```
