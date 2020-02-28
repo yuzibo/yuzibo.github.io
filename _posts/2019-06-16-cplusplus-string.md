@@ -225,7 +225,7 @@ int main()
 }
 ```
 
-# osstringstream
+# ostringstream
 这是一个处理I/O输入输出流的大招，在头文件<sstream>文件下使用。这里，先简单介绍一个很特殊的用法
 比如，如果在程序中需要将数字(int)和string组合在一块，现在可以有以下几个方法：
 
@@ -248,11 +248,11 @@ cout << s + buf << endl;
 ```
 
 3. 纯c++的风格
-主要使用osstringstream这个方法，其还是继承于string class，还包括istringstream(输
+主要使用ostringstream这个方法，其还是继承于string class，还包括istringstream(输
 入操作)、 ostringstream(输出操作)，这些方法是可以处理类似c的字符串格式。
 
 ```c
-osstringstream oss;
+ostringstream oss;
 int a = 4520;
 string str = " hello";
 oss << str << a; // 现在，str和a的内容已经进入oss对象中
