@@ -20,7 +20,10 @@ mk文件和bp文件的差别在于，mk文件可以允许有相同名字的多�
 
 整体的build逻辑使用GO的`blueprint`编写。所有的build 规则被bp文件搜集并且写入`ninja` build 文件。
 
-流程: .mk(通过Kati读取) ==> Ninja file ==> Android.bp  => Blueprint(soong) => Ninja file
+流程:
+
+1. Android.bp  => Blueprint(  => soong) => Ninja file
+2. Android.mk or Makefiles => kati  => Ninja file
 
 上面的流程有待确定
 
