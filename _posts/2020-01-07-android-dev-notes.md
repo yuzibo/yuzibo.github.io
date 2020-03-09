@@ -1,6 +1,6 @@
 ---
-title: Android开发一点记录
-category: Android
+title: aosp中repo的使用
+category: aosp
 layout: post
 ---
 * content
@@ -49,6 +49,32 @@ repo init -u git://android.git.kernel.org/platform/manifest.git -m dalvik-plus.x
 ```bash
 -m aosp_base/android-10.0.0_r20.xml
 ```
+
+### 情景2；
+这里有一个问题，比如我clone aosp代码时指定的是` -b r20`,但是，当在开发途中，突然告知要
+切换到r25版本（这里的r25只是一个分支名字，实际中可以叫任何一个名字）。那么，我就删库从头下
+吗？事实上是不必的，在aosp的root目录下，重新指定分支即可.
+```c
+repo init -u ssh://yubo@10.12.130.5:29418/platform/manifest -b zhimo-mr1-dev --reference=/home/local_mirror
+```
+这里是不会覆盖的，而且，在我的测试的时候，在一个分支上重新下载分支，同步时还会默认使用之前的标志，比如,自动更新：
+```git
+repo sync -cdj4 --no-tags
+```
+当所有的项目切换到新的分支上，这个`sync`就已经完成了.但是，如果你在本地的代码上有一些改动，则会提示：
+```git
+Fetching projects: 100% (747/747), done.
+art/: discarding 1 commits
+bionic/: discarding 1 commits
+build/blueprint/: discarding 1 commits
+build/make/: discarding 1 commits
+build/soong/: discarding 3 commits
+```
+你肯定不希望自己辛辛苦苦修改的代码完全丢弃了啊，那么如何更新呢?
+
+
+那么，如何完成代码的同步更新?
+
 # 同步
 一个标准的命令是:
 
@@ -60,6 +86,7 @@ repo sync
 ```bash
 repo sync -cdj4 --no-tags
 ```
+这样就可以不必下载过多的tag
 
 # 应用
 使用命令:
