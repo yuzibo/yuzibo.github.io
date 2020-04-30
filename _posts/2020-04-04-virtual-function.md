@@ -24,7 +24,7 @@ c++的虚函数与面向对象的`多态`的思想紧密结合，[这篇文章](
 
 [参考这篇文章](https://www.geeksforgeeks.org/virtual-function-cpp/)
 
-# 实例
+# 实例1
 为了更好的说明虚函数的用法，先看一个最基本的例子：
 ```c
 #include <iostream>
@@ -128,3 +128,120 @@ int main()
 关键在于怎么使用基类和派生类才会导致这个问题的产生。
 
 如果在`func(Animal *xyz)`使用 cat 去定义函数参数类型则是失败的。
+
+# 实例2
+这是一个[编程题目](https://www.hackerrank.com/challenges/virtual-functions/problem)大体的意思是:
+
+一个基类： Person, 内含 name age两个成员变量，getdata()和putdata()两个方法，负责分别得到和输出两个成员变量。
+
+派生类Professor多加一个publications的变量，两个成员方法不变，只不过在putdata方法中
+还需要自动展示一个id号。
+
+派生类Student需要一个marks[6]去存储6门课程成绩，最后输出。
+
+代码如下：
+```c
+
+/*
+ *     File Name: print_test.cpp
+ *     Author: Bo Yu
+ *     Mail: tsu.yubo@gmail.com
+ *     Created Time: 2020年04月26日 星期日 09时00分43秒
+ */
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class Person {
+public:
+    string name;
+    int age;
+    virtual void getdata() {
+        cin >> this->name >> this->age;
+    }
+    virtual void putdata() {
+        cout << this->name << " " << this->age << endl;
+    }
+};
+
+class Professor : public Person {
+public:
+    Professor() {
+        this->cur_id = ++id;
+    }
+    int publications;
+    static int id;
+    int cur_id;
+    void getdata() {
+        cin >> this->name >> this->age >> this->publications;
+    }
+    void putdata() {
+        cout << this->name << " "
+            << this->age << " "
+            << this->publications << " "
+            << this->cur_id << endl;
+    }
+};
+int Professor::id = 0;
+
+class Student : public Person {
+#define NUM_OF_MARKS 6
+public:
+    Student() {
+        this->cur_id = ++id;
+    }
+    int marks[NUM_OF_MARKS];
+    static int id;
+    int cur_id;
+    void getdata() {
+        cin >> this->name >> this->age;
+        for (int i=0; i<NUM_OF_MARKS; i++) {
+            cin >> marks[i];
+        }
+    }
+    void putdata() {
+        int marksSum = 0;
+        for (int i=0; i<NUM_OF_MARKS; i++) {
+            marksSum += marks[i];
+        }
+        cout << this->name << " "
+            << this->age << " "
+            << marksSum << " "
+            << this->cur_id << endl;
+    }
+};
+int Student::id = 0;
+
+int main(){
+
+    int n, val;
+    cin>>n; //The number of objects that is going to be created.
+    Person *per[n];
+
+    for(int i = 0;i < n;i++){
+
+        cin>>val;
+        if(val == 1){
+            // If val is 1 current object is of type Professor
+            per[i] = new Professor;
+
+        }
+        else per[i] = new Student; // Else the current object is of type Student
+
+        per[i]->getdata(); // Get the data from the user.
+
+    }
+
+    for(int i=0;i<n;i++)
+        per[i]->putdata(); // Print the required output for each object.
+
+    return 0;
+
+}
+```
+
+需要说明的一点是:
+
+`类中的静态成员变量必须在类外定义`，这一点是由于static变量的生存周期决定的。
+我自己的代码与这份代码已经具有85%的相似性了，但是就是输出不对。
