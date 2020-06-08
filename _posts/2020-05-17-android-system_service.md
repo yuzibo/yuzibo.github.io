@@ -1,6 +1,6 @@
 ---
 title: Android 服务进程简介
-category: android
+category: aosp
 layout: post
 ---
 * content

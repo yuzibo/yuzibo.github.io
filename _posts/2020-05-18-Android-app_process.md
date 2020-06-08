@@ -1,6 +1,6 @@
 ---
 title: Android app_process启动流程
-category: android
+category: aosp
 layout: post
 ---
 * content

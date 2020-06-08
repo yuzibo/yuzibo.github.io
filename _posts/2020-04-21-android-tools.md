@@ -1,6 +1,6 @@
 ---
 title: android 工具基本使用
-category: android
+category: aosp
 layout: post
 ---
 * content
