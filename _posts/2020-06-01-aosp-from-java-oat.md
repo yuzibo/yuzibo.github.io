@@ -86,6 +86,8 @@ dx --dex --output=JavaToDex2.dex JavaToDex.class
 
 如果想查看dex文件的格式(如果有必要的话，这一步为了研究art的东西，一定需要研究这个文件)
 
+# dexdump
+
 有一个比较好的东西是dexdump,唉，这个工具又和dx不同了，dexdump 看样子在aosp中需要的很多，那么，这个文件会直接生成在out/host/linux-x86/bin下。
 ```bash
 dexdump -h
