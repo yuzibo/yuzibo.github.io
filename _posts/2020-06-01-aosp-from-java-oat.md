@@ -77,6 +77,10 @@ jar/zip. Output name must end with one of: .dex .jar .zip .apk or be a
 directory.
 
 由此看来，dx可以转化的文件格式还是很多的。
+```bash
+dx --dex --output=JavaToDex2.dex JavaToDex.class
+```
+就会由dex文件生成class文件。
 
 好了， 生成dex文件只是万里长征的第一步，后面才是真正的旅途。
 
@@ -102,7 +106,7 @@ dexdump: [-c] [-d] [-f] [-h] [-i] [-l layout] [-m] [-t tempfile] dexfile...
 我们来看看上面那个文件的具体展示:
 
 ```bash
-vimer@host:~/src/aosp/out/host/linux-x86/bin$ dexdump JavaToDex.dex 
+vimer@host:~/src/aosp/out/host/linux-x86/bin$ dexdump JavaToDex.dex
 Processing 'JavaToDex.dex'...
 Opened 'JavaToDex.dex', DEX version '035'
 Class #0            -
@@ -123,10 +127,10 @@ Class #0            -
       outs          : 1
       insns size    : 4 16-bit code units
       catches       : (none)
-      positions     : 
+      positions     :
         0x0000 line=1
-      locals        : 
-        0x0000 - 0x0004 reg=0 this LJavaToDex; 
+      locals        :
+        0x0000 - 0x0004 reg=0 this LJavaToDex;
     #1              : (in LJavaToDex;)
       name          : 'main'
       type          : '([Ljava/lang/String;)V'
@@ -137,10 +141,10 @@ Class #0            -
       outs          : 2
       insns size    : 8 16-bit code units
       catches       : (none)
-      positions     : 
+      positions     :
         0x0000 line=3
         0x0007 line=4
-      locals        : 
+      locals        :
   Virtual methods   -
   source_file_idx   : 2 (JavaToDex.java)
 ```
