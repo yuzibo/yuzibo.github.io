@@ -88,6 +88,14 @@ repo sync -cdj4 --no-tags
 ```
 这样就可以不必下载过多的tag
 
+# git push commit
+江湖救急，将`git push`这个命令放在这里以备不时之需。
+```c
+git push origin HEAD:refs/for/git-repo-branch
+```
+在aosp中，进入到每个repo中，前期的操作与正常的git操作是一模一样的，只是在提交
+commit的时候,使用上面的命令，后面的repo branch要和相匹配的git repo branch相对应。
+
 # 应用
 使用命令:
 ```bash
