@@ -1,6 +1,6 @@
 ---
 title: riscv指令简单入门
-category: 汇编
+category: riscv
 layout: post
 ---
 * content
@@ -10,7 +10,7 @@ layout: post
 更别说arm了，当然，这里这篇文件介绍 riscv主要是由于工作之中会偶尔遇到，姑且碰上什么就记录什么吧。
 
 ```c
-(gdb) disassemble  /mr main 
+(gdb) disassemble  /mr main
 Dump of assembler code for function main:
 7	{
    0x0000000000027936 <+0>:	41 11	addi	sp,sp,-16
