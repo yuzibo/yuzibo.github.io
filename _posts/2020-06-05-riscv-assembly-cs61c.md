@@ -26,6 +26,8 @@ riscv的寄存器有多少个？32个(x0-x31)，虽然多一点有可能会保�
 在这张著名的[小册子](https://inst.eecs.berkeley.edu//~cs61c/resources/su18_lec/)
 我们可以看出来，riscv的寄存器命名为x0-x31，但是其ABI的名字不一样。
 
+现在的任务就是在最短的时间内记住这几个寄存器的用途、ABI以及由谁负责保存。
+
 ## programmer variables
 ```c
 s0-s1  <==> x8-x9
@@ -107,3 +109,98 @@ addi	s3,	s3, 1 # c ++
 ## data transfer
 主要使用两个store(to) 和 load(from).riscv指令只操作在寄存器上，
 如果想借用内存的内容，就得需要store和load指令了。
+<font color="red">memop	reg,  off(bAddr)</font>
+
+### Instructions example
+```c
+lb t0, 8(sp) # Loads (dereferences) from memory address (sp + 8) into register
+              # t0. 
+			# lb = load byte, lh = load halfword, lw = load word, ld = load doubleword
+sb t0, 8(sp) # Stores (dereferences) from register t0 into memory
+			# address (sp + 8) sb = store byte, sh = store halfword, 
+			# sw = store word, sd = store doubleword.
+sub a0, t0, t1 #  t0 - t1 ==> a0
+mul a0, t0, t1 # t0 * t1  ==> a0
+
+div a1, s3, t3 # s3/t3 ==> a1
+rem a1, s3, t3 # s3/t3 ==> a1
+and a3, t3, s3 # t3 & s3 ==> a3
+or a3, t3, s3  # t3 | s3 ==> a3
+xor a3, t3, s3 # t3 ^ s3 ==> a3 
+```
+
+### pseudo instructions(伪指令)
+也就是实际不存在，在实际例子中，会自动转化成已有的指令。
+
+### Floating Point Instruction(浮点指令)
+riscv的浮点指令前面加上一个 `f`. 请熟悉以下几个指令:
+```c
+fld # float load double
+fsw # float store word
+```
+当然还可以通过后缀指定单(.s) 双精度(.d).
+
+```c
+# load a double-precision value
+flw  ft0, 0(sp)
+# ft0 now contains whatever we loaded from memory + 0
+flw ft1, 4(sp)
+# ft1 now contains whatever we loaded from memory + 4
+fadd.s  ft2, ft0, ft1
+# ft2 is now ft0 + ft1
+```
+单双精度之间也可以进行转换: `fcvt.d.s`(convert from single into double)
+`fcvt.s.d`(convert from double to single)
+
+### branch instruction
+```c
+beq # if equal 
+bne # if not equal
+bgt # greater than
+bge # greater than or equals
+blt # less than
+ble # less than or equals
+```
+下面来看一个例子：
+```c
+# t0 = 0
+li      t0, 0
+li      t2, 10
+loop_head:
+bge     t0, t2, loop_end
+# Repeated code goes here
+addi    t0, t0, 1
+loop_end:
+```
+对应的代码如下:
+```c
+for (int i = 0;i < 10;i++) {
+    // Repeated code goes here.
+}
+```
+
+### jal(jump and link)
+默认为ra。
+
+## Stack
+stack被用来存储局部变量，这里有一点需要牢记的是，栈是从栈底（高地址）向栈顶
+生长(低地址)
+```c
+|    |low<---sp(2)
+|    |
+|____|high<--sp(1)
+```
+这里的sp并不一定准确，一般来说都是从栈底开始，栈必须以8 bytes的倍数对其。
+一个简短的程序段:
+```c
+addi 	sp, sp, -8
+sd 		ra, 0(sp)
+call 	printf
+ld 		ra, 0(sp)
+addi sp, sp, 8
+ret
+```
+
+
+
+
