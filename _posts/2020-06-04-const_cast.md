@@ -68,7 +68,6 @@ Means "foo cannot change (const) and points (\*) to an int"
 foo = &bar; // not right
 ```
 第三:
-
 ```c
 const int *const foo; //
 *foo = 123 or foo[0] = 123; // not right
@@ -203,9 +202,9 @@ class Test(){
 ```c
 int Foo::Bar(int random_arg); // 更详细的如下：
 int Foo_Bar(Foo* this, int random_arg);
-Foo f; 
+Foo f;
 f.Bar(4); //等同于
-Foo f; 
+Foo f;
 Foo_Bar(&f, 4);
 ```
 但是如果添加const进行修饰，则会有：
