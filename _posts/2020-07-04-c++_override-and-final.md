@@ -11,7 +11,7 @@ layout: post
 [原文2](https://www.geeksforgeeks.org/override-keyword-c/)
 # override
 在方法中的修饰关键词*override*，表明该方法应该重写(override)基于该基类的虚方法。 什么？
-虚函数不就是用来重写的吗？是的，但是重写的时候回出现很多非意料之中的疏忽，至少在
+虚函数不就是用来重写的吗？是的，但是重写的时候会出现很多非意料之中的疏忽，至少在
 我目前看来就是这样的。我们先来看下简单的例子。
 ```c
 #include <iostream>
@@ -43,10 +43,10 @@ int main(){
 幸运的是，在c++11中，我们有一个关键词"override"可以阻止这种情况发生。
 ```c++
 ...
- void func(int a) override  
-    { 
-        cout << "I am in derived class" << endl; 
-    } 
+ void func(int a) override
+    {
+        cout << "I am in derived class" << endl;
+    }
 ...
 ```
 
