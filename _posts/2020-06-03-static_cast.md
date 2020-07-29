@@ -9,7 +9,7 @@ layout: post
 # 形式
 ```c
 static_cast<type> 或者
-static_cast <type-id> ( expression ) 
+static_cast <type-id> ( expression )
 ```
 
 # 类型转换
@@ -85,11 +85,11 @@ int main(){
 output:
 
 ```c
-vimer@host:~/src/test/c++$ ./class 
+vimer@host:~/src/test/c++$ ./class
 Conversion Ctor called
-Conversion Operator 
+Conversion Operator
 Conversion Ctor called
-Conversion Operator 
+Conversion Operator
 Conversion Ctor called
 ```
 来看最后一个例子.
@@ -162,8 +162,8 @@ int main(){
 	std::vector<int>* p = static_cast<std::vector<int>*>(voidp);
 
 }
-vimer@host:~/src/test/c++$ g++ -g cast.cpp -o cast 
-vimer@host:~/src/test/c++$ ./cast 
+vimer@host:~/src/test/c++$ g++ -g cast.cpp -o cast
+vimer@host:~/src/test/c++$ ./cast
 n = 3
 v.size() = 10
 hello world, this is B

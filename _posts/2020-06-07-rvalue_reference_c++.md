@@ -108,7 +108,18 @@ int main(){
  为什么这样一改就可以呢？从来没有技术方面的考虑，就是从一个常理考虑的:
 使用const修饰表明你不想修改这个参数，对不对。那么，你传递过去一个字符常量是没问题的。
 
+# int&&
+在英文中，"&&"是 Double address operator或者
+double ampersand, 假设:
+```c
+int&& a; // "a" 是一个 r-value reference
+```
+而且在常规的用法中，"&&"是经常在函数中被声明一个参数，
+再次澄清一遍，右值就是没有内存地址的一个符号。上面已
+经说过，右值引用的不能够指向左值。[1]
 
+# 右值引用的作用
 
-
+# 参考
+[1](https://stackoverflow.com/questions/5481539/what-does-t-double-ampersand-mean-in-c11)
 
