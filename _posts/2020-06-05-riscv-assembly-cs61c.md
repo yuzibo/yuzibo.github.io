@@ -114,10 +114,10 @@ addi	s3,	s3, 1 # c ++
 ### Instructions example
 ```c
 lb t0, 8(sp) # Loads (dereferences) from memory address (sp + 8) into register
-              # t0. 
+              # t0.
 			# lb = load byte, lh = load halfword, lw = load word, ld = load doubleword
 sb t0, 8(sp) # Stores (dereferences) from register t0 into memory
-			# address (sp + 8) sb = store byte, sh = store halfword, 
+			# address (sp + 8) sb = store byte, sh = store halfword,
 			# sw = store word, sd = store doubleword.
 sub a0, t0, t1 #  t0 - t1 ==> a0
 mul a0, t0, t1 # t0 * t1  ==> a0
@@ -126,7 +126,7 @@ div a1, s3, t3 # s3/t3 ==> a1
 rem a1, s3, t3 # s3/t3 ==> a1
 and a3, t3, s3 # t3 & s3 ==> a3
 or a3, t3, s3  # t3 | s3 ==> a3
-xor a3, t3, s3 # t3 ^ s3 ==> a3 
+xor a3, t3, s3 # t3 ^ s3 ==> a3
 ```
 
 ### pseudo instructions(伪指令)
@@ -154,7 +154,7 @@ fadd.s  ft2, ft0, ft1
 
 ### branch instruction
 ```c
-beq # if equal 
+beq # if equal
 bne # if not equal
 bgt # greater than
 bge # greater than or equals
@@ -201,6 +201,8 @@ addi sp, sp, 8
 ret
 ```
 
+# 指令的过程
+[here](https://inst.eecs.berkeley.edu/~cs61c/resources/su18_lec/Lecture7.pdf)
 
 
 
