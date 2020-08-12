@@ -179,6 +179,22 @@ for (int i = 0;i < 10;i++) {
 }
 ```
 
+这里具体以beq为例:
+
+[资料](https://inst.eecs.berkeley.edu/~cs61c/resources/su18_lec/Lecture7.pdf)
+从 spec 中我们可以得知，branch的指令格式为:
+```c
+beq rs1, rs2, offset  <==> if (rs1 == rs2) pc += sext(offset)
+```
+sext的意思是符号位扩展，
+如果你具体看一下这条语句的spec的时候，会发现一些有意思的事情，(从右至左)7 bit opcode
+,5 bits(offset[4:1]|[11]), 3 bits func3(000暗示BEQ), 5 bits rs1, 5 bits rs2, 7 bits
+(offset[12]|[10:5]).
+
+这里的offset你可以看成立即数，12 bit的立即数被编码成了13 bits,但是最低位一直为0，
+故我们拆分的是去除最低位后的12 bits，上面括号部分已经指明了这个拆分，因为这个blog
+无法上传图片，故需要图片的话，可以访问上面的链接。
+
 ### jal(jump and link)
 默认为ra。
 
@@ -200,6 +216,7 @@ ld 		ra, 0(sp)
 addi sp, sp, 8
 ret
 ```
+
 
 # 指令的过程
 [here](https://inst.eecs.berkeley.edu/~cs61c/resources/su18_lec/Lecture7.pdf)
