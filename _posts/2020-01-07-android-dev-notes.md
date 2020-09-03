@@ -134,6 +134,20 @@ user@host037-ubuntu-1804:~/src$ du -h --max-depth=1
 一些版本控制的信息在`.repo`目录下。
 需要重点关注下，`.repo/`目录下`manifest.xml`文档，它记录了整个项目的构成什么的。
 
+# repo info
+这个命令提供了一个全局的git库的概述，主要包括各个分支在某个仓库的情况，如下：
+
+```bash
+vimer@host:~/src/aosp_art/art$ repo info 
+Manifest branch: zhimo-aosp
+Manifest merge branch: refs/heads/zhimo-aosp-d_art
+Manifest groups: all,-notdefault
+----------------------------
+Project: platform/art
+Mount path: /home/vimer/src/aosp_art/art
+Current revision: 9e22b01ffc829a3cdf9e66e07d6afd30eb1e3a7e
+Local Branches: 5 [vimer_dev, run_test_yuzhen, run_test_0817, assembler_dev, fmv-s_dev]
+```
 # 目录分析
 以art为例，与art有关的代码是：
 1.art目录  2. libcore目录，包含 jdk相关源代码  3.libnativehelper目录，包含JNI相关代码
