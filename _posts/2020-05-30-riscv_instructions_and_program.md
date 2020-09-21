@@ -1,5 +1,5 @@
 ---
-title: riscv指令简单入门
+title: 结合程序看riscv指令
 category: riscv
 layout: post
 ---
@@ -59,9 +59,4 @@ The AUIPC instruction, which adds a 20-bit upper immediate to the PC, replaces t
    10068:   00813823            sd  s0,16(sp)      # save $s0
    1006c:   02010413            addi    s0,sp,32   # set up $s0 as frame pointer
 ```
-
-
-
-
-
 
