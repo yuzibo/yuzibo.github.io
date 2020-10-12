@@ -213,6 +213,15 @@ void LocationsBuilderMIPS64::HandleBinaryOp(HBinaryOperation* instruction) {
       LOG(FATAL) << "Unexpected " << instruction->DebugName() << " type " << type;
   }
 }
-
 ```
+
+## instructions_builder.cc
+
+同样位于compiler/optimizing/目录下，该文件的作用是将dex代码转变为IR
+
+# art vm
+
+该目录下有一篇文章专门讲述art虚拟机的问题，这里还是总结下最简单的知识点。
+
+ dex2oat处理一个包含classes.dex的jar包或者apk文件时，会生成两个文件，一个.oat文件， 一个.art文件。
 
