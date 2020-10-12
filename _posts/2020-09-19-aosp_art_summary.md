@@ -213,6 +213,9 @@ void LocationsBuilderMIPS64::HandleBinaryOp(HBinaryOperation* instruction) {
       LOG(FATAL) << "Unexpected " << instruction->DebugName() << " type " << type;
   }
 }
-
 ```
+
+## instructions_builder.cc
+
+同样位于compiler/optimizing/目录下，该文件的作用是将dex代码转变为IR
 
