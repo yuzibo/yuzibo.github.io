@@ -215,6 +215,7 @@ void LocationsBuilderMIPS64::HandleBinaryOp(HBinaryOperation* instruction) {
 }
 ```
 
+<<<<<<< HEAD
 ## instructions_builder.cc
 
 同样位于compiler/optimizing/目录下，该文件的作用是将dex代码转变为IR
@@ -225,3 +226,10 @@ void LocationsBuilderMIPS64::HandleBinaryOp(HBinaryOperation* instruction) {
 
  dex2oat处理一个包含classes.dex的jar包或者apk文件时，会生成两个文件，一个.oat文件， 一个.art文件。
 
+||||||| merged common ancestors
+=======
+## instructions_builder.cc
+
+同样位于compiler/optimizing/目录下，该文件的作用是将dex代码转变为IR
+
+>>>>>>> c58f4b446731d7657fbed6190e25ea1422f89f88
