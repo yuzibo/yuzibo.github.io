@@ -219,3 +219,15 @@ rmdir(): 删除目录
 
 这几个函数都有参数，必须注意。
 
+### 遍历所有文件
+
+```python
+import glob
+import os
+parent_dir = '/home/vimer/src/aosp_art/ziliao'
+
+for pdf_file in glob.glob(os.path.join(parent_dir, "*.pdf")):
+    print (pdf_file)
+```
+
+`glob`模块可以用来与os模块相结合，从而打印相关目录下的所有文件。
