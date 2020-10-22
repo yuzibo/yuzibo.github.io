@@ -58,7 +58,10 @@ gcc -std=c99 prog.c
 	printf("the address of x is %d(decimal) or %x(hex)", x, pointer);
 	printf("the address of x is %d(decimal) or 0x%x(hex)\n", x, &x);
 ```
-在我的机器上显示：the address of x is 1876030752(decimal) or 6fd1f520(hex).那么，
+
+[上面例子的代码解析](http://www.aftermath.cn/2020/09/16/special_format_output_in_c/)
+
+在我的机器上显示：the address of x is 10(decimal) or 6fd1f520(hex).那么，
 一个int型占用的字节为4，那么，x占用的hex连续起来就是6fd1f521、6fd1f522、6fd1f523，
 为了解释方便，我们暂时使用0x100、0x101、0x102和0x103表示。假设在0x100的位置上表示的
 int型变量代表的值为0x01234567,若：
@@ -80,6 +83,7 @@ value(Hex) 67	   45	    23       01
 这一点对我而言经常容易混，那应该怎么记呢？或者可以去搜搜这个名称的[由来](https://stackoverflow.com/questions/5870311/where-did-endianness-come-from)。
 
 以下代码来自于csapp.
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -122,25 +126,32 @@ int main(){
 	test_show_bytes(x);
 	return 0;
 }
-
 ```
+
 在函数`show_bytes`中，我们看到，在将一个指针&x强制转换为`unsigned char \*`,按照书上的解释，
 这个转换的作用是将指针指向的内容转换为一串字节序而不需要理会这个指针原来的内容。这是一个hint:
 比如在操作系统中需要经常知道某个对象的地址，可以使用这个方案去做测试。
 输出的结果为:
 
 ```c
-show int:  39 30 00 00
+show int:  39 30 00 00 // int 12345  的二进制为: 0b 0011 0000 0011 1001
 show float:  00 e4 40 46
 show pointer:  38 ec 0a fc fe 7f 00 00
 ```
+
+这里解释下， 尽管根据上面的链接中我们知道%x是HEx的格式符，但是根据[OS](https://stackoverflow.com/questions/59803589/c-language-to-show-the-hex-symbol-from-unsigned-char-pointer#),"%x"控制符期待的数据类型为`unsigned int`,
+所以，在上面的代码中，我们尽可能地强制类型转换为(unsigned char*), 我目前还不能确认的是，是不是这个int导致
+输出2个hex（尽管有%.2x的控制）.
+
 十进制数字12345对应的hex为0x3039.说明，我这个测试机器为Little endian.另外，上面的int和float之间的数字
 并不是无意义的一串数字，比如,按照我们正常的书写顺序：
+
 ```c
 0x 00 00 30 39 => 00000000 00000000 00110000 00111001
 0x 46 40 e4 00 =>            01000110 01000000 11100100 00000000
                                        ->   ...    <-
 ```
+
 你会看到这里有几位是匹配的。
 
 这里需要注意的是，字符串是没有大小端之分的。比如，
@@ -149,14 +160,18 @@ show pointer:  38 ec 0a fc fe 7f 00 00
 	const char *s = "abcde";
 	show_bytes((byte_pointer) s, strlen(s));
 ```
+
 的结果为
+
 ```c
 print the string sequence
  61 62 63 64 65
 ```
+
 因为，对于字符串而言，只有第一个字符的地址具有作用，后面的就是具体内容了。
 
 ## 特殊的Hex
+
 对于普通数字字符而言，注意是字符，'0','1','2','x'...对应的是0x30,0x31,0x32,0x3x,就是说，
 他们之间有个线性的转换，可以直接加0x3确定。字符A的Hex为0x41,十进制为65，”Z“加24.
 字符"a"的hex为0x61,十进制为97。
@@ -171,11 +186,14 @@ print the string sequence
 ```
 
 ## 二进制串代表集合
+
 如果从LSB开始到MSB，数字位上为1的话，说明了这个位置的数值。两个二进制串据此可以进行
 并、交等集合的运算。
 
 ## 交换两个值
+
 这个方法是不借助第三方，只需要这两个值本身即可。
+
 ```c
 void inplace_swap(int *x,  int *y)
 {
@@ -184,7 +202,9 @@ void inplace_swap(int *x,  int *y)
 	int *y = *x ^ *y; // 等价于 *y = (*y ^ (*x ^ *y)) = *x
 }
 ```
+
 ## 标志位及其应用
+
 如果`~0xFF`这样不指定bit的位数，那么低 8 bits为0，剩余为1，相反，0xFFFFFF00只会针对32 bits
 的数字有效.
 
@@ -236,9 +256,9 @@ Results: ```!(x ^ y)```
 
 1. 如果最高位为0，则大小保持不变；
 2. 如果最高位为1，则每位按原位取反，最后再加上1，
-其结构再加上`-`号，则其指就为大小了。
+其结构再加上`-`号，则其值就为大小了。
 
-`TMin(4) = [1000], TMax(4) = [0001]`,则T(4)的值从-8到7.
+`TMin(4) = [1000], TMax(4) = [0111]`,则T(4)的值从-8到7.
 
-
-
+其实上述第二点加重了记忆负担，我觉得书上的介绍就挺好的。最高位就是带负号的权重，除了最高位其他都是正的，
+这样理解起来更好理解
