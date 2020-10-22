@@ -1,6 +1,6 @@
 ---
 title: git 使用 vimdiff解决冲突
-category: tools
+category: git
 layout: post
 ---
 * content
