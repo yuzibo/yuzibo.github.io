@@ -179,20 +179,6 @@ git rebase --continue
 
 请忽略我在merge文件时个人的喜好， rebase与merge的用法还是有一点区别的。可以参观这个[the](https://www.freecodecamp.org/news/the-ultimate-guide-to-git-merge-and-git-rebase/)
 
-||||||| merged common ancestors
-=======
-# 最后一步
-
-解决以上问题虽然冲突解决了，但是这个过程并没有完成，需要
-
-```git
-git merge --continue # or
-git rebase --continue
-```
-
-请忽略我在merge文件时个人的喜好， rebase与merge的用法还是有一点区别的。可以参观这个[the](https://www.freecodecamp.org/news/the-ultimate-guide-to-git-merge-and-git-rebase/)
-
->>>>>>> add git mergetool
 
 
 
