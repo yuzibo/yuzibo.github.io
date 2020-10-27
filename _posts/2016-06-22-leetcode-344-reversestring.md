@@ -148,14 +148,14 @@ Example:  Input: "Hello World" Output: 5
 	}
 	*/
 int lengthOfLastWord(char *s){
-    int tag = 1;	
+    int tag = 1;
 	int num = 0;
     int i;
     for(i = strlen(s); i>= 0; i--){
-    	   
+
         if(s[i] != 32 && s[i] != '\0'){
             num++;
-           
+
             tag = 1;
         }
         else if(s[i] == 32 && tag == 1 && s[i-1] == 32){
@@ -166,5 +166,40 @@ int lengthOfLastWord(char *s){
 }
 
 
+```
+
+# longest-common-prefix
+
+从这个提交开始，改用c++提交代码*
+
+我发现，leetcode的题目，还得先用一些方法想去做一些预处理，才有可能接下来做题目。
+本身这个题目很简单， 就是在string数组里找出最长的前缀子串， 方案是首先把数组排序，然后只
+找第一个字符串和最后一个字符串就可以了。
+
+```c++
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        int n = strs.size();
+        if (n == 0)
+            return "";
+
+        sort(strs.begin(), strs.end());
+        string str1 = strs[0], str2 = strs[n-1];
+        int s1 = str1.size(), s2 = str2.size();
+        int p1 = 0, p2 = 0;
+
+        while(p1 < s1 && p2 < s2){
+            if (str1[p1] == str2[p2]){
+                p1++;
+                p2++;
+            } else
+                break;
+        }
+        string ans = str1.substr(0, p1);
+        return ans;
+
+    };
+};
 ```
 
