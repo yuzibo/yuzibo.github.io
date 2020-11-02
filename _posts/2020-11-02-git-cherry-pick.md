@@ -58,5 +58,7 @@ local branch的commit信息的。
 通过以上的问题可以发现， cherry-pick很有用， 尤其作为负责人的时候， 比如说， 一个 git pull请求， 如果有bad commit，你
 不得不cherry-pick 下， 这也是文中参考资料的使用场景。 
 
+这个时候再回味一下我之前的[fool](http://www.aftermath.cn/2018/05/01/git-cherry-pick/)
+
 
 

@@ -1,6 +1,6 @@
 ---
 title:  中国足协，wqnm
-category: moods
+category: mood
 layout: post
 ---
 * content
