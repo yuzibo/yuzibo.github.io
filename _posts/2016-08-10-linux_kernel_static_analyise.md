@@ -73,8 +73,7 @@ expression e;
 
 3. 在对行的目录下运行这个脚本
 
-最后一部就是
-
+最后一步就是
 
 ```bash
 spatch --sp-file ret.cocci --no-includes --dir /home/yubo/maintree/staging/drivers/staging > ret.out

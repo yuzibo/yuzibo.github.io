@@ -73,3 +73,27 @@ int countPrimes(int n){
     return res;
 }
 ```
+# sqrt
+# sqrt
+求一个int的sqrt，我首先使用的暴力求解, 简直惨不忍睹，
+
+```c
+class Solution {
+public:
+    int mySqrt(int x) {
+        if (x == 0) {
+            return 0;
+        }
+        int i = 0, ret = 0;
+        while(i * i < x){
+            i++; 
+            if (i == 46340)
+                break;
+        }
+        if (i * i > x)
+            return i - 1;
+        else
+            return i;  
+    } 
+};
+```
