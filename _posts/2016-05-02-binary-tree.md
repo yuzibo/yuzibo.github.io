@@ -1,5 +1,5 @@
 ---
-title: "二叉树的性质和使用"
+title: "二叉树的操作"
 layout: post
 category: DS
 ---
@@ -78,14 +78,12 @@ struct TreeNode {
 	struct TreeNode *right;
 };
 
-struct TreeNode *newNode(int data)
-{
+struct TreeNode *newNode(int data) {
 	struct TreeNode *p = (struct TreeNode *)malloc(sizeof(struct TreeNode));
 	p->val = data;
 	p->left = p->right = NULL;
 }
-struct TreeNode *createBinaryTree(struct TreeNode *root,int *array, int pos, int nums)
-{
+struct TreeNode *createBinaryTree(struct TreeNode *root,int *array, int pos, int nums) {
 	if ( pos < nums) {
 		struct TreeNode *p = newNode(array[pos]);
 		root = p;
@@ -98,8 +96,7 @@ struct TreeNode *createBinaryTree(struct TreeNode *root,int *array, int pos, int
 	return root;
 
 }
-void show(struct TreeNode *p)
-{
+void show(struct TreeNode *p) {
 	if(p == NULL)
 		return ;
 	else {
@@ -111,8 +108,7 @@ void show(struct TreeNode *p)
 		show(p->right);
 	}
 }
-int main()
-{
+int main() {
 	//int a[] = {1,4,5,1,9,6,5};
 	int a [] = {1,2,3,4,-1,-1,7,-1,9,-1,-1,-1,-1,4};
 	int n = sizeof(a)/sizeof(a[0]);
@@ -139,7 +135,7 @@ typedef struct Node{
 
 ## 二叉树的几个操作
 
-新建一个二叉树
+### 新建一个二叉树的结点
 
 ```c
 Node* newNode(int data)
@@ -151,12 +147,11 @@ Node* newNode(int data)
 }
 ```
 
-得到二叉树的高度
+### 得到二叉树的高度
 
 ```c
 /* 将root == NULL的返回值置为-1或者0，结果不一样*/
-int getHeight(Node* root)
-{
+int getHeight(Node* root) {
 	if(root == NULL)
 		return -1;
     /* 返回为0， 结果是从根节点到叶子节点的节点数，
@@ -167,7 +162,7 @@ int getHeight(Node* root)
 }
 ```
 
-计算节点的数目
+### 计算节点的数目
 
 ```c
 /* The number of node*/
@@ -180,7 +175,7 @@ int node_num_tree(Node* root)
 }
 ```
 
-计算叶子的数目
+### 计算叶子的数目
 
 ```c
 /* the numbers of leaves */
