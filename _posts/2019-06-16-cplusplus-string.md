@@ -3,13 +3,17 @@ title: "c++中string的用法"
 category: c++
 layout: post
 ---
+* content
+{:toc}
 
 [参考这篇](https://blog.csdn.net/tengfei461807914/article/details/52203202)
 
 # string
+
 string作为c++的一个标准stl,仅凭这一点就应该比c方便很多了（c大神勿喷）。
 
 ## 声明和初始化
+
 使用等好的叫做拷贝初始化，不适用等号的初始化叫做直接初始化。
 ```c
  string s;//默认初始化
@@ -37,7 +41,9 @@ string作为c++的一个标准stl,仅凭这一点就应该比c方便很多了（
 
 ```
 如果输入的位置超出了字符的长度，则会抛出一个out_of_range的异常。
+
 ## insert
+
 先看代码。
 
 ```c
@@ -58,6 +64,7 @@ string作为c++的一个标准stl,仅凭这一点就应该比c方便很多了（
 ```
 
 ## erase操作
+
 string设计区间操作的一般为左开右闭。下面的代码具有连续性，也就是说，经过一条语句后对另一条语句是有影响的。
 
 ```c
@@ -307,7 +314,7 @@ vector<int> parseInts(string str)
 ```c
 vector<int> parseInts(string str) {
     vector<int> nums;
-    char* s_char = (char *)str.c_str(); // 这个转换将string -> char *
+    char* s_char = (char *)str.c_str(); // 这个转换将string -> char *,很重要的一个语法。
     const char* spilt = ","; // const 好习惯
     char* p = strtok(s_char, spilt);  // 需要知道这个函数的实现
     int a;                          // "24,25,26"
@@ -320,4 +327,59 @@ vector<int> parseInts(string str) {
     s_char = NULL;
     return nums;
 }
+```
+
+### strtok
+函数原型为 char *strtok(char s[], const char *delim);头文件<string>
+
+分解字符串为一组字符串。s为要分解的字符串，delim为分隔符字符串。首次调用时，s指向要分解的字符串，之后再次调用要把s设成NULL。
+
+如果字符串是c++的string类，需要使用上面代码中的
+
+>char* s_char = (char *)str.c_str()
+
+转化成为char*才能接着使用。第一个简单的例子:
+```c
+char str[] = "- This, a sample string.";
+   char *pch;
+   printf("Spliting string \"%s\" into token:\n", str);
+   pch = strtok(str, " ,.-"); // 有四种分隔符
+   while(pch != NULL){
+       printf("%s\n", pch);
+       pch = strtok(NULL, " ,.-"); // 这里面的str参数成为NULL
+   }
+```
+结果如下:
+```bash
+vimer@host:~/test$ g++ -g getline.cpp -o getline
+vimer@host:~/test$ ./getline
+Spliting string "- This, a sample string." into token:
+This
+a
+sample
+string
+```
+
+第二个例子是这样子的:
+```c
+ char str2[] = "";
+    int in=0;
+    char *p[20];
+    char buffer[INFO_MAX_SZ]="Fred male 25,John male 62,Anna female 16";
+    char *buf = buffer;
+    while((p[in] = strtok(buf, ",")) != NULL){
+        in++;
+        buf = NULL;
+    }
+    for (int j = 0; j < in; j++){
+        cout << " " << p[j] << endl;
+    }
+```
+结果如下:
+```bash
+vimer@host:~/test$ g++ -g getline.cpp -o getline
+vimer@host:~/test$ ./getline
+ Fred male 25
+ John male 62
+ Anna female 16
 ```
