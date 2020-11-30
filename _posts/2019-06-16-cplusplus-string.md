@@ -51,7 +51,7 @@ string作为c++的一个标准stl,仅凭这一点就应该比c方便很多了（
     string str2 = "the ";
     string str3 = "or not to be";
     string::iterator it;
-    str.insert(6, str2);i // c++的string从1开始计数
+    str.insert(6, str2); // c++的string从1开始计数
     str.insert(6, str3, 3, 4); // 在pos 6的位置上，插入str3从pos 3 开始，往后截取4个字符
      str.insert(14, " that is cool", 8); //在14的 pos上插入8个字符
      str.insert(6, " or not to be "); // 在pos 6上面，插入后面的字符串
@@ -98,10 +98,11 @@ append()的用法
    str.append(10u, '*');
    std::cout << str << '\n'; //helloyubohahahechun**********
    str.append<int>(5,65); //helloyubohahahechun**********AAAAA
-   std::cout<< str <<'\n'; ```
+   std::cout<< str <<'\n';
+```
 直接粘replace()用法的代码
 ```c
-std::string base="this is a test string.";
+    std::string base="this is a test string.";
     std::string str2="n example";
     std::string str3="sample phrase";
     std::string str4="useful.";
@@ -177,13 +178,13 @@ int main ()
 代码：
 
 ```c
-ios::sync_with_stdio(false);
+  ios::sync_with_stdio(false);
   std::string str("There are two needles in this haystack with needles.");
   std::string str2("needle");
   //寻找第一次出现的needle,找到返回出现的位置，否则返回结尾
   std::size_t found = str.find(str2);
   if(found != std::string::npos)
-    std::cout << "first 'needle' found at " << found << '\n'; // first 'needle' found at 14
+  std::cout << "first 'needle' found at " << found << '\n'; // first 'needle' found at 14
      // 如果是str2 是neede，则结果为 NULL
    found = str.find("needles are small",found + 1, 6);
    if(found != std::string::npos)
@@ -239,7 +240,7 @@ int main()
 1. 纯c
 ```c
 char *str = (char *)malloc(sizeof (x));
-sprinf(str, "%s %d", int-x);
+sprinf(str, "%s %d", char_s, int_x);
 str[last] = '\0';
 ```
 
@@ -320,7 +321,7 @@ vector<int> parseInts(string str) {
     int a;                          // "24,25,26"
     while(p != NULL){
         // char* -> int
-	sscanf(p, "%d", &a);
+	    sscanf(p, "%d", &a);
         nums.push_back(a);
         p = strtok(NULL, spilt);
     }
