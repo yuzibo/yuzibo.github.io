@@ -6,17 +6,16 @@ layout: post
 * content
 {:toc}
 
-# 入坑
 目前，leetcode的解题思路都是运用使用python、java、c++等语言，为啥呢？
 因为简单啊，一些现用的库函数拿起来就是用很爽的，但是，我的思路先用pure c
 啃完大部分题目，即便是自己造轮子，这个时候就是学习积累，工作中当然使用现成的
 标准库了。
 
-# leetcode
+# leetcode for c
 也许leetcode从测试的角度来考虑在线提交的代码，对于c来说有点变态，也许是自己没有
 考虑全面。但是，强如内核都没见这样的使用案例，下面是错误汇总。
 
-# tree
+## tree
 下面是引自leetcode的官方手册：
 ```c
 /*
@@ -65,7 +64,7 @@ struct TreeNode *sortedArrayToBST(int *nums, int numsSize)
 	    tail = numsSize - 1;
 	    toBST(root, nums, head, tail);
     }
-    else 
+    else
         return root = NULL;
 	printf("trace\n");
 	//show(root);
@@ -87,3 +86,11 @@ return root;
 ```c
 return root = NULL;
 ```
+## 结果说明
+
+我一开始还把输入和输出的结果考虑全面了，其实是不用的，比如，结果要求
+>["1->2->3", "1->5"]
+实际你不用管开始和结尾的"["或者']'符号，只需把字符串存入一个地方，并能读取出来就行。
+
+## 结果顺序
+这也是我不经意间发现的，就是你的输出结果不必和给出的案例一致，我估计这是为什么使用"[]"的原因。

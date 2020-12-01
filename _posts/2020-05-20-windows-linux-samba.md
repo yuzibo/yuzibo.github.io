@@ -34,8 +34,7 @@ o以下操作仅针对debian系。
 
 # 应用
  在windows中可以在文件管理器
- `\\ip\dir`,其中dir就是上面配置文件中的path（相对路径就可以），这里的dir就可以设置为pic。
- 接着输入用户名和密码即可
+ `\\ip\dir`,其中dir就是上面配置文件中的设置的分享路径别名，比如，我的上面就是 share.
 
 # 场景
  哈哈  第一个就是   sublime  open-> file folder
