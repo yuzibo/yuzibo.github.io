@@ -75,4 +75,4 @@ https://scruel.gitee.io/ml-andrewng-notes/week1.html
 2. 金融诈骗判断
 3. 肿瘤诊断
 
-以肿瘤诊断为例，是一个二元分类问题(Binary class problems),则 y$\in${0,1}
+以肿瘤诊断为例，是一个二元分类问题(Binary class problems),则 y $\in$ {0,1}
