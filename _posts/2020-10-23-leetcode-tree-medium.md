@@ -93,3 +93,33 @@ public:
     }
 };
 ```
+
+## Binary Tree Postorder Travelsal
+
+使用双栈:
+ 
+```c
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if(!root) return res;
+        TreeNode *cur;
+        stack<TreeNode*> s1;
+        stack<TreeNode*> s2;
+        s1.push(root);
+        while(!s1.empty()){
+            cur = s1.top(); s1.pop();
+            if(cur->left) s1.push(cur->left);
+            if(cur->right) s1.push(cur->right);
+            s2.push(cur);
+        }
+        while(!s2.empty()){
+            res.push_back(s2.top()->val);
+            s2.pop();
+        }
+        return res;
+        
+    }
+};
+```
