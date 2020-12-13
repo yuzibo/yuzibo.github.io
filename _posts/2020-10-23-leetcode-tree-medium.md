@@ -123,3 +123,36 @@ public:
     }
 };
 ```
+
+## binary-tree-level-order-traversal
+
+这是解决二叉树的层次遍历题目，下面使用了两个队列，关键在于题目返回的类型是 vector<vector<int>> ,如果只是输出的话， 也就是不必存储值，
+仅仅打印值的的话，一个队列就够了。
+
+```c
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        vector<int> level; // 存储每一层的元素
+        if (!root) return ans;
+        std::queue<TreeNode*> s; // save output to val array
+        std::queue<TreeNode*> nodes; // save left & right of root
+        s.push(root); // root val in queue
+        while(!s.empty()){
+            TreeNode *cur = s.front(); s.pop();//得到队首元素, 并且出队
+            level.push_back(cur->val);
+            if (cur->left) nodes.push(cur->left); // 注意，是保存在nodes queue 中
+            if (cur->right) nodes.push(cur->right);
+            if(s.empty()){
+                s.swap(nodes); // 这是关键，把存储叶子节点的队列中的内容交换到s queue中
+                ans.push_back(level);
+                level.clear(); // 清0每一行的输出结果
+            }
+        }
+        return ans;
+    }
+};
+```
+
+尤其使用了 std::queue.swap() 的api，感觉拖慢了运行速度。试着一个队列怎么样？使用一个null marker。
