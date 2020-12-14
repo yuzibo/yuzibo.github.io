@@ -156,3 +156,34 @@ public:
 ```
 
 尤其使用了 std::queue.swap() 的api，感觉拖慢了运行速度。试着一个队列怎么样？使用一个null marker。
+
+还有一种使用一个队列的方式，如下代码:
+
+```c
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        
+        if(root == nullptr) return {};
+        vector<vector<int>> res;
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while(!q.empty())
+        {
+            int count = q.size();
+            vector<int> temp;
+            while(count--)
+            {
+                TreeNode* curr = q.front();
+                q.pop();
+                temp.push_back(curr->val);
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right);
+            }          
+            res.push_back(temp);
+        }
+        return res;
+    }
+};
+```
