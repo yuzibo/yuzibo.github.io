@@ -8,11 +8,15 @@ layout: post
 
 # 数学资料
 
-[注意这篇文章](https://blog.csdn.net/Luo_da/article/details/76026677)
+[注意这篇文章](https://blog.csdn.net/Luo_da/article/details/76026677),基本上涵盖了线性代数的方方面面。
 
 # base
 
 开门说，三个inputs影响一个决定，这三个inputs可以使用权重去影响。
+
+## 图像的基本知识
+
+[有关通道数的概念](https://tinacristal.github.io/2018/09/24/%E5%85%B3%E4%BA%8Eopencv%E7%9A%84%E9%80%9A%E9%81%93/)
 
 ## 卷积层
 卷积神经网络中每层卷积层（Convolutional layer）由若干卷积单元组成，每个卷积单元的参数都是通过反向传播算法最佳化得到的。卷积运算的目的是提取输入的不同特征，第一层卷积层可能只能提取一些低级的特征如边缘、线条和角等层级，更多层的网路能从低级特征中迭代提取更复杂的特征。
