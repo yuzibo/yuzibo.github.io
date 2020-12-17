@@ -162,13 +162,11 @@ public:
 ```c
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        
-        if(root == nullptr) return {};
+    vector<vector<int>> levelOrder(TreeNode* root) {  
+        if(root == nullptr) return {};  // 尤其注意"{}"在赋值时的应用
         vector<vector<int>> res;
         queue<TreeNode*> q;
         q.push(root);
-        
         while(!q.empty())
         {
             int count = q.size();
@@ -184,6 +182,58 @@ public:
             res.push_back(temp);
         }
         return res;
+    }
+};
+```
+
+这个题目还可以使用dfs的思路，利用递归完成这一要求。但是有人据说，这种方法只是一个形似，然而实质上不是level遍历。
+效率呢，肯定赶不上非递归的。
+
+```c
+class Solution {
+public:
+    vector<vector<int>> res; // 其实，也许这也就是成员变量的作用吧，但是这样监控起来太难了
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        levelOrderHelper(root, 0);
+        return res;   
+    }
+    void levelOrderHelper(TreeNode* root, int level){
+        if (!root) return;
+        if (level == res.size()) res.push_back(vector<int>()); // 按行申请空间
+        res[level].push_back({root->val}); // res[level].push_back({val}) 是经典
+        if (root->left) levelOrderHelper(root->left, level+1);
+        if(root->right) levelOrderHelper(root->right, level+1);
+    }
+};
+```
+
+下面使用一个null marker，我真不明白为啥这样做;
+```c
+class Solution {
+public:
+    vector<vector<int> > levelOrder(TreeNode *root) {
+        vector<vector<int> >  result;
+        if (!root) return result;
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(NULL);
+        vector<int> cur_vec;
+        while(!q.empty()) {
+            TreeNode* t = q.front();
+            q.pop();
+            if (t==NULL) {
+                result.push_back(cur_vec);
+                cur_vec.resize(0);
+                if (q.size() > 0) {
+                    q.push(NULL);
+                }
+            } else {
+                cur_vec.push_back(t->val);
+                if (t->left) q.push(t->left);
+                if (t->right) q.push(t->right);
+            }
+        }
+        return result;
     }
 };
 ```
