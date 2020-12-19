@@ -237,3 +237,34 @@ public:
     }
 };
 ```
+
+## 637 Average of Levels in Binary Tree
+
+这个题目的意思是就是在前面题目的基础上（层次遍历），把每个数累加然后取double，注意int溢出的问题。
+
+```c
+#include <iomanip>
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> res;
+        if (!root) return res;
+        queue<TreeNode*> q;
+        TreeNode* cur = NULL;
+        q.push(root);
+        while(!q.empty()){
+            double sum = 0.0, anv = 0.0;
+            int count = q.size();
+            for(int i = 0; i < count; i++){
+                cur = q.front(); q.pop();
+                sum +=(double)(cur->val); // 避免 int overflow
+                if(cur->left) q.push(cur->left);
+                if(cur->right) q.push(cur->right);
+            }
+            anv = sum/count; 
+            res.push_back(anv);
+        }
+        return res;
+    }
+};
+```
