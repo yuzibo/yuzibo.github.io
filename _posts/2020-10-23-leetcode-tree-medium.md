@@ -268,3 +268,51 @@ public:
     }
 };
 ```
+
+# path sum
+
+## 112. Path Sum
+ 
+就是给你一个数字和一个二叉树，然后判断从root到leaf的和是不是等于这个数字，递归的算法如下:
+
+```c
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        if(!root) return false;
+        if(!root->left && !root->right && root->val == sum)
+            return true;
+        return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
+    }
+};
+```
+
+使用stack实现这个算法:
+
+```c
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        stack<TreeNode*> s;
+        TreeNode* cur = NULL, *tmp = NULL;
+        stack<int> sum_stack;
+        if (!root) return false;
+        s.push(root);
+        while(!s.empty()){
+            cur = s.top(); s.pop();
+            if(cur->left == cur->right)
+                if (cur->val == sum)
+                    return true;
+            if (cur->left) {
+                cur->left->val += cur->val;
+                s.push(cur->left); 
+            }
+            if(cur->right) {
+                cur->right->val += cur->val;
+                s.push(cur->right);
+            }
+        }
+        return false;
+    }
+};
+```
