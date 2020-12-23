@@ -316,3 +316,30 @@ public:
     }
 };
 ```
+
+## 113. Path Sum II
+
+题目很简单就是给你一个sum，让你保存从root到leaf的一个路径。这里利用了回溯的思想，请参考本blog的算法系列。
+
+```c
+class Solution {
+public:
+  
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        vector<int> path;
+        findPaths(res, path, root, sum);
+        return res;
+    }
+private:
+    void findPaths(vector<vector<int>> &paths, vector<int> &path, TreeNode *cur, int sum){
+        if(!cur) return ;
+        path.push_back(cur->val);
+        if(!(cur->left) && !(cur->right) && (cur->val == sum))
+            paths.push_back(path);
+        if(cur->left) findPaths(paths, path, cur->left, sum - cur->val);
+        if (cur->right) findPaths(paths, path, cur->right, sum - cur->val);
+        path.pop_back();
+    }
+};
+```

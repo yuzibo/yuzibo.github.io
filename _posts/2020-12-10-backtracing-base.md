@@ -60,3 +60,31 @@ private:
 ```
 
 有了最基本的框架，剩下的就是一些细节了，需要编程经验的积累。
+照着葫芦画瓢，下面是全排列的代码:
+
+```c
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> track;
+        permutations(res, nums, track);
+        return res;
+    }
+private:
+    void permutations(vector<vector<int>>& res, vector<int>& nums, vector<int>& track){
+        if (track.size() == nums.size()){
+            res.push_back(track);
+            return;
+        }
+        for (int i = 0; i < nums.size(); i++){
+            if (std::find(track.begin(), track.end(), nums[i])!=track.end()) { 
+                continue; // 在vector中判断是否存在一个元素
+            }
+            track.push_back(nums[i]);
+            permutations(res, nums, track);
+            track.pop_back();
+        }      
+    }
+};
+```
