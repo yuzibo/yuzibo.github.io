@@ -25,8 +25,25 @@ layout: post
 有关反向传播的说明请看这篇文章:
 [article](https://www.cnblogs.com/charlotte77/p/5629865.html) 基本上的意思就是利用一个激活函数=>sigmoid 函数,反向的把输入参数的权重进行调整，使输出与结果预期差不太多。
 
-### 卷积核
+### 卷积核-kernel
 可以看这边[中文](https://www.cnblogs.com/yibeimingyue/p/11964515.html), 其中文中的[参考](https://towardsdatascience.com/types-of-convolution-kernels-simplified-f040cb307c37), 直接看英文就行了，这样就齐全了。
+
+Convolution is using a ‘kernel’ to extract certain ‘features’ from an input image. Let me explain. A kernel is a matrix, which is slid across the image and multiplied with the input such that the output is enhanced in a certain desirable manner.
+
+这里还有一个kernel及filter的概念区别。再澄清一次，kernel就是一个权重矩阵，利用矩阵的乘法，将输入的image提取出特征值。矩阵的维度也就是该神经网络的维度.
+
+而filter则是多个kernel的"拼接"，我也不知道使用这个名词怎么样，其中，这里面的每一层kernel都被赋予为特殊的输入通道。Filter一直比kernel多一维，
+
+> So for a CNN layer with kernel dimensions h*w and input channels k, the filter dimensions are k*h*w.
+
+#### 1D卷积
+
+1D卷积网络基本上处理的是时间序列，因为一维的嘛，假设input是1D的，好多个连续数据，然后经过filter后就可以转化为1D output的其中一个。
+
+#### 2D卷积
+
+本blog暂时还不能上传图片，所以还是用文字描述。input层，就是有多个channel，然而filter也是几层kernel合并在一起，这两者进行某些数学计算从而一个二维的输出。
+这个model大部分被用于计算机视觉领域。
 
 ### 线性整流层
 线性整流层（Rectified Linear Units layer, ReLU layer）使用线性整流（Rectified Linear Units, ReLU）， f(x) = max(0, x).
