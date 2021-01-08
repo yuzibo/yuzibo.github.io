@@ -53,4 +53,8 @@ ffmpeg -i buka.flv -c copy -ss 00:00:00 -t 00:10:03.446 edu17-264.mp4
 ```bash
  ffmpeg -i buka.flv -vcodec h264 -ss 00:00:00 -t 00:10:03.446 edu17-2-264.mp4 
 ```
-指定video的编码格式为h264
+指定video的编码格式为h264.
+
+```bash
+ffmpeg -i buka.flv -vcodec h264 -ss 00:00:00 -t 00:10:03.446 -s 960X540 edu18-960-540-264.mp4
+```
