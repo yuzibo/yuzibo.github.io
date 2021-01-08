@@ -114,3 +114,21 @@ add_executable(cmake ${DIR_SRCS})
 # 多个目录，多个文件
 假设一个项目由多个目录构成，这也是在项目中非常常见的。上面我们将加法的
 程序分离出去，编译成一个静态库。
+
+# 只生成头文件
+
+假设只需要某个库的头文件，也可以通过Cmake控制。
+
+```bash
+vimer@host:~/git/AviSynthPlus$ mkdir avisynth
+vimer@host:~/git/AviSynthPlus$ cd avisynth/
+vimer@host:~/git/AviSynthPlus/avisynth$ ls
+vimer@host:~/git/AviSynthPlus/avisynth$ cmake ../ -DHEADERS_ONLY:bool=on
+-- Install Only Headers: ON
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/vimer/git/AviSynthPlus/avisynth
+vimer@host:~/git/AviSynthPlus/avisynth$ make install
+```
+
+通过`-DHEADERS_ONLY`可以控制这个行为。
