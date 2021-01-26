@@ -46,7 +46,7 @@ WantedBy=multi-user.target
 sudo chmod 755 /etc/systemd/system/rc-local.service
 ```
 
-## /etc/rc.local 
+## /etc/rc.local
 
 这个文件就是开机后具体执行的脚本，我的如下:
 
@@ -98,3 +98,6 @@ Jan 19 19:59:36 dclab-desktop systemd[1]: Started /etc/rc.local Compatibility.
 Jan 19 20:55:18 dclab-desktop systemd[1]: /etc/systemd/system/rc-local.service:11:
 ```
 
+
+# 提醒
+在使用这个脚本一段时间过后，我才发现这里有一个问题就是:不建议使用forking作为启动脚本的hook,很容易引起因为系统资源的问题导致的host hang问题。
