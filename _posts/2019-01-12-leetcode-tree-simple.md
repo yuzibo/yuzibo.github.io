@@ -1,5 +1,5 @@
 ---
-title: leetcode-tree 简单总结
+title: leetcode-tree easy
 category: leetcode
 layout: post
 ---
