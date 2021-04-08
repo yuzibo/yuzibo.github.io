@@ -34,7 +34,7 @@ public:
         if (p == NULL && q == NULL)
             return true; // 根节点为空
         if((p == NULL && q != NULL) || (p != NULL && q == NULL))
-            return false; 
+            return false;
         else if (p->val != q->val)
             return false;
         return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
@@ -59,9 +59,7 @@ public:
 };
 ```
 
-### 
-
-[binary-tree-paths](https://leetcode.com/problems/binary-tree-paths/)
+### [binary-tree-paths](https://leetcode.com/problems/binary-tree-paths/)
 
 > input: [1,2,3,null,5]
 > output: ["1->2->5","1->3"]
@@ -81,16 +79,16 @@ public:
         }
         if (root->left) binaryTreePaths(result, root->left, t + "->" + to_string(root->left->val));
         if (root->right) binaryTreePaths(result, root->right, t + "->" + to_string(root->right->val));
-        
+
     }
-    
+
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> result;
         if (root)
             binaryTreePaths(result, root, to_string(root->val));
         return result;
     }
-    
+
 };
 ```
 
@@ -109,7 +107,7 @@ public:
         while(!s.empty()){ // this is a model for stack ops
             TreeNode* cur_node = s.top(); s.pop();
             string tmp_path = path_stack.top(); path_stack.pop();
-            
+
             if (!cur_node->left && !cur_node->right){
                 res.push_back(tmp_path); // if the cur_node is left node, then push stack to res
                 continue; // key: if true, the next program will not run
