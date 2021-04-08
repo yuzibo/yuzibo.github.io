@@ -43,7 +43,7 @@ class Solution {
 public:
     int numTrees(int n) {
         int a[n + 1];
-        a[0] = a[1] = 1; 
+        a[0] = a[1] = 1;
         for(int i = 2; i <=n; i++){
             a[i] = 0;
             for (int j = 0; j < i; j++)
@@ -53,5 +53,28 @@ public:
     }
 };
 ```
+
+# search in a BST
+
+700. Search in a Binary Search Tree
+
+这道题目是给你一个BST，然后另外给定一个值，判断这个值是否在BST中，如果在的话，返回以这个值为root的子树，
+否则返回null。
+期初吧，我想的是应该可能需要栈什么的操作，憋了半天，实在没什么好的办法，参考下其他人的答案吧，不丢人的。
+
+```c
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+       while(root != nullptr && root->val != val){
+           root = (root->val > val) ? (root->left) : (root->right);
+       }
+        return root;
+    }
+};
+```
+要么就说，好的程序员价值连城呢，如果放到古代，这种人都得是杨过 郭靖这类的大侠，像我这种，都得是不配给台词的
+小罗罗。
+
 
 
