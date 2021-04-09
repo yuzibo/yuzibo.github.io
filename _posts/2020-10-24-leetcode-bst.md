@@ -54,7 +54,7 @@ public:
 };
 ```
 
-# search in a BST
+# 700. search in a BST
 
 700. Search in a Binary Search Tree
 
@@ -76,5 +76,26 @@ public:
 要么就说，好的程序员价值连城呢，如果放到古代，这种人都得是杨过 郭靖这类的大侠，像我这种，都得是不配给台词的
 小罗罗。
 
+# 653. Two Sum IV - Input is a BST
 
+这道题目还是比较有意思的，原因在于使用另一个数据结构保存树中的某一节点，我当时想到过这个问题就是不知道运用什么方法解决妥当：考虑过
+BST,让root值不停的与k（或者差进行比较），但是呢，这样很大的问题就是你不确定怎么不遗漏。原来，你像使用下面的set容器，就可以解决这个问题
+还可以确定一点的是： set就是一个hashtable.
+
+```c
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        unordered_set<int> set;
+        return dfs(root, set, k);
+
+    }
+    bool dfs(TreeNode* root, unordered_set<int>& set, int k){
+        if(root == NULL) return false;
+        if(set.count(k - root->val)) return true;
+        set.insert(root->val);
+        return dfs(root->left, set, k) || dfs(root->right, set, k);
+    }
+};
+```
 
