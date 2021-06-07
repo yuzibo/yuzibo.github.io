@@ -167,7 +167,38 @@ irq_of_parse_and_map()会寻找设备树中的中断, request_irq也会在 /proc
 前面的第一个0暗示这个中断是否为一个SPI(Shared peripheral interrupt).
 一个非0值意味着它是SPI. 第二个则为中断号。
 
+## 应用层代码
 
+```c
+ xlnx,slv-awidth = <0x20>;
+```
+比如，这个代码，就是最简单的将一个具体值赋给外围设备 entry.在驱动侧的代码则是:
+
+```c
+void *ptr;
+  ptr = of_get_property(op->dev.of_node, "xlnx,slv-awidth", NULL);
+
+  if (!ptr) {
+    /* Couldn't find the entry */
+  }
+```
+第三个参数，NULL，可能是一个指向int型的指针，表明已经写入数据的长度。如果想要得到具体的数值，则需要
+```c
+int value;
+  value = be32_to_cpup(ptr);
+```
+The be32_to_cpup reads the data from the address given by “ptr”, converts from Big Endian to the processor’s native Little Endian, so “value” will contain the integer one expects it to contain.
+
+There are plenty of other API functions for reading arrays etc. See drivers/of/base.c in the Linux sources.
+
+## 总结
+All in all, setting up a device tree entry for a custom IP peripheral is quite simple:
+
+1. Pick a “magic string” for the “compatible” assignment, possibly the name+version format employed by the automatic tools.
+2. Look up the address allocation on the bus in XPS, and write the “reg=” assignment accordingly
+3. Add the “interrupt-parent = <&gic>” line (if interrupts are used)
+4. Look up the interrupt allocation in XPS, and write the “interrupt=” assignment (if applicable)
+5. Add any custom parameters as needed
 
 # 结合Nvidia v4l2源代码
 
@@ -203,6 +234,8 @@ static struct camera_common_pdata *cs_imx307_parse_dt(struct tegracam_device *tc
 
 这里有一个很好的[ov](https://stackoverflow.com/questions/38493999/how-devices-in-device-tree-and-platform-drivers-were-connected)
 其中的答案中的链接非常有用，需要接下来进行更深入的了解。
+
+具体的用法，请参考[这个](https://elinux.org/Device_Tree_Usage)
 
 在第一节中，我引用了别人的说法，正所谓，不是自己得出来的就不是自己的。
 按照[lwn](https://lwn.net/Articles/448502/)的说法，目前的linux系统很容易在一个新的系统启动.需要做两件事:

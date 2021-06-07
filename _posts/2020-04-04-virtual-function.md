@@ -22,6 +22,32 @@ c++的虚函数与面向对象的`多态`的思想紧密结合，[这篇文章](
 目前，本博客已经就编译时多态进行了一些总结，这篇文
 章主要总结运行时多态的用法，也就是虚函数的用法。
 
+举个简单的例子热身.
+
+```c
+using namespace std;
+
+
+class B {
+        public:
+                virtual void s() = 0; //  pure Virtual Function
+};
+
+class D:public B{
+        public:
+                void s(){
+                        cout <<"Virtual function in Derived class";
+                }
+};
+int main(){
+        B *a;
+        D obj;
+        a = &obj;
+        a->s();
+}
+
+```
+
 [参考这篇文章](https://www.geeksforgeeks.org/virtual-function-cpp/)
 
 # 实例1
@@ -68,7 +94,7 @@ int main()
 ```
 输出结果为:
 ```bash
-print derived class 
+print derived class
 show the base class
 ```
 这里最显著的一个地方在于，在同一个派生类（有地址引用）调用`有无`virtual修饰的方法是不一样的。

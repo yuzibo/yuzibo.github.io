@@ -1,5 +1,5 @@
 ---
-title: "c++中string的用法"
+title: "c++中string和stringstream的相关用法"
 category: c++
 layout: post
 ---
@@ -14,7 +14,7 @@ string作为c++的一个标准stl,仅凭这一点就应该比c方便很多了（
 
 ## 声明和初始化
 
-使用等好的叫做拷贝初始化，不适用等号的初始化叫做直接初始化。
+使用等号的叫做拷贝初始化，不适用等号的初始化叫做直接初始化。
 ```c
  string s;//默认初始化
     string s1("ssss");
@@ -233,54 +233,9 @@ int main()
 }
 ```
 
-# ostringstream
-这是一个处理I/O输入输出流的大招，在头文件<sstream>文件下使用。这里，先简单介绍一个很特殊的用法
-比如，如果在程序中需要将数字(int)和string组合在一块，现在可以有以下几个方法：
-
-1. 纯c
-```c
-char *str = (char *)malloc(sizeof (x));
-sprinf(str, "%s %d", char_s, int_x);
-str[last] = '\0';
-```
-
-2. c/c++
-首先将int转化为char\*
-```c
-string s = "Hello";
-int a = 520;
-char* buf = new char[10]; // 2147483647  int的最大值
-_itoa(a, buf ,10); // 注意，这里float或者double转化有一些问题
-		//重点是第三个参数，决定了进制
-cout << s + buf << endl;
-```
-
-3. 纯c++的风格
-主要使用ostringstream这个方法，其还是继承于string class，还包括istringstream(输
-入操作)、 ostringstream(输出操作)，这些方法是可以处理类似c的字符串格式。
-
-```c
-ostringstream oss;
-int a = 4520;
-string str = " hello";
-oss << str << a; // 现在，str和a的内容已经进入oss对象中
-cout << oss.str() << endl; // 可以正常输出了
-```
-
-4. c++11的特性
-哈哈， C++的复杂之处就在这里体现出来了，版本更新太快了，据说20即将面试了。
-```c
-int a = 520;
-float b = 5.20;
-string str = "Hello";
-string res = str + to_string(a);
-res.resize(4); // here， we need to be noticed
-cout << res << endl;
-```
-[参考](https://blog.csdn.net/PROGRAM_anywhere/article/details/63720261)
-
 # StringStream
-这个方法也很特殊，他可以自己在一串混合字符串中自动摘取整型或者其他你指定的东西。
+这个方法也很特殊，他可以自己在一串混合字符串中自动摘取整型或者其他你指定的东西。其实，上面已经介绍了
+ostringstream这个类，还有一个istringstream的用法。
 比如:
 
 ```c
@@ -384,3 +339,76 @@ vimer@host:~/test$ ./getline
  John male 62
  Anna female 16
 ```
+
+# ostringstream
+这是一个处理I/O输入输出流的大招，在头文件<sstream>文件下使用。这里，先简单介绍一个很特殊的用法
+比如，如果在程序中需要将数字(int)和string组合在一块，现在可以有以下几个方法：
+
+1. 纯c
+```c
+char *str = (char *)malloc(sizeof (x));
+sprinf(str, "%s %d", char_s, int_x);
+str[last] = '\0';
+```
+
+2. c/c++
+首先将int转化为char\*
+```c
+string s = "Hello";
+int a = 520;
+char* buf = new char[10]; // 2147483647  int的最大值
+_itoa(a, buf ,10); // 注意，这里float或者double转化有一些问题
+		//重点是第三个参数，决定了进制
+cout << s + buf << endl;
+```
+
+3. 纯c++的风格
+主要使用ostringstream这个方法，其还是继承于string class，还包括istringstream(输
+入操作)、 ostringstream(输出操作)，这些方法是可以处理类似c的字符串格式。
+
+```c
+ostringstream oss;
+int a = 4520;
+string str = " hello";
+oss << str << a; // 现在，str和a的内容已经进入oss对象中
+cout << oss.str() << endl; // 可以正常输出了
+// 打印 hello 4350
+```
+
+4. c++11的特性
+哈哈， C++的复杂之处就在这里体现出来了，版本更新太快了，据说20即将面试了。
+```c
+int a = 520;
+float b = 5.20;
+string str = "Hello";
+string res = str + to_string(a);
+res.resize(4); // here， we need to be noticed
+cout << res << endl;
+```
+[参考](https://blog.csdn.net/PROGRAM_anywhere/article/details/63720261)
+
+## istringstream
+这一个就是与ostringstream相反的过程，也就是输入。先看一个简单例子:
+
+```c
+ string str = "hello vimer and linux\tand\nenter";
+        vector<string> arr;
+        istringstream ss(str);
+        string word;
+        while(ss >> word){
+                arr.push_back(word);
+        }
+        for (size_t i = 0; i < arr.size(); i++)
+                cout << arr[i] << endl;
+// output：
+/*
+hello
+vimer
+and
+linux
+and
+enter
+*/
+```
+
+注意，被ss实例化的的str可以被默认分割空格、tab、回车换行，也就是可以借用制定字符分割字符串。
