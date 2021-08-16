@@ -1,6 +1,6 @@
 ---
 title: Cmake简要总结
-category: tools
+category: make
 layout: post
 ---
 * content
