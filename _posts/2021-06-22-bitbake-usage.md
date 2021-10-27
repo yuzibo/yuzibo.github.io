@@ -203,6 +203,20 @@ mets-my-test-layer    /home/vimer/riscv_test/w500/freedom-u-sdk/meta-test/mets-m
 
 有了自己的layers, 这个时候就应该考虑如何往他里面添加app了。也就是添加recipes等文件
 
+```bash
+常用的命令是：
+
+add                      添加recipes
+
+modify                  提取源码
+
+upgrade               更新recipes
+
+serch                   搜索package
+```
+
+可以参考这里: https://blog.csdn.net/qq_34160841/article/details/107287365
+
 ## devtool add
 
 1. 首先在build目录中新建一个目录:
