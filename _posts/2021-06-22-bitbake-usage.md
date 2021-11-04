@@ -312,4 +312,6 @@ NOTE:   do_package: 0.0% sstate reuse(0 setscene, 5 scratch)
 NOTE:   do_packagedata: 0.0% sstate reuse(0 setscene, 5 scratch)
 ```
 
+如果想更全面的认识bitbake：
 
+https://blog.csdn.net/Archer1991/article/details/62423014
