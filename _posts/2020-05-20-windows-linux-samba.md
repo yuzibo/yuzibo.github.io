@@ -27,7 +27,19 @@ o以下操作仅针对debian系。
  available = yes
  ```
 
- 然后在`/etc/samba/smbpasswd`(没有的话可以新建) 直接输入上述条目中`valid users`的密码即可。
+配置文件修改完成后，需要使用smbpasswd命令去添加smb的用户，使用手工创建smb
+用户的方式是不正确的。
+
+参考 https://blog.csdn.net/qq_29129381/article/details/106826108
+
+```bash
+service smb start # 来开启服务
+smbpasswd -a XXX # 来增加用户名密码
+smbpasswd -e xxx # 启用用户名
+service smb restart # 重启服务
+service iptables stop # 关闭防火墙
+```
+注意， debian中使用smbd。
 
 # 重启
  `sudo service smbd restart` 注意这里的`smbd`因为这个耽误自己很长时间的。

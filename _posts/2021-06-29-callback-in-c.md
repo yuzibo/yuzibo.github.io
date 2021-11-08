@@ -148,6 +148,7 @@ vimer@user-system:~/test_yubo$ ./callback
 This is a program demonstrating function callback
 inside register_callback
 inside my_callback
+back inside main program
 ```
 以上几个代码段是比较复杂的使用callback的方法，但是概括了一般的使用场景。
 
