@@ -1,6 +1,6 @@
 ---
 title: callback函数初体验
-category: c
+category: c/c++
 layout: post
 ---
 * content
