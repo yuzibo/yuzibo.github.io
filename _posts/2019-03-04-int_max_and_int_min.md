@@ -1,6 +1,6 @@
 ---
 title: "c语言中INT_MAX与INT_MIN的使用方法"
-category: c
+category: c/c++
 layout: post
 ---
 * content

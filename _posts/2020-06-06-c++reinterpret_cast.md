@@ -1,6 +1,6 @@
 ---
 title: reinterpret_cast的用法总结
-category: c++
+category: c/c++
 layout: post
 ---
 * content

@@ -1,6 +1,6 @@
 ---
 title: c 语言中的内存管理
-category: c
+category: c/c++
 layout: post
 ---
 * content

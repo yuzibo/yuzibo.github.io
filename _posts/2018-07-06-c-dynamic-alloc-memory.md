@@ -1,6 +1,6 @@
 ---
 title: c 动态分配内存
-category: c
+category: c/c++
 layout: post
 ---
 * content

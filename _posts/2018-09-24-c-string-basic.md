@@ -1,6 +1,6 @@
 ---
 title: c语言字符串基础知识
-category: c
+category: c/c++
 layout: post
 ---
 * content

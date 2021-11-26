@@ -1,6 +1,6 @@
 ---
 title: "unix中系统头文件的位置(sys/socket.h)"
-category: c
+category: c/c++
 layout: post
 ---
 

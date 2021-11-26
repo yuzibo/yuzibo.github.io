@@ -1,6 +1,6 @@
 ---
 title: c++ operator override
-category: c++
+category: c/c++
 layout: post
 ---
 * content

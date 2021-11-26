@@ -1,6 +1,6 @@
 ---
 title: 特殊格式输出 in c
-category: c
+category: c/c++
 layout: post
 ---
 * content
@@ -44,7 +44,7 @@ int main(){
 // 0x39 0x30
 ```
 
-如果这里改为int的话， 则会输出4个字节。 
+如果这里改为int的话， 则会输出4个字节。
 
 ```c
 int main(){

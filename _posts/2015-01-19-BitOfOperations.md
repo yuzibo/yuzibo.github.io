@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "c语言中的bits操作"
-category: c
+category: c/c++
 ---
 
 * content

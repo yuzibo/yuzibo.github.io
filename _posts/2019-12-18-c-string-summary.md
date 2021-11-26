@@ -1,6 +1,6 @@
 ---
 title: c库-字符串
-category: c
+category: c/c++
 layout: post
 ---
 * content

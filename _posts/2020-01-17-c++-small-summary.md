@@ -1,6 +1,6 @@
 ---
 title: c++中零碎知识点
-category: c++
+category: c/c++
 layout: post
 ---
 * content

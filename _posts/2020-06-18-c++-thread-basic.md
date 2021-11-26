@@ -1,6 +1,6 @@
 ---
 title: c++之thread基础介绍
-category: c++
+category: c/c++
 layout: post
 ---
 * content
@@ -130,8 +130,8 @@ int main(){
 ```
 我们来看一下结果：
 ```bash
-vimer@host:~/src/test/c++/thread$ gcc -g thread_create.c -o test -pthread 
-vimer@host:~/src/test/c++/thread$ ./test 
+vimer@host:~/src/test/c++/thread$ gcc -g thread_create.c -o test -pthread
+vimer@host:~/src/test/c++/thread$ ./test
 In main, Createing the thread 0
 In main, Createing the thread 1
 hello, world, It is me, thread #0!
@@ -141,7 +141,7 @@ In main, Createing the thread 3
 hello, world, It is me, thread #2!
 In main, Createing the thread 4
 hello, world, It is me, thread #3!
-vimer@host:~/src/test/c++/thread$ ./test 
+vimer@host:~/src/test/c++/thread$ ./test
 In main, Createing the thread 0
 In main, Createing the thread 1
 In main, Createing the thread 2

@@ -1,6 +1,6 @@
 ---
 title: c++ unorder_map使用
-category: c++
+category: c/c++
 layout: post
 ---
 * content

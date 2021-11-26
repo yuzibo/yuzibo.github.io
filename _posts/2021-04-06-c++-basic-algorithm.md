@@ -1,6 +1,6 @@
 ---
 title: c++之基础算法
-category: c++
+category: c/c++
 layout: post
 ---
 * content
@@ -44,7 +44,7 @@ ForwardIt unique(ForwardIt first, ForwardIt last)
 {
     if (first == last)
         return last;
- 
+
     ForwardIt result = first;
     while (++first != last) {
         if (!(*result == *first) && ++result != first) {

@@ -1,6 +1,6 @@
 ---
 title: c++ 设计模式--adapter
-category: c++
+category: c/c++
 layout: post
 ---
 * content

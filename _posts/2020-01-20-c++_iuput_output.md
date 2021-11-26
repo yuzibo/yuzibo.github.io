@@ -1,6 +1,6 @@
 ---
 title: c++的输入输出小结
-category: c++
+category: c/c++
 layout: post
 ---
 * content

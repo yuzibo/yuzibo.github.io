@@ -1,6 +1,6 @@
 ---
 title: rvalue reference in c++
-category: c++
+category: c/c++
 layout: post
 ---
 * content

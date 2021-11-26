@@ -1,6 +1,6 @@
 ---
 title:  c++的继承使用方法
-category: c++
+category: c/c++
 layout: post
 ---
 * content

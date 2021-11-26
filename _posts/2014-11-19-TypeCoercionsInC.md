@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "c语言中的强制转换类型"
-category: c
+category: c/c++
 ---
 
 * content

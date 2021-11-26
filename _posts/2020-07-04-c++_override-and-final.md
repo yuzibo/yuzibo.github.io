@@ -1,6 +1,6 @@
 ---
 title: "c++之override和final"
-category: c++
+category: c/c++
 layout: post
 ---
 * content

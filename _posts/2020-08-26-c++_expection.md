@@ -1,6 +1,6 @@
 ---
 title: c++之expection
-category: c++
+category: c/c++
 layout: post
 ---
 * content

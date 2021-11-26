@@ -1,6 +1,6 @@
 ---
 title: c++运算符重载
-category: c++
+category: c/c++
 layout: post
 ---
 * content
@@ -103,7 +103,7 @@ oper2.cpp:29:10: error: no match for call to ‘(dis_time) (int, int, int)’
 ```c
 class Complex
 {
-    double real,imag;   
+    double real,imag;
 public:
     Complex( double r=0, double i=0):real(r),imag(i){ };
     friend ostream & operator<<( ostream & os,const Complex & c);

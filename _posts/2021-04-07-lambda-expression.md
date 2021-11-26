@@ -1,6 +1,6 @@
 ---
 title: c++之lambda表达式
-category: c++
+category: c/c++
 layout: post
 ---
 * content

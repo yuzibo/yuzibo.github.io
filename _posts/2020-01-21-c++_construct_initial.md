@@ -1,6 +1,6 @@
 ---
 title: c++的初始化
-category: c++
+category: c/c++
 layout: post
 ---
 * content

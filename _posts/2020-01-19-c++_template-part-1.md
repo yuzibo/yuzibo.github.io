@@ -1,6 +1,6 @@
 ---
 title: c++的类模板
-category: c++
+category: c/c++
 layout: post
 ---
 * content

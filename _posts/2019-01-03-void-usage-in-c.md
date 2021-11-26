@@ -1,6 +1,6 @@
 ---
 title: void在c中的使用
-category: c
+category: c/c++
 layout: post
 ---
 * content

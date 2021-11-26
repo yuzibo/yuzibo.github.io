@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "struct和字节对齐的一些东西"
-category: c
+category: c/c++
 ---
 # 一 起因
 * content

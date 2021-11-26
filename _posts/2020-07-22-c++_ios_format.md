@@ -1,6 +1,6 @@
 ---
 title: c++之ios的数字格式用法
-category: c++
+category: c/c++
 layout: post
 ---
 * content
@@ -8,7 +8,7 @@ layout: post
 
 # header file
 
-最重要的头文件就是<iomanip>, 下面的函数不在这里面的会特别指正出来的。 
+最重要的头文件就是<iomanip>, 下面的函数不在这里面的会特别指正出来的。
 
 # std::setiosflags
 
@@ -48,5 +48,5 @@ int main() {
 [小数点精度](https://stackoverflow.com/questions/5907031/printing-the-correct-number-of-decimal-points-with-cout)
 
 []
-# English 
+# English
 A scale of 2 decimal place. (小数点后两位)

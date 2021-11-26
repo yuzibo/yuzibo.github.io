@@ -1,6 +1,6 @@
 ---
 title: "c++ 多态的概念和虚函数的用法"
-category: c++
+category: c/c++
 layout: post
 ---
 * content

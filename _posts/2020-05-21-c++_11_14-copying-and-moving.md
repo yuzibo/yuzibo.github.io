@@ -1,6 +1,6 @@
 ---
 title: c11与c14之 copy-moving
-category: c++
+category: c/c++
 layout: post
 ---
 

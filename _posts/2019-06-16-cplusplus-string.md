@@ -1,6 +1,6 @@
 ---
 title: "c++中string和stringstream的相关用法"
-category: c++
+category: c/c++
 layout: post
 ---
 * content
