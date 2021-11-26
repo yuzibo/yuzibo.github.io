@@ -1,6 +1,6 @@
 ---
 title: c++之const_cast的用法
-category: c++
+category: c/c++
 layout: post
 ---
 * content

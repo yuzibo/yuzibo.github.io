@@ -1,6 +1,6 @@
 ---
 title: C++中NULL元素的特殊点
-category: c++
+category: c/c++
 layout: post
 ---
 * content
@@ -27,7 +27,7 @@ int main() {
         s.push_back(NULL);
         cout << s.size() << endl;
 }
-// output 
+// output
 // 1
 // 2
 ```
