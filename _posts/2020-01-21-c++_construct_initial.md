@@ -1,5 +1,5 @@
 ---
-title: "c++"的初始化
+title: c++的初始化
 category: c++
 layout: post
 ---
