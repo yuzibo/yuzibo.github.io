@@ -51,3 +51,15 @@ user@linux:~$ systemd-analyze blame
 这样系统启动在哪里卡住一目了然。
 
 还有一个是 `systemd-analyze critical-chain xx`也是值得使用的一个命令。
+
+# 查看fail的Unit
+
+```bash
+ sudo systemctl list-units --failed --all
+```
+
+还得最好根据`type`来定:
+
+```bash
+ systemctl list-units --type=target --all
+```

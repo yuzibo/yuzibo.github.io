@@ -45,3 +45,40 @@ GuessMainPID=no
 
 `ExecStart=`
 Commands with their arguments that are executed when this service is started. The value is split into zero or more command lines according to the rules described below (see section "Command Lines" below).
+
+# "After"和"Requires"的区别
+
+总结一下就是： `After`仅仅检查unit是否满足，但是并不会激活该units；`Requires`是同时激活该service与需要的service，如果`Requires`的service失败了
+那么该service也不会启动。
+
+[SO上的答案](https://serverfault.com/questions/812584/in-systemd-whats-the-difference-between-after-and-requires)
+
+摘抄如下:
+
+One of the major difference is,
+
+After only checks if the unit is activated already, and does not explicitly activate the specified units.
+The units listed in Requires are activated together with the unit. If any of the required units fail to start, the unit is not activated.
+Consider I have a unit file test-app.service,
+
+```bash
+[Unit]
+Description=test app
+After=network-online.target
+Here is what will happen when this statement is executed,
+```
+
+After checks if network-online.target.
+if network-online.target not started, it will wait.
+test-app starts only after network-online.target is active
+If I had Requires instead,
+
+```bash
+[Unit]
+Description=test app
+Requires=network-online.target
+Here is what will happen when this statement is executed,
+```
+
+network-online.target and test-app are activated together
+if network-online.target fails to start test-app will not be activated.
