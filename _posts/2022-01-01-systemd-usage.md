@@ -63,3 +63,21 @@ user@linux:~$ systemd-analyze blame
 ```bash
  systemctl list-units --type=target --all
 ```
+
+# 查看正在启动的unit
+
+```bash
+systemd-analyze blame
+```
+可以知道当前系统启动的时间长短，但是如果提示:
+
+```bash
+bootup is not yet finished...
+```
+
+则可以使用
+
+```bash
+systemctl list-jobs   
+```
+看哪些jobs在running和waiting.
