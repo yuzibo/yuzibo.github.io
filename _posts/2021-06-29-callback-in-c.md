@@ -38,7 +38,13 @@ int main(){
 }
 ```
 
-打印下，这就是最基本的callback的使用。
+打印下，这就是最基本的callback的使用。下面是log:
+
+```c
+vimer@user-HP:~/test_local_ota$ ./test
+inside parent function
+inside the callback function
+```
 
 再来举一个简单的例子:
 
