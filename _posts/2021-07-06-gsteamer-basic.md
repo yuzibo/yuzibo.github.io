@@ -1,5 +1,5 @@
 ---
-title: gstreamer
+title: gstreamer-基本概念
 category: gstreamer
 layout: post
 ---
