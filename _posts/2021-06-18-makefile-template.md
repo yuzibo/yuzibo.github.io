@@ -8,6 +8,8 @@ layout: post
 
 Refer to https://makefiletutorial.com/
 
+# 易于理解
+
 ```bash
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 TARGET_EXEC := EswinE2r
@@ -66,6 +68,8 @@ clean:
 # errors to show up.
 -include $(DEPS)
 ```
+
+# 复杂
 
 还有一种模板，但是我不太清楚里面的用法，先看下代码:
 
@@ -134,3 +138,44 @@ clean:
 ```
 其中，我不太明白的是 `$(OBJDIR)/%.d: %.c`这句话是什么意思。还有一点是，我们的连接的有文件 `-Iinclude`或者
 `-Llibxx`，这个连接标志一般是放在定义的位置，我们不在规则里去显性的使用这个标志，，，一般情况下。
+
+# 简单
+
+```c
+CC       := gcc
+RM       := rm -rf
+OBJDIR   := objs
+
+CFLAGS   := -Wall
+EDKLIB   := xxsdk
+
+TARGET_ARCH := $(shell uname -m)
+
+EXECUTABLE = rtmp_push
+
+SRCS     := rtmp_push.c
+OBJS     := $(patsubst %c, $(OBJDIR)/%o, $(SRCS))
+INCPATH  := -I/usr/include/eswin
+LIBPATH  := /usr/lib/eswin/${TARGET_ARCH}
+LIB      := -L$(LIBPATH) -Wl,-rpath=$(LIBPATH) -l$(EDKLIB)
+
+.PHONY : all dir
+all: dir $(EXECUTABLE)
+
+dir:
+        @mkdir -p $(OBJDIR)
+
+$(EXECUTABLE): $(OBJS)
+        $(CC) $^ -o $@ $(LIB)
+        @echo ++++++ $(EXECUTABLE) is generated successfully!!! ++++++
+
+$(OBJS): $(OBJDIR)/%.o: %.c
+        $(CC) $(CFLAGS) -o $@ -c $< $(INCPATH)
+
+
+.PHONY : clean
+clean:
+        $(RM) $(OBJDIR)
+        $(RM) $(EXECUTABLE)
+
+```

@@ -39,3 +39,22 @@ layout: post
 ```
 
 'dpkg-deb -c somepackage.deb' 列出将要安装的所有文件。
+
+# 重新组装deb包
+3. 解压deb包并生成新的deb包
+在包含xx.deb的文件夹里新建tmp目录:
+
+```bash
+# a. mkdir tmp && cd tmp
+
+# b. 
+sudo dpkg --control ../eswin-l4e-logo_0.0.1_arm64.deb ./DEBIAN
+# c. 
+sudo dpkg --vextract ../eswin-l4e-logo_0.0.1_arm64.deb ./
+
+# 此时，返回上一级目录
+
+sudo dpkg-deb --build tmp eswin-l4e-logo_0.0.2_arm64.deb
+
+```
+即可生成一个新的deb包。
