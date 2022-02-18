@@ -300,7 +300,7 @@ deb-src http://deb.debian.org/debian/ sid main
 ```
 但是这种方式可能会影响host的稳定， pabs不建议这么去做。但是我这么做了，因为他说的第二种方式我不知道如何去操作。
 
-2. 貌似使用一个虚拟的source.list,这样不影响host的其他软件。
+2. 貌似使用一个虚拟的source.list,这样不影响host的其他软件( option 2 is to use chdist (from devscripts) or apt-venv to setup a virtual apt environment)。
 
 使能上面的其中一个方案后，请使用  `apt update`去更新软件源。
 
