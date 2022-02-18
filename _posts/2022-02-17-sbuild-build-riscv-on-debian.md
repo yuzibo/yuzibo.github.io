@@ -217,14 +217,16 @@ deb-src http://ftp.ports.debian.org/debian-ports/ sid main
 # 退出 chroot
 ```
 
-`注意`： 不知道因为什么原因，ports的repository没有合法的签名文件，需要以下两种两种方式去fix这个问题，否则后面的使用`apt update`时会遇到诸如下面的error:
+`注意`： 不知道因为什么原因，ports的repository没有合法的签名文件，需要以下两种方式去fix这个问题，否则后面的使用`apt update`时会遇到诸如下面的error:
+
 ```bash
 E: The repository 'http://ftp.ports.debian.org/debian-ports sid InRelease' is not signed.
 ```
 
-1. 安装一个[debian-ports-archive-keyring](https://packages.debian.org/buster/all/debian-ports-archive-keyring/download)的debian package.
+1.安装一个[debian-ports-archive-keyring](https://packages.debian.org/buster/all/debian-ports-archive-keyring/download)的debian package.
 
 这里需要多说一句，通常这个时候,chroot可用的命令实际上很少的，需要我们自己先在host(x86)下载keying的deb包，然后我们使用sbuild-shell命令进入chroot后使用`apt install`去安装这个包。具体方法如下:
+
 ```bash
 # A. 绑定当前host的home目录与chroot的默认目录
 # 在host上，主要是编辑这个软件: /etc/schroot/chroot.d/sid-amd64-sbuild-xx,然后把profile=subuild改为default 字段就可以。
@@ -232,7 +234,7 @@ E: The repository 'http://ftp.ports.debian.org/debian-ports sid InRelease' is no
 sudo apt install -f ./debian-ports-archive-keyring_2019.11.05~deb10u1_all.deb
 ```
 
-2. 如果还是报找不到签名文件的错误，还可以使用下面的方式解决：
+2.如果还是报找不到签名文件的错误，还可以使用下面的方式解决：
 
 [https://askubuntu.com/questions/732985/force-update-from-unsigned-repository](https://askubuntu.com/questions/732985/force-update-from-unsigned-repository)
 
