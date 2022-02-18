@@ -221,6 +221,7 @@ deb-src http://ftp.ports.debian.org/debian-ports/ sid main
 ```bash
 E: The repository 'http://ftp.ports.debian.org/debian-ports sid InRelease' is not signed.
 ```
+
 1. 安装一个[debian-ports-archive-keyring](https://packages.debian.org/buster/all/debian-ports-archive-keyring/download)的debian package.
 
 这里需要多说一句，通常这个时候,chroot可用的命令实际上很少的，需要我们自己先在host(x86)下载keying的deb包，然后我们使用sbuild-shell命令进入chroot后使用`apt install`去安装这个包。具体方法如下:
@@ -230,9 +231,10 @@ E: The repository 'http://ftp.ports.debian.org/debian-ports sid InRelease' is no
 # B. 进入你存放deb的目录下，然后安装就可以了：
 sudo apt install -f ./debian-ports-archive-keyring_2019.11.05~deb10u1_all.deb
 ```
+
 2. 如果还是报找不到签名文件的错误，还可以使用下面的方式解决：
 
-    [https://askubuntu.com/questions/732985/force-update-from-unsigned-repository](https://askubuntu.com/questions/732985/force-update-from-unsigned-repository)
+[https://askubuntu.com/questions/732985/force-update-from-unsigned-repository](https://askubuntu.com/questions/732985/force-update-from-unsigned-repository)
 
 简单说就是在 sources.list 添加 ` [trust=yes] ` 字段解决这个问题。但是不建议这么做，这本身是一种workround的方案。
 
