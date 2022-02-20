@@ -1,5 +1,5 @@
 ---
-title: debian官方apply patch并打包
+title: debian based qemu with sbuild
 category: debian-riscv
 layout: post
 ---
