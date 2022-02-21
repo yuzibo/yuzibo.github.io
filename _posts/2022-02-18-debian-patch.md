@@ -1,5 +1,5 @@
 ---
-title: debian官方apply patch并打包
+title: debian官方patch相关操作
 category: debian-riscv
 layout: post
 ---
@@ -17,8 +17,8 @@ layout: post
 如果只是测试，没必要在debian目录下新建patches目录(假设没有这个目录的话)
 
 ```bash
-sudo mkdir patches 
-[sudo] password for vimer: 
+sudo mkdir patches
+[sudo] password for vimer:
 vimer@debian:~/build_test/sip/sofia-sip-1.12.11+20110422.1/debian$ ls
 changelog  copyright                 libsofia-sip-ua-dev.install    libsofia-sip-ua-glib-dev.install  sofia-sip-bin.install
 compat     libsofia-sip-ua0.install  libsofia-sip-ua-glib3.install  patches                           sofia-sip-doc.docs
@@ -42,6 +42,6 @@ control    libsofia-sip-ua0.symbols  libsofia-sip-ua-glib3.symbols  rules
 
 ```bash
 ~$
-vimer@debian:/tmp/sip/sofia-sip-1.12.11+20110422.1$ sudo < /tmp/sofia-sip-retooling.patch patch -p1 
+vimer@debian:/tmp/sip/sofia-sip-1.12.11+20110422.1$ sudo < /tmp/sofia-sip-retooling.patch patch -p1
 patching file debian/rules
 ```
