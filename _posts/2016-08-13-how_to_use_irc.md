@@ -45,13 +45,18 @@ The /disconnect command can be used to leave a server.
  /HELP
 ```
 
+
+# 加入服务器
+一般的开源组织使用的oftc比较多一些， 尤其是debian一类的比较多。
+比如，加入linux kernelnewbies channel
+
+/server irc.oftc.net
+
+
 # 加入一个频道
 
 /JOIN #debian
 
-比如，加入linux kernelnewbies channel
-
-/server irc.oftc.net
 
 /join #kernelnewbies
 

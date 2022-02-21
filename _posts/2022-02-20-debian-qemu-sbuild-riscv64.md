@@ -8,6 +8,8 @@ layout: post
 
 在前面的文章中， 我们使用sbuild创建schroot搭建riscv64的交叉编译环境，其实是ok的。但是在测试[sip](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=978498#39)这个deb时遇到一点麻烦，现象是schroot只有build这个riscv arch的deb有问题，其他的deb没有问题。但是，为了修复这个问题，schroot暂时还没有找到 如何在编译进行中查看的具体的编译产物 的方法，故这里根据 [john](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=978498#44)的提示，记录下如何创建 基于qemu的sbuild.
 
+当然，还需要参考这个[教程](https://wiki.debian.org/SH4/sbuildQEMU)
+
 # 步骤
 
 ## 安装依赖环境
@@ -100,4 +102,23 @@ deb-src http://ftp.ports.debian.org/debian-ports/ sid main
 然后就可以chroot这里面做相应的打包测试了。
 
 
+# 编译riscv debian packages
 
+## chroot下build
+
+因为整个arch为riscv所以可以直接在chroot中直接使用相关的编译命令。
+
+如果source code已经有了完整了 `debian/`目录，我们可以直接使用以下命令:
+```bash
+root@debian:/home/build_test/sip/sofia-sip-1.12.11+20110422.1# dpkg-buildpackage -rfakeroot -us -uc
+```
+
+这个过程中，提示缺少啥就安装啥就可以。
+
+在chroot内部执行编译命令，哪里都好就是速度太慢，巨慢的那种。
+
+## 使用sbuild
+
+```bash
+
+```
