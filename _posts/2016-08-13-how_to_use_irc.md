@@ -26,7 +26,8 @@ The /disconnect command can be used to leave a server.
 当然，一开始我还真不知道如何开启这个服务呢，怎么也找不到在哪里运行这个`VSIRC: Open`,最后搞了半天，
 才发现是在 `shift + ctrl +p` 调出命令窗口才是可以的。剩下的就是具体的命令了。
 
-# 第一步
+# linux
+linux推荐使用 `irssi`
 
 ```bash
 /NETWORK LIST
