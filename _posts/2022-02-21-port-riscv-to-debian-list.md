@@ -1,5 +1,5 @@
 ---
-title: Port riscv64 to Debian task list --2022/02/21
+title: Port riscv64 to Debian task list --2022/02/23
 category: debian-riscv
 layout: post
 ---
@@ -12,3 +12,4 @@ layout: post
 | -------- | --------- | ----------- | -------- |
 | sofia-sip  | [link](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=978498) |  yes           |  apply patch 后可以编译riscv64 deb |需要推动patch merge into ports's repo      |
 | [yubiserver](https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv64)     | [link](https://buildd.debian.org/status/package.php?p=yubiserver&suite=sid)     | 无 | 自己可以fix  | |
+| tbb | | 无 | 正在生成(02/22) | 无 |
