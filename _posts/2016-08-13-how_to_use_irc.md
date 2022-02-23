@@ -26,27 +26,38 @@ The /disconnect command can be used to leave a server.
 当然，一开始我还真不知道如何开启这个服务呢，怎么也找不到在哪里运行这个`VSIRC: Open`,最后搞了半天，
 才发现是在 `shift + ctrl +p` 调出命令窗口才是可以的。剩下的就是具体的命令了。
 
-# linux
-linux推荐使用 `irssi`
+# linux平台下
+linux推荐使用 `irssi`.
 
 ```bash
 /NETWORK LIST
-
-选择一个并且加入进去
-
-/CONNECT Freenode
- /JOIN #irssi
-
-
- 需要帮助
-
  /HELP NETWORK
  /HELP SERVER
  /HELP CHANNEL
  /HELP
 ```
 
+选择一个并且加入进去. 更多的用法需要[参考](https://irssi.org/documentation/startup/)
 
+## 加入服务器:
+
+/CONNECT Freenode or oftc
+
+## 加入频道
+
+/JOIN #irssi
+
+## debian一些常用的频道
+[The hostname irc.debian.org is an alias for irc.oftc.net. Most Debian IRC channels are on the OFTC IRC network](https://wiki.debian.org/IRC)
+
+```bash
+#debian-bugs
+#debian-buildd: Teams/DebianBuildd
+#debian-mentors: Support for new contributors with questions on packaging and Debian infrastructure projects/services. See also the debian-mentors mailing list.
+#debian-ports: https://www.ports.debian.org/
+#debian-riscv: Debian RISC-V port
+#devscripts: devscripts
+```
 # 加入服务器
 一般的开源组织使用的oftc比较多一些， 尤其是debian一类的比较多。
 比如，加入linux kernelnewbies channel
