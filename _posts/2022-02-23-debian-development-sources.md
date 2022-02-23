@@ -14,10 +14,35 @@ Debian社区是比较古老的、比较geek的氛围。尤其是，主导这个�
 这篇文章的主要目的是把最后在开发过程中遇到的一些有用的资源放在这里以方便自己后面的工作。通过这些文档或者指南，我还是
 认为，在软件行业，只有开源开发者或者 "自由职业者"才会打造经典的作品。
 
+# Port riscv 入门级资料
+## wiki
+1. [debian riscv wiki](https://wiki.debian.org/RISC-V#)
+2. [debian cross-compiling](https://wiki.debian.org/CrossCompiling)
+3. [debian irc list](https://wiki.debian.org/IRC)
 
+服务器是:`irc.oftc.net`,相关的几个channal:
+```bash
+#debian-bugs
+#debian-buildd: Teams/DebianBuildd
+#debian-mentors: Support for new contributors with questions on packaging and Debian infrastructure projects/services. See also the debian-mentors mailing list.
+#debian-ports: https://www.ports.debian.org/
+#debian-riscv: Debian RISC-V port
+#devscripts: devscripts
+```
+## mail list
+在做debian port时，主要会用到以下两个列表：
+
+debian-riscv@lists.debian.org
+
+debian-cross@lists.debian.org
+
+## FTBFS
+1. [btbfs page](https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv64)
+这个页面快速直达目前编译riscv有问题的debian packages list.
 
 # 如何生成patch
 
+[prepare patches for Debian Packages ](https://raphaelhertzog.com/2011/07/04/how-to-prepare-patches-for-debian-packages/)
 
 # [Debian Package Tracking System](https://packages.qa.debian.org/common/index.html)
 
