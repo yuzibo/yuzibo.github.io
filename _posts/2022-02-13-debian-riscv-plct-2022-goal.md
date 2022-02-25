@@ -41,6 +41,28 @@ Debian社区有一个[page](https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv6
 ### Push Debian官方支持riscv64
 根据 Debian [ports](https://www.debian.org/ports/)，我们发现Debian官方(2022/02)支持9种arch架构，根据目前riscv64移植的进展，不知道让Debian官方支持应该达到什么条件。肯定的一点是，如果让官方支持，至少进入sid(unstable) release版本，还有多少具体的工作去做还未知。
 
+update: 2022/02/25
+
+[这里](https://lists.debian.org/debian-riscv/2018/10/msg00004.html)揭示了如果让Debian关官方支持riscv需要的一些条件：
+
+```bash
+riscv64 won't become a release architecture for buster.  There
+are still a lot of things missing that are required for meeting
+the release architecture criteria.  The first step on a way to
+becoming a release architecture would be having all packages in
+the unstable suite and getting rid of unreleased, and that will
+still take some time.  We are also unfortunately missing upstream
+support for riscv64 in LLVM which causes us quite a headache as
+qt has moved to requiring LLVM for certain components in recent
+releases, and qt has an enormous chain of reverse-dependencies.
+
+Besides the software side, DSA has declared that they are only
+going to accept architectures as release architecture that have
+server-grade hardware with out-of-band management facilities
+available on the market for DSA-maintained buildds. There is
+no such hardware on the market for riscv64 yet, though.
+```
+
 ### 构建Debian官方的ports riscv版本的CI构建质量报告page
 这个需要与社区的Helmut与实验室的大力支持下一起去构建与维护。
 

@@ -119,6 +119,12 @@ root@debian:/home/build_test/sip/sofia-sip-1.12.11+20110422.1# dpkg-buildpackage
 
 ## 使用sbuild
 
-```bash
+上面的基本环境搭建好之后，就可以进行相关的测试了。
 
+首先使用`apt source`命令，下载你要移植的包，比如这个 [tbb](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1002968)
+
+```bash
+# 1. apt source tbb
+# 2. subild cmd 
+sudo sbuild --arch=riscv64 -d sid-riscv64-sbuild
 ```

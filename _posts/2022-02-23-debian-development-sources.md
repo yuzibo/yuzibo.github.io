@@ -30,15 +30,42 @@ Debian社区是比较古老的、比较geek的氛围。尤其是，主导这个�
 #devscripts: devscripts
 ```
 ## mail list
+### Debian ports
 在做debian port时，主要会用到以下两个列表：
 
 debian-riscv@lists.debian.org
 
 debian-cross@lists.debian.org
 
+
 ## FTBFS
+以下几个资源是展示的目前Debian包在riscv上编译的情况。
+
 1. [btbfs page](https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv64)
 这个页面快速直达目前编译riscv有问题的debian packages list.
+2. [The UDD provides an overview about patches that we currently have
+pending](https://udd.debian.org/cgi-bin/bts-usertags.cgi?user=debian-riscv@lists.debian.org) 带有patch
+
+# Debian开发者
+
+## 邮件列表
+
+作为Debian的开发者，还需要订阅以下邮件列表:
+
+### [debian-devel-announce](https://lists.debian.org/debian-devel-announce/)
+
+Announcements of development issues like policy changes, important release issues &c.
+Only messages signed by a Debian developer will be accepted by this list.
+
+注意，只有DD发的信才有可能被这个列表接受。
+
+### [debian-news](https://lists.debian.org/debian-news/)
+
+General news about the distribution and the project.
+The current events and news about Debian are summarized in the Debian Weekly News, a newsletter regularly posted on this list.
+
+
+
 
 # 如何生成patch
 
