@@ -64,6 +64,13 @@ Only messages signed by a Debian developer will be accepted by this list.
 General news about the distribution and the project.
 The current events and news about Debian are summarized in the Debian Weekly News, a newsletter regularly posted on this list.
 
+### [debian-mentors](https://lists.debian.org/debian-mentors/)
+
+Helping newbie developers
+
+作为一名潜在的开发人员，还应该订阅这个针对新手打包的列表。
+
+当然，这里还有一个[辅佐材料 Debian Mentors Faq](https://wiki.debian.org/DebianMentorsFaq)可以扩展自己的知识面，加深对Debian的workfolw的理解。
 
 
 
