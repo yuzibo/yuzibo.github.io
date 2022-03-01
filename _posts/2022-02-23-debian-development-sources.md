@@ -74,15 +74,20 @@ Helping newbie developers
 
 
 
-# 如何生成patch
+## 如何生成patch
 
 [prepare patches for Debian Packages ](https://raphaelhertzog.com/2011/07/04/how-to-prepare-patches-for-debian-packages/)
 
+## Debian打包教程
+这个[wiki](https://wiki.debian.org/Packaging)是一个非常棒的教程: 如何使用Debian官方的方式进行打包，值得一读。
+
+# 开发者手册
+
+## building the package
+[building the package](https://www.debian.org/doc/manuals/maint-guide/build.en.html) with `dpkg-buildpackage` command.
 # [Debian Package Tracking System](https://packages.qa.debian.org/common/index.html)
 
     The Package Tracking System lets you follow almost everything related to the life of a package. It's of interest for co-maintainers, advanced users, QA members, ...
 
 在这个页面上解释的很清楚，也确实这么做的。但是，我也是在查找某些软件闯进这个网站的，后面补充更高级的用法。
-
-
 
