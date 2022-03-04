@@ -83,11 +83,34 @@ Helping newbie developers
 
 # 开发者手册
 
+## 如何向Debian做贡献
+
+参考这个[网页](https://mentors.debian.net/intro-maintainers/), 两种方式：
+
+1. 构建自己的package
+2. 寻找一个[wnpp](https://www.debian.org/devel/wnpp/)的package
+
+都在上面的链接中说明。
+
+## 领养一个package
+
+根据上面的资料，我们在wnpp下可以选择一个Orphand的pkg，可以使用`bts retitle`告诉tracker系统，但是，还有很多东西
+去做才可以。
+
+1. [adopting a package](https://www.debian.org/doc/manuals/developers-reference/pkgs.en.html#adopting-a-package)
+
+2. [intro-maintainer](https://mentors.debian.net/intro-maintainers/)
+
+
 ## building the package
 [building the package](https://www.debian.org/doc/manuals/maint-guide/build.en.html) with `dpkg-buildpackage` command.
+
 # [Debian Package Tracking System](https://packages.qa.debian.org/common/index.html)
 
     The Package Tracking System lets you follow almost everything related to the life of a package. It's of interest for co-maintainers, advanced users, QA members, ...
 
 在这个页面上解释的很清楚，也确实这么做的。但是，我也是在查找某些软件闯进这个网站的，后面补充更高级的用法。
 
+# Debian Glossary
+
+在Debain社区有很多自己的词汇，如果我们一开始觉得不那么适应，可以参考[这里](https://mentors.debian.net/intro-maintainers/)
