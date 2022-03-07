@@ -43,3 +43,79 @@ layout: post
 以上这几个就是我们常见的有关package的资源。
 
 通过以上的分析，不知道大家有没有注意到一个现象： 目前的Debian bug有很多都没有及时推进，其实很可能就是陷入了上面第三条提到的MIA(Missing in action)，这个问题比较棘手。假设你想拯救一个package的话，首先得成为一名DM，所以，还是最快的速度upload自己维护的pkg，让社区开始接受你。
+
+
+
+熟悉BTS的话还得需要掌握 `reportbug`工具的使用，这个会单独出一篇文章或者合并到这里面来。可以首先参考[这里](https://itsfoss.com/bug-report-debian/)
+
+但是如果想要维护一个孤儿包的话，需要使用 `bts`命令。
+
+# bts
+是的，这里的`bts`是一个命令，Debian people在一开始就想着把所有的东西通过命令行来解决，包括bug tracker system(BTS)
+
+我们先来看一个[bug #993599](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=993599).
+
+message #5
+
+```bash
+From: Didier 'OdyX' Raboud <odyx@debian.org>
+To: Debian Bug Tracking System <submit@bugs.debian.org>
+Subject: O: jimtcl -- small-footprint implementation of Tcl named Jim
+Date: Fri, 03 Sep 2021 16:27:34 +0200
+```
+这个O是odyx根据`reportbug`进行的report,O就是orphened（弃儿）的代表，可以参考[这里](https://www.debian.org/devel/wnpp/):
+
+那么，如果我想收养这个遗弃的package的话，怎么做呢？  使用 `bts`命令:
+
+```bash
+vimer@debian:~$ export DEBEMAIL=tsu.yubo@gmail.com
+vimer@debian:~$ bts --mutt retitle 993599 'ITA: jimtcl -- small-footprint implementation of Tcl named Jim' , owner 993599 '!'
+```
+上面那个变量DEBEMAIL必须设置，否则使用`bts --mutt` 无效。这里多说一点，目前针对bts的配置文件(/etc/devscripts.conf and ~/.devscripts)，相关文档不是特别[完善](https://manpages.debian.org/testing/devscripts/bts.1.en.html)，看看这里的后期是不是一个优化的方向。
+
+`bts`这时候就会激活mutt的窗口，我们可以看到bts是向 `control@bugs.debian.org`发信的，其信件的body是
+
+```bash
+retitle 993599 ITA: jimtcl -- small-footprint implementation of Tcl named Jim
+owner 993599 !
+thanks
+```
+也就是说，我们只需在body中将bts的命令完成即可。当然，这里bts最喜欢的使用MTA，我这里是使用mutt代替的MTA。
+等发信完成后，我们稍等几分钟，就会收到如下的subject:
+
+```bash
+Processed: retitle 993599 to ITA: jimtcl -- small-footprint implementation of Tcl named Jim, owner 993599
+```
+我们再具体看一下回的消息:
+
+```bash
+from:	Debian Bug Tracking System <owner@bugs.debian.org>
+to:	vimer <tsu.yubo@gmail.com>
+cc:	tsu.yubo@gmail.com,
+wnpp@debian.org
+date:	Mar 3, 2022, 5:54 PM
+subject:	Processed: retitle 993599 to ITA: jimtcl -- small-footprint implementation of Tcl named Jim, owner 993599
+
+Processing commands for control@bugs.debian.org:
+
+> retitle 993599 ITA: jimtcl -- small-footprint implementation of Tcl named Jim
+Bug #993599 [wnpp] O: jimtcl -- small-footprint implementation of Tcl named Jim
+Changed Bug title to 'ITA: jimtcl -- small-footprint implementation of Tcl named Jim' from 'O: jimtcl -- small-footprint implementation of Tcl named Jim'.
+> owner 993599 !
+Bug #993599 [wnpp] ITA: jimtcl -- small-footprint implementation of Tcl named Jim
+Owner recorded as vimer <tsu.yubo@gmail.com>.
+> thanks
+Stopping processing here.
+
+Please contact me if you need assistance.
+--
+993599: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=993599
+Debian Bug Tracking System
+Contact owner@bugs.debian.org with problems
+```
+
+这个时候我们在[bug=993599](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=993599)上面看到BTS已经更改了jimtcl的owner:
+
+```bash
+Owner recorded as vimer <tsu.yubo@gmail.com>. Request was from vimer <tsu.yubo@gmail.com> to control@bugs.debian.org. (Thu, 03 Mar 2022 09:54:03 GMT) (full text, mbox, link).
+```

@@ -101,6 +101,12 @@ Helping newbie developers
 
 2. [intro-maintainer](https://mentors.debian.net/intro-maintainers/)
 
+第一件事就是： update Maintainer field in  changelog. 还有就是一定得把2的手册通读、理解彻底。
+
+
+## NMU或者QA上传
+
+[nmu-qa-upload](https://www.debian.org/doc/manuals/developers-reference/pkgs.html#nmu-qa-upload)
 
 ## building the package
 [building the package](https://www.debian.org/doc/manuals/maint-guide/build.en.html) with `dpkg-buildpackage` command.

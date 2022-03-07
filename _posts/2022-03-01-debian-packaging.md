@@ -89,6 +89,14 @@ I: $ wrap-and-sort
 
 [具体的case](https://www.debian.org/doc/manuals/debmake-doc/ch04.en.html)。
 
+# 放弃包的维护
+
+https://unix.stackexchange.com/questions/650225/step-by-step-instructions-to-abandon-a-debian-package-and-no-longer-be-its-maint
+
+反向操作就是如何维护一个pkg。
+
+这里有一个值得注意的地方就是: `dch -i`用来改变changelog文件。
+
 # 其他资料
 https://wiki.debian.org/BuildingTutorial
 
