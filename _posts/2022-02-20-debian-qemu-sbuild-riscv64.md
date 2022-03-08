@@ -37,7 +37,7 @@ I: Configuring libc-bin...
 I: Base system installed successfully.
 ```
 
-这个时候就会在 /srv 目录下创建了一个 名为`sid-riscv64-sbuild `的rootfs。
+这个时候就会在 /srv/chroots 目录下创建了一个 名为`sid-riscv64-sbuild `的rootfs。
 
 ```bash
 vimer@debian:/srv$ ls
@@ -87,6 +87,25 @@ vimer@debian:/srv$ sudo cp -av /usr/bin/qemu-riscv64-static /srv/chroots/sid-ris
 vimer@debian:/srv$ sudo chroot sid-riscv64-sbuild
 root@debian:/# uname -a
 Linux debian 4.19.0-18-amd64 #1 SMP Debian 4.19.208-1 (2021-09-29) riscv64 GNU/Linux
+```
+
+## 修改配置文件
+
+```bash
+vimer@debian-local:~$ cat /etc/schroot/chroot.d/sid-riscv64-sbuild
+[sid-riscv64-sbuild]
+description=Debian sid chroot for riscv64
+type=directory
+directory=/srv/chroots/sid-riscv64-sbuild
+#groups=Debian,guest,d-i
+#profile=dsa
+#aliases=sid
+groups=root,sbuild,vimer,buildd
+root-groups=root,sbuild,vimer,buildd
+#command-prefix=
+#source-root-users=glaubitz,sbuild,buildd
+#run-setup-scripts=true
+#run-exec-scripts=true
 ```
 
 ## 修改（riscv）和sid的源
