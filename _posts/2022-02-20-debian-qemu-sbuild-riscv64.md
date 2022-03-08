@@ -19,8 +19,10 @@ apt-get install sbuild qemu-user-static binfmt-support schroot devscripts debian
 执行命令：
 
 ## 创建riscv的chroot->rootfs
+执行这一步时，一定把路径cd 到`/srv/chroots`下面，当然，不进入那里面问题也不大，只能在当前目录使用吧。
+
 ```bash
-debootstrap --no-check-gpg --include=debian-ports-archive-keyring --arch=riscv64 \
+sudo  debootstrap --no-check-gpg --include=debian-ports-archive-keyring --arch=riscv64 \
   unstable sid-riscv64-sbuild http://ftp.ports.debian.org/debian-ports/
 ```
 参数解析：
@@ -77,8 +79,8 @@ The user `vimer' is already a member of `sbuild'.
 将qemu的静态可执行程序移动到对应的rootfs中:
 
 ```bash
-vimer@debian:/srv$ sudo cp -av /usr/bin/qemu-riscv64-static /srv/sid-riscv64-sbuild/usr/bin/
-'/usr/bin/qemu-riscv64-static' -> '/srv/sid-riscv64-sbuild/usr/bin/qemu-riscv64-static'
+vimer@debian:/srv$ sudo cp -av /usr/bin/qemu-riscv64-static /srv/chroots/sid-riscv64-sbuild/usr/bin/
+'/usr/bin/qemu-riscv64-static' -> '/srv/chroots/sid-riscv64-sbuild/usr/bin/qemu-riscv64-static'
 ```
 进入chroot进行验证:
 ```bash
