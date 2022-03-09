@@ -96,3 +96,12 @@ qemu-system-riscv64 -nographic -machine virt -m 1.9G \
 root@debian-local:~# uname -a
 Linux debian-local 5.16.0-3-riscv64 #1 SMP Debian 5.16.11-1 (2022-02-25) riscv64 GNU/Linux
 ```
+
+# 退出qemu
+
+qemu: For -nographic just enter:
+
+`Ctrl-A X` for exit
+which means
+
+first press Ctrl + A (A is just key a, not the alt key)->then release the keys->afterwards press(X key) 

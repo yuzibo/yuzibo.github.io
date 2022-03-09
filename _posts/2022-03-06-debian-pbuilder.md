@@ -75,3 +75,35 @@ jimtcl_0.79+dfsg0-3_armhf.buildinfo  jimtcl_0.79+dfsg0-3_source.changes
 jimtcl_0.79+dfsg0-3_armhf.changes    libjim0.79_0.79+dfsg0-3_armhf.deb
 ```
 如果我们想让编译的结果离我们近一些的话，是可以指定的。
+
+
+# 支持编译riscv64
+
+针对pbuilder的配置文件直接进行修改是无效的(最少我这里是不符合预期的)，那么，你就可以把配置文件更新下:
+
+```bash
+sudo pbuilder update --override-config --configfile ~/.pbuilderrc
+```
+
+如果还想对base rootfs进行修改(记住， pbuilder是执行完后就clean环境的)，则需要执行命令:
+
+```bash
+sudo pbuilder --login --save-after-login
+```
+
+这有什么用呢？ 还记得我们前面使用 sbuild with chroot添加的 debian-ports  sources list吗，同样，我们也需要对里面的源进行配置。
+
+ 上面的login之后， 首先安装：
+
+```bash
+# 1. install debian-ports-archive-keyring
+apt install debian-ports-archive-keyring
+# 2.  config source list
+deb http://ftp.ports.debian.org/debian-ports/ sid main
+deb http://ftp.ports.debian.org/debian-ports/ unreleased main
+deb-src http://ftp.ports.debian.org/debian-ports/ sid main
+```
+
+注意，以上 debian-ports没有release 的软件，比如安装vim什么的是不行的，所以，还需要安装一个 sid source list.
+
+以上两个开关互相配合，相互使用。
