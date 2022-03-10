@@ -77,6 +77,16 @@ jimtcl_0.79+dfsg0-3_armhf.changes    libjim0.79_0.79+dfsg0-3_armhf.deb
 如果我们想让编译的结果离我们近一些的话，是可以指定的。
 
 
+
+## 指定dsc文件编译binary
+
+```bash
+sudo pbuilder build --basetgz /var/cache/pbuilder/base.tgz /tmp/build-area/jimtcl/jimtcl_0.79+dfsg0-3.dsc
+```
+首先声明的是， base.tgz文件是另外创建的，也是很简单的，使用我们上面提到的amd64的tgz也是可以的。然后，后面跟着的是dsc文件。
+
+
+
 # 支持编译riscv64
 
 针对pbuilder的配置文件直接进行修改是无效的(最少我这里是不符合预期的)，那么，你就可以把配置文件更新下:

@@ -14,6 +14,9 @@ layout: post
 
 为什么说Debian社区比较geek呢(其他发行版我用的也不多)，就是debian自己的工具，什么都能给你造一个出来，这不，社区给你打早了一个封装git的命令 `gbp`,对，应该就是 `git-buildpackage`的缩写。
 
+最权威的参考手册莫过于[这里](https://honk.sigxcpu.org/projects/git-buildpackage/manual-html/).
+这里有个中文的[文章](https://hosiet.me/blog/2016/09/15/make-debian-package-with-git-the-canonical-way/)也是非常的精彩。
+
 首先介绍下目前git-buildpackage的一些workflow。
 
 1. debian-branch : 也就是自己维护工作的分支,针对于debian而言（目前默认是debian/main）；
@@ -43,15 +46,13 @@ vimer@debian-local:~/git/jimtcl/jimtcl$ git branch -a
 我们看到，除了本地有一个debian/main, upstream/latest分支没有本地分支，pristine-tar我们暂时不用管，gbp会自己创建。
 那么，我们得首先创建 upstream/latest 分支(这一块我也不是特别明白，如果有误解，请指正)。
 ```bash
-vimer@debian-local:~/git/jimtcl/jimtcl$ git checkout -b upstream/latest
-切换到一个新分支 'upstream/latest'
-vimer@debian-local:~/git/jimtcl/jimtcl$ git checkout debian/main
-切换到分支 'debian/main'
-您的分支与上游分支 'origin/debian/main' 一致。
+vimer@debian-local:~/git/jimtcl/jimtcl$ git branch upstream origin/upstream/latest
+分支 'upstream' 设置为跟踪来自 'origin' 的远程分支 'upstream/latest'。
+vimer@debian-local:~/git/jimtcl/jimtcl$ git branch  pristine-tar origin/pristine-tar
+分支 'pristine-tar' 设置为跟踪来自 'origin' 的远程分支 'pristine-tar'。
 ```
 
-然后我们在github找到upstream，可以使用url指定：
-
+然后upstream，可以使用指定。
 ```bash
  gbp import-orig https://github.com/msteveb/jimtcl/archive/refs/tags/0.81.tar.gz
 ```
@@ -66,7 +67,11 @@ Branch 'pristine-tar' set up to track remote branch 'pristine-tar' from 'origin'
 gbp:info: Replacing upstream source on 'debian/main'
 gbp:info: Successfully imported version 0.81 of ../jimtcl_0.81.orig.tar.gz
 ```
-期中， `--debian-branch`就是我们的本地分支， `-u`指定版本。
+其中， `--debian-branch`就是我们的本地分支， `-u`指定版本。
+或者：
+```bash
+gbp import-orig https://github.com/msteveb/jimtcl/archive/refs/tags/0.81.tar.gz --debian-branch=debian/main --upstream-branch=upstream  -u 0.81
+```
 
 现在我们可以看下branch的情况:
 
@@ -108,6 +113,40 @@ Date:   Fri Sep 3 16:22:09 2021 +0200
 
 ```
 
+# 修改patch（可选）
+
+假设有的话。
+```bash
+# 1. 先处理debian/patches/下的文件 
+gbp pq import 
+# 2. 
+gbp pq export
+
+# 3. commit 
+git  add xx && git commit --amend 
+
+```
+
+# build dsc file
+
+```bash
+ gbp buildpackage --git-debian-branch=debian/main --git-export-dir=/tmp/build-area/jimtcl -S
+```
+因为有很多用法没有搞明白，导致出现了很多的error。下面这个是我试验OK的。
+
+```bash
+ gbp buildpackage --git-debian-branch=debian/main  --git-upstream-tree=upstream --git-pristine-tar-commit  --git-export-dir=/tmp/build-area/jimtcl -S  --git-verbose
+```
+`--git-debian-branch=debian/main` 指明debian branch。
+
+`--git-upstream-tree=upstream`也很关键： How to find the upstream sources used to generate the tarball，因为我是使用的`pristine`来引入upstream的源码，如果是其他的，估计不会使用这个选项了。请[参考这里](https://unix.stackexchange.com/questions/504746/how-to-build-postfix-from-debian-salsa-git-gbperror-upstream-3-3-2-is-not-a)，主要是，我这里没有把标签打上去。
+
+`--git-pristine-tar-commit`: Commit the pristine-tar delta to the pristine-tar branch if a new tarball was generated and the pristine-tar data isn't already there. 这段话的意思其实我是拿捏不准的。
+
+`--git-export-dir=/tmp/build-area/jimtcl -S`是把该tarball的dsc文件放在这个位置，方便后面的build。
+
+`--git-verbose`是可以详细的把执行过程打印出来，方便debug使用。
+
 # dch -i
 
 如果已经有了 debian目录，我们可以暂时不必使用(`debmake`)命令去自动生成debian目录下的东西；如果没有的话，需要执行。
@@ -126,6 +165,18 @@ dch: Did you see those 2 warnings?  Press RETURN to continue...
 unknown 要改成 unstable(或者experimential),bug number 要改為自己的 ITP number,修改自己的名字與 email.
 
 `debmake只会生成模板，实质性的内容并不会起作用。
+
+# Build a source package .dsc
+这里的dsc就是debian source control文件，可以参考[这里](https://wikitech.wikimedia.org/wiki/Git-buildpackage)
+```bash
+gbp buildpackage --git-export-dir=/var/tmp/build-area/packagename -S
+```
+
+# Build the binary packages with Pbuilder
+
+```bash
+pbuilder build --basetgz /var/cache/pbuilder/lucid.tgz /var/tmp/build-area/packagename/packagename_version.dsc
+```
 
 # error 及应对
 ```bash
@@ -166,4 +217,31 @@ gbp:info: Upstream version is 0.81
 Branch 'pristine-tar' set up to track remote branch 'pristine-tar' from 'origin'.
 gbp:info: Replacing upstream source on 'debian/master'
 gbp:info: Successfully imported version 0.81 of ../jimtcl_0.81.orig.tar.gz
+```
+
+# 参考命令
+这些参考命令放在这里，逐渐加深印象。
+
+```bash
+# 1 
+gbp buildpackage --git-ignore-new  --git-no-pristine-tar --verbose 
+
+#2 
+ gbp config buildpackage
+```
+
+## 简单的命令
+假设co-team上传了一个远程分支，你可以更简单的使用:
+
+```bash
+git checkout master-16.x
+gbp buildpackage --git-pbuilder --git-ignore-new -sa # 补充完全
+```
+
+## 直接使用git
+
+也就是没有tarball的情况下怎么办?
+
+```bash
+sudo gbp buildpackage  --git-submodules  --git-no-pristine-tar --git-upstream-tree=tag --git-ignore-new -sa --git-export-dir=../
 ```
