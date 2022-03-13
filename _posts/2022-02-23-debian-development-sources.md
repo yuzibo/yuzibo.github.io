@@ -120,3 +120,12 @@ Helping newbie developers
 # Debian Glossary
 
 在Debain社区有很多自己的词汇，如果我们一开始觉得不那么适应，可以参考[这里](https://mentors.debian.net/intro-maintainers/)
+
+
+# 不同的声音
+
+[go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
+
+* https://salsa.debian.org/onlyjob/notes/-/wikis/no-dep14
+  * https://salsa.debian.org/onlyjob/notes/-/wikis/no-gbp
+  * https://salsa.debian.org/onlyjob/notes/-/wikis/bp

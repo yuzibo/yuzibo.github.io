@@ -14,6 +14,19 @@ layout: post
 | [yubiserver](https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv64)     | [link](https://buildd.debian.org/status/package.php?p=yubiserver&suite=sid)     | 无 | 自己可以fix  | |
 | tbb | | 无 | 正在生成(02/22) | 无 |
 
+# Goal
+
+## packaging
+cargo  popt cron ntp （这些包是请求帮助的）
+
+## 加入一个打包team
+
+nodejs(正在进行)   go   rust
+
+## fix 
+
+fix riscv BTFTS 的packages.
+
 # 周进展
 ## 03/01-03/04
 1. 寻求DD签名；
@@ -59,5 +72,13 @@ dpkg-buildpackage: error: dpkg-source -b . subprocess returned exit status 2
 debuild: fatal error at line 1182:
 dpkg-buildpackage -us -uc -ui --changes-option=-sa failed
 ```
+解决方案就是 refactor it.因为上游已经有了相关的fix，可以去掉。
 
 2. NMU上传一个riscv的package。
+
+## 03/11-03/15
+上一周定的任务目前没有完成，低估了成为一个maintainer的难度；NMU如果不是活跃的开发者一般也是拒绝。
+
+研究下，看看如何提供buildd service。
+
+完成一个nodsjs port riscv64.
