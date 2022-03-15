@@ -48,6 +48,19 @@ pending](https://udd.debian.org/cgi-bin/bts-usertags.cgi?user=debian-riscv@lists
 
 # Debian开发者
 
+## packaging
+
+### nodejs
+
+[nodejs](https://wiki.debian.org/Javascript)
+
+Email contact: pkg-javascript-devel@lists.alioth.debian.org | Subscribe to mailing list/View archives
+
+IRC: #debian-js on irc.oftc.net network
+
+If you are new to javascript packaging, you can contact Debian Javascript Mentors channel via Matrix https://matrix.to/#/#debian-js-mentors:poddery.com or IRC: #debian-browserify on irc.oftc.net network
+
+
 ## 邮件列表
 
 作为Debian的开发者，还需要订阅以下邮件列表:

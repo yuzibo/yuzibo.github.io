@@ -49,6 +49,12 @@ Codename:       bullseye
 
 ## 创建chroot
 
+## 安装
+
+```bash
+apt install buildd
+```
+
 ### sbuild-createchroot
 这一章节主要参考 [Set_up_a_chroot](https://wiki.debian.org/CrossCompiling#Set_up_a_chroot).
 正如文章题目所示，这篇文章我们介绍如何使用`sbuild-createchroot`命令去创建chroot,尽管还有诸如debootstrap, mksbuild, multistrap, pbuilder create的工具也可以创建(这些工具会在后面逐一解锁)。
@@ -61,9 +67,9 @@ Codename:       bullseye
 命令：
 
 ```bash
-sudo sbuild-createchroot --make-sbuild-tarball=/srv/chroots/sid-sbuild.tgz sid /srv/chroots/sid http://deb.debian.org/debian/
+sudo sbuild-createchroot --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/chroots/sid-sbuild.tgz sid /srv/chroots/sid http://deb.debian.org/debian/
 ```
-解释：命令`sbuild-createchroot`会根据参数创建一个base chroot。`tarball`可以认为是一个rootfs(其实我也没有去核对，后面有了新的发现再回来改正)， `sid`是构建的chroot基于哪一个distributor version，后面的url是指定构建完成后chroot的源。执行完上面的命令，其chroot就是一个base的chroot，其包含sid的源，下面是具体的构建log(下载软件的info被忽略)
+解释：命令`sbuild-createchroot`会根据参数创建一个base chroot。`--include=debian-ports-archive-keyring`是指我们后面在做port时，需要使用port的source list, 为了使用这个source list,需要我们安装一个keying,就是这个包(这里不加也没有关系，后面还有补救的办法)；`tarball`可以认为是一个rootfs(其实我也没有去核对，后面有了新的发现再回来改正)， `sid`是构建的chroot基于哪一个distributor version，后面的url是指定构建完成后chroot的源。执行完上面的命令，其chroot就是一个base的chroot，其包含sid的源，下面是具体的构建log(下载软件的info被忽略)
 
 log:
 
