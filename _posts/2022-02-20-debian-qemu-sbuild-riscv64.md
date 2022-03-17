@@ -22,10 +22,11 @@ apt-get install sbuild qemu-user-static binfmt-support schroot devscripts debian
 执行这一步时，一定把路径cd 到`/srv/chroots`下面，当然，不进入那里面问题也不大，只能在当前目录使用吧。
 
 ```bash
-sudo  debootstrap --no-check-gpg --include=debian-ports-archive-keyring --arch=riscv64 \
+sudo  debootstrap --foreign --no-check-gpg --include=debian-ports-archive-keyring --arch=riscv64 \
   unstable sid-riscv64-sbuild http://ftp.ports.debian.org/debian-ports/
 ```
 参数解析：
+`--foreign`有的机器需要，有的机器不需要；
 `--arch`: Set the target architecture
 
 `--include=alpha,beta`:  Comma separated list of packages which will be added to download and extract lists.

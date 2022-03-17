@@ -121,6 +121,8 @@ Helping newbie developers
 
 [nmu-qa-upload](https://www.debian.org/doc/manuals/developers-reference/pkgs.html#nmu-qa-upload)
 
+[步骤](http://manpages.ubuntu.com/manpages/jammy/en/man7/dgit-nmu-simple.7.html)
+
 ## building the package
 [building the package](https://www.debian.org/doc/manuals/maint-guide/build.en.html) with `dpkg-buildpackage` command.
 
