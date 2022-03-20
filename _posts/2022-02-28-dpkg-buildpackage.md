@@ -11,6 +11,13 @@ layout: post
 # 解决依赖
 在外部使用 `sbuild`命令可以由chroot自己解决软件依赖的问题，但是使用`dpkg-buildpackage`不会这么做。解决自动依赖的命令目前还在探索中，需要后面进行补充。
 
+update:  解决依赖问题可以参考[这里](https://unix.stackexchange.com/questions/416457/automatically-install-unmet-build-dependencies-as-detected-by-dpkg-checkbuilddep)
+
+```bash
+mk-build-deps --install --root sudo --remove
+```
+可以不使用  remove.
+
 # build package
 具体的命令就是:
 
@@ -25,3 +32,9 @@ dpkg-buildpackage --sanitize-env -us -uc -b -rfakeroot
 `-uc`: unsigned .buildinfo and .changes file
 
 
+# 依赖package
+http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/libicu-dev_70.1-2_riscv64.deb
+
+http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/libicu70_70.1-2_riscv64.deb
+
+http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/icu-devtools_70.1-2_riscv64.deb

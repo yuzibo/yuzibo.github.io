@@ -1,5 +1,5 @@
 ---
-title: debian git-buildpackage用法
+title: debian git-buildpackage用法(jimtcl)
 category: debian-riscv
 layout: post
 ---
@@ -55,6 +55,15 @@ vimer@debian-local:~/git/jimtcl/jimtcl$ git branch  pristine-tar origin/pristine
 然后upstream，可以使用指定。
 ```bash
  gbp import-orig https://github.com/msteveb/jimtcl/archive/refs/tags/0.81.tar.gz
+```
+如果这个时候报这个错误，可以使用下面的方式:
+
+```bash
+vimer@debian-local:~/git/jimtcl/jimtcl$ gbp import-orig https://github.com/msteveb/jimtcl/archive/refs/tags/0.81.tar.gz
+gbp:error:
+Repository does not have branch 'upstream/latest' for upstream sources. If there is none see
+file:///usr/share/doc/git-buildpackage/manual-html/gbp.import.html#GBP.IMPORT.CONVERT
+on howto create it otherwise use --upstream-branch to specify it.
 ```
 
 如果github抽风，还可以使用`--pristine-tar`指定tar文件:

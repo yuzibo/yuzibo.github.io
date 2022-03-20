@@ -103,3 +103,17 @@ BEGIN failed--compilation aborted at (eval 13) line 1.
 sudo sbuild --arch=riscv64 -d sid-riscv64-sbuild --extra-repository='deb http://deb.debian.org/debian experimental main' --build-dep-resolver=aspcud --extra-package=/home/vimer/no_del_debs/nodejs_16.14.0~dfsg-1_riscv64.deb
 ```
 
+# 进一步改进
+
+
+
+```bash
+DEB_BUILD_PROFILES="nodoc nocheck nobuiltin"  dpkg-buildpackage --build=any
+```
+
+# 依赖package
+http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/libicu-dev_70.1-2_riscv64.deb
+
+http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/libicu70_70.1-2_riscv64.deb
+
+http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/icu-devtools_70.1-2_riscv64.deb
