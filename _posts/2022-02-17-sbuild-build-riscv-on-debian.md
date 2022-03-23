@@ -183,12 +183,46 @@ sudo sbuild-adduser <your-username>
 chroot:sid-amd64-sbuild
 source:sid-amd64-sbuild
 ```
+
+有人会奇怪这里为啥会是`amd64`,这时构建rootfs时系统自动指定的，也就是所谓的默认。
 解释一下这两个输出的区别： 
 
 1. chroot:sid-amd64-sbuild(干净的chroot)，在那里你的所有更改都不会被保存，所以每次都是一样的；
 2. source:sid-amd64-sbuild，实际的chroot tarball源代码,其中的更改将再次打包并保存以备下次使用。
 
 一般情况下通常使用干净的chroot，如果只是默认使用“sid-amd64-sbuild”；这是默认的(注意，`sbuild-shell`命令是一个例外，因为它隐式使用源代码:version,也就是使用`sbuild-shell`的话，会污染原始的chroot tarball空间)。
+
+这里就是说，比如我想手动hack这个sid,也就是把修改保留在chroot里，可以使用`sbuild-shell`命令:
+
+```bash
+sudo sbuild-shell sid-amd64-sbuild  # 这个参数，就是schroot 得来的，千万别混淆
+```
+
+另外，如果使用上述的命令，你会发现bash相当难用、用户主目录也不对。如果这个时候你想使用tab键补全命令也是不可能的。
+这时，你可以编辑`/etc/schroot/chroot.d/sid-amd64-sbuild-<id>`这个id每个人不一致的，改成以下配置：
+
+```bash
+profile=default
+```
+这个时候你再使用`sbuild-shell`命令去login，发现就不一样了。
+
+### using the chroot
+
+```bash
+schroot -c sid-amd64-sbuild
+```
+# 登录
+其实，如果这个搞定了，是可以登录进来进行操作，总比qemu要强不少。
+
+```bash
+schroot -c sid-amd64-sbuild
+```
+或者首先使用
+
+```bash
+sudo schroot -c sid-amd64-sbuild
+```
+安装sudo的配置文件，才方便安装一些依赖软件什么的。
 
 ## 手动修改chroot的source.list
 默认情况下，构建的apt源是在sbuild-createchroot命令行中给出的。在上面的例子中，我们使用的Debian的sid源。
@@ -280,6 +314,16 @@ for ports.
 
 以上就是sbuild(chroot)相关的操作，如果一切顺利可以执行下面的操作。
 
+
+### 创建riscv64 sid session
+```bash
+sudo sbuild-createchroot --arch=riscv64 --foreign  --keyring="" --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz sid /tmp/chroots/sid-riscv64-sbuild1/  http://ftp.ports.debian.org/debian-ports/
+```
+前面可以说是创建的amd64，这个创建的是riscv，解决一些依赖不能安装的问题。
+但是这个命令编译时需要特别一点:
+```bash
+sudo sbuild --host=riscv64 --build=riscv64  -d sid-riscv64-sbuild
+```
 
 ## 下载source code
 tool(载体或者chroot)已经准备好了，我们得找一个合适的packages去做移植。引文聚焦riscv，所以我们以riscv为例。
@@ -407,6 +451,13 @@ make: *** [debian/rules:35: objs/config.status] Error 1
 
 其实社区的相关人员已经提醒说，该包已经有相关的[patch](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=978498#10)了
 .即便如此，剩下的工作就是如何apply这个patch以及如何follow整个debian packages的workflow。
+
+# del chroot
+
+```bash
+sudo rm -r /srv/chroot/unstable-amd64-sbuild/
+sudo rm /etc/schroot/chroot.d/unstable-amd64-sbuild-* /etc/sbuild/chroot/unstable-amd64-sbuild
+```
 
 This is very interesting!
 

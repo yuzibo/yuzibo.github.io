@@ -254,3 +254,17 @@ gbp buildpackage --git-pbuilder --git-ignore-new -sa # 补充完全
 ```bash
 sudo gbp buildpackage  --git-submodules  --git-no-pristine-tar --git-upstream-tree=tag --git-ignore-new -sa --git-export-dir=../
 ```
+但是这个也会有问题，需要第一次把 `-u`说明正确。
+
+
+# symbols file
+
+原来是旧的 0.79.symbols,  现在是新的0.81.symbols
+
+```bash
+sudo dpkg-deb -x libjim0.81_0.81+dfsg0-1_amd64.deb /tmp/jimctl  # 解包
+sudo dpkg-gensymbols -v0.81 -plibjim -P/tmp/jimctl/ -Olibjim.symbols  # 得到符号表
+
+```
+
+https://wiki.debian.org/UsingSymbolsFiles

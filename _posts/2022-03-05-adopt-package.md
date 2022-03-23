@@ -1,6 +1,6 @@
 ---
 title: Adopting a package from Debian
-category: tools
+category: debian-riscv
 layout: post
 ---
 * content
