@@ -314,17 +314,6 @@ for ports.
 
 以上就是sbuild(chroot)相关的操作，如果一切顺利可以执行下面的操作。
 
-
-### 创建riscv64 sid session
-```bash
-sudo sbuild-createchroot --arch=riscv64 --foreign  --keyring="" --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz sid /tmp/chroots/sid-riscv64-sbuild1/  http://ftp.ports.debian.org/debian-ports/
-```
-前面可以说是创建的amd64，这个创建的是riscv，解决一些依赖不能安装的问题。
-但是这个命令编译时需要特别一点:
-```bash
-sudo sbuild --host=riscv64 --build=riscv64  -d sid-riscv64-sbuild
-```
-
 ## 下载source code
 tool(载体或者chroot)已经准备好了，我们得找一个合适的packages去做移植。引文聚焦riscv，所以我们以riscv为例。
 
@@ -459,6 +448,15 @@ sudo rm -r /srv/chroot/unstable-amd64-sbuild/
 sudo rm /etc/schroot/chroot.d/unstable-amd64-sbuild-* /etc/sbuild/chroot/unstable-amd64-sbuild
 ```
 
+# 创建riscv64 sid session
+```bash
+sudo sbuild-createchroot --arch=riscv64 --foreign  --keyring="" --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz sid /tmp/chroots/sid-riscv64-sbuild1/  http://ftp.ports.debian.org/debian-ports/
+```
+前面可以说是创建的amd64，这个创建的是riscv，解决一些依赖不能安装的问题。
+但是这个命令编译时需要特别一点:
+```bash
+sudo sbuild --host=riscv64 --build=riscv64  -d sid-riscv64-sbuild
+```
 This is very interesting!
 
 Enjoy it!

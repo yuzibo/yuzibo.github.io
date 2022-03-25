@@ -126,7 +126,11 @@ Helping newbie developers
 ## building the package
 [building the package](https://www.debian.org/doc/manuals/maint-guide/build.en.html) with `dpkg-buildpackage` command.
 
-# [Debian Package Tracking System](https://packages.qa.debian.org/common/index.html)
+## upload experimental
+上传到 experimential后，然后会在一定时间内上传到 [NewQueue](https://wiki.debian.org/NewQueue)
+
+# bts
+## [Debian Package Tracking System](https://packages.qa.debian.org/common/index.html)
 
     The Package Tracking System lets you follow almost everything related to the life of a package. It's of interest for co-maintainers, advanced users, QA members, ...
 

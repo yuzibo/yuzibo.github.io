@@ -1,5 +1,5 @@
 ---
-title: 使用  gbp 维护 jimtcl -- 签名 上传
+title: 使用  gbp 维护 jimtcl -- patch制作 签名 上传
 category: debian-riscv
 layout: post
 ---
@@ -84,3 +84,15 @@ allowed_distributions = .*
 ```
 
 然后再去mentors网站就可以看见你上传的包了。
+
+# RFS
+Requestion for Sponsorship
+
+## 可以直接看PTS的模板(推荐新手)
+
+## reportbug
+
+```bash
+reportbug sponsorship-request --mutt
+```
+可以加mutt使用mutt  client。
