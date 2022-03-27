@@ -25,5 +25,11 @@ Set up a new repository visit https://salsa.debian.org/python-team/packages/ and
 
 但是需要python team给你加权限才可以幺。
 
-
-
+## 初始化分支
+python team自己维护了一套tool，叫做  git-dpm,需要安装一下。
+```bash
+git branch -D foo  # make sure there is no branch foo
+git-dpm import-tar ../foo_0.0.0.orig.tar.gz 
+git checkout -b upstream-foo # 会创建一个upstream的分支
+git-dpm init ../foo_0.0.0.orig.tar.gz  # 创建一个master 分支，有debian目录，然而upstream是没有的。
+```

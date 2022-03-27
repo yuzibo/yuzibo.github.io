@@ -103,13 +103,46 @@ BEGIN failed--compilation aborted at (eval 13) line 1.
 sudo sbuild --arch=riscv64 -d sid-riscv64-sbuild --extra-repository='deb http://deb.debian.org/debian experimental main' --build-dep-resolver=aspcud --extra-package=/home/vimer/no_del_debs/nodejs_16.14.0~dfsg-1_riscv64.deb
 ```
 
-# 进一步改进
+# 两步构建
 
 
+I repeat that to bootstrap nodejs you need to build first the
+arch-dependent packages (nodejs, libnode..)
+--build=any
+DEB_BUILD_PROFILES="nodoc nocheck nobuiltin"
+
+Once that is done, you can install all arch-independent packages that
+depend on nodejs,
+and that are already available in debian, and rebuild nodejs fully (with
+nodejs-doc and tests too).
 
 ```bash
 DEB_BUILD_PROFILES="nodoc nocheck nobuiltin"  dpkg-buildpackage --build=any
 ```
+
+Yes, the command is
+DEB_BUILD_PROFILES="nodoc nocheck nobuiltin"  dpkg-buildpackage --build=any
+
+- gives you a non-working nodejs package
+- BUT that allows you to install it along with all its build-dependencies,
+especially node-acorn*
+- in which case it should be working, (though it might not i haven't tested
+this fully)
+- and then you can rebuild it without DEB_BUILD_PROFILES, since you can
+install "arch all" build-dependencies now
+
+不用移除d/control的标签。
+
+## --no-pre-clean
+ BTW, We have sole cmd execute after dh_missing phrase? if not rebuilt again it will save many times.
+
+Either add --no-pre-clean to dpkg-buildpackage or add
+--debbuildopt="--no-pre-clean" to sbuild.
+That might work...
+
+## 不编译某个软件包
+If you happen to reach the "building deb" stage, you can disable -dbgsym
+package creation,which is very long, with another build profile: noautodbgsym.
 
 # 依赖package
 http://ftp.kr.debian.org/debian-ports//pool-riscv64/main/i/icu/libicu-dev_70.1-2_riscv64.deb
