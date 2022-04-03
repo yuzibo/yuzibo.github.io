@@ -62,3 +62,9 @@ vimer
 Ok, will look into. Thank all again
 
 =========&>========
+
+# firebox code架构
+
+## toolchain的配置
+
+`build/moz.configure/toolchain.configure`.
