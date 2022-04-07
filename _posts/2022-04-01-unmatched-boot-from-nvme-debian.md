@@ -14,6 +14,16 @@ layout: post
 首先制作debian sd的image。 根据这个[wiki](https://wiki.debian.org/InstallingDebianOn/SiFive/HiFiveUnmatched)
 插上之后就可以在sd里启动debian。
 
+由于下面的操作我们需要在sd卡里的系统上安装软件和操作，需要执行以下命令：
+
+```bash
+1. ntpdate cn.pool.ntp.org
+update time
+
+2. PermitRootLogin yes
+# 允许ssh root登录
+```
+
 # nvme
 ## 确保nvme挂载上
 下面的操作既可以在unmatched的板子上，也可以在host的主机上。接下来的实例我们以在unmatched的板子上进行为例.
