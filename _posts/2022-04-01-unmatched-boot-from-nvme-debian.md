@@ -243,7 +243,7 @@ vi /mnt/extlinux/extlinux.conf
 # 即nvme0n1p4的“/”分区
 
 #3. umount
-umount
+umount /mnt
 ```
 
 之后重启就可以了。

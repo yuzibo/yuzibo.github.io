@@ -170,3 +170,41 @@ Description: auto-generated package by debmake
 这里有一个比较棘手的文件是 d/copyright文件，不太清楚如何去修改它。可以[参考这里copyright-format](https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/)
 
 这里应该对每一个文件的copyright进行检查并说明，Files, Copyright, License为一组，最后是lisence的解释说明。
+
+## 具体填充文件
+
+[参考这篇文章](https://wiki.debian.org/Python/LibraryStyleGuide?action=show&redirect=Python%2FPackaging)
+
+### d/control
+
+如果使用deb_make命令的话。可以直接使用那个模板不是问题的。对于python的包来说，这应该是是注意python2和3版本的区别。
+还有就是支持rst格式的doc支持。这个上面的链接都有提及。
+
+### d/rules
+
+```bash
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+export PYBUILD_NAME=git-multimail
+
+
+%:
+        dh $@ --with python2,python3 --buildsystem=pybuild
+
+```
+
+### d/watch
+使用 d/watch文件可以用来监控upstream有无更新的release,使用下面的命令可以解决大部分github的监控。
+
+```bash
+version=4
+opts=\
+repacksuffix=+ds,\
+repack,compression=xz,\
+dversionmangle=s/\+(debian|dfsg|ds|deb)(\.?\d+)?$//,\
+filenamemangle=s%(?:.*?)?v?(\d[\d.]*)\.tar\.gz%<project>-$1.tar.gz% \
+https://github.com/git-multimail/git-multimail/tags \
+(?:.*?/)?v?(\d[\d.]*)\.tar\.gz debian uupdate
+```
+在主目录中可以使用`uscan`命令进行测试。
