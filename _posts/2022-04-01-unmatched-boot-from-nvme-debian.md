@@ -94,13 +94,13 @@ Writing superblocks and filesystem accounting information: done
 cat debian-sid-risc-v-sifive-unmatched.img | dd of=/dev/nvme0n1  bs=512K iflag=fullblock oflag=direct conv=fsync
 status=progress
 
- dd if=debian-sid-risc-v-sifive-unmatched.img of=/dev/nvme0n1 bs=512K iflag=fullblock oflag=direct conv=fsync status=progress
-4211+1 records in
-4211+1 records out
-2208075776 bytes (2.2 GB, 2.1 GiB) copied, 1256.7 s, 1.8 MB/s
-
 #~: sync
 ```
+
+<strike>dd if=debian-sid-risc-v-sifive-unmatched.img of=/dev/nvme0n1 bs=512K iflag=fullblock oflag=direct conv=fsync status=progress
+4211+1 records in
+4211+1 records out
+2208075776 bytes (2.2 GB, 2.1 GiB) copied, 1256.7 s, 1.8 MB/s</strike>
 
 ### 扩容nvme的最后一个分区
 
