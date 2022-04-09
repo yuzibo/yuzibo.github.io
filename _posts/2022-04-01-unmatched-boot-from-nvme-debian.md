@@ -288,3 +288,12 @@ ntpdate cn.pool.ntp.org
 ```
 就可以更新时间。
 
+# 补充
+这里有一份 [github](https://github.com/carlosedp/riscv-bringup/tree/master/unmatched)的资料，需要重点了解一下。
+
+* ZSBL - Zero Stage Bootloader - Code in the ROM of the board
+* FSBL - First Stage Bootloader - U-Boot SPL - Loader that is called from ROM.
+* SBL - Second Bootloader - OpenSBI - Supervisor Binary Interface. Source
+* U-Boot - Universal Boot Loader. Docs
+* Extlinux - Syslinux compatible configuration to load Linux Kernel and DTB thru a configurable menu from a filesystem.
+
