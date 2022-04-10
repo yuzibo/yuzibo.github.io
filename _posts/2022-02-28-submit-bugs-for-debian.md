@@ -8,6 +8,8 @@ layout: post
 
 最权威的莫过于这个[页面](https://www.debian.org/Bugs/#pkgreport).
 
+还可以参考[这个](https://www.mankier.com/1/bts).
+
 当我们比如说，在FTBFS(https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv64)发现一个build fail时，我们想进一步跟进这个fix。那么，可以首先看一下这个 issue number(以[yubiserver](https://buildd.debian.org/status/package.php?p=yubiserver&suite=sid)为例):
 
 我们单击链接进去之后，会在 [Debian Package Auto-Building](https://buildd.debian.org/status/package.php?p=yubiserver&suite=sid)这个页面上看到顶层有这个几个链接:

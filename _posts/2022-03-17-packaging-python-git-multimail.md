@@ -208,3 +208,15 @@ https://github.com/git-multimail/git-multimail/tags \
 (?:.*?/)?v?(\d[\d.]*)\.tar\.gz debian uupdate
 ```
 在主目录中可以使用`uscan`命令进行测试。
+
+# fix
+这里有一些需要fix的问题对于新的itp包：
+
+## 没包含source code
+
+Dsc failed to parse
+
+dsc is missing from changes
+Make sure you include the full source (if you are using sbuild make sure to use the --source option or the equivalent configuration item; if you are using dpkg-buildpackage directly use the default flags or -S for a source only upload)
+
+方案说的也很清楚哈。
