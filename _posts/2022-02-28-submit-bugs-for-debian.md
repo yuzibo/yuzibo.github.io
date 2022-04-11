@@ -121,3 +121,7 @@ Contact owner@bugs.debian.org with problems
 ```bash
 Owner recorded as vimer <tsu.yubo@gmail.com>. Request was from vimer <tsu.yubo@gmail.com> to control@bugs.debian.org. (Thu, 03 Mar 2022 09:54:03 GMT) (full text, mbox, link).
 ```
+# 深度
+The Debian BTS starting point: [https://bugs.debian.org/](https://bugs.debian.org/). From there, there are two pages that will teach you how to communicate with the server: - [https://www.debian.org/Bugs/server-request](https://www.debian.org/Bugs/server-request) and [https://www.debian.org/Bugs/server-control](https://www.debian.org/Bugs/server-control/)
+
+以上片段摘自[here](https://arnaudr.io/2016/10/01/publishing-a-debian-package-mentors-sponsorship/).

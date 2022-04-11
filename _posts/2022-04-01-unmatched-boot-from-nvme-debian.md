@@ -167,6 +167,8 @@ root@unmatched:~# parted /dev/nvme0n1 resizepart 4 100%
 Information: You may need to update /etc/fstab.
 ```
 
+不过有时候使用上面的命令是不成功的，有可能是命令支持的程度的不够，所以，我们还可以分步进行操作：[参考这里](https://ahelpme.com/linux/online-resize-of-a-root-ext4-file-system-increase-the-space/)
+
 #### 4.  使用 resize2fs扩容 p4
 ```bash
 resize2fs /dev/nvme0n1p4
