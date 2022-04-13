@@ -136,6 +136,14 @@ Helping newbie developers
 
 在这个页面上解释的很清楚，也确实这么做的。但是，我也是在查找某些软件闯进这个网站的，后面补充更高级的用法。
 
+## sponsorship-requests
+All [RFS](https://bugs.debian.org/sponsorship-requests) is here. You can see a lot of the RFS.
+
+使用命令行如下：
+```bash
+reportbug sponsorship-requests
+```
+
 # Debian Glossary
 
 在Debain社区有很多自己的词汇，如果我们一开始觉得不那么适应，可以参考[这里](https://mentors.debian.net/intro-maintainers/)

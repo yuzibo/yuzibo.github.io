@@ -1,5 +1,5 @@
 ---
-title: port debian autopkgtest to riscv64
+title: debian dput配置
 category: debian-riscv
 layout: post
 ---

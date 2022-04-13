@@ -6,6 +6,7 @@ layout: post
 * content
 {:toc}
 
+[source code](https://ftp.mozilla.org/pub/firefox/releases/99.0).
 
 目前，firefox局部升级确实遇到一些困难，不过，好消息是，社区目前正式承认这个问题。
 
@@ -68,3 +69,26 @@ Ok, will look into. Thank all again
 ## toolchain的配置
 
 `build/moz.configure/toolchain.configure`.
+
+## fix log
+
+```bash
+../../../../../config/nsinstall -R -m 644 'libipcclientcerts.so' '../../../../../dist/bin'
+make[5]: Leaving directory '/home/vimer/build/firefox/build-browser/security/manager/ssl/ipcclientcerts/dynamic-library'
+^[[B^[[B
+clang: error: unable to execute command: Killed
+clang: error: linker command failed due to signal (use -v to see invocation)
+make[5]: *** [/home/vimer/build/firefox/config/rules.mk:531: libxul.so] Error 254
+make[5]: Leaving directory '/home/vimer/build/firefox/build-browser/toolkit/library/build'
+make[4]: *** [/home/vimer/build/firefox/config/recurse.mk:72: toolkit/library/build/target] Error 2
+make[4]: Leaving directory '/home/vimer/build/firefox/build-browser'
+make[3]: *** [/home/vimer/build/firefox/config/recurse.mk:34: compile] Error 2
+make[3]: Leaving directory '/home/vimer/build/firefox/build-browser'
+make[2]: *** [/home/vimer/build/firefox/config/rules.mk:352: default] Error 2
+make[2]: Leaving directory '/home/vimer/build/firefox/build-browser'
+dh_auto_build: error: cd build-browser && make -j16 LD_LIBS=-Wl,--no-gc-sections _LEAKTEST_FILES=leaktest.py returned exit code 2
+make[1]: *** [debian/rules:256: stamps/build-browser] Error 255
+make[1]: Leaving directory '/home/vimer/build/firefox'
+make: *** [debian/rules:351: build-arch] Error 2
+dpkg-buildpackage: error: debian/rules build-arch subprocess returned exit status 2
+```
