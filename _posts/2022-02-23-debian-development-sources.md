@@ -48,6 +48,11 @@ pending](https://udd.debian.org/cgi-bin/bts-usertags.cgi?user=debian-riscv@lists
 
 # Debian开发者
 
+## 统计
+目前有一个有趣的页面，记录了目前DD作为sponsor upload了多少了package：
+
+[sponsorstats](https://udd.debian.org/sponsorstats.cgi)最惊人的是第一名的gregoa，upload了1663个package，这也就是说，十年的话，每年也得166+。当然，加油啊！
+
 ## packaging
 
 ### nodejs
@@ -154,5 +159,6 @@ reportbug sponsorship-requests
 [go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
 
 * https://salsa.debian.org/onlyjob/notes/-/wikis/no-dep14
-  * https://salsa.debian.org/onlyjob/notes/-/wikis/no-gbp
-  * https://salsa.debian.org/onlyjob/notes/-/wikis/bp
+* https://salsa.debian.org/onlyjob/notes/-/wikis/no-gbp
+* https://salsa.debian.org/onlyjob/notes/-/wikis/bp
+

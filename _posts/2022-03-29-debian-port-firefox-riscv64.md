@@ -1,6 +1,6 @@
 ---
 title: debian port(packaging) firefox
-category: tools
+category: debian-riscv
 layout: post
 ---
 * content
