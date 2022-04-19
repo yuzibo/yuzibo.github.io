@@ -33,3 +33,6 @@ tip： 首先读懂tape script，目的熟悉听力中的词组、句式。
 Reference to :
 https://github.com/longcw/youdao/issues/11
 
+# 一些常见的短语
+
+ This is one of my pet peeves： 这是我最讨厌的事情之一。
