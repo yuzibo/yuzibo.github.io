@@ -1,5 +1,5 @@
 ---
-title: Port riscv64 to Debian task list --2022/03/10
+title: Port riscv64 to Debian task list --2022/04
 category: debian-riscv
 layout: post
 ---
@@ -82,3 +82,7 @@ dpkg-buildpackage -us -uc -ui --changes-option=-sa failed
 研究下，看看如何提供buildd service。
 
 完成一个nodsjs port riscv64.
+
+## 04/20-04/25
+
+完成 rust-sys-info 的riscv64 ftbtfs:
