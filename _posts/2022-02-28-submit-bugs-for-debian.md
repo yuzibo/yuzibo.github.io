@@ -121,6 +121,44 @@ Contact owner@bugs.debian.org with problems
 ```bash
 Owner recorded as vimer <tsu.yubo@gmail.com>. Request was from vimer <tsu.yubo@gmail.com> to control@bugs.debian.org. (Thu, 03 Mar 2022 09:54:03 GMT) (full text, mbox, link).
 ```
+## tags
+tags是一类很重要的归属标签，我们应该仔细对待这个。比如说我使用了一个`reportbug --from-buildd=<package>_<version>`报告了一个ftbfs的error：
+
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009969.
+
+但是呢，第一次我使用reportbug上报时出现了几个错误:其中最明显的就是没有tags。下面急需补充tags
+
+```bash
+bts --mutt tags 1009969 ftbfs
+```
+实质性的内容是:
+```bash
+tags 1009969 + ftbfs
+```
+
+官方的wiki是下面的case:
+
+```bash
+# same as 'tags 123456 + patch'
+          tags 123456 patch
+
+          # same as 'tags 123456 + help security'
+          tags 123456 help security
+
+          # add 'fixed' and 'pending' tags
+          tags 123456 + fixed pending
+
+          # remove 'unreproducible' tag
+          tags 123456 - unreproducible
+
+          # set tags to exactly 'moreinfo' and 'unreproducible'
+          tags 123456 = moreinfo unreproducible
+	  
+	  # remove the moreinfo tag and add a patch tag
+	  tags 123456 - moreinfo + patch
+```
+## found bugnum version
+found的作用是指定版本号。
 # 深度
 The Debian BTS starting point: [https://bugs.debian.org/](https://bugs.debian.org/). From there, there are two pages that will teach you how to communicate with the server: - [https://www.debian.org/Bugs/server-request](https://www.debian.org/Bugs/server-request) and [https://www.debian.org/Bugs/server-control](https://www.debian.org/Bugs/server-control/)
 
