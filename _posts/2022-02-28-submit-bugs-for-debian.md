@@ -159,6 +159,140 @@ tags 1009969 + ftbfs
 ```
 ## found bugnum version
 found的作用是指定版本号。
+```bash
+bts --mutt found 1009969 2.15.0+ds1-10
+```
+
+# reportbug
+## reportbug --from-buildd
+`reportbug --from-buildd=<package>_<full_version>`
+
+如果发现没有存在的ftbfs,则可以回车键入:
+
+```bash
+Briefly describe the problem (max. 100 characters allowed). This will be the bug email subject, so keep the summary as concise as
+possible, for example: "fails to send email" or "does not start with -q option specified" (enter Ctrl+c to exit reportbug without
+reporting a bug).
+> ncl: FTBFS on riscv64
+```
+然后下面是摘自debian  riscv64 wiki（注意： 必须是new submit bug）,如果是已存在的就不需要user and userlist tag
+```bash
+To: submit@bugs.debian.org
+Subject: foo: FTBFS on riscv64
+
+Package: foo
+Version: 1.2.3-4
+X-Debbugs-CC: debian-riscv@lists.debian.org
+User: debian-riscv@lists.debian.org
+Usertags: riscv64
+```
+
+## reportbug --t patch
+下面记录下upload patch 的操作:
+
+首先直接 `reportbug openvswitch`.
+```bash
+$: reportbug openvswitch
+...
+Select one of these packages: 12
+Please enter the version of the package this report applies to (blank OK)
+> 2.15.0+ds1-10 # 接着输入版本号
+Will send report to Debian (per lsb_release).
+Querying Debian BTS for reports on openvswitch (source)...
+2 bug reports found:
+
+Bugs with severity normal
+  1) #1008684  openvswitch-switch update leaves interfaces down
+  2) #1009969  openvswitch: FTBFS on riscv64
+(1-2/2) Is the bug you found listed above [y|N|b|m|r|q|s|f|e|?]? 2
+Retrieving report #1009969 from Debian bug tracking system...
+What do you want to do now [N|x|o|r|b|e|q|?]? ?
+N - (default) Show next message (followup).
+x - Provide extra information.
+o - Show other bug reports (return to bug listing).
+r - Redisplay this message.
+b - Launch web browser to read full log.
+e - Launch e-mail client to read full log.
+q - I'm bored; quit please.
+? - Display this help.
+What do you want to do now [N|x|o|r|b|e|q|?]? N
+What do you want to do now [p|N|x|o|r|b|e|q|?]? o # 选这个才可以找到patch的入口
+Bugs with severity normal
+  1) #1008684  openvswitch-switch update leaves interfaces down
+  2) #1009969  openvswitch: FTBFS on riscv64
+  (1-2/2) Is the bug you found listed above [y|N|b|m|r|q|s|f|e|?]? y # 提前新建一个  bugnum
+Enter the number of the bug report you want to give more info on,
+or press ENTER to exit: #1009969
+
+Please provide a subject for your response.
+[Re: openvswitch: FTBFS on riscv64]> patch for riscv64 ftbfs  # subject
+Does this bug still exist in version 2.15.0+ds1-10 of this package [y|N|q|?]? y
+Rewriting subject to 'openvswitch: patch for riscv64 ftbfs' # 这里是关键，会进入mutt的编辑界面
+Spawning sensible-editor...
+No changes were made in the editor.
+Report will be sent to Debian Bug Tracking System <1009969@bugs.debian.org>
+Submit this report on openvswitch (e to edit) [y|n|a|c|E|i|l|m|p|q|d|t|?]? ?
+y - Submit the bug report via email.
+n - Don't submit the bug report; instead, save it in a temporary file (exits reportbug).
+a - Attach a file.
+c - Change editor and re-edit.
+E - (default) Re-edit the bug report.
+i - Include a text file.
+l - Pipe the message through the pager.
+m - Choose a mailer to edit the report.
+p - Print message to stdout.
+q - Save it in a temporary file and quit.
+d - Detach an attachment file.
+t - Add tags.
+? - Display this help.
+Submit this report on openvswitch (e to edit) [Y|n|a|c|e|i|l|m|p|q|d|t|?]? t
+Do any of the following apply to this report?
+
+1 a11y      This bug is relevant to the accessibility of the package.
+2 d-i       This bug is relevant to the development of debian-installer.
+3 ftbfs     The package fails to build from source.
+4 ipv6      This bug affects support for Internet Protocol version 6.
+5 l10n      This bug reports a localization/internationalization issue.
+6 lfs       This bug affects support for large files (over 2 gigabytes).
+7 patch     You are including a patch to fix this problem.
+8 upstream  This bug applies to the upstream part of the package.
+9 none
+
+Please select tags: (one at a time) [none] 7
+- selected: patch
+Please select tags: (one at a time) [done]
+Report will be sent to Debian Bug Tracking System <1009969@bugs.debian.org>
+Submit this report on openvswitch (e to edit) [Y|n|a|c|e|i|l|m|p|q|d|t|?]? ?
+Y - (default) Submit the bug report via email.
+n - Don't submit the bug report; instead, save it in a temporary file (exits reportbug).
+a - Attach a file.
+c - Change editor and re-edit.
+e - Re-edit the bug report.
+i - Include a text file.
+l - Pipe the message through the pager.
+m - Choose a mailer to edit the report.
+p - Print message to stdout.
+q - Save it in a temporary file and quit.
+d - Detach an attachment file.
+t - Add tags.
+? - Display this help.
+Submit this report on openvswitch (e to edit) [Y|n|a|c|e|i|l|m|p|q|d|t|?]? a
+Choose a file to attach: ls
+Can't find ls to include!
+Choose a file to attach: /home/vimer/patch/fix-ftbfs-riscv64.patch
+Report will be sent to Debian Bug Tracking System <1009969@bugs.debian.org>
+Attachments:
+ /home/vimer/patch/fix-ftbfs-riscv64.patch
+Submit this report on openvswitch (e to edit) [Y|n|a|c|e|i|l|m|p|q|d|t|?]? Y
+Saving a backup of the report at /tmp/reportbug-openvswitch-backup-20220422221213-1wghelpa
+Connecting to smtp.gmail.com:587 via SMTP...
+
+Bug report submitted to: Debian Bug Tracking System <1009969@bugs.debian.org>
+Copies sent to:
+  Debian Bug Tracking System <1009969@bugs.debian.org>
+  Bo YU <tsu.yubo@gmail.com>
+Thank you for using reportbug
+```
 # 深度
 The Debian BTS starting point: [https://bugs.debian.org/](https://bugs.debian.org/). From there, there are two pages that will teach you how to communicate with the server: - [https://www.debian.org/Bugs/server-request](https://www.debian.org/Bugs/server-request) and [https://www.debian.org/Bugs/server-control](https://www.debian.org/Bugs/server-control/)
 
