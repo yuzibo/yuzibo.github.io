@@ -46,8 +46,8 @@ $ git checkout -b debian/master
 The upstream parameter specifies the tag or branch that contains the same content that is present in the tarball。
 
 <del>
-### git-dpm
-python team自己维护了一套tool，叫做  git-dpm,需要安装一下。
+### 不要使用 git-dpm in Debian python team
+<del>python team自己维护了一套tool，叫做  git-dpm,需要安装一下。</del>
 ```bash
 git branch -D foo  # make sure there is no branch foo
 git-dpm import-tar ../foo_0.0.0.orig.tar.gz 
