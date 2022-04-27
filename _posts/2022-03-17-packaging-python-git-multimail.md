@@ -19,6 +19,7 @@ layout: post
 1.  假设后面maintainer缺席了，可以及时由team维护
 2.  只要消除了1， 其他的事情都不叫事。
 
+注意一点:  debian python team不使用 `git-gdm`,这一点尤其注意。
 ## 创建 repo 
 
 Set up a new repository visit https://salsa.debian.org/python-team/packages/ and follow the 'new project' link (the link will not be accessible unless you have joined the team). Enter the source package name as the project name and leave the visibility set to public.
@@ -44,6 +45,7 @@ $ git checkout -b debian/master
 
 The upstream parameter specifies the tag or branch that contains the same content that is present in the tarball。
 
+<del>
 ### git-dpm
 python team自己维护了一套tool，叫做  git-dpm,需要安装一下。
 ```bash
@@ -52,6 +54,7 @@ git-dpm import-tar ../foo_0.0.0.orig.tar.gz
 git checkout -b upstream-foo # 会创建一个upstream的分支
 git-dpm init ../foo_0.0.0.orig.tar.gz  # 创建一个master 分支，有debian目录，然而upstream是没有的。
 ```
+</del>
 ## 添加内容
 
 ### d/changelog
