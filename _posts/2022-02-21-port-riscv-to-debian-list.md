@@ -85,4 +85,30 @@ dpkg-buildpackage -us -uc -ui --changes-option=-sa failed
 
 ## 04/20-04/25
 
-完成 rust-sys-info 的riscv64 ftbtfs:
+计划：
+
+1. 完成 rust-sys-info 的riscv64 ftbtfs: [done] 
+   https://salsa.debian.org/rust-team/debcargo-conf/-/merge_requests/295
+   
+2. adopt https://github.com/nhorman/dropwatch
+
+完成:
+
+[Fix Debian ftbfs issue]
+[rust-sys-info] https://salsa.debian.org/rust-team/debcargo-conf/-/merge_requests/295
+                      https://salsa.debian.org/rust-team/debcargo-conf/-/merge_requests/296
+[openvswitch] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009969.
+[ncl] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1010056
+[openmsx] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1010148.
+[(re)open upstream issue]
+[vscode support riscv64] https://github.com/microsoft/vscode/issues/147751
+
+[rust-fasteval test fail on riscv64] https://github.com/likebike/fasteval/issues/19 
+
+[dealii build fail in riscv64] https://github.com/dealii/dealii/issues/13639
+
+[kexec-tool support riscv64] http://lists.infradead.org/pipermail/kexec/2022-April/024684.html
+[rust-sys-info] https://github.com/FillZpp/sys-info-rs/issues/105
+
+## 05/01-05/14
+
