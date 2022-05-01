@@ -188,7 +188,7 @@ Usertags: riscv64
 ```
 
 ## reportbug --t patch
-下面记录下upload patch 的操作:
+下面记录下upload patch 的操作（前提，不能使用reportbug --mutt选项，否则找不到提交patch的选项；如果使用reportbug，需要配置下.reportbugrc文件）:
 
 首先直接 `reportbug openvswitch`.
 ```bash
