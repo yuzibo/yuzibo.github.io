@@ -1,5 +1,5 @@
 ---
-title: unmatched boot from nvme (debian)
+title: unmatched boot from nvme and install desktop (debian)
 category: debian-riscv
 layout: post
 ---
@@ -271,6 +271,21 @@ run bootcmd_nvme0
 ```
 因为unmatched默认是从nvme启动的，这一点需要注意。
 
+#  安装桌面环境
+
+## 首先安装 frmware
+
+取决于你的显卡选择，我这里用的是AMD的卡，所以得安装amd的firmware:
+```bash
+non-free firmware-amd-graphics
+```
+
+## 安装 Display Manager
+我这里选择的是 gdm3，也许ligthdm是默认的。
+
+## 安装xfce4
+安装xfce4就可以看见那熟悉的界面了。
+
 # 系统的一些配置
 
 ## 允许root ssh登录
@@ -289,6 +304,14 @@ systemctl restart sshd
 ntpdate cn.pool.ntp.org
 ```
 就可以更新时间。
+
+## /boot is read-only
+
+如果`/boot`是read-only 的话，会影响很多操作，所以最好?
+```bash
+sudo mount -o remount,rw /boot
+```
+https://askubuntu.com/questions/876510/booting-into-read-only-file-system
 
 # 补充
 这里有一份 [github](https://github.com/carlosedp/riscv-bringup/tree/master/unmatched)的资料，需要重点了解一下。
