@@ -1,5 +1,5 @@
 ---
-title: debian package 产生patch相关操作及dch
+title: debian packages打patch相关操作(及dch)
 category: debian-riscv
 layout: post
 ---
@@ -9,57 +9,14 @@ layout: post
 # 如何产生patch
 这篇[文章](https://raphaelhertzog.com/2011/07/04/how-to-prepare-patches-for-debian-packages/)非常有价值，解决了我真实想解决的问题。
 
-## apt source
-
-## dch --nmu
-
-## dch -a
-这条命令会在当前的版本下多次编辑changelog file。
-
-## 产生patch
-
-### create a new patch
-#### quilt push -a
-首先打上package自带的全部patch:
-```bash
-vimer@unmatched-local:~/04/0422/openvswitch-2.15.0+ds1$ quilt push -a
-File series fully applied, ends at patch debian/patches/CVE-2021-36980_Fix_use-after-free_while_decoding_RAW_ENCAP.patch
-```
-#### quilt new xx.patch
-```bash
-vimer@unmatched-local:~/04/0422/openvswitch-2.15.0+ds1$ quilt new fix-ftbfs-riscv64.patch
-Patch debian/patches/fix-ftbfs-riscv64.patch is now on top
-```
-上面这步是说，要产生一个xx的patch。下面有两步是可以使用的:
-
-```bash
-$ quilt add debian/rules
-File debian/rules added to patch debian/patches/fix-ftbfs-riscv64.patch
-```
-这个动作的意思是说，我首先invoke Debian/rules这个文件，这时候你再对debian/rules进行编辑修改，也就是先加名单，然后修改。
-
-还有一种就是:直接编辑模式，使用:
-
-```bash
-quilt edit debian/rules
-```
-这个时候进入的是一个编辑目录，然后可以直接修改，最后保存退出。
-
-### 出patch
-
-```bash
-$ quilt refresh
-Refreshed patch debian/patches/fix-ftbfs-riscv64.patch
-```
-此时默认在  debian/patch/下面产生了patch，并写入到debian/patch/series文件中。
-
-### 测试
+还有我自己的文章[debian quilt usage](http://www.aftermath.cn/2022/04/28/debian-quilt-usage/)
+# 测试
 
 [参考这里](https://stackoverflow.com/questions/71331029/dpkg-buildpackage-reapplies-patches-to-debian-rules)
 最简单的测试就是重新`apt sourc这个package的source code，然后直接打patch就行。
 正常的patch(对除了debian/rules文件外的patch)都可以:
 
-#### qulit import 
+## qulit import 
 ```bash
 $ quilt import -P fix-foobar.patch /tmp/patch
 Importing patch /tmp/patch (stored as fix-foobar.patch)
@@ -100,7 +57,7 @@ control    libsofia-sip-ua0.symbols  libsofia-sip-ua-glib3.symbols  rules
 
 但是，最直接的方式却不支持了，比如`wget https://bugs.debian.org/cgi-bin/bugreport.cgi?att=1;bug=978498;filename=sofia-sip-retooling.patch;msg=10`或者"curl"命令。这个问题Debian社区的人居然不重视？？？能不能有点geek的乐趣，还得去浏览器下载，哈哈！
 
-探究了一番后发现，是由于wget在接受这个参数时，默认把url中的特殊字符给截断了，其实主要是由于"?"引发的。前面这句话也许有纰漏，大佬说是由于shell引起的，确实是阶段的，但是为什么会截断，我觉得后面有必要研究一下。
+探究了一番后发现，是由于wget在接受这个参数时，默认把url中的特殊字符给截断了，其实主要是由于"?"引发的。前面这句话也许有纰漏，大佬说是由于shell引起的，确实是截断的，但是为什么会截断，我觉得后面有必要研究一下。
 
 后来试了一下，在脚本中把URL加上双引号就可以使用`curl`下载patch了，这样也好，后面写个脚本把url传进去，然后输出文件可以根据patch来输出。
 
@@ -111,5 +68,24 @@ control    libsofia-sip-ua0.symbols  libsofia-sip-ua-glib3.symbols  rules
 ```bash
 ~$
 vimer@debian:/tmp/sip/sofia-sip-1.12.11+20110422.1$ sudo < /tmp/sofia-sip-retooling.patch patch -p1
+patching file debian/rules
+```
+其实上面的用法也不太明确，更直接的用法就可以（首先在debian目录下）:
+
+```bash
+$ patch -p1 < ~/Fix_ftbfs_riscv64.patch
+patching file debian/rules
+```
+
+## 卸载patch
+有时候我们需要多次测试修改效果，所以，得需要回到一个没有patch的clean状态:
+```bash
+patch -R -p1 debian/rules < ~/Fix_ftbfs_riscv64.patch
+patching file debian/rules
+```
+当然，不指定修改的 mod-files也是可以的:
+
+```bash
+$ patch -R -p1  < ~/Fix_ftbfs_riscv64.patch
 patching file debian/rules
 ```
