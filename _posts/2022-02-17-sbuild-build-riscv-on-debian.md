@@ -453,6 +453,17 @@ sudo rm /etc/schroot/chroot.d/unstable-amd64-sbuild-* /etc/sbuild/chroot/unstabl
 sudo sbuild-createchroot --arch=riscv64 --foreign  --keyring="" --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz sid /tmp/chroots/sid-riscv64-sbuild1/  http://ftp.ports.debian.org/debian-ports/
 ```
 前面可以说是创建的amd64，这个创建的是riscv，解决一些依赖不能安装的问题。
+
+## 初次创建后尽量升级
+因为我们创建的chroot可能由于某些软件的确实导致某些必须的packages没有安装进去，所以最好使用下面的命令
+进行一个`update && upgrade`：
+
+```bash
+sbuild-update -ud sid-riscv64-sbuild
+```
+
+有问题及时解决~
+
 但是这个命令编译时需要特别一点:
 ```bash
 sudo sbuild --host=riscv64 --build=riscv64  -d sid-riscv64-sbuild
@@ -460,6 +471,24 @@ sudo sbuild --host=riscv64 --build=riscv64  -d sid-riscv64-sbuild
 This is very interesting!
 
 Enjoy it!
+
+# fix issue
+
+## 不能修改源码
+
+假设
+## 检查tarball source code
+`--source`可以解决这个问题
+
+## dh: error: unable to load addon python3: Can't locate
+This happens because sbuild runs the "dh clean" (actually, the
+"debian/rules clean" target) step *outside* of the chroot, before the
+build actually starts. This means that sbuild expects you to have the
+build deps installed on your host.
+
+This is usually not desirable/required, so you can tell sbuild to not
+clean the source tree by passing the --no-clean-source option to it, or
+by adding the line "$clean_source = 0;" to your ~/.sbuildrc.
 
 
 
