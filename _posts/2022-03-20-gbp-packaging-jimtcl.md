@@ -91,7 +91,10 @@ debsign jimtcl_0.81+dfsg0-1_amd64.changes // 还有一个source.changes
 ```
 然后就需要输入密码了，一定不要忘记gpg的密码。
 
-debsign的设置需要去看看tools的gpg使用方法。
+debsign的设置需要去看看tools的gpg使用方法。debsign的配置文件在 `~/.devscripts`文件中，具体配置如下：
+```bash
+
+```
 
 ## dput上传文件(mentors)
 
