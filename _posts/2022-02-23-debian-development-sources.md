@@ -14,7 +14,27 @@ Debian社区是比较古老的、比较geek的氛围。尤其是，主导这个�
 这篇文章的主要目的是把最后在开发过程中遇到的一些有用的资源放在这里以方便自己后面的工作。通过这些文档或者指南，我还是
 认为，在软件行业，只有开源开发者或者 "自由职业者"才会打造经典的作品。
 
+
 # Port riscv 入门级资料
+## riscv64-buildd
+
+rv-rr44-01 and rv-mullvad-0x are Unleashed boards
+
+rv-osuosl-0x are Unmatched boards
+
+Other are QEMU VMs.
+
+## debian-port mirrors
+### tencent mirrors
+```bash
+deb https://mirrors.tencent.com/debian-ports sid main non-free
+``` 
+
+### iscas mirrors
+```bash
+deb  https://mirror.iscas.ac.cn/debian-ports/ unstable main
+```
+
 ## wiki
 1. [debian riscv wiki](https://wiki.debian.org/RISC-V#)
 2. [debian cross-compiling](https://wiki.debian.org/CrossCompiling)
@@ -45,6 +65,34 @@ debian-cross@lists.debian.org
 这个页面快速直达目前编译riscv有问题的debian packages list.
 2. [The UDD provides an overview about patches that we currently have
 pending](https://udd.debian.org/cgi-bin/bts-usertags.cgi?user=debian-riscv@lists.debian.org) 带有patch
+
+### 一些基本规则
+
+比如，这种类型的ftbfs: 
+```bash
+ceph: FTBFS on riscv64: undefined reference to `__atomic_exchange_1'
+```
+解决方案是参考 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=953003
+
+```bash
+Description: Link with -pthread instead of -lpthread to fix FTBFS on riscv64
+Forwarded: no
+Last-Update: 2020-03-01
+
+--- ceph-14.2.7.orig/CMakeLists.txt
++++ ceph-14.2.7/CMakeLists.txt
+@@ -28,6 +28,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_S
+ 
+ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+   set(LINUX ON)
++  set(THREADS_PREFER_PTHREAD_FLAG ON)
+   FIND_PACKAGE(Threads)
+ elseif(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+   set(FREEBSD ON)
+```
+
+## Debian-installer
+[https://lists.debian.org/debian-boot/2019/06/msg00017.html](https://lists.debian.org/debian-boot/2019/06/msg00017.html)
 
 # Debian开发者
 
@@ -153,7 +201,29 @@ reportbug sponsorship-requests
 
 在Debain社区有很多自己的词汇，如果我们一开始觉得不那么适应，可以参考[这里](https://mentors.debian.net/intro-maintainers/)
 
+# debci
 
+查看debci system的info:
+[system-day](https://ci.debian.net/munin/system-day.html)
+
+# debian-buildd
+buildd不止有一个，这里还有一个第三方的平台：
+
+## reproducible-builds.org
+https://reproducible-builds.org/contribute/debian/
+这是一个有益的补充，后面看看如何添加这个buildd task for riscv64
+
+IRC: #reproducible-builds
+
+# FTBFS
+https://wiki.debian.org/qa.debian.org/FTBFS
+
+# Debian release 
+Debian release team是一个很大的团队，这里面有很多事情可以做。作为riscv64 的porter,我们首先需要时刻关注这个
+[https://release.debian.org/testing/arch_qualify.html](https://release.debian.org/testing/arch_qualify.html)
+
+这个是成为release的标准:
+[https://release.debian.org/testing/arch_policy.html](https://release.debian.org/testing/arch_policy.html).
 # 不同的声音
 
 [go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
