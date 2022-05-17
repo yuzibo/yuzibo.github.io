@@ -26,3 +26,9 @@ Copy:
 
 7. Copy the source package in a different directory and try unpacking it and rebuilding it. This tests if the package relies on existing files outside of it, or if it relies on permissions being preserved on the files shipped inside the .diff.gz file.
 
+# lintian
+最大的得到lintian的输出:
+```bash
+Try lintian -I -E -v --pedantic
+or set up .lintianrc file with these option enabled
+```

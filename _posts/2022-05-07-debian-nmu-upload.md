@@ -6,7 +6,7 @@ layout: post
 * content
 {:toc}
 
-因为自己的登记所限，目前还不具备nmu upload的权限，但是这个在不久的未来一定会遇到。故现在就把list中大佬的message摘录下来，以方便后期查看。
+因为自己的等级所限，目前还不具备nmu upload的权限，但是这个在不久的未来一定会遇到。故现在就把list中大佬的message摘录下来，以方便后期查看。
 
 Some thoughts about procedures:
 Jan is generally active (uploaded a package last month), but is in the
