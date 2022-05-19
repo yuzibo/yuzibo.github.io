@@ -23,3 +23,25 @@ compatible with the old library, then I think a better way to do this
 would be to introduce an empty, transitional package with the old name
 libwmf0.2-7. This shouldn't require going through the NEW queue again,
 because libwmf0.2-7 still exists in unstable.
+
+# transition slot request
+
+```bash
+
+Package: release.debian.org
+Severity: normal
+User: release.debian.org@packages.debian.org
+Usertags: transition
+
+Hello,
+
+I would like to request a transition slot for openmm
+(experimental -> unstable) due to soname bump. Current ben tracker [1]
+is OK, all reverse dependencies build fine.
+
+Thanks,
+Andrius
+
+[1] https://release.debian.org/transitions/html/auto-openmm.html
+
+```

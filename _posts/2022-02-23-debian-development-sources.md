@@ -65,6 +65,7 @@ debian-cross@lists.debian.org
 这个页面快速直达目前编译riscv有问题的debian packages list.
 2. [The UDD provides an overview about patches that we currently have
 pending](https://udd.debian.org/cgi-bin/bts-usertags.cgi?user=debian-riscv@lists.debian.org) 带有patch
+3. [更全的页面](https://buildd.debian.org/status/architecture.php?a=riscv64)从整个buildd数据库角度看的
 
 ### 一些基本规则
 
@@ -214,6 +215,9 @@ https://reproducible-builds.org/contribute/debian/
 这是一个有益的补充，后面看看如何添加这个buildd task for riscv64
 
 IRC: #reproducible-builds
+
+## build-portbox
+[wiki](https://wiki.debian.org/PortsDocs/BuilddPorterboxSetup?action=show&redirect=PortsDocs%2FBuilddSetup)
 
 # FTBFS
 https://wiki.debian.org/qa.debian.org/FTBFS
