@@ -44,11 +44,22 @@ deb  https://mirror.iscas.ac.cn/debian-ports/ unstable main
 ```bash
 #debian-bugs
 #debian-buildd: Teams/DebianBuildd
-#debian-mentors: Support for new contributors with questions on packaging and Debian infrastructure projects/services. See also the debian-mentors mailing list.
+##debian-mentors: Support for new contributors with questions on packaging and Debian infrastructure projects/services. See also the debian-mentors mailing list.
 #debian-ports: https://www.ports.debian.org/
 #debian-riscv: Debian RISC-V port
 #devscripts: devscripts
+#debci
+#debian-golang
+#debian-python
+#debian-qa
+#debian-rust
+#debian-toolchain
+#reproducible-builds
+#llvm
 ```
+## 符号定义riscv64
+[https://wiki.debian.org/ArchitectureSpecificsMemo](https://wiki.debian.org/ArchitectureSpecificsMemo)
+
 ## mail list
 ### Debian ports
 在做debian port时，主要会用到以下两个列表：
@@ -216,6 +227,45 @@ https://reproducible-builds.org/contribute/debian/
 
 IRC: #reproducible-builds
 
+和 Debian 相关的： #debian-reproducible
+### some fix
+一些fixup暂时安排在这里，后面在进行一个page整理。
+
+####  fix build path
+
+The attached patch fixes this by adjusting various Makefiles to set
+-ffile-prefix-map in CFLAGS, which avoids embedding the build path in
+the compiled binaries.
+
+```bash
+This avoids embedding the build path in the resulting binaries.
+
+https://reproducible-builds.org/docs/build-path/
+---
+
+diff --git a/Makefile b/Makefile
+index 61dade4..2d78375 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,5 +1,7 @@
+ SUBDIRS = zip libarchive gvfs
+
++export BUILDPATH = $(CURDIR)
++
+ all install clean shared static::
+        target=`echo $@ | sed s/-recursive//`; \
+        list='$(SUBDIRS)'; for subdir in $$list; do \
+diff --git a/gvfs/Makefile b/gvfs/Makefile
+index 9c5d759..8bd0c08 100644
+--- a/gvfs/Makefile
++++ b/gvfs/Makefile
+@@ -9,6 +9,8 @@ CFLAGS =-I. -I/usr/include \
+        -Wall -fPIC -O2 -g \
+        -DG_DISABLE_DEPRECATED -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE
++# Avoid embedding build path
++CFLAGS += -ffile-prefix-map=$(BUILDPATH)=.
+```
+
 ## build-portbox
 [wiki](https://wiki.debian.org/PortsDocs/BuilddPorterboxSetup?action=show&redirect=PortsDocs%2FBuilddSetup)
 
@@ -236,3 +286,16 @@ Debian release team是一个很大的团队，这里面有很多事情可以做�
 * https://salsa.debian.org/onlyjob/notes/-/wikis/no-gbp
 * https://salsa.debian.org/onlyjob/notes/-/wikis/bp
 
+# rvlab -- fix
+
+1. 
+```bash
+mount -o remount,rw /boot
+```
+解决 `/boot` is ready-only
+
+
+2. 不升级image
+```bash
+sudo apt-mark hold linux-image-riscv64
+```
