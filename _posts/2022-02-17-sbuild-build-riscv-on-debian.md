@@ -447,6 +447,11 @@ make: *** [debian/rules:35: objs/config.status] Error 1
 sudo rm -r /srv/chroot/unstable-amd64-sbuild/
 sudo rm /etc/schroot/chroot.d/unstable-amd64-sbuild-* /etc/sbuild/chroot/unstable-amd64-sbuild
 ```
+##  del session
+
+```bash
+sudo schroot --end-session --all-sessions
+```
 
 # 创建riscv64 sid session
 ```bash
