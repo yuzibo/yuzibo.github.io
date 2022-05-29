@@ -212,6 +212,10 @@ https://github.com/git-multimail/git-multimail/tags \
 ```
 在主目录中可以使用`uscan`命令进行测试。
 
+```bash
+uscan --no-download --verbose
+```
+
 # fix
 这里有一些需要fix的问题对于新的itp包：
 

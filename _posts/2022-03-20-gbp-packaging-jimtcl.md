@@ -93,7 +93,7 @@ debsign jimtcl_0.81+dfsg0-1_amd64.changes // 还有一个source.changes
 
 debsign的设置需要去看看tools的gpg使用方法。debsign的配置文件在 `~/.devscripts`文件中，具体配置如下：
 ```bash
-
+DEBSIGN_KEYID="long id"
 ```
 
 ## dput上传文件(mentors)
@@ -130,3 +130,10 @@ Requestion for Sponsorship
 reportbug sponsorship-request --mutt
 ```
 可以加mutt使用mutt  client。
+
+# 维护技巧
+
+jimtcl我这里有个问题，就是0.81.orig.tar.gz 必须先从 ftp.deb.org上获取到。
+```bash
+jimtcl_0.81+dfsg0.orig.tar.gz
+```

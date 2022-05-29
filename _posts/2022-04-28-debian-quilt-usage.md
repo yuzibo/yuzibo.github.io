@@ -72,3 +72,92 @@ quilt pop -a # 退出所有的patch，包括刚才新建的patch
 2. git add/modify files
 3. quilt refresh
 
+# 详解
+这里仔细讲解`quilt`命令的各个用法，这个工具掌握之后，在处理debian的patch时会更加得心用手。
+
+在`debian/patch/`目录下，有几个patch文件和series文件，其中，series文件就是patch文件的记录文件。我们把上面的`quiltrc`文件写好后，就可以直接使用了。
+
+## push
+```bash
+vimer@dev:~/$ ls debian/patches/
+Don-t-try-SIMD-on-non-x86-processors-not-implemented-yet.patch  Don-t-use-RPATH.patch  Install-libs-in-multi-arch-path.patch  series
+```
+
+然后 series：
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt series
+Install-libs-in-multi-arch-path.patch
+Don-t-use-RPATH.patch
+Don-t-try-SIMD-on-non-x86-processors-not-implemented-yet.patch
+```
+
+说明 quilt可以有这些patches进行操作。
+
+`quilt push -a ` 
+
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt push -a #  push all patch into
+File series fully applied, ends at patch Don-t-try-SIMD-on-non-x86-processors-not-implemented-yet.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt applied # display patches that was applied
+Install-libs-in-multi-arch-path.patch
+Don-t-use-RPATH.patch
+Don-t-try-SIMD-on-non-x86-processors-not-implemented-yet.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt unapplied display patches that was unapplied
+File series fully applied, ends at patch Don-t-try-SIMD-on-non-x86-processors-not-implemented-yet.patch
+```
+
+如果我们想修改第二个patch: `Don-t-use-RPATH.patch`怎么办，有两种方式：
+方式：  `quilt push -a && push -f patch xx`
+这种方式会把 -f patch 之前的patch也打上:
+
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt push Don-t-use-RPATH.patch
+Applying patch Install-libs-in-multi-arch-path.patch
+patching file CMakeLists.txt
+
+Applying patch Don-t-use-RPATH.patch
+patching file CMakeLists.txt
+
+Now at patch Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt  applied
+Install-libs-in-multi-arch-path.patch
+Don-t-use-RPATH.patch
+```
+`quilt top`查看在哪个patch上:
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt top
+Don-t-use-RPATH.patch
+```
+
+## file
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt  files Don-t-use-RPATH.patch -lv
+[Don-t-use-RPATH.patch] CMakeLists.txt
+```
+
+## remove/add
+
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt top
+Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt add Doxyfile.in
+File Doxyfile.in added to patch Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ vim Doxyfile.in
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt refresh
+Refreshed patch Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt files Don-t-use-RPATH.patch -vl
+[Don-t-use-RPATH.patch] CMakeLists.txt
+[Don-t-use-RPATH.patch] Doxyfile.in
+```
+如果删除一个文件呢：
+```bash
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt top
+Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt remove Doxyfile.in
+File Doxyfile.in removed from patch Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt refresh
+Refreshed patch Don-t-use-RPATH.patch
+vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt files Don-t-use-RPATH.patch -lv
+[Don-t-use-RPATH.patch] CMakeLists.txt
+```
+则真就把改动的文件删除了。

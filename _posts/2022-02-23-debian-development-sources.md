@@ -16,6 +16,17 @@ Debian社区是比较古老的、比较geek的氛围。尤其是，主导这个�
 
 
 # Port riscv 入门级资料
+
+## riscv-debian docs
+
+### official_port 
+[New#Official_port](https://wiki.debian.org/PortsDocs/New#Official_port)
+这里面有几个installer的东西还没有定下来。
+
+## debian machines
+
+https://db.debian.org/machines.cgi
+
 ## riscv64-buildd
 
 rv-rr44-01 and rv-mullvad-0x are Unleashed boards
@@ -272,12 +283,66 @@ index 9c5d759..8bd0c08 100644
 # FTBFS
 https://wiki.debian.org/qa.debian.org/FTBFS
 
+## patch
+### size of array ‘_compile_time_assert__’ is negative
+```bash
+cc -DHAVE_CONFIG_H -I. -I.. -DPACKAGE_SRC_DIR=\""."\" -DPACKAGE_DATA_DIR=\""/usr/share"\"  -Wdate-time -D_FORTIFY_SOURCE=2 -Wall -g -g -O2 -ffile-prefix-map=/<<PKGBUILDDIR>>=. -fstack-protector-strong -Wformat -Werror=format-security -fPIE -c -o pmask.o pmask.c
+pmask.c: In function ‘install_pmask’:
+pmask.c:32:54: error: size of array ‘_compile_time_assert__’ is negative
+   32 | #define COMPILE_TIME_ASSERT(condition) {typedef char _compile_time_assert__[(condition) ? 1 : -1];}
+      |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+pmask.c:34:9: note: in expansion of macro ‘COMPILE_TIME_ASSERT’
+   34 |         COMPILE_TIME_ASSERT((1 << MASK_WORD_BITBITS) == MASK_WORD_BITS);
+      |         ^~~~~~~~~~~~~~~~~~~
+pmask.c: In function ‘init_pmask’:
+pmask.c:40:36: warning: unused variable ‘error’ [-Wunused-variable]
+   40 |         int words, total_words, x, error = 0;
+      |                                    ^~~~~
+pmask.c: In function ‘get_serialized_pmask_size’:
+pmask.c:105:13: warning: unused variable ‘words’ [-Wunused-variable]
+  105 |         int words = 1 + ((w-1) >> MASK_WORD_BITBITS);
+      |             ^~~~~
+make[3]: *** [Makefile:495: pmask.o] Error 1
+make[3]: *** Waiting for unfinished jobs....
+make[3]: Leaving directory '/<<PKGBUILDDIR>>/src'
+make[2]: *** [Makefile:410: all-recursive] Error 1
+make[2]: Leaving directory '/<<PKGBUILDDIR>>'
+make[1]: *** [Makefile:342: all] Error 2
+make[1]: Leaving directory '/<<PKGBUILDDIR>>'
+dh_auto_build: error: make -j4 returned exit code 2
+make: *** [debian/rules:9: binary-arch] Error 25
+dpkg-buildpackage: error: debian/rules binary-arch subprocess returned exit status 2
+```
+
+```bash
+--- open-invaders-0.3.orig/headers/pmask.h
++++ open-invaders-0.3/headers/pmask.h
+@@ -37,7 +37,7 @@ confusing.
+ //don't worry about setting it incorrectly
+ //you'll get a compile error if you do, not a run-time error
+ #if defined(__alpha__) || defined(__ia64__) || (defined(__x86_64__) && defined(__LP64__)) || defined(__s390x__) || (defined(__sparc__)
++&& defined(__arch64__)) \
+-      || defined(__powerpc64__) || defined(__aarch64__) || (defined(__mips64) && defined(__LP64__))
++      || defined(__powerpc64__) || defined(__aarch64__) || (defined(__mips64) && defined(__LP64__)) || (defined(__riscv) &&
++defined(__LP64__))
+        #define MASK_WORD_BITBITS 6
+ #else
+        #define MASK_WORD_BITBITS 5
+
+```
+
 # Debian release 
 Debian release team是一个很大的团队，这里面有很多事情可以做。作为riscv64 的porter,我们首先需要时刻关注这个
 [https://release.debian.org/testing/arch_qualify.html](https://release.debian.org/testing/arch_qualify.html)
 
 这个是成为release的标准:
 [https://release.debian.org/testing/arch_policy.html](https://release.debian.org/testing/arch_policy.html).
+
+# debian autoremovel
+
+可以关注这个页面，万一有自己维护的包被 autoremovel:
+[#1011268](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011268) -> [https://udd.debian.org/cgi-bin/autoremovals.cgi](https://udd.debian.org/cgi-bin/autoremovals.cgi)
+
 # 不同的声音
 
 [go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
