@@ -297,3 +297,11 @@ Thank you for using reportbug
 The Debian BTS starting point: [https://bugs.debian.org/](https://bugs.debian.org/). From there, there are two pages that will teach you how to communicate with the server: - [https://www.debian.org/Bugs/server-request](https://www.debian.org/Bugs/server-request) and [https://www.debian.org/Bugs/server-control](https://www.debian.org/Bugs/server-control/)
 
 以上片段摘自[here](https://arnaudr.io/2016/10/01/publishing-a-debian-package-mentors-sponsorship/).
+
+## 关闭bug
+比如，[https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011367](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011367) 是我open的bug,但是途中突然发现，我应该去关闭它，因为暂时没有比较好的解决方案，怎么处理？很简单：发送 email
+body to
+ 
+`1011367-done@bugs.debian.org`即可。
+
+更详细的[wiki](https://www.debian.org/Bugs/Developer#closing)
