@@ -45,3 +45,32 @@ Andrius
 [1] https://release.debian.org/transitions/html/auto-openmm.html
 
 ```
+具体讲一下我自己的事例就行： 我在Debian中首先维护的一个package就做 [jimtcl](https://tracker.debian.org/pkg/jimtcl)
+看到没， 他还有一个`-dev`的package。 dev就是我们所谓的开发SDk，这种情况一般都是让外部package使用的。
+
+所以，如果我由0.79直接升级到0.81是不行的，因为这里面可能会涉及到api的改变，那么，所有依赖`jimtcl`的package能不能编译成功还真不一定保证。而包的维护者一定要注意这个情况可能发生的情况，要坚决避免或者把所有的问题close掉才可以。
+
+1. 升级SONAME，然后把包上传到 `exp`;
+2. 等到在[ben](https://release.debian.org/transitions/) 页面上看到 `auto-yourpackage`  时，你最好使用`ratt`这个package把所有依赖你的包的包都使用你上传到`exp`的package进行构建，如果没有问题，则可以向release team发送请求了:
+ 
+```bash
+如上文所示即可
+```
+
+3. 这时候等待release team给你通知，说你可以upload新的unstable上面去了。
+等你上传完毕，你会收到一封通知:
+
+```bash
+From: Debian testing watch <noreply@release.debian.org>
+To: jimtcl@packages.debian.org
+Subject: jimtcl 0.81+dfsg0-2 MIGRATED to testing
+
+FYI: The status of the jimtcl source package
+in Debian's testing distribution has changed.
+
+  Previous version: 0.79+dfsg0-3
+  Current version:  0.81+dfsg0-2
+```
+这就可以了。
+
+当然，我维护这个jimtcl还是有一定曲折的。
