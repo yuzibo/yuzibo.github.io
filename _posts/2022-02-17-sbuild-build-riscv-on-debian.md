@@ -454,9 +454,52 @@ sudo schroot --end-session --all-sessions
 ```
 
 # 创建riscv64 sid session
+这里有两种方式：区别是有没有加`--foreigh`开关。
+
+## 无 foreigh
+
+```bash
+sudo debootstrap --arch=riscv64 --keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg --include=debian-ports-archive-keyring unstable /tmp/riscv-chroot https://deb.debian.org/debian-ports/
+```
+
+执行完这个命令，就可以 `chroot /tmp/riscv-chroot`进行下面的操作。
+
+## 有 foreigh
+
+```bash
+sudo debootstrap --foreign --arch=riscv64 --keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg --include=debian-ports-archive-keyring unstable /tmp/riscv-chroot http://deb.debian.org/debian-ports
+# 这没有完成，你得执行第二阶段,以下是第二阶段：
+sudo mkdir -p /tmp/riscv-chroot/usr/bin/
+sudo cp "$(which qemu-riscv64-static)" /tmp/riscv-chroot/usr/bin/
+sudo chroot /tmp/riscv-chroot/ /debootstrap/debootstrap --second-stage
+```
+关于这个开关的介绍:
+
+```bash
+--foreign
+>        Do the initial unpack phase of bootstrapping only, for example if the  tar‐
+>        get  architecture  does not match the host architecture.  A copy of deboot‐
+>        strap sufficient for completing the bootstrap process will be installed  as
+>        /debootstrap/debootstrap in the target filesystem.  You can run it with the
+>        --second-stage option to complete the bootstrapping process.
+```
+
+## 无 foreigh
+
+```bash
+sudo debootstrap --arch=riscv64 --keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg --include=debian-ports-archive-keyring unstable /tmp/riscv-chroot https://deb.debian.org/debian-ports/
+```
+则这一步即可一步完成。
+
+
+## 使用 sbuild-createchroot
+
+使用这个 `sbuild-createchroot`其实是带了 `--foreigh`的参数的：
 ```bash
 sudo sbuild-createchroot --arch=riscv64 --foreign  --keyring="" --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz sid /tmp/chroots/sid-riscv64-sbuild1/  http://ftp.ports.debian.org/debian-ports/
 ```
+`sbuild-createchroot`其实调用的也是`debootstrap`，如果上面的想要能够工作起来，还得手动打target 包。
+
 前面可以说是创建的amd64，这个创建的是riscv，解决一些依赖不能安装的问题。
 
 ## 初次创建后尽量升级

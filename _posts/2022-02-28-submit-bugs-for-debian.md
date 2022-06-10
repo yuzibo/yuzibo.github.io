@@ -162,6 +162,14 @@ found的作用是指定版本号。
 ```bash
 bts --mutt found 1009969 2.15.0+ds1-10
 ```
+## 删除某tag
+To: debian-riscv@lists.debian.org, control <control@bugs.debian.org>
+```bash
+user debian-riscv@lists.debian.org
+usertags 1012107 - riscv64
+thanks
+```
+参考[https://lists.debian.org/debian-riscv/2022/05/msg00092.html](https://lists.debian.org/debian-riscv/2022/05/msg00092.html)
 
 # reportbug
 ## reportbug --from-buildd
