@@ -1,5 +1,5 @@
 ---
-title: 在Debian使用sbuild构建riscv的交叉编译环境
+title: 在Debian使用sbuild构建riscv的native编译环境
 category: debian-riscv
 layout: post
 ---
@@ -63,11 +63,15 @@ apt install buildd
 ```bash
  sbuild-createchroot runs debootstrap(1) to create a chroot suitable for building packages with sbuild.  Note that while debootstrap may be used di‐rectly, sbuild-createchroot performs additional setup tasks such as adding additional packages and configuring various files in the chroot.  Invok‐ing  sbuild-createchroot  is  functionally  equivalent  to  running  debootstrap --variant=buildd  --include=fakeroot,build-essential, then editing /etc/apt/sources.list and /etc/hosts by hand
 ```
-
+但是，还是建议在使用 `sbuild-createchroot`时，使用`mmdebstrap`去激活：
 命令：
 
 ```bash
-sudo sbuild-createchroot --include=debian-ports-archive-keyring --make-sbuild-tarball=/srv/chroots/sid-sbuild.tgz sid /srv/chroots/sid http://deb.debian.org/debian/
+sudo sbuild-createchroot --debootstrap=mmdebstrap --arch=riscv64 \
+        --include=debian-ports-archive-keyring 
+        --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz \
+        sid /tmp/chroots/sid-riscv64-sbuild/ \
+        http://ftp.ports.debian.org/debian-ports/
 ```
 解释：命令`sbuild-createchroot`会根据参数创建一个base chroot。`--include=debian-ports-archive-keyring`是指我们后面在做port时，需要使用port的source list, 为了使用这个source list,需要我们安装一个keying,就是这个包(这里不加也没有关系，后面还有补救的办法)；`tarball`可以认为是一个rootfs(其实我也没有去核对，后面有了新的发现再回来改正)， `sid`是构建的chroot基于哪一个distributor version，后面的url是指定构建完成后chroot的源。执行完上面的命令，其chroot就是一个base的chroot，其包含sid的源，下面是具体的构建log(下载软件的info被忽略)
 
@@ -278,7 +282,7 @@ sudo apt install -f ./debian-ports-archive-keyring_2019.11.05~deb10u1_all.deb
 
 [https://askubuntu.com/questions/732985/force-update-from-unsigned-repository](https://askubuntu.com/questions/732985/force-update-from-unsigned-repository)
 
-简单说就是在 sources.list 添加 ` [trust=yes] ` 字段解决这个问题。但是不建议这么做，这本身是一种workround的方案。
+简单说就是在 sources.list 添加 ` [trusted=yes] ` 字段解决这个问题。但是不建议这么做，这本身是一种workround的方案。
 
 添加完ports的源以后，这里可以执行`apt update`也可以不执行。 It is up to you.
 

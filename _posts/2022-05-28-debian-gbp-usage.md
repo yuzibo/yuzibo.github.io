@@ -34,9 +34,24 @@ $ENV{'DEB_BUILD_OPTIONS'} = 'parallel=5';
 $run_lintian = 1;
 $lintian_opts = ['-i', '-I'];
 $run_piuparts = 1;
-$piuparts_opts = ['--schroot', 'unstable-amd64-sbuild', '--no-eatmydata'];
+
+# 暂时停用 piuparts 检查
+#$piuparts_opts = ['--schroot', 'unstable-amd64-sbuild', '--no-eatmydata'];
 $run_autopkgtest = 1;
 $autopkgtest_root_args = '';
 $autopkgtest_opts = [ '--', 'schroot', '%r-%a-sbuild' ];
 
+```
+
+# import
+
+## import upstream
+```bash
+gbp import-orig --uscan --debian-branch=debian/main --upstream-branch=upstream/latest
+```
+
+## import tar
+
+```bash
+ gbp import-orig --verbose --upstream-branch=upstream/latest --upstream-version=2.2 ../v2.3.2.tar.gz
 ```

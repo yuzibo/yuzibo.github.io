@@ -17,7 +17,10 @@ Debian社区是比较古老的、比较geek的氛围。尤其是，主导这个�
 
 # Port riscv 入门级资料
 
-## riscv-debian docs
+## debian ports docs
+
+## doc
+[ports-news](https://wiki.debian.org/PortsDocs/New)
 
 ### official_port 
 [New#Official_port](https://wiki.debian.org/PortsDocs/New#Official_port)
