@@ -8,23 +8,52 @@ category: tools
 {:toc}
 
 update: 2022/02/20 添加windos clients
+update: 2022/06/18 添加更多说明
 
+# server相关的用法
+## 注册
+
+我是在oftc的server里注册的，具体指令如下 ：
+```bash
+/NickServ REGISTER passwd your-email
+```
+然后你会收到:
+```bash
+ Nickname vimer has been registered successfully and is now yours to use.
+-NickServ- See HELP SET for information on settings that you can set on your new
+-NickServ- nickname.  If you change nickname or reconnect to the IRC network you will be
+-NickServ- required to identify using the password you chose when you registered.  See
+-NickServ- HELP IDENTIFY for more information on identifying your nickname.
+-NickServ-  
+-NickServ- To complete the registration, the nickname must be VERIFIED.  Note that we
+-NickServ- do not validate the e-mail address.
+-NickServ- To verify your nick, please visit the following link in your browser:
+-NickServ-  
+-NickServ- url
+-NickServ-  
+-NickServ- This link expires in 1 hour.  If the link expires, see REVERIFY.
+```
+然后根据url去验证即可。
+
+## 签别自己
+```bash
+/msg NickServ identify curpasswd
+```
+
+## 查询某人的信息
+```bash
+/msg NickServ INFO vimer
+```
+
+## 隐藏ip
+前提是先注册
+```bash
+/msg NickServ SET CLOAK ON
+```
 # windows
 最近由于项目需要需要在IRC上及时沟通，但是目前的办公环境是在windows上，所以，需要在window上找一款IRC tool。
-我一开始使用的是xchat-2，很小灵巧，非常喜欢，但是不知道因为什么原因，导致闪退。实在不行，自己只能在vscode上找了。
-
-```bash
-Visual Studio Code IRC: VSIRC
-
-Run the "VSIRC: Open" command to open a new irc client
-The /connect command can be used to join a server.
-The /disconnect command can be used to leave a server.
-"/join #channel" allows you to join a channel
-"/list" lists all channels
-"/last" to connect to last server
-```
-当然，一开始我还真不知道如何开启这个服务呢，怎么也找不到在哪里运行这个`VSIRC: Open`,最后搞了半天，
-才发现是在 `shift + ctrl +p` 调出命令窗口才是可以的。剩下的就是具体的命令了。
+我一开始使用的是xchat-2，很小灵巧，非常喜欢，但是不知道因为什么原因，导致闪退。
+花了点钱，买了人生中第一份license。继续使用 xchat。
 
 # linux平台下
 linux推荐使用 `irssi`.
