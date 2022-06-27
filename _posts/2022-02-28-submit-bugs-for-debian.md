@@ -171,6 +171,30 @@ thanks
 ```
 参考[https://lists.debian.org/debian-riscv/2022/05/msg00092.html](https://lists.debian.org/debian-riscv/2022/05/msg00092.html)
 
+## moreinfo tags
+
+```bash
+Cc: 1002553@bugs.debian.org
+Subject: Re: firmware-amd-graphics: Memory clock always at 100% (thinkpads w/ryzen 3XXXu)
+Date: Fri, 10 Jun 2022 17:57:18 +0200
+Control: tag -1 moreinfo
+```
+这一个用法比较灵活，直接发  `num@b.d.o` 使用 `control`指令，这个指令是添加moreinfo的意思哈。如果想取消的话：
+
+```bash
+tags 1012200 - moreinfo
+```
+这个应该发送给 `control@b.d.o`.  或者:
+
+```bash
+From: Nicolas Mora <nicolas@babelouest.org>
+To: 1007884@bugs.debian.org
+Subject: Bug#1007884: bullseye-pu: package glewlwyd/2.5.2-2+deb11u2
+----------------
+tags -1 - moreinfo
+
+```
+
 # reportbug
 ## reportbug --from-buildd
 `reportbug --from-buildd=<package>_<full_version>`
