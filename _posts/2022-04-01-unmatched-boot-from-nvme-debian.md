@@ -286,6 +286,15 @@ non-free firmware-amd-graphics
 ## 安装xfce4
 安装xfce4就可以看见那熟悉的界面了。
 
+# 修改root密码失败
+
+如果使用recovery mode修改密码失败，则一个可能的办法是，使用  `recovery mode`进入系统，然后把相关的rootfs那个盘符
+挂载上`/mnt`.
+
+```bash
+mount /dev/nvme0n1p4 /mnt
+```
+然后  chroot /mnt,  然后修改密码，退出，重启后就可以用新密码登陆了.
 # 系统的一些配置
 
 ## 允许root ssh登录
