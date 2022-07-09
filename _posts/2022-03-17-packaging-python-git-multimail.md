@@ -227,3 +227,35 @@ dsc is missing from changes
 Make sure you include the full source (if you are using sbuild make sure to use the --source option or the equivalent configuration item; if you are using dpkg-buildpackage directly use the default flags or -S for a source only upload)
 
 方案说的也很清楚哈。
+
+# 经过
+
+##  gbp 临时命令:
+```bash
+gbp buildpackage --git-upstream-tree=upstream/1.5.0 --git-upstream-branch=upstream/1.5.0  --git-builder=sbuild -d unstable  --git-debian-branch=debian/main --git-export-dir=../build-area/ --git-ignore-new  --verbose
+```
+
+## 多次修改
+```bash
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+export PYBUILD_NAME=git-multimail
+
+%:
+        dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_auto_clean:
+        rm -rf .pytest_cache
+        dh_auto_clean
+
+override_dh_auto_build:
+        PYTHONPATH=. http_proxy='127.0.0.1:9' python3 -m sphinx -N -bhtml doc/ build/html
+
+override_dh_auto_test:
+ifeq ($(filter nocheck,$(DEB_BUILD_PROFILES)),)
+        dh_auto_test
+endif
+
+```

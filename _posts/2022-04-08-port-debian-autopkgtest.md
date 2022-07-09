@@ -1,13 +1,23 @@
 ---
-title: port debian autopkgtest to riscv64
+title: debian autopkgtest usgae
 category: debian-riscv
 layout: post
 ---
 * content
 {:toc}
 
+autopkgtest 是根据[DEP8](https://salsa.debian.org/ci-team/autopkgtest/raw/master/doc/README.package-tests.rst)制定的，本文简单记录下这块的相关用法。
 
-目前，  [debian-ci](https://salsa.debian.org/ci-team/autopkgtest)还不支持riscv64,所以，我这里暂时利用本文记录下相关的port过程。
+# autopkgtest-build-qemu 
+使用qemu创建相关的镜像:
+```bash
+sudo autopkgtest-build-qemu unstable autopkgtest-unstable.img --mirror=https://mirror.iscas.ac.cn/debian/
+```
+`--mirror`是根据自己的情况指定相关的mirror,加快速度。那么使用的时候：
+```bash
+autopkgtest gdk-pixbuf -- qemu autopkgtest-unstable.img
+```
+其中，gdk-pixbuf是你想测试的package。
 
-在这个过程中，由于涉及到大量的新的技术以及概念，我只能见招拆招了，可能会需要补充大量的课外知识。
+[根据这个wiki](https://wiki.debian.org/ContinuousIntegration/autopkgtest)
 

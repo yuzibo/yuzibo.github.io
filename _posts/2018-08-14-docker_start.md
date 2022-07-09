@@ -69,5 +69,5 @@ docker run hello-world
 
 Enable it with **systemd**:
 ```c
-sudo systectl enable docker
+sudo systemctl enable docker
 ```
