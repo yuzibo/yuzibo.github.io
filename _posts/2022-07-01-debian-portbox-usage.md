@@ -16,3 +16,8 @@ layout: post
 # Debian hardware
 
 [hardware list](https://wiki.debian.org/Hardware/Wanted#Available_hardware)这里有很多机器，目前还没有riscv的，需要我们在后面完善。
+
+# s390
+可以参考这篇文章： https://etbe.coker.com.au/2020/07/05/debian-s390x-emulation/
+
+我最终借用[dqib](https://gitlab.com/giomasce/dqib)创建了一个s390x的虚拟机。

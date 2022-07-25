@@ -259,3 +259,8 @@ ifeq ($(filter nocheck,$(DEB_BUILD_PROFILES)),)
 endif
 
 ```
+
+## 删除不想要的文件
+```bash
+https://sources.debian.org/src/util-linux/2.38-4/debian/rules/?hl=77#L77
+```

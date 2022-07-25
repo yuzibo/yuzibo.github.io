@@ -76,6 +76,13 @@ gbp buildpackage --git-upstream-tree=upstream/2.2 --git-upstream-branch=upstream
 
 这个只有在我们没有新的orig tarball时确认使用。
 
+# lintian
+
+## W: rush source: orig-tarball-missing-upstream-signature rush_2.2.orig.tar.gz
+```bash
+ gpg --armor --detach-sign myprogram-0.1.orig.tar.gz
+```
+
 # 目前 rush 2.2 已经进入debian
 
 [salsa](git@salsa.debian.org:debian/rush.git) 后面所有的改动转移到这里来。

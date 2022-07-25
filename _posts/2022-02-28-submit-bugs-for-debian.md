@@ -337,3 +337,11 @@ body to
 `1011367-done@bugs.debian.org`即可。
 
 更详细的[wiki](https://www.debian.org/Bugs/Developer#closing)
+
+如果修复了，可以在body内使用:
+
+```bash
+Version: 22.1.3-1
+Tag: fixed
+```
+进行关闭。

@@ -322,6 +322,22 @@ sudo mount -o remount,rw /boot
 ```
 https://askubuntu.com/questions/876510/booting-into-read-only-file-system
 
+Update: 这个是由于在制作 `/boot`分区时给/etc/fstab `ro`属性,后面可以修改这个属性使用 `rw`.
+然后，这里没有必要为/boot单独分区。
+
+## GPT PMBR size mismatch
+
+Issue:
+
+GPT PMBR size mismatch (8388607 != 250069679) will be corrected by write.
+The backup GPT table is not on the end of the device.
+
+Solutions:
+
+```bash
+sudo parted -l
+```
+
 # 补充
 这里有一份 [github](https://github.com/carlosedp/riscv-bringup/tree/master/unmatched)的资料，需要重点了解一下。
 
