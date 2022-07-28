@@ -347,3 +347,108 @@ sudo parted -l
 * U-Boot - Universal Boot Loader. Docs
 * Extlinux - Syslinux compatible configuration to load Linux Kernel and DTB thru a configurable menu from a filesystem.
 
+
+# update
+作为buildd的机器，目前需要做一个大的rootfs，从而sd上只有
+
+
+https://u-boot.readthedocs.io/en/latest/board/sifive/unmatched.html
+
+rootfs on nvme:
+https://github.com/carlosedp/riscv-bringup/blob/master/unmatched/Readme.md
+
+# for Wuhan lab
+
+1. apt update (会失败， 使用命令 ntpdate ntp.aliyun.com 更新时间，然后update就可以)
+
+2. 更新source: 
+将/etc/apt/sources.list更新一下内容：
+```bash
+ cat /etc/apt/sources.list
+deb https://mirror.iscas.ac.cn/debian-ports sid main
+deb-src https://mirror.iscas.ac.cn/debian sid main
+```
+3. 安装 openssh-server
+```bash
+apt install openssh-server
+```
+
+修改/etc/ssh/sshd_config 将 允许root登录打开
+
+```bash
+PermitRootLogin yes
+# 允许ssh root登录
+```
+
+重启sshd： systemctl restart sshd
+
+然后就可以ssh登录了。
+
+4. nvme 扩容
+df -h 检查下nvme0n1p3的大小，默认应该是4G不够，我们需要扩容到20G。
+
+Step one:
+
+```bash
+root@srv1 ~ # parted /dev/nvme0n1  #  确定奥？
+GNU Parted 3.2
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) p                                                                
+Model: Model: ATA Samsung SSD 850 (scsi)
+Disk /dev/sda: 215GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+ 
+Number  Start   End     Size    File system     Name  Flags
+ 1      1049kB  2097kB  1049kB                        bios_grub
+ 2      2097kB  4096MB  4094MB  linux-swap(v1)
+ 3      4096MB  24.0GB  19.9GB  ext4
+(parted) resizepart 3 20GB                                                  
+Warning: Partition /dev/sda3 is being used. Are you sure you want to continue?
+parted: invalid token: -1                                                 
+Yes/No? Yes                                                               
+End?  [24.0GB]? -1                                                        
+(parted) p                                                                
+Model: Model: ATA Samsung SSD 850 (scsi)
+Disk /dev/sda: 215GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+ 
+Number  Start   End     Size    File system     Name  Flags
+ 1      1049kB  2097kB  1049kB                        bios_grub
+ 2      2097kB  4096MB  4094MB  linux-swap(v1)
+ 3      4096MB  215GB   211GB   ext4
+ 
+(parted) q                                                                
+Information: You may need to update /etc/fstab.
+```
+
+Step two:
+
+```bash
+
+
+root@srv ~ # resize2fs /dev/nvme0n1p3
+resize2fs 1.42.13 (17-May-2015)
+Filesystem at /dev/sda3 is mounted on /; on-line resizing required
+old_desc_blocks = 2, new_desc_blocks = 13
+The filesystem on /dev/sda3 is now 51428620 (4k) blocks long.
+Check if everything is OK with
+
+
+root@srv ~ # dmesg|grep EXT4
+[  449.330140] EXT4-fs (vda3): resizing filesystem from 4859392 to 51428620 blocks
+[  449.936044] EXT4-fs (vda3): resized filesystem to 51428620
+root@srv ~ # df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            3.9G     0  3.9G   0% /dev
+tmpfs           798M  3.5M  795M   1% /run
+/dev/sda3       193G  3.4G  182G   2% /
+tmpfs           3.9G     0  3.9G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup
+tmpfs           798M     0  798M   0% /run/user/0
+```
