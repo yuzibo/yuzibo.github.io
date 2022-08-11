@@ -161,3 +161,12 @@ vimer@dev:~/build/05/20_wsclean/wsclean-3.0$ quilt files Don-t-use-RPATH.patch -
 [Don-t-use-RPATH.patch] CMakeLists.txt
 ```
 则真就把改动的文件删除了。
+
+# 编辑header
+
+```bash
+quilt header --dep3 -e 
+# to add DEP-3 meta-information to your patch header.
+```
+
+https://dep-team.pages.debian.net/deps/dep3/

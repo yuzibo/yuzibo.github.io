@@ -1,0 +1,596 @@
+https://danielmangum.com/posts/risc-v-bytes-intro-instruction-formats/
+https://danielmangum.com/posts/risc-v-bytes-passing-on-the-stack/
+https://riscv-programming.org/book/riscv-book.html#pf26
+
+
+https://udd.debian.org/cgi-bin/key_packages.yaml.cgi
+
+http://www.erik-n.net/studies/linux_boot_c/linux_boot_c.pdf 【libc】
+https://www.fefe.de/dietlibc/talk.pdf
+
+I have already explained to you. When you import an upstream version use `gbp import-orig --uscan --pristine-tar`.
+When you have to redo it, reset the branch and `gbp pristine-tar commit ...orig.tar.gz`.
+
+nodejs-18.6
+
+not ok 463 parallel/test-crypto-sign-verify
+  ---
+  duration_ms: 2.170
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:636
+          throw err;
+          ^
+
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+    + actual - expected
+
+      Comparison {
+    +   message: 'error:1E08010C:DECODER routines::unsupported'
+    -   message: 'bye, bye, library'
+      }
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-crypto-sign-verify.js:42:10)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: Error: error:1E08010C:DECODER routines::unsupported
+          at Sign.sign (node:internal/crypto/sig:131:29)
+          at assert.throws.message (/<<PKGBUILDDIR>>/test/parallel/test-crypto-sign-verify.js:43:31)
+          at getActual (node:assert:757:5)
+          at Function.throws (node:assert:903:24)
+          at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-crypto-sign-verify.js:42:10)
+          at Module._compile (node:internal/modules/cjs/loader:1120:14)
+          at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+          at Module.load (node:internal/modules/cjs/loader:998:32)
+          at Module._load (node:internal/modules/cjs/loader:839:12)
+          at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12) {
+        reason: 'unsupported',
+        code: 'ERR_OSSL_UNSUPPORTED'
+      },
+      expected: { message: 'bye, bye, library' },
+      operator: 'throws'
+    }
+
+    Node.js v18.6.0
+  ...
+
+not ok 516 parallel/test-dgram-multicast-set-interface
+  ---
+  duration_ms: 4.544
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:dgram:826
+        throw errnoException(err, 'setMulticastInterface');
+        ^
+
+    Error: setMulticastInterface ENOPROTOOPT
+        at Socket.setMulticastInterface (node:dgram:826:11)
+        at Socket.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-dgram-multicast-set-interface.js:12:12)
+        at Socket.<anonymous> (/<<PKGBUILDDIR>>/test/common/index.js:434:15)
+        at Socket.emit (node:events:513:28)
+        at startListening (node:dgram:173:10)
+        at node:dgram:358:7
+        at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+      errno: -92,
+      code: 'ENOPROTOOPT',
+      syscall: 'setMulticastInterface'
+    }
+
+    Node.js v18.6.0
+
+
+
+not ok 725 parallel/test-freeze-intrinsics
+  ---
+  duration_ms: 2.162
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:124
+      throw new AssertionError(obj);
+      ^
+
+    AssertionError [ERR_ASSERTION]: Missing expected exception (TypeError).
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-freeze-intrinsics.js:36:10)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: undefined,
+      expected: Object <[Object: null prototype] {}> { name: 'TypeError' },
+      operator: 'throws'
+    }
+
+    Node.js v18.6.0
+
+not ok 1641 parallel/test-memory-usage
+  ---
+  duration_ms: 3.239
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:400
+        throw err;
+        ^
+
+    AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+      assert.ok(r.rss > 0)
+
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-memory-usage.js:30:10)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: '=='
+    }
+
+    Node.js v18.6.0
+
+not ok 1643 parallel/test-memory-usage-emfile
+  ---
+  duration_ms: 3.639
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:124
+      throw new AssertionError(obj);
+      ^
+
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+    false !== true
+
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-memory-usage-emfile.js:18:8)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: 'strictEqual'
+    }
+
+    Node.js v18.6.0
+
+
+not ok 1781 parallel/test-net-socket-connect-without-cb
+  ---
+  duration_ms: 1.857
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:events:491
+          throw er; // Unhandled 'error' event
+          ^
+
+    Error: getaddrinfo EAI_AGAIN localhost
+        at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:111:26)
+    Emitted 'error' event on Socket instance at:
+        at emitErrorNT (node:internal/streams/destroy:151:8)
+        at emitErrorCloseNT (node:internal/streams/destroy:116:3)
+        at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+      errno: -3001,
+      code: 'EAI_AGAIN',
+      syscall: 'getaddrinfo',
+      hostname: 'localhost'
+    }
+
+    Node.js v18.6.0
+
+
+not ok 2548 parallel/test-tls-root-certificates
+  ---
+  duration_ms: 1.850
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:124
+      throw new AssertionError(obj);
+      ^
+
+    AssertionError [ERR_ASSERTION]: Missing expected exception.
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-tls-root-certificates.js:15:8)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: undefined,
+      expected: /TypeError/,
+      operator: 'throws'
+    }
+
+    Node.js v18.6.0
+
+not ok 2115 parallel/test-setproctitle
+  ---
+  duration_ms: 3.852
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:992
+        throw newErr;
+        ^
+
+    AssertionError [ERR_ASSERTION]: ifError got unwanted exception: Command failed: ps -o pid,args | grep '2605350 2605350' | grep -v grep
+
+        at /<<PKGBUILDDIR>>/test/common/index.js:397:12
+        at /<<PKGBUILDDIR>>/test/common/index.js:434:15
+        at ChildProcess.exithandler (node:child_process:397:5)
+        at ChildProcess.exithandler (node:child_process:389:12)
+        at ChildProcess.emit (node:events:513:28)
+        at maybeClose (node:internal/child_process:1091:16)
+        at Socket.<anonymous> (node:internal/child_process:449:11)
+        at Socket.emit (node:events:513:28)
+        at Pipe.<anonymous> (node:net:758:14) {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: Error: Command failed: ps -o pid,args | grep '2605350 2605350' | grep -v grep
+
+          at ChildProcess.exithandler (node:child_process:389:12)
+          at ChildProcess.emit (node:events:513:28)
+          at maybeClose (node:internal/child_process:1091:16)
+          at Socket.<anonymous> (node:internal/child_process:449:11)
+          at Socket.emit (node:events:513:28)
+          at Pipe.<anonymous> (node:net:758:14) {
+        code: 1,
+        killed: false,
+        signal: null,
+        cmd: "ps -o pid,args | grep '2605350 2605350' | grep -v grep"
+      },
+      expected: null,
+      operator: 'ifError'
+    }
+
+    Node.js v18.6.0
+
+
+not ok 2730 parallel/test-vm-module-synthetic
+  ---
+  duration_ms: 1.950
+  severity: fail
+  exitcode: 1
+  stack: |-
+    (node:72165) ExperimentalWarning: VM Modules is an experimental feature. This feature could change at any time
+    (Use `node --trace-warnings ...` to show where the warning was created)
+    node:internal/process/promises:288
+                triggerUncaughtException(err, true /* fromPromise */);
+                ^
+
+    AssertionError [ERR_ASSERTION]: Missing expected exception (ReferenceError).
+        at /<<PKGBUILDDIR>>/test/parallel/test-vm-module-synthetic.js:53:12
+        at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: undefined,
+      expected: { name: 'ReferenceError' },
+      operator: 'throws'
+    }
+
+not ok 2742 parallel/test-vm-strict-assign
+  ---
+  duration_ms: 3.514
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:124
+      throw new AssertionError(obj);
+      ^
+
+    AssertionError [ERR_ASSERTION]: Missing expected exception.
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-vm-strict-assign.js:18:8)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: undefined,
+      expected: /Cannot assign to read only property 'x'/,
+      operator: 'throws'
+    }
+
+    Node.js v18.6.0
+
+not ok 2774 parallel/test-v8-serialize-leak
+  ---
+  duration_ms: 38.295
+  severity: fail
+  exitcode: 1
+  stack: |-
+    node:assert:400
+        throw err;
+        ^
+
+    AssertionError [ERR_ASSERTION]: before=0 after=0
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-v8-serialize-leak.js:26:3)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: '=='
+    }
+
+    Node.js v18.6.0
+
+
+not ok 3072 sequential/test-debugger-preserve-breaks # TODO : Fix flaky test
+  ---
+  duration_ms: 36.894
+  severity: flaky
+  exitcode: 1
+  stack: |-
+    /<<PKGBUILDDIR>>/test/common/debugger.js:84
+              reject(new Error([
+                     ^
+
+    Error: Timeout (30000) while waiting for /(?:assert|break|break on start|debugCommand|exception|other|promiseRejection) in/i; found: debug>
+
+    < Waiting for the debugger to disconnect...
+    <
+    debug>
+        at Timeout.<anonymous> (/<<PKGBUILDDIR>>/test/common/debugger.js:84:18)
+        at listOnTimeout (node:internal/timers:564:17)
+        at process.processTimers (node:internal/timers:507:7)
+
+    Node.js v18.6.0
+
+not ok 2898 parallel/test-worker-memory
+  ---
+  duration_ms: 26.795
+  severity: fail
+  exitcode: 1
+  stack: |-
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=3.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=2.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=1.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=0.75 (numWorkers=16)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=0)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=1)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=2)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=3)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=4)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=5)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=6)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=7)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=8)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=9)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=10)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=11)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=12)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=13)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=14)
+    run() called with n=-0.25 (numWorkers=16)
+    done() called (finished=15)
+    node:assert:400
+        throw err;
+        ^
+
+    AssertionError [ERR_ASSERTION]: Unexpected memory overhead: [
+      {
+        rss: 0,
+        heapTotal: 8351744,
+        heapUsed: 4887352,
+        external: 2113862,
+        arrayBuffers: 146164
+      },
+      {
+        rss: 0,
+        heapTotal: 7049216,
+        heapUsed: 5974208,
+        external: 1993596,
+        arrayBuffers: 24802
+      }
+    ]
+        at /<<PKGBUILDDIR>>/test/parallel/test-worker-memory.js:46:14
+        at run (/<<PKGBUILDDIR>>/test/parallel/test-worker-memory.js:23:12)
+        at Worker.<anonymous> (/<<PKGBUILDDIR>>/test/parallel/test-worker-memory.js:31:5)
+        at Worker.<anonymous> (/<<PKGBUILDDIR>>/test/common/index.js:434:15)
+        at Worker.emit (node:events:513:28)
+        at [kOnExit] (node:internal/worker:279:10)
+        at Worker.<computed>.onexit (node:internal/worker:199:20) {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: '=='
+    }
+
+    Node.js v18.6.0
+
+not ok 3148 sequential/test-perf-hooks
+  ---
+  duration_ms: 1.128
+  severity: fail
+  exitcode: 1
+  stack: |-
+    {
+      name: 'node',
+      entryType: 'node',
+      startTime: 0,
+      duration: { around: 864.5942821502686 },
+      nodeStart: { around: 0 },
+      v8Start: { around: 0 },
+      bootstrapComplete: { around: 864.1777482032776, delay: 2500 },
+      environment: { around: 0 },
+      loopStart: -1,
+      loopExit: -1
+    }
+    node:assert:400
+        throw err;
+        ^
+
+    AssertionError [ERR_ASSERTION]: environment: 280.3899931907654 >= 250
+        at checkNodeTiming (/<<PKGBUILDDIR>>/test/sequential/test-perf-hooks.js:31:7)
+        at Object.<anonymous> (/<<PKGBUILDDIR>>/test/sequential/test-perf-hooks.js:43:1)
+        at Module._compile (node:internal/modules/cjs/loader:1120:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+        at Module.load (node:internal/modules/cjs/loader:998:32)
+        at Module._load (node:internal/modules/cjs/loader:839:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+        at node:internal/main/run_main_module:17:47 {
+      generatedMessage: false,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: '=='
+    }
+
+    Node.js v18.6.0
+
+----------
+https://www.cncf.io/kubecon-cloudnativecon-events/
+I have an academic colleague heavily involved with the Redfish infrastructure project.  I'll reach out and see which conferences they feel are strong & useful
+https://databricks.com/dataaisummit/
+-------------------------
+Datacenter/Cloud Computing SIG 2022/07/25 会议纪要：
+
+- Agenda
+  - iterate over non-ISA plan for the board: https://docs.google.com/presentation/d/1RBcRB41d0qZsVP6TrE9jnsPUQyoE493mgOoL75m5jeQ/edit
+- Action Items
+  - ALL to write whitepapers
+  - Write intro email to invite owners for 2 papers
+  - Connect GuoRen on MM with Earl
+- Permanent documents:
+  - reviewed draft charter 1.0: https://github.com/riscv-admin/datacenter/blob/main/CHARTER.md
+  - non-isa plan:  https://docs.google.com/presentation/d/1RBcRB41d0qZsVP6TrE9jnsPUQyoE493mgOoL75m5jeQ/edit
+# Minutes
+
+Reviewed Alibaba contribution in
+DC/CC Main paper: 
+o	https://docs.google.com/document/d/1xuoUic-ORsc3UIGaUMsSRnY4UHogX1zuePH5QeJcjHQ/edi
+
+on TSO, weak memory model, numa, TSX. Looks good, recommend moving to
+ISA and Infrastructure Improvement: 
+o	https://docs.google.com/document/d/1U2Lwu7yW2p4eLky0bLhT9WaCBIx8XZs9aDfaeEO5pY4/edit 
+
+---------
+老板，会议纪要这样行不，(摘自 https://github.com/riscv-admin/datacenter/commit/b36f6804e5e199bd57cd6005afba47059ba61a38
+-----------------
+Datacenter/Cloud Computing SIG 2022/07/25 会议纪要：
+
+- 会议议程
+  -审议non-ISA： https://docs.google.com/presentation/d/1RBcRB41d0qZsVP6TrE9jnsPUQyoE493mgOoL75m5jeQ/edit
+- 行动项
+  -请参会者补充Technical Whitepaper
+
+- Agenda
+  - iterate over non-ISA plan for the board: https://docs.google.com/presentation/d/1RBcRB41d0qZsVP6TrE9jnsPUQyoE493mgOoL75m5jeQ/edit
+- Action Items
+  - ALL to write whitepapers
+  - Write intro email to invite owners for 2 papers
+  - Connect GuoRen on MM with Earl
+- Permanent documents:
+  - reviewed draft charter 1.0: https://github.com/riscv-admin/datacenter/blob/main/CHARTER.md
+  - non-isa plan:  https://docs.google.com/presentation/d/1RBcRB41d0qZsVP6TrE9jnsPUQyoE493mgOoL75m5jeQ/edit
+
+
+

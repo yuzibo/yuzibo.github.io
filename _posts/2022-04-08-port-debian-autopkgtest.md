@@ -21,3 +21,7 @@ autopkgtest gdk-pixbuf -- qemu autopkgtest-unstable.img
 
 [根据这个wiki](https://wiki.debian.org/ContinuousIntegration/autopkgtest)
 
+# 使用chroot
+```bash
+sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
+```

@@ -43,6 +43,12 @@ $autopkgtest_opts = [ '--', 'schroot', '%r-%a-sbuild' ];
 
 ```
 
+## 另一个可用编译选项
+```bash
+ gbp buildpackage  --git-builder=sbuild --arch=riscv64 -d sid  --source --git-debian-branch=debian/main --git-export-dir=../rush-build-area/  --git-ignore-new --verbose
+```
+不用顾虑上游源代码。
+
 # import
 
 ## import upstream

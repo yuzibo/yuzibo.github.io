@@ -344,4 +344,14 @@ body to
 Version: 22.1.3-1
 Tag: fixed
 ```
-进行关闭。
+进行关闭。 只有 tag 是 fixed 的才可以标注成功。
+
+还有一种的方法也挺好的：
+
+```bash
+To: Bo YU <tsu.yubo@gmail.com>, 1016482@bugs.debian.org
+
+# bts-close because of the reason below
+close 1016482
+thanks
+```

@@ -39,7 +39,7 @@ When there's a new upstream release, run:
 import新的版本：
 
 ```bash
-vimer@debian-local:~/build_test/rfs/debian-rush/rush$ gbp import-orig --uscan --debian-branch=debian/main --upstream-branch=upstream/latest --verbose
+vimer@debian-local:~/build_test/rfs/debian-rush/rush$ gbp import-orig --uscan --debian-branch=debian/main --upstream-branch=upstream/latest --verbose   
 gbp:debug: ['git', 'rev-parse', '--show-cdup']
 gbp:debug: ['git', 'rev-parse', '--is-bare-repository']
 gbp:debug: ['git', 'rev-parse', '--git-dir']
@@ -75,6 +75,12 @@ gbp buildpackage --git-upstream-tree=upstream/2.2 --git-upstream-branch=upstream
 ```
 
 这个只有在我们没有新的orig tarball时确认使用。
+
+还可以使用这个命令编译:
+
+```bash
+gbp buildpackage  --git-builder=sbuild -d unstable  --source --git-debian-branch=debian/main --git-export-dir=../rush-build-area/  --git-ignore-new --verbose
+```
 
 # lintian
 

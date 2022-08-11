@@ -359,7 +359,13 @@ https://github.com/carlosedp/riscv-bringup/blob/master/unmatched/Readme.md
 
 # for Wuhan lab
 
+## 基础环境
 1. apt update (会失败， 使用命令 ntpdate ntp.aliyun.com 更新时间，然后update就可以)
+不嫌麻烦的话还可以使用:
+
+```bash
+apt install ca-certificates
+```
 
 2. 更新source: 
 将/etc/apt/sources.list更新一下内容：

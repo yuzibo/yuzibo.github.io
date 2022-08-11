@@ -13,6 +13,12 @@ https://gist.github.com/sunshaoce/90216c19591581f8997df0109b65c154 这个是RISC
 
 riscv elfapi url: https://github.com/riscv-non-isa/riscv-elf-psabi-doc
 
+Docker 环境也有了：
+
+大家好，RVCC 开发环境的 Docker 镜像已经配置好，欢迎大家使用。详情可以参考：https://github.com/ksco/rvcc-env-docker。
+
+提供的是国内阿里云的 registry，下载飞快！
+
 # 01
 
 [01视频地址](https://m.bilibili.com/video/BV1ga411u7X9)
