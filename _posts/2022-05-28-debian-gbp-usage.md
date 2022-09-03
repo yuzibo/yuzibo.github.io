@@ -6,6 +6,7 @@ layout: post
 * content
 {:toc}
 
+# gbp build
 
 使用 gbp 带sbuild去编译debian package的方法如下 ：
 
@@ -49,6 +50,29 @@ $autopkgtest_opts = [ '--', 'schroot', '%r-%a-sbuild' ];
 ```
 不用顾虑上游源代码。
 
+## issues
+
+### gbp:error: upstream/22.06 is not a valid treeish
+
+这种情况是，直接clone salsa后，里面只有一个`debian/`目录。例如 [neochat](https://salsa.debian.org/vimerbf-guest/neochat), 当clone下来之后，如果按照上面的命令进行编译，会遇到上面的issue:
+```bash
+gbp:error: upstream/22.06 is not a valid treeish
+```
+解决方案就是使用本地的upstream tarball代替upstream分支。
+
+
+```bash
+uscan --force-download
+gpgv: Signature made Fri Jun 24 14:41:11 2022 UTC
+gpgv:                using RSA key B3CB366552540BE06EE9AD9711968C44928CAEFC
+gpgv: Good signature from "Bhushan Shah (mykolab address) <bshah@mykolab.com>"
+gpgv:                 aka "Bhushan Shah <bhush94@gmail.com>"
+gpgv:                 aka "Bhushan Shah (kde) <bshah@kde.org>"
+Successfully symlinked ../neochat-22.06.tar.xz to ../neochat_22.06.orig.tar.xz.
+
+# 直接使用下载好tarball
+gbp buildpackage --git-tarball-dir=../   --git-builder=sbuild -d unstable  --git-debian-branch=debian/main --git-export-dir=../build-area/ --git-ignore-new  --verbose
+```
 # import
 
 ## import upstream

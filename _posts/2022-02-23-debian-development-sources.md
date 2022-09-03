@@ -396,3 +396,11 @@ mount -o remount,rw /boot
 ```bash
 sudo apt-mark hold linux-image-riscv64
 ```
+
+# packaging tools
+
+## copyrightReviewtools
+[copyrightreviewtools](https://wiki.debian.org/CopyrightReviewTools)
+
+## review list
+[review list](https://people.debian.org/~abe/sponsoring/)

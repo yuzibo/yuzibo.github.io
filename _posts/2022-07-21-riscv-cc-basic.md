@@ -37,6 +37,108 @@ vimer@unmatched:~/build/rvcc$ echo $?
 42
 ```
 
+接下来，我们再进一步，使用一个 .c 文件：
+```bash
+vimer@unmatched:~/build/rvcc/02$ cat main.c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main (int argc, char ** argv){
+        if (argc != 2){
+                // argc is right
+                fprintf(stderr, "%s: invalid number of argcs\n", argv[0]);
+                return 1;
+        }
+
+        printf("        .global main\n");
+
+        printf("main:\n");
+        printf("        li a0, %d\n", atoi(argv[1]));
+        printf("        ret\n");
+}
+```
+然后Makefile:
+
+```bash
+vimer@unmatched:~/build/rvcc/02$ cat Makefile
+# C编译器参数：使用C11标准，生成debug信息，禁止将未初始化的全局变量放入到common段
+CFLAGS=-std=c11 -g -fno-common
+# 指定C编译器，来构建项目
+CC=clang
+
+# rvcc标签，表示如何构建最终的二进制文件，依赖于main.o文件
+rvcc: main.o
+# 将多个*.o文件编译为rvcc
+        $(CC) -o rvcc $(CFLAGS) main.o
+
+# 测试标签，运行测试脚本
+test: rvcc
+        ./test.sh
+
+# 清理标签，清理所有非源代码文件
+clean:
+        rm -f rvcc *.o *.s tmp* a.out
+
+# 伪目标，没有实际的依赖文件
+.PHONY: test clean
+
+```
+这里还有一个test.sh:
+
+```bash
+#!/bin/bash
+
+# 声明一个函数
+assert() {
+  # 程序运行的 期待值 为参数1
+  expected="$1"
+  # 输入值 为参数2
+  input="$2"
+
+  # 运行程序，传入期待值，将生成结果写入tmp.s汇编文件。
+  # 如果运行不成功，则会执行exit退出。成功时会短路exit操作
+  ./rvcc "$input" > tmp.s || exit
+  # 编译rvcc产生的汇编文件
+  clang -o tmp tmp.s
+  # $RISCV/bin/riscv64-unknown-linux-gnu-gcc -static -o tmp tmp.s
+
+  # 运行生成出来目标文件
+  ./tmp
+  # $RISCV/bin/qemu-riscv64 -L $RISCV/sysroot ./tmp
+  # $RISCV/bin/spike --isa=rv64gc $RISCV/riscv64-unknown-linux-gnu/bin/pk ./tmp
+
+  # 获取程序返回值，存入 实际值
+  actual="$?"
+
+  # 判断实际值，是否为预期值
+  if [ "$actual" = "$expected" ]; then
+    echo "$input => $actual"
+  else
+    echo "$input => $expected expected, but got $actual"
+    exit 1
+  fi
+}
+
+# assert 期待值 输入值
+# [1] 返回指定数值
+assert 0 0
+assert 42 42
+
+# 如果运行正常未提前退出，程序将显示OK
+echo OK
+```
+执行  `make test`：
+```bash
+vimer@unmatched:~/build/rvcc/02$ make test
+clang -std=c11 -g -fno-common   -c -o main.o main.c
+clang -o rvcc -std=c11 -g -fno-common main.o
+./test.sh
+0 => 0
+42 => 42
+OK
+
+```
+
 # 02
 
 徒手写一个RISC-V编译器 - 第002课
