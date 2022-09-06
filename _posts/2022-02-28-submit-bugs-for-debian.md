@@ -330,7 +330,9 @@ The Debian BTS starting point: [https://bugs.debian.org/](https://bugs.debian.or
 
 以上片段摘自[here](https://arnaudr.io/2016/10/01/publishing-a-debian-package-mentors-sponsorship/).
 
-## 关闭bug
+##  close bug
+
+### done
 比如，[https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011367](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011367) 是我open的bug,但是途中突然发现，我应该去关闭它，因为暂时没有比较好的解决方案，怎么处理？很简单：发送 email
 body to
  
@@ -355,3 +357,21 @@ To: Bo YU <tsu.yubo@gmail.com>, 1016482@bugs.debian.org
 close 1016482
 thanks
 ```
+
+### close
+```bash
+1018685-close@bugs.debian.org
+Subject: Bug#1018685: fixed
+```
+## 关联影响
+
+```bash
+To: Debian Bug Tracking System <submit@bugs.debian.org>
+Source: gnuradio
+Version: 3.10.2.0-1
+Severity: important
+Tags: ftbfs
+X-Debbugs-Cc: zhsj@debian.org
+Control: affects -1 src:fmtlib
+```
+这个bug是说明，

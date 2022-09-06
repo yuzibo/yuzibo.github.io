@@ -82,11 +82,18 @@ gbp buildpackage --git-upstream-tree=upstream/2.2 --git-upstream-branch=upstream
 gbp buildpackage  --git-builder=sbuild -d unstable  --source --git-debian-branch=debian/main --git-export-dir=../rush-build-area/  --git-ignore-new --verbose
 ```
 
+## 原始的tarball
+
+Please fix your approach of downloading the orig.tar.gz. This one is not the originally distributed one... You can get the right one with
+
+```bash
+uscan --download-current-version.
+```
 # lintian
 
 ## W: rush source: orig-tarball-missing-upstream-signature rush_2.2.orig.tar.gz
 ```bash
- gpg --armor --detach-sign myprogram-0.1.orig.tar.gz
+gpg --armor --detach-sign myprogram-0.1.orig.tar.gz
 ```
 
 # 目前 rush 2.2 已经进入debian
