@@ -6,6 +6,23 @@ layout: post
 * content
 {:toc}
 
+# import-orig
+这里有很多import的场景：
+
+## debian 没有
+这个需要 one by one的去做
+
+## debian有
+最好使用dsc 这个选项:
+```bash
+gbp import-dsc --upstream-branch=upstream/latest --debian-branch=debian/main --verbose ../libunwind_1.3.2-2.dsc
+```
+或者
+```bash
+gbp import-orig --debian-branch=debian/main --upstream-branch=upstream/latest
+```
+
+
 # gbp build
 
 使用 gbp 带sbuild去编译debian package的方法如下 ：

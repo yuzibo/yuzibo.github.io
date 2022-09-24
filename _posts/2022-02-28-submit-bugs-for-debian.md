@@ -195,6 +195,19 @@ tags -1 - moreinfo
 
 ```
 
+# control@g.d.o
+通过上面我们也发现，除了给特定num@bugs.debian.org发送指令外，还可以给`control@bugs.debian.org`邮箱发送指令，比如，我发现一个RFP,
+如果想使用ITP去打包，可以直接使用以下命令控制:
+
+```bash
+retitle 1020411 ITP: sphinxcontrib-ditaa -- sphinx extension for embedding block diagram using ditaa 
+owner 1020411 !
+thanks
+```
+注意的是，ITP后面的":"要空一个格。 retitle最后空一个，不要符号就行。
+
+
+
 # reportbug
 ## reportbug --from-buildd
 `reportbug --from-buildd=<package>_<full_version>`

@@ -99,3 +99,11 @@ gpg --armor --detach-sign myprogram-0.1.orig.tar.gz
 # 目前 rush 2.2 已经进入debian
 
 [salsa](git@salsa.debian.org:debian/rush.git) 后面所有的改动转移到这里来。
+
+# issue
+
+```bash
+ Please run `origtargz` before to get the orig.tar.gz.
+There is something off with the file in the archive.
+I guess I took that from your mentors upload.
+```
