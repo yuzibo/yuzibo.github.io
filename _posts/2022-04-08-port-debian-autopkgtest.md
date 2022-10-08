@@ -25,3 +25,16 @@ autopkgtest gdk-pixbuf -- qemu autopkgtest-unstable.img
 ```bash
 sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
 ```
+
+# debci riscv64 status 
+
+[britney's Job History ](https://ci.debian.net/user/britney/jobs?package=&trigger=&suite%5B%5D=unstable&arch%5B%5D=riscv64)
+
+# autopkgtest(packaging)的一些用法
+
+## warning
+在autopkgtest中，原生的warning会被认为FAIL,所以我们在处理这样的情况时(没有warning最好)，可以使用
+```bash
+Restrictions: allow-stderr
+```
+进行约束解除。
