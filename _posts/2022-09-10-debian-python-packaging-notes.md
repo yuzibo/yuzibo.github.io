@@ -27,6 +27,15 @@ $ git checkout -b debian/main
 
 # debian/*
 
+## 原则
+ 
+1. arch  一般为 all(架构独立), 只有C扩展的才是any(架构非独立)
+
+2. 测试一般使用pytest或者unittest(unitetest应该就是默认的)
+
+3. 
+
+
 ## debian/rules
 ```bash
 # 可以clear:
@@ -49,3 +58,11 @@ Debian python team的RFS有一些特殊的地方是，你除了发邮件外，�
 
 这样就可以的了。
 
+# packages
+这里，主要记载一些我自己upload的python包或者看到的一些好的打包范例。
+
+## lazy-loader
+
+[lazy-loader](https://salsa.debian.org/python-team/packages/lazy-loader/-/tree/debian/main/debian)
+是我第一个比较打包顺利的python包，其中确实学到了不少的知识。尤其关注 2022-10  的debian python mail
+list对这个的初版审评意见。

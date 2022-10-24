@@ -1,5 +1,5 @@
 ---
-title: Debian QA packages
+title: Debian NMU packages
 category: debian-riscv
 layout: post
 ---
