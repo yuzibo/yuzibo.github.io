@@ -1,5 +1,5 @@
 ---
-title: packaging python package - git-multimail 
+title: packaging python package
 category: debian-riscv
 layout: post
 ---
@@ -20,6 +20,10 @@ layout: post
 2.  只要消除了1， 其他的事情都不叫事。
 
 注意一点:  debian python team不使用 `git-gdm`,这一点尤其注意。
+
+
+# 基本操作
+
 ## 创建 repo 
 
 Set up a new repository visit https://salsa.debian.org/python-team/packages/ and follow the 'new project' link (the link will not be accessible unless you have joined the team). Enter the source package name as the project name and leave the visibility set to public.
@@ -45,9 +49,10 @@ $ git checkout -b debian/master
 
 The upstream parameter specifies the tag or branch that contains the same content that is present in the tarball。
 
-<del>
+
 ### 不要使用 git-dpm in Debian python team
 <del>python team自己维护了一套tool，叫做  git-dpm,需要安装一下。</del>
+<del>
 ```bash
 git branch -D foo  # make sure there is no branch foo
 git-dpm import-tar ../foo_0.0.0.orig.tar.gz 
@@ -67,7 +72,6 @@ git-multimail (0.15-1) unstable; urgency=medium
 
   * Initial release of git-multimail to Debian. (Closes: #1007025)
 
-  * Start from upstream's packaging. With some refreshing:
 
     -- Add myself as Maintainer.
 
@@ -141,7 +145,7 @@ I: $ wrap-and-sort
         dh $@ --with python2
 ```
 ### d/rules
-下面是 d/rules 文件：
+下面是 d/control 文件：
 
 ```bash
 (sid-amd64-sbuild)root@debian-local:/home/vimer/git/git-multimail/git-multimail/debian# cat control
@@ -174,6 +178,8 @@ Description: auto-generated package by debmake
 
 这里应该对每一个文件的copyright进行检查并说明，Files, Copyright, License为一组，最后是lisence的解释说明。
 
+# git-multimail
+
 ## 具体填充文件
 
 [参考这篇文章](https://wiki.debian.org/Python/LibraryStyleGuide?action=show&redirect=Python%2FPackaging)
@@ -193,7 +199,7 @@ export PYBUILD_NAME=git-multimail
 
 
 %:
-        dh $@ --with python2,python3 --buildsystem=pybuild
+        dh $@ --with python3 --buildsystem=pybuild
 
 ```
 
@@ -216,7 +222,7 @@ https://github.com/git-multimail/git-multimail/tags \
 uscan --no-download --verbose
 ```
 
-# fix
+## fix
 这里有一些需要fix的问题对于新的itp包：
 
 ## 没包含source code
@@ -228,9 +234,9 @@ Make sure you include the full source (if you are using sbuild make sure to use 
 
 方案说的也很清楚哈。
 
-# 经过
+## build
 
-##  gbp 临时命令:
+###  gbp 临时命令:
 ```bash
 gbp buildpackage --git-upstream-tree=upstream/1.5.0 --git-upstream-branch=upstream/1.5.0  --git-builder=sbuild -d unstable  --git-debian-branch=debian/main --git-export-dir=../build-area/ --git-ignore-new  --verbose
 ```
@@ -264,3 +270,19 @@ endif
 ```bash
 https://sources.debian.org/src/util-linux/2.38-4/debian/rules/?hl=77#L77
 ```
+
+# lazy-loader
+TBD
+
+## d/rules
+```python
+export DH_VERBOSE = 1
+export PYBUILD_SYSTEM=flit
+# 使用与 setup.py不同的打包方式
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+```
+
+# tkcalendar
+TBD
