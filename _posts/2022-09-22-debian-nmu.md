@@ -37,3 +37,34 @@ electrum (4.3.2-0.1) unstable; urgency=medium
    * debian/watch: Update to version 4 and refactor for "sourceonly" tarball.
 
 ```
+
+## Update upstream
+
+```bash
+# 1. import orig packages
+gbp import-dsc elektra_0.8.14-5.1.dsc
+
+# 2. push repo
+# 一般来说这个时候是没有 repo的，所以需要自己新建一个repo
+# http://marquiz.github.io/git-buildpackage-rpm/gbp.import.html
+
+# 3. 
+ gbp pq import
+
+# 4.
+git checkout master
+
+# 5. import the new upstream into upstream
+gbp import-orig ../elektra-0.9.11.tar.gz
+What is the upstream version? [0.9.11]
+gbp:info: Importing '../elektra-0.9.11.tar.gz' to branch 'upstream'...
+gbp:info: Source package is elektra
+gbp:info: Upstream version is 0.9.11
+gbp:info: Replacing upstream source on 'master'
+gbp:info: Successfully imported version 0.9.11 of ../elektra-0.9.11.tar.gz
+
+
+# 6. 
+gbp pq export
+gbp pq drop
+```

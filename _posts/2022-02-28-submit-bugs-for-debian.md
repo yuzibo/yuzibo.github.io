@@ -343,6 +343,24 @@ The Debian BTS starting point: [https://bugs.debian.org/](https://bugs.debian.or
 
 以上片段摘自[here](https://arnaudr.io/2016/10/01/publishing-a-debian-package-mentors-sponsorship/).
 
+## RM packages
+
+如果发现一个package有充足的理由被removed掉，可以发送RM请求让ftp-master帮忙清除掉。样例如下:
+
+```bash
+# subject
+RM: src:fizmo -- NVIU; replaced by other real packages
+
+Package: ftp.debian.org
+Severity: normal
+
+According to [0], the src:fizmo package should be removed from archive
+because "fizmo-ncursesw" and "fizmo-console" which provide a virtual fizmo
+package. The src:fizmo has RC reportbug[0] and should not fix it again.
+Once this once, I will close the [0] also. thanks.
+```
+其实文件内容说说理由就行。
+
 ##  close bug
 
 ### done
