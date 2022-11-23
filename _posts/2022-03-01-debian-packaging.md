@@ -6,6 +6,8 @@ layout: post
 * content
 {:toc}
 
+有一篇简易的[教程](https://debathena.mit.edu/packaging/)
+
 [这里](https://wiki.debian.org/Packaging)有太多的资料可供参考。
 
 由于历史的原因，Debian本身具有很多打包的命令与工具，各不相同。为了简化我们的操作或者顺应大势，我们首先考虑的是延续git的用法。

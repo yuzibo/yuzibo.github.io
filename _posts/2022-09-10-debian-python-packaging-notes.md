@@ -7,7 +7,8 @@ layout: post
 {:toc}
 
 # packaging
-主要参考[这里](https://wiki.debian.org/Python/GitPackaging)
+主要参考[这里](https://wiki.debian.org/Python/GitPackaging), 还有一个[policy](https://salsa.debian.org/python-team/tools/python-modules/-/blob/master/policy.rst)也非常重要的。
+
 ## introducing a new package
 这里的引入新包，是指Debian中并没有，而是从头开始创建。
 
@@ -23,6 +24,46 @@ $ git tag -s upstream/1.0
 $ pristine-tar commit ../srcpkgname_1.0.orig.tar.gz upstream
 $ git checkout -b debian/main
 
+```
+
+##  introducing an existed package from debian
+
+```bash
+ gbp import-dscs --pristine-tar --debsnap python-ssdeep
+gbp:info: Downloading snapshots of 'python-ssdeep' to '/tmp/tmp_0ren7kh'...
+gbp:info: No git repository found, creating one.
+gbp:info: Version '3.1+dfsg-1' imported under '/home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep'
+gbp:info: Version '3.1+dfsg-2' imported under '/home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep'
+gbp:info: Version '3.1+dfsg-2.1' imported under '/home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep'
+gbp:info: Version '3.1+dfsg-3' imported under '/home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep'
+gbp:info: Version '3.1+dfsg-4' imported under '/home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep'
+gbp:info: Everything imported under /home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep
+
+```
+
+参考 [http://marquiz.github.io/git-buildpackage-rpm/gbp.import.html](http://marquiz.github.io/git-buildpackage-rpm/gbp.import.html)
+
+## from upstream introduce a new release 
+还要注意repacke的问题:
+
+```python
+$ gbp pq import
+$ git checkout debian/master
+$ gbp import-orig --pristine-tar --uscan
+```
+别忘记:
+
+```bash
+$ gbp pq rebase
+$ gbp pq export
+```
+
+## tagging
+Once you've built and uploaded your package, you should tag the release.
+
+```bash
+$ gbp buildpackage --git-tag-only
+$ git push --tags
 ```
 
 # debian/*

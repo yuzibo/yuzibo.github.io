@@ -57,3 +57,19 @@ The binNMUs are for the reverse dependencies of libzim7 so that they
 pick up a dependency on libzim8.
 
 
+## 一个example
+
+```bash
+
+Package: release.debian.org
+Severity: normal
+User: release.debian.org@packages.debian.org
+Usertags: binnmu
+
+Hello,
+
+I want to request binNMU to support python3.11.
+
+  nmu spglib_2.0.2-1 . ANY . unstable . -m "Add python3.11"
+
+```
