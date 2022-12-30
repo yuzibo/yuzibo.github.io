@@ -28,8 +28,12 @@ $ git checkout -b debian/main
 
 ##  introducing an existed package from debian
 
+有用的两个链接:
+[1](http://marquiz.github.io/git-buildpackage-rpm/gbp.import.html#GBP.IMPORT.NEW.UPSTREAM)
+[2](https://wiki.debian.org/Python/GitPackaging#Git_Workflows)
+
 ```bash
- gbp import-dscs --pristine-tar --debsnap python-ssdeep
+gbp import-dscs --pristine-tar --debsnap python-ssdeep
 gbp:info: Downloading snapshots of 'python-ssdeep' to '/tmp/tmp_0ren7kh'...
 gbp:info: No git repository found, creating one.
 gbp:info: Version '3.1+dfsg-1' imported under '/home/vimer/build/rfs/nmu/23_python-ssdeep/ssddep/python-ssdeep'
@@ -44,7 +48,7 @@ gbp:info: Everything imported under /home/vimer/build/rfs/nmu/23_python-ssdeep/s
 参考 [http://marquiz.github.io/git-buildpackage-rpm/gbp.import.html](http://marquiz.github.io/git-buildpackage-rpm/gbp.import.html)
 
 ## from upstream introduce a new release 
-还要注意repacke的问题:
+还要注意repackage的问题:
 
 ```python
 $ gbp pq import
@@ -86,6 +90,30 @@ override_dh_python3:
 
 ```
 
+### 测试
+
+[chargebee-python](https://salsa.debian.org/python-team/packages/chargebee-python/-/blob/debian/master/debian/rules#L11)
+```bash
+override_dh_auto_test:
+	$(foreach pyv, $(PYVERS), python$(pyv) -m unittest -v tests/util.py;)
+
+```
+
+### gitlab-ci file
+
+```bash
+vimer@dev:~/build/rfs/packages/pygubu-0.27$ cat debian/.gitlab-ci.yml
+---
+include:
+  - https://salsa.debian.org/salsa-ci-team/pipeline/raw/master/salsa-ci.yml
+  - https://salsa.debian.org/salsa-ci-team/pipeline/raw/master/pipeline-jobs.yml
+
+variables:
+ RELEASE: 'unstable'
+ # no compiled code, no point running blhc
+ SALSA_CI_DISABLE_BLHC: 'true'
+
+```
 # RFS
 Debian python team的RFS有一些特殊的地方是，你除了发邮件外，还可以使用一些特殊手段在IRC发出请求提供帮助，那就是这样：
 
@@ -107,3 +135,27 @@ Debian python team的RFS有一些特殊的地方是，你除了发邮件外，�
 [lazy-loader](https://salsa.debian.org/python-team/packages/lazy-loader/-/tree/debian/main/debian)
 是我第一个比较打包顺利的python包，其中确实学到了不少的知识。尤其关注 2022-10  的debian python mail
 list对这个的初版审评意见。
+
+## tkcalendar
+
+[tkcalendar](https://salsa.debian.org/python-team/packages/tkcalendar)
+
+## pygubu
+
+[pygubu](https://salsa.debian.org/python-team/packages/pygubu/-/tree/debian/main/debian)这个包同 `tkcanlendar`一样，用到了 X11的环境。当然，这几个文件都需要仔细看看d/rules d/tests.
+
+## python-apt
+
+```python
+# We ignore failures on hurd, since its locking is broken
+override_dh_auto_test: export PYBUILD_SYSTEM=custom
+override_dh_auto_test: export PYBUILD_TEST_ARGS=env PYTHONPATH={build_dir} {interpreter} tests/test_all.py
+override_dh_auto_test:
+	dh_auto_test || [ "$(DEB_BUILD_ARCH_OS)" = "hurd" ];
+```
+
+在某个架构上不跑test。
+
+## python-trie
+
+包含docs目录的doc手册。

@@ -42,7 +42,7 @@ override_dh_auto_install-indep:
 override_dh_auto_configure:
         dh_auto_configure -- --enable-unit
 ```
-指定运行测试单元，这也是一个需要注意的地方。
+指定运行配置项，这也是一个需要注意的地方。
 
 # 特殊变量
 [debmake-doc](https://www.debian.org/doc/manuals/debmake-doc/ch05.en.html)
@@ -54,6 +54,7 @@ The current directory is set as: $(CURDIR)=/path/to/package-version/
 DESTDIR=debian/binarypackage/ (single binary package)
 DESTDIR=debian/tmp/ (multi binary package)
 ```
+其中的DESTDIR是和Makefile的安装路径一起配合使用的。
 
 ## dh
 dh是一个来自debhelper包的辅助命令，如下：
@@ -73,12 +74,47 @@ dh binary-indep : generate the deb file for architecture independent packages
 
 备注： For debhelper “compat >= 9”, the dh command exports compiler flags (CFLAGS, CXXFLAGS, FFLAGS, CPPFLAGS and LDFLAGS) with values as returned by dpkg-buildflags if they are not set previously. (The dh command calls set_buildflags defined in the Debian::Debhelper::Dh_Lib module.)
 
-# test
 
-1. https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1021936 [kopanocore patch]
-2.  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1010807#25 [isc-dhcp update]
-3.  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1022270 [QA] [RC] [RFS ladvd]
-4. https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1022540 [build-essential patch]
-5. https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1022757[RM src: fizmo]
-6.  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1022808 [NMU RC srg]
-7. https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1021619 [lazy-loader done]
+### override_dh_auto_configure
+```c
+override_dh_auto_configure:
+	# Rebuild ./configure to get build system patches working
+	aclocal
+	autoconf
+	# --with-error-policy=retry-job # Set default job error policy to "retry-job", since it is less confusing and a better default on most machines
+	# --enable-sync-on-close # Set SyncOnClose to yes; considered saner on Linux
+	# --with-max-log-size=0 # Deactivate CUPS' internal logrotating, as we provide a better one, especially LogLevel debug2 gets usable now
+	dh_auto_configure -- \
+		$(CUPS_CONFIGURE_DISTRO_OPTIONS) \
+		--with-docdir=/usr/share/cups/doc-root \
+		--localedir=/usr/share/cups/locale \
+                ...
+```
+这个片段来自[cup](https://sources.debian.org/src/cups/2.4.2-1/debian/rules/?hl=82#L82). 可以重新`configure`,然后重点看下配置项是怎么添加进去的。
+
+### override_dh_auto_build
+```bash
+override_dh_auto_build:
+        dh_auto_build -- "`dpkg-buildflags --export=configure`"
+```
+
+### override_dh_auto_install
+
+```bash
+override_dh_auto_install:
+        make install DESTDIR=debian/dds2tar
+```
+自定义安装的目录，这里需要看下Makefile的支持情况。
+
+### override_dh_installman
+
+```bash
+override_dh_installman:
+        rm -rf debian/dds2tar/usr/share/man/man1
+        dh_installman
+```
+适时的调整man手册。
+
+# cases
+
+这里的cases，是指遇到一些较为容易理解，自己之前没有遇到过的规则，现在总结下来，方便后面的使用。

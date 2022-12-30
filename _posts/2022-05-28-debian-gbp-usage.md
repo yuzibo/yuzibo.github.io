@@ -6,18 +6,21 @@ layout: post
 * content
 {:toc}
 
-# import-orig
+# import
 这里有很多import的场景：
 
 ## debian 没有
-这个需要 one by one的去做
+对于新包来说，需要新建一个repo，创建各个分支，详情可以参考python package notes,这个需要 one by one的去做.
 
 ## debian有
+
+### gbp import-dsc .dsc
 最好使用dsc 这个选项:
 ```bash
 gbp import-dsc --upstream-branch=upstream/latest --debian-branch=debian/main --verbose ../libunwind_1.3.2-2.dsc
 ```
-或者
+
+### gbp import-orig
 ```bash
 gbp import-orig --debian-branch=debian/main --upstream-branch=upstream/latest
 ```
