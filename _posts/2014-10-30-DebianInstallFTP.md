@@ -1,52 +1,62 @@
 ---
 layout: post
 category: tools
-title: "Debian 安装FTP"
+title: "Debian 安装(tFTP)"
 ---
 
 * content
 {:toc}
 
-# 零
-    最近又想折腾 LFS，在debian系统上安装了个 VirtualBox,里面也安装了 linxu，突然想到要使用文件传输的功能，最直接的想到了 ftp ，这里简单把安装过程记录一下。
-	首先，
+# update
+最近因为在整U-boot的东西，所以有很多操作需要记录下来。
 
+[这篇文章](https://www.cnblogs.com/-tbd-/p/12631204.html)总结性的介绍了u-boot的使用，这里就简单说下tftp的使用.
+
+在linux主机上安装一下软件：
+
+```bash
+
+sudo apt-get install tftp-hpa tftpd-hpa
+sudo apt-get install xinetd
+```
+此时的默认tftp的路径存在于: `/srv/tftp/`将文件放置于这个地方接下来可以做一些事情了。
+
+# 过时的文章
+最近又想折腾 LFS，在debian系统上安装了个 VirtualBox,里面也安装了 linxu，突然想到要使用文件传输的功能，最直接的想到了 ftp ，这里简单把安装过程记录一下。
+首先，
+```bash
 	apt-get install vsftpd
+```
+然后配置vsftpd
 
-	然后配置vsftpd
+vi /etc/vsftpd.conf
 
-	vi /etc/vsftpd.conf
+打开后找到anonymous_enable=YES替换成 anonymous_enable=NO
 
-	打开后找到anonymous_enable=YES替换成 anonymous_enable=NO
+找到`local_enable=YES`, 将前面的#去掉,找到 `Write_enable=NO`,将前面的#去掉，改成 YES
 
-	找到__local_enable=YES__, 将前面的#去掉
-	找到 __Write_enable=NO__,将前面的#去掉，改成 YES
-
-	在配置文件的最后一行加上__chroot_local_user=YES
+在配置文件的最后一行加上`chroot_local_user=YES`
 
 # 一
-	接下来创建用户组
+接下来创建用户组
 
-	__groupadd ftp__
+`groupadd ftp`
 
-	创建用户
+创建用户
 
-	__useradd -g ftp -d /xx/xx__
+`useradd -g ftp -d /xx/xx`
 
-	后面的目录是指定用户登录到哪个目录
+后面的目录是指定用户登录到哪个目录,然后输入密码两次
 
-	然后输入密码两次
+`passwd user`
 
-	__passwd user__
-   重启 vsftpd服务
-   __invoke-rc.d vsftpd restart__
+重启 vsftpd服务
+`invoke-rc.d vsftpd restart`
 # 实例
 
-    只能下载的anonymous用户和能上传、下载的ftpuser用户
-    登录都是进入/var/ftp目录，且无法离开该目录(被chroot）
-    ftpuser可以在 /var/ftp/pub目录中建立目录和上传文件
-    匿名用户下载限速50kb/s，ftpuser限速500kb/s。
-    可联接的最多客户数为100,每ip可联接的最多客户数为5
+只能下载的anonymous用户和能上传、下载的ftpuser用户,登录都是进入/var/ftp目录，且无法离开该目录(被chroot）,ftpuser可以在 /var/ftp/pub目录中建立目录和上传文件,匿名用户下载限速50kb/s，ftpuser限速500kb/s。可联接的最多客户数为100,每ip可联接的最多客户数为5
+
+```bash
 ## /etc/vsftpd.conf
 <pre>
 # 接受匿名用户
@@ -99,6 +109,7 @@ max_per_ip=5
 connect_from_port_20=YES
 tcp_wrappers=YES
 pam_service_name=vsftpd
+```
 </pre>
 下面是我的/etc/vsftpd.user_list
 

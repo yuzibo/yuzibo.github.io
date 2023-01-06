@@ -207,6 +207,14 @@ Device          Start        End    Sectors   Size Type
 /dev/nvme0n1p3  16384     835583     819200   400M Microsoft basic data
 /dev/nvme0n1p4 835584 1953525134 1952689551 931.1G Linux filesystem
 ```
+
+如果在running的系统上进行扩容，可以使用下面的命令:
+
+```bash
+parted -f -s /dev/nvme0n1 print
+echo 'yes' | parted ---pretend-input-tty /dev/nvme0n1 resizepart 3  20GB
+resize2fs /dev/nvme0n1p3
+```
 ## 修改U-boot配置文件
 U-boot是unmatched用来引导挂载 `/` 目录的配置文件，其我们在sd 卡默认的配置文件为:
 ```bash
