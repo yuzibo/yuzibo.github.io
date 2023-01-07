@@ -43,6 +43,8 @@ https://salsa.debian.org/nilsonfsilva/cplay-ng/-/blob/debian/master/debian/manpa
 Do this with the txt2man program inside the debian/manpage directory
 using the following command: txt2man whey.txt > whey.1
 
+Then need delete head 3 line of .1 files
+
 obs: download txt2man first.
 
 4. create a file in the debian directory
