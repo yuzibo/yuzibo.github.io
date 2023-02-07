@@ -296,11 +296,14 @@ Debian release team是一个很大的团队，这里面有很多事情可以做�
 这个是成为release的标准:
 [https://release.debian.org/testing/arch_policy.html](https://release.debian.org/testing/arch_policy.html).
 
-# debian autoremovel
+## debian autoremovel
 
 可以关注这个页面，万一有自己维护的包被 autoremovel:
 [#1011268](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011268) -> [https://udd.debian.org/cgi-bin/autoremovals.cgi](https://udd.debian.org/cgi-bin/autoremovals.cgi)
 
+# Debian-ftp
+## dak
+Some docs: https://ftp-team.pages.debian.net/dak/docs/
 # 不同的声音
 
 [go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
