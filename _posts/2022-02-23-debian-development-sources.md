@@ -304,6 +304,12 @@ Debian release team是一个很大的团队，这里面有很多事情可以做�
 # Debian-ftp
 ## dak
 Some docs: https://ftp-team.pages.debian.net/dak/docs/
+
+## dinstall
+
+https://ftp-master.debian.org/stat/dinstall.png
+
+https://ftp-master.debian.org/dinstall.status
 # 不同的声音
 
 [go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
