@@ -8,6 +8,8 @@ layout: post
 
 autopkgtest 是根据[DEP8](https://salsa.debian.org/ci-team/autopkgtest/raw/master/doc/README.package-tests.rst)制定的，本文简单记录下这块的相关用法。
 
+或者还可以参考这个教程  https://hackmd.io/@fourdollars/By26b5au8
+
 # debci 环境搭建
 为了与线上的环境一致，推荐使用 `debci`的方式。
 ## autopkgtest-build-qemu

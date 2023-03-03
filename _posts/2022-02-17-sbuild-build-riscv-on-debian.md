@@ -525,6 +525,26 @@ This is very interesting!
 
 Enjoy it!
 
+# quick start
+
+```bash
+1. 安装依赖(推荐在Debian host上)：
+sudo apt install -y qemu-user-static qemu-system qemu-utils qemu-system-misc binfmt-support 、
+mmdebstrap sbuild dget
+2. sudo sbuild-createchroot --debootstrap=mmdebstrap --arch=riscv64 \
+        --include=debian-ports-archive-keyring,ca-certificates  \
+        --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz \
+        sid /tmp/chroots/sid-riscv64-sbuild/ \
+        https://mirror.iscas.ac.cn/debian-ports
+3. 添加用户组
+sudo sbuild-adduser <your-username>
+4. 新建目录后  
+dget -x https://deb.debian.org/debian/pool/main/g/golang-1.20/golang-1.20_1.20.1-1.dsc
+cd golang-1.20-1.20/
+5. 修改 debian/下的文件，也只能修改该目录下的文件，sbuild 
+sudo sbuild --arch=riscv64 -c sid-riscv64-sbuild --no-clean-source 
+```
+
 # fix issue
 
 ## 不能修改源码
@@ -542,6 +562,9 @@ build deps installed on your host.
 This is usually not desirable/required, so you can tell sbuild to not
 clean the source tree by passing the --no-clean-source option to it, or
 by adding the line "$clean_source = 0;" to your ~/.sbuildrc.
+
+
+
 
 
 

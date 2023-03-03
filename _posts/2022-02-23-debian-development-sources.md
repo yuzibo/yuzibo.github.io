@@ -310,6 +310,9 @@ Some docs: https://ftp-team.pages.debian.net/dak/docs/
 https://ftp-master.debian.org/stat/dinstall.png
 
 https://ftp-master.debian.org/dinstall.status
+
+## removal
+https://ftp-master.debian.org/removals.html
 # 不同的声音
 
 [go team packaging wiki](https://www.mail-archive.com/debian-go@lists.debian.org/msg01127.html)
