@@ -93,3 +93,19 @@ debian_sync@dev:~$ ./bin/ftpsync sync:archive:ports
 
 #  同步
 可以使用cron。
+
+# Update
+
+以下update/指正来自chentianyu同学，感谢！希望能帮助更多需要的人：
+
+上文中：
+
+ARCH_INCLUDE 的部分，我想提醒下，debian-ports 的目录结构和 debian 不一样，目前版本的 ftpsync 的
+ARCH_INCLUDE 不适用于 debian-ports。
+
+debian 的目录结构下，所有架构的 .deb 文件都在 pool/ 目录下，而 debian-ports 中，非
+Architecture:all 的 .deb 文件是在 pool-${arch}/ 下的，如 pool-riscv64/；而
+ftpsync 代码中硬编码了 pool/，没有对 pool-${arch} 的支持，所以使用 ftpsync 目前是无法只同步
+debian-ports 的 riscv64 的。
+
+filter 应该是--filter=include_/pool-riscv/*** --filter=exclude_/pool-*

@@ -67,6 +67,8 @@ apt install buildd
 命令：
 
 ```bash
+sudo apt install sbuild mmdebstrapsudo sbuild-adduser
+
 sudo sbuild-createchroot --debootstrap=mmdebstrap --arch=riscv64 \
         --include=debian-ports-archive-keyring,ca-certificates  \
         --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz \
