@@ -37,7 +37,7 @@ sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
 1. $ sudo apt install debci autopkgtest
 2. sudo adduser YOUR_USERNAME debci
 3. sudo debci setup
-4. sudo env debci_mirror=http://my.local.mirror/debian debci setup(可选)
+4. sudo env debci_mirror=https://mirror.iscas.ac.cn/debian-ports debci setup(可选)
 
 ```
 running:
@@ -58,6 +58,11 @@ autopkgtest --user debci --output-dir /tmp/output-dir \
 
 可选 `--add-apt-source='deb https://mirror.iscas.ac.cn/debian/ sid main '`
 
+3. 删除lxc的chroot
+
+```bash
+sudo lxc-destory autopkgtest-unstable-riscv64
+```
 # debci riscv64 status
 
 [britney's Job History ](https://ci.debian.net/user/britney/jobs?package=&trigger=&suite%5B%5D=unstable&arch%5B%5D=riscv64)
