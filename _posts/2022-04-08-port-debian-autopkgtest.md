@@ -36,8 +36,9 @@ sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
 ```bash
 1. $ sudo apt install debci autopkgtest
 2. sudo adduser YOUR_USERNAME debci
-3. sudo debci setup
-4. sudo env debci_mirror=https://mirror.iscas.ac.cn/debian-ports debci setup(可选)
+3. sudo debci setup   或者
+sudo env debci_mirror=https://mirror.iscas.ac.cn/debian-ports debci setup(可选)
+# 更新源，加速
 
 ```
 running:
@@ -45,9 +46,11 @@ running:
 1. 源码：
 
 ```bash
-$ autopkgtest --user debci --output-dir /tmp/output-dir SOURCEPACKAGE \
+$ autopkgtest --user debci --output-dir /tmp/output-dir . \
   -- lxc --sudo autopkgtest-unstable-amd64
 ```
+
+其中`.`代表源代码的位置。
 2. built debian package
 
 ```bash
