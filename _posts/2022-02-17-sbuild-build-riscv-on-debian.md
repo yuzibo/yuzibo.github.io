@@ -1,5 +1,5 @@
 ---
-title: 在Debian使用sbuild构建riscv的native编译环境
+title: 在Debian使用sbuild构建riscv的qemu user编译环境
 category: debian-riscv
 layout: post
 ---
