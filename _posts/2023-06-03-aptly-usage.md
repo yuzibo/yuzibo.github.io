@@ -53,3 +53,45 @@ You can run 'aptly repo add all-tmp ...' to add packages to repository.
     5. aptly publish snapshot -distribution="sid" yubos-reboostrap-rv32-all-0608 yubos-reboostrap/20230608
     6. ln -s /home/a/.aptly/public/yubos-reboostrap/20230608/ /srv/ftp.debian.org/root/yubos-rebootstrap-test
 ```
+
+# backup
+下面是当时的一些印迹，故放在这里以防万一哪天会用到的:
+
+```bash
+1.
+sudo sbuild-createchroot --debootstrap=mmdebstrap --arch=riscv32  \
+ --include=debian-ports-archive-keyring,ca-certificates,apt       \
+ --make-sbuild-tarball=/srv/sid-riscv32-sbuild.tgz    \
+sid /tmp/chroots/sid-riscv32-sbuild/ \
+ http://vimer.f3322.net:63017/yubos-rebootstrap-repo/
+
+// 可以更换 yubos-repo
+2. 
+sudo sbuild-shell sid-riscv32-sbuild
+echo "deb [trusted=yes] http://vimer.f3322.net:63017/yubos-rebootstrap-repo/ sid main" > 
+/etc/apt/sources.list
+
+echo "deb [trusted=yes] http://vimer.f3322.net:63017/yubos-base-all/ sid main"   > 
+/etc/apt/sources.list
+````
+3. amd64 for yubos:
+    ```
+   // 首先创建 amd64
+    sudo sbuild-createchroot --debootstrap=mmdebstrap --arch=amd64      \
+       --include=debian-ports-archive-keyring,ca-certificates        \
+         --make-sbuild-tarball=/srv/sid-amd64-sbuild.tgz     \
+             sid /tmp/chroots/sid-amd64-sbuild/ \
+              https://mirror.iscas.ac.cn/debian/
+    //更换 rootfs
+    sudo mmdebstrap --arch=amd64 --variant=buildd  \
+     --include=fakeroot,build-essential,ca-certificates,apt-transport-https,eatmydata  \
+      sid sid-amd64-yubos-sbuild.tar.xz  \
+       "deb [trusted=yes] http://home.revy.cn:36013/yubos-base/ sid main " \
+    "deb [trusted=yes] http://vimer.f3322.net:63017/yubos-base-all/ sid main"
+    //
+    sudo mv sid-amd64-yubos-sbuild.tar.xz /srv
+    //
+    
+    ```
+    
+```
