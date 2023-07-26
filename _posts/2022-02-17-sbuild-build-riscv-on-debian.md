@@ -565,8 +565,19 @@ This is usually not desirable/required, so you can tell sbuild to not
 clean the source tree by passing the --no-clean-source option to it, or
 by adding the line "$clean_source = 0;" to your ~/.sbuildrc.
 
+## chroot无法使用
+当使用命令`sbuild --arch=riscv64 -c sid-riscv64-sbuild` 典型的一个报错类型是:
 
+```bash
+Failed to execute “/usr/bin/getent”: Exec format error
+```
+之所以出现这个错误，可能是由于我之前的一个操作把 qemu user的支持给搞乱了。根据这篇文章:
+https://askubuntu.com/questions/14280/during-a-chroot-attempt-i-got-this-error-chroot-failed-to-run-command-bin
 
+```bash
+sudo cp /usr/bin/qemu-arm-static /path/to/mount/usr/bin
+#You may have to run
 
-
-
+systemctl restart systemd-binfmt.service
+```
+才可以.
