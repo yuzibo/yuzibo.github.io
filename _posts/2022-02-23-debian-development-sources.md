@@ -22,7 +22,7 @@ Debian社区是比较古老的、比较geek的氛围。尤其是，主导这个�
 ## doc
 [ports-news](https://wiki.debian.org/PortsDocs/New)
 
-### official_port 
+### official_port
 [New#Official_port](https://wiki.debian.org/PortsDocs/New#Official_port)
 这里面有几个installer的东西还没有定下来。
 
@@ -38,11 +38,17 @@ rv-osuosl-0x are Unmatched boards
 
 Other are QEMU VMs.
 
+以上buildd machines的信息在 2023/07/23 以后无效了，或者说早就不存在了。
+
+## uploading packages
+
+https://buildd.debian.org/status/recent.php?pkg=&a=riscv64&suite=sid&limit=250
+
 ## debian-port mirrors
 ### tencent mirrors
 ```bash
 deb https://mirrors.tencent.com/debian-ports sid main non-free
-``` 
+```
 
 ### iscas mirrors
 ```bash
