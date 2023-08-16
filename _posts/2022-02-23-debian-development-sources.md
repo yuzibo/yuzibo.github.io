@@ -40,6 +40,10 @@ Other are QEMU VMs.
 
 以上buildd machines的信息在 2023/07/23 以后无效了，或者说早就不存在了。
 
+## buildd status
+
+https://buildd.debian.org/stats/
+
 ## uploading packages
 
 https://buildd.debian.org/status/recent.php?pkg=&a=riscv64&suite=sid&limit=250
