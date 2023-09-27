@@ -8,6 +8,61 @@ layout: post
 
 目前在修包过程中，经常会遇到需要升级的情况。目前来说，升级不是特别大的问题，反而在repack遇到了不小的阻扰，下面是一些总结。
 
+# 一个新包 加dfsg后缀
+
+过程：  
+1. 首先还是正常的流程，打一个 python 包：
+
+等到有一个基本的雏形后，
+
+``` python
+filecheck (0.0.22-1) UNRELEASED; urgency=low
+
+  * Initial release. Closes: #nnnn
+
+ -- Bo YU <tsu.yubo@gmail.com>  Fri, 22 Sep 2023 22:12:19 +0800
+
+```
+
+然后一直build，然后 lintian 可以报错：
+
+```
+filecheck source: source-is-missing [tests/integration/tools/FileCheck/FileCheck-8.0.1-Linux]
+```
+
+这个时候想办法排除:
+
+```python
+ 1.   d/watch
+    
+    version=4
+opts=\
+repack,repacksuffix=+dfsg,\
+compression=xz,\
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/FileCheck\.py-$1/ \
+ https://github.com/mull-project/FileCheck.py/tags .*/archive/.*/v?([\d\.]+).tar.gz
+
+2. uscan --force-download --verbose
+
+3. gbp import-orig --pristine-tar ../filecheck_0.0.23+dfsg.orig.tar.xz
+What is the upstream version? [0.0.23+dfsg]
+gbp:info: Importing '../filecheck_0.0.23+dfsg.orig.tar.xz' to branch 'upstream'...
+gbp:info: Source package is filecheck
+gbp:info: Upstream version is 0.0.23+dfsg
+gbp:info: Replacing upstream source on 'debian/main'
+gbp:info: Successfully imported version 0.0.23+dfsg of ../filecheck_0.0.23+dfsg.orig.tar.xz
+(需要 gbp.conf 最好)
+
+4. 这时候可以丢弃了upstream/xx 的tag，而直接使用 +dfsg 的upstream 分支
+
+【解答问题】
+W: filecheck source: debian-watch-not-mangling-version opts=repack,repacksuffix=+dfsg,compression=xz,filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/FileCheck\.py-$1/ https://github.com/mull-project/FileCheck.py/tags .*/archive/.*/v?([\d\.]+).tar.gz [debian/watch:6]
+
+```
+
+可以参考：
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=913761
+
 # DFSG
 这个主题需要后面具体补充。 TBD
 
