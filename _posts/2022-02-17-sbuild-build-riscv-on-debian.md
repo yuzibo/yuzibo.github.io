@@ -73,9 +73,8 @@ sudo sbuild-createchroot --debootstrap=mmdebstrap --arch=riscv64 \
         --include=debian-ports-archive-keyring,ca-certificates  \
         --make-sbuild-tarball=/srv/sid-riscv64-sbuild.tgz \
         sid /tmp/chroots/sid-riscv64-sbuild/ \
-        http://ftp.ports.debian.org/debian-ports/
+         https://mirror.iscas.ac.cn/debian/
 ```
-当然，也可以使用 中科院自己的mirror: https://mirror.iscas.ac.cn/debian-ports
 解释：命令`sbuild-createchroot`会根据参数创建一个base chroot。`--include=debian-ports-archive-keyring`是指我们后面在做port时，需要使用port的source list, 为了使用这个source list,需要我们安装一个keying,就是这个包(这里不加也没有关系，后面还有补救的办法)；`tarball`可以认为是一个rootfs(其实我也没有去核对，后面有了新的发现再回来改正)， `sid`是构建的chroot基于哪一个distributor version，后面的url是指定构建完成后chroot的源。执行完上面的命令，其chroot就是一个base的chroot，其包含sid的源，下面是具体的构建log(下载软件的info被忽略)
 
 log:
