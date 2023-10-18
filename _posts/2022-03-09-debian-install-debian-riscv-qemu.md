@@ -14,8 +14,8 @@ layout: post
 
 ## debootstrap
 ```bash
-sudo apt-get install debootstrap qemu-user-static binfmt-support debian-ports-archive-keyring
-sudo debootstrap --arch=riscv64 --keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg --include=debian-ports-archive-keyring unstable /tmp/riscv64-chroot http://deb.debian.org/debian-ports
+sudo apt-get install debootstrap qemu-user-static binfmt-support debian-archive-keyring
+sudo debootstrap --arch=riscv64 --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=debian-archive-keyring unstable /tmp/riscv64-chroot http://deb.debian.org/debian
 ```
 
 稍等几分钟，就会创建 `/tmp/riscv64-chroot`目录，顾名思义，是一个riscv64 的chroot。
@@ -23,8 +23,8 @@ debootstrap创建的chroot针对`unstable` 版本的软件，如果你要使用�
 
 ## mmdebstrap
 ```bash
-$ sudo apt install mmdebstrap qemu-user-static binfmt-support debian-ports-archive-keyring
-$ sudo mmdebstrap --architectures=riscv64 --include="debian-ports-archive-keyring" sid /tmp/riscv64-chroot "deb http://deb.debian.org/debian-ports/ sid main" "deb http://deb.debian.org/debian-ports/ unreleased main"
+$ sudo apt install mmdebstrap qemu-user-static binfmt-support debian-archive-keyring
+$ sudo mmdebstrap --architectures=riscv64 --include="debian-archive-keyring" sid /tmp/riscv64-chroot "deb http://deb.debian.org/debian/ sid main" "deb http://deb.debian.org/debian/ unreleased main"
 ```
 
 # 准备 virtual machine
