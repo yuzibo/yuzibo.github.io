@@ -78,3 +78,7 @@ sudo lxc-destory autopkgtest-unstable-riscv64
 Restrictions: allow-stderr
 ```
 进行约束解除。
+
+## autopkgtest for experimential 
+这里有一个页面展示了 experimential 的 autopkgtest 的情况 ：
+https://release.debian.org/britney/pseudo-excuses-experimental.html
