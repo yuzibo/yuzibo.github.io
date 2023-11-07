@@ -34,10 +34,10 @@ sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
 [here](https://ci.debian.net/doc/file.MAINTAINERS.html#label-How+can+I+reproduce+the+test+run+locally-3F)
 
 ```bash
-1. $ sudo apt install debci autopkgtest
+1. $ sudo apt install debci autopkgtest lxc
 2. sudo adduser YOUR_USERNAME debci
 3. sudo debci setup   或者
-sudo env debci_mirror=https://mirror.iscas.ac.cn/debian-ports debci setup(可选)
+sudo env debci_mirror=https://mirror.iscas.ac.cn/debian debci setup(可选)
 # 更新源，加速
 
 ```
