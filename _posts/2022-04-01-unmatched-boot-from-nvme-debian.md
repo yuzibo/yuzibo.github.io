@@ -6,6 +6,33 @@ layout: post
 * content
 {:toc}
 
+
+# update(2023/11/01)
+
+2023年7月23日 riscv64 在Debian成为官方支持的架构，这将会大大降低使用 riscv64 硬件的门槛。
+
+如果你依然有装 Debian 到 Unmatched 的需求，请参看
+
+[Unmatched Debian Prebuilt images](https://github.com/yuzibo/Unmatched-Debian-image/tree/0.0.2)
+
+按照该 repo 的 README 操作即可。
+
+有任何问题请联系我, 谢谢~
+
+On July 23, 2023, riscv64 became an officially supported architecture in Debian, which will greatly lower the threshold for using riscv64 hardware.
+
+If you still need to install Debian to Unmatched, please see
+
+[Unmatched Debian Prebuilt images](https://github.com/yuzibo/Unmatched-Debian-image/tree/0.0.2)
+
+Just follow the README of the repo.
+
+If you have any questions, please let me know, thank you~
+
+
+
+-------------分割线-------------
+
 以下操作需要确保系统安装: `apt install parted  gdisk`.
 
 主要参考手册是: [unmatched manual](https://sifive.cdn.prismic.io/sifive/f81e5848-875e-4ae1-baff-09057743d3a5_hifive-unmatched-sw-reference-manual-v1p1.pdf)
