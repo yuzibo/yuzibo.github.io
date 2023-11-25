@@ -12,7 +12,9 @@ layout: post
 源码目录:
 https://github.com/yuzibo/vf2-linux
 
-使用 vf2 开头的分支，首先交叉编译出相应的 kernel riscv64 的 deb 包。
+使用 vf2 开头的分支，首先交叉编译出相应的 kernel riscv64 的 deb 包。 配置可以使用 `debian_defconfig`
+
+或者你可以直接使用 `prebuilt image ` download from [here](https://github.com/yuzibo/vf2-linux/actions)
 
 # 2 构造 rootfs
 
