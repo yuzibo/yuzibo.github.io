@@ -18,15 +18,16 @@ https://github.com/yuzibo/vf2-linux
 
 # 2 构造 rootfs
 
-3. 制作  rootfs
+3.  debootstrap rootfs
+```bash
 sudo debootstrap --arch=riscv64  unstable /tmp/riscv64-chroot http://mirrors.tuna.tsinghua.edu.cn/debian/
+```
+
 4. 配置 debian rootfs
 ```bash
 sudo systemd-nspawn -D /tmp/riscv64-chroot/ -M debian --bind-ro=/etc/resolv.conf
-
 sudo apt update
 sudo apt upgrade
-
 sudo apt-get install initramfs-tools openssh-server systemd-timesyncd rsync bash-completion u-boot-menu
 ```
 
