@@ -6,8 +6,11 @@ layout: post
 * content
 {:toc}
 
+# mentor
+
 如果是  upload mentor，需要做以下内容：
 cat ~/.dput.cf
+
 ```bash
 [mentors]
 fqdn = mentors.debian.net
@@ -19,3 +22,22 @@ progress_indicator = 2
 allowed_distributions = .*
 ```
 
+# DM
+
+DM 的操作可以参考这里 [DM](https://wiki.debian.org/DebianMaintainer/Tutorial)
+
+```bash
+[ftp-master]
+fqdn                    = ftp.upload.debian.org
+incoming                = /pub/UploadQueue/
+login                   = anonymous
+allow_dcut              = 1
+method                  = ftp
+```
+
+Source only upload:
+
+```bash
+debsign -k 0xE2521CB8175736A97052B2F8954E6A70100598A2 xdoctest_1.1.2-1_source.changes
+dput ftp-master xdoctest_1.1.2-1_source.changes
+```
