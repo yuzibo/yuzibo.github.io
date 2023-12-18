@@ -74,3 +74,12 @@ in Debian's testing distribution has changed.
 这就可以了。
 
 当然，我维护这个jimtcl还是有一定曲折的。
+
+# update
+
+我们根据这个 [1011630](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1011630)来复盘一下这个已经完成的 transiton.
+
+1. 确保你的 新版本在 exp build ok
+2. reverse deps build ok
+3. 发送一个类似 1011630 的bug，或者 像 [#1050987](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050987)也可以； 在得到 ack 后，再将新版本的 package upload to sid
+4. 完成之后，可以给 release team 反应?  什么时间给他 ack  呢？

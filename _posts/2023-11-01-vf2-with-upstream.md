@@ -26,22 +26,80 @@ sudo debootstrap --arch=riscv64  unstable /tmp/riscv64-chroot http://mirrors.tun
 4. 配置 debian rootfs
 ```bash
 sudo systemd-nspawn -D /tmp/riscv64-chroot/ -M debian --bind-ro=/etc/resolv.conf
-sudo apt update
-sudo apt upgrade
-sudo apt-get install initramfs-tools openssh-server systemd-timesyncd rsync bash-completion u-boot-menu
+apt update
+apt upgrade
+apt-get install initramfs-tools openssh-server systemd-timesyncd rsync bash-completion u-boot-menu
+```
+
+4.0 安装 kernel
+
+这里有2种方式安装 kernel, 一种是自己构建，一种是使用 prebuild
+第一种方式可以参考[这里](https://blog.inuyasha.love/linuxeveryday/start-visionfive2-with-debian-sid.html#%E6%9E%84%E5%BB%BA%E5%86%85%E6%A0%B8deb%E5%8C%85)，第二种方式可以参考[这里](https://github.com/yuzibo/vf2-debian-image/blob/main/rootfs/setup_rootfs.sh#L43).
+下面以 prebuilt 方式进行讲解:
+
+```bash
+# 1 download prebuild kernel image from here:
+# https://github.com/yuzibo/vf2-linux *-dev branch with tag published
+# then copy into /tmp/riscv64-chroot
+~: ls
+
+linux-headers-6.6.7-vf2_2023.12.14.08.37+88bd30f68_riscv64.deb
+linux-image-6.6.7-vf2_2023.12.14.08.37+88bd30f68_riscv64.deb
+
+apt install -f ./*.deb
+
+```  
+
+4.0.1 u-boot
+
+接下来需要配置与启动最直接相关的  u-boot 了:
+主要一个是 `/etc/default/u-boot`,另一个是 `uEnv.txt`. 引导设备最好在dd 时再操作。
+
+```bash
+cat <<EOF >> /etc/default/u-boot
+U_BOOT_PARAMETERS="rw console=tty0 console=ttyS0,115200 earlycon rootwait stmmaceth=chain_mode:1 selinux=0"
+EOF
+$ cat /etc/default/u-boot // double check
+ sed -i -e 's|root=[^ ]*|root=/dev/mmcblk1p3|' /boot/extlinux/extlinux.conf
+```
+
+Then
+
+```bash
+mkdir -p /boot/efi
+```
+
+配置 uEvn.txt
+
+```bash
+cat <<EOF > /boot/uEnv.txt
+fdtdir=/boot/dtbs
+fdtfile=starfive/jh7110-starfive-visionfive-2-v1.2a.dtb
+kernel_comp_addr_r=0xb0000000
+kernel_comp_size=0x10000000
+EOF
+```
+change dtb file following your vf2 boards
+
+最后:
+
+```bash
+cat <<EOF > /etc/fstab
+/dev/mmcblk1p2 /boot/efi vfat umask=0077 0 1
+EOF
 ```
 
 4.1 配置 网络接口
 
 ```bash
 cat <<EOF >> /etc/network/interfaces
-allow-hotplug eth0
-iface eth0 inet dhcp
+allow-hotplug end0
+iface end0 inet dhcp
 EOF
 
 echo vf2 > /etc/hostname
 
-pass # vf2
+passwd # for vf2
 
 # add new user
 root@debian:/# adduser debian
@@ -74,11 +132,8 @@ passwd: password updated successfully
 usermod -aG sudo debian
 ```
 
-接下来需要配置与启动最直接相关的  u-boot 了:
-主要一个是 `/etc/default/u-boot`,另一个是 `uEnv.txt`. 引导设备最好在dd 时再操作。
 
-```bash
-mkdir -p /boot/efi
+
 
 ```
 
