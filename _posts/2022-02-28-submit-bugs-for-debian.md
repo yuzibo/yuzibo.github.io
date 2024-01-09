@@ -191,7 +191,7 @@ From: Nicolas Mora <nicolas@babelouest.org>
 To: 1007884@bugs.debian.org
 Subject: Bug#1007884: bullseye-pu: package glewlwyd/2.5.2-2+deb11u2
 ----------------
-tags -1 - moreinfo
+Control: tags -1 - moreinfo
 
 ```
 
