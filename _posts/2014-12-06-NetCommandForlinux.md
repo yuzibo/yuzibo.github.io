@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "10个重要的linux网络命令"
-category: shell
+category: network
 ---
 # 最基础的linux网络命令
 * content
