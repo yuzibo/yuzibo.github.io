@@ -1,5 +1,5 @@
 ---
-title: debian packages checklist
+title: debian packages checklist -- lintian
 category: debian-riscv
 layout: post
 ---
@@ -32,3 +32,14 @@ Copy:
 Try lintian -I -E -v --pedantic
 or set up .lintianrc file with these option enabled
 ```
+
+## 消除 lintian error
+
+Two kinds of lintian:
+
+1. 
+
+iirc the format was d/<bin-name>.lintian-overrides for binary packages
+
+2. source
+d/source/xx.lintian-overrides

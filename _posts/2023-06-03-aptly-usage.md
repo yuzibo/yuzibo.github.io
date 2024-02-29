@@ -158,3 +158,74 @@ a@debian:~$ aptly  snapshot drop yubos-reboostrap-rv32-0614-exp
 Snapshot `yubos-reboostrap-rv32-0614-exp` has been dropped.
 
 ```
+
+# 使用 aptly 发布仓库的一般流程
+
+
+aptly 的一些常见操作：    
+
+## repo
+
+```bash
+a@debian:~/packages/sail$ aptly repo list
+List of local repos:
+ * [all-tmp]: all for riscv32 sbuild-creatchroot (packages: 16)
+ * [amd64-tmp]: amd64 for riscv32 sbuild-creatchroot (packages: 2)
+ * [riscv64-tmp-all]: for Debian sid ROS2 on riscv64 all packages (packages: 87)
+ * [riscv64-tmp]: for Debian sid ROS2 on riscv64 (packages: 1022)
+ * [sail-tmp]: sail for debian (packages: 36)
+ * [yubos-rebootstrap] (packages: 618)
+ 
+ a@debian:~/packages/sail$  aptly repo show sail-tmp
+Name: sail-tmp
+Comment: sail for debian
+Default Distribution: sid
+Default Component: main
+Number of packages: 36
+
+删除 package
+a@debian:~/packages/sail$ aptly repo remove sail-tmp  libsail-ocaml-dev
+Loading packages...
+[-] libsail-ocaml-dev_0.17.1-1_amd64 removed
+
+添加 package
+aptly repo add sail-tmp package-name
+
+aptly是基于 snapshot 发布东西的：
+a@debian:~/packages/sail$ aptly snapshot create sail-for-debian-amd64-0228 from repo sail-tmp
+
+Snapshot sail-for-debian-amd64-0228 successfully created.
+You can run 'aptly publish snapshot sail-for-debian-amd64-0228' to publish snapshot as Debian repository.
+
+ 思路就是基于 repo 进行 package的更新， 通过snapshot进行发布。然后我们看一下 已 public 的snapshot有哪些：
+ 
+ 发布 repo
+ a@debian:~/packages/sail$ aptly publish snapshot -distribution="sid"  sail-for-debian-amd64-0303 sail-for-debian/20240303
+Loading packages...
+Generating metadata files and linking package files...
+Finalizing metadata files...
+Signing file 'Release' with gpg, please enter your passphrase when prompted:
+Clearsigning file 'Release' with gpg, please enter your passphrase when prompted:
+
+Snapshot sail-for-debian-amd64-0303 has been successfully published.
+Please setup your webserver to serve directory '/home/a/.aptly/public' with autoindexing.
+Now you can add following line to apt sources:
+  deb http://your-server/sail-for-debian/20240303/ sid main
+Don't forget to add your GPG key to apt with apt-key.
+
+You can also use `aptly serve` to publish your repositories over HTTP quickly.
+
+ a@debian:~/packages/sail$ aptly publish list
+Published repositories:
+  * revyos-11-06/11-06/sid [riscv64] publishes {main: [revyos-ros2]: Merged from sources: 'revyos-ros2-11-6', 'revyos-ros2-11-6-all'}
+  * sail-for-debian/20240227/sid [amd64] publishes {main: [sail-for-debian-amd64-0227]: Snapshot from local repo [sail-tmp]: sail for debian}
+  * yubos-reboostrap/20230604/sid [amd64, riscv32] publishes {main: [yubos-reboostrap-20230604]: Snapshot from mirror [yubos-reboostrap]: http://127.0.0.1:8000/ rebootstrap}
+  * yubos-reboostrap/20230605/sid [amd64, riscv32] publishes {main: [yubos-reboostrap-new-20230605]: Snapshot from local repo [yubos-rebootstrap]}
+  * yubos-reboostrap/20230608/sid [amd64, riscv32] publishes {main: [yubos-reboostrap-rv32-all-0608]: Merged from sources: 'yubos-reboostrap-new-20230605', 'yubos-base-all'}
+  * yubos-reboostrap/2023060801/sid [amd64, riscv32] publishes {main: [yubos-rebootstrap-rv32-all-amd64]: Merged from sources: 'yubos-reboostrap-rv32-all-0608', 'yubos-reboostrap-0608-amd64'}
+  * yubos-reboostrap/20230617/sid [amd64, riscv32] publishes {main: [yubos-reboostrap-exp-20230617]: Merged from sources: 'yubo-base-part-all-exp', 'yubos-reboostrap-rv32-0617-exp'}
+  * yubos-reboostrap/base-full-all/sid (origin: Debian) [all] publishes {main: [yubos-base-full-all]: Snapshot from mirror [debian-all]: https://mirror.iscas.ac.cn/debian/ sid}
+
+ ```
+ 
+ 然后把 publish的 `ln` 到 server
