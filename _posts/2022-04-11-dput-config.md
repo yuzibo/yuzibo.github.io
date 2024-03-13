@@ -41,3 +41,12 @@ Source only upload:
 debsign -k 0xE2521CB8175736A97052B2F8954E6A70100598A2 xdoctest_1.1.2-1_source.changes
 dput ftp-master xdoctest_1.1.2-1_source.changes
 ```
+# 请仔细核对一下内容
+
+在正式 upload 之前，请确保以下内容:
+
+## UNRELEASE -> unstable
+
+## commit log 与 提交是否对应
+
+## upload to archive后， 别忘记打 debian/ tag 
