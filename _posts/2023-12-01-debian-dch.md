@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Debian packages lists"
+title: "Debian dch usage"
 category: debian
 ---
 
