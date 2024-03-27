@@ -33,9 +33,10 @@ filecheck source: source-is-missing [tests/integration/tools/FileCheck/FileCheck
 这个时候想办法排除:
 
 ```python
- 1.   d/watch
+ 1.   
+# cat d/watch
     
-    version=4
+version=4
 opts=\
 repack,repacksuffix=+dfsg,\
 compression=xz,\
@@ -58,6 +59,32 @@ gbp:info: Successfully imported version 0.0.23+dfsg of ../filecheck_0.0.23+dfsg.
 【解答问题】
 W: filecheck source: debian-watch-not-mangling-version opts=repack,repacksuffix=+dfsg,compression=xz,filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/FileCheck\.py-$1/ https://github.com/mull-project/FileCheck.py/tags .*/archive/.*/v?([\d\.]+).tar.gz [debian/watch:6]
 
+```
+
+这里可以使用的一个技巧是:如果遇到下载失败的问题，则可以提前把 orig tar包下载下来，然后 `--force-download` 即可。
+
+```bash
+...
+$newfile     = https://github.com/rems-project/linksem/archive/refs/tags/0.8.tar.gz
+    $newversion  = 0.8
+    $lastversion = 0.8
+uscan info: Matching target for downloadurlmangle: https://github.com/rems-project/linksem/archive/refs/tags/0.8.tar.gz
+uscan info: Upstream URL(+tag) to download is identified as    https://github.com/rems-project/linksem/archive/refs/tags/0.8.tar.gz
+uscan info: Filename (filenamemangled) for downloaded file: 0.8.tar.gz
+uscan info: Newest version of linksem on remote site is 0.8, local version is 0.8
+            (mangled local version is 0.8)
+uscan info:  => Package is up to date from:
+             => https://github.com/rems-project/linksem/archive/refs/tags/0.8.tar.gz
+uscan info:  => Forcing download as requested
+uscan info: New orig.tar.* tarball version (oversionmangled): 0.8
+uscan info: Launch mk-origtargz with options:
+   --package linksem --version 0.8 --repack-suffix +dfsg --compression xz --directory .. --copyright-file debian/copyright ../0.8.tar.gz
+Successfully repacked ../0.8.tar.gz as ../linksem_0.8+dfsg.orig.tar.xz, deleting 774 files from it.
+uscan info: New orig.tar.* tarball version (after mk-origtargz): 0.8+dfsg
+uscan info: Scan finished
+vimer@dev:~/build/rfs/ocaml/package/for-debian/2_linksem/old/dfsg/linksem-0.8$ ls ../
+0327        build-area                    linksem-0.8                   tmp
+0.8.tar.gz  liblinksem-ocaml-dev.install  linksem_0.8+dfsg.orig.tar.xz  tmp.txt
 ```
 
 可以参考：
