@@ -126,6 +126,12 @@ gbp import-orig --pristine-tar ../dfsg-*.tar.gz
 
 注意，最好手动检查../dfsg-*tar.gz文件符不符合d/copyright 文件描述的。
 
+如果不使用`--uscan` repack, 可以使用:
+
+```bash
+mk-origtargz operates on local file. No question asked.
+```
+
 #  资料
 
 https://wiki.debian.org/BenFinney/software/repack
