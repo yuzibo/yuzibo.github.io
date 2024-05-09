@@ -68,3 +68,23 @@ gbp:info: Successfully imported version 0.9.11 of ../elektra-0.9.11.tar.gz
 gbp pq export
 gbp pq drop
 ```
+
+## ack nmu
+
+Generally speaking, if others DD NMUed your package(s), you have to acknowledge this num in your next upload.
+
+```bash
+You should incorporate the changes from the NMU first.
+Something like this:
+
+$ dget https://deb.debian.org/debian/pool/main/j/jimtcl/jimtcl_0.82-4.1.dsc
+
+change directory to your jimtcl repository:
+
+$ cd jimtcl/
+
+import the .dsc:
+
+$ gbp import-dsc ../jimtcl_0.82-4.1.dsc
+
+```
