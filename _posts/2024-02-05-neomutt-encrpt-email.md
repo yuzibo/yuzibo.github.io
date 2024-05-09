@@ -26,7 +26,14 @@ gpg: key 786C63F330D7CB92: public key "example <xx@example.com>" imported
 gpg: Total number processed: 1
 gpg:               imported: 1
 ```
-前提是这个 pubkey 的所有者将自己的key上传到 kerserver 
+前提是这个 pubkey 的所有者将自己的key上传到 kerserver.
+
+Debian DD 或者 DM 可以直接 fetch from Debian 的服务器, 以及如何更新过期的key，请参考[这里](https://keyring.debian.org/)
+
+```bash
+gpg --keyserver keyring.debian.org --recv-keys 0x2404C9546E145360
+
+```
 
 一旦 import， 请看下面的操作.
 
