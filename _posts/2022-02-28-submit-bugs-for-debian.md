@@ -406,3 +406,23 @@ X-Debbugs-Cc: zhsj@debian.org
 Control: affects -1 src:fmtlib
 ```
 这个bug是说明，
+
+# bts cmd
+
+今天发现一个 Debian 的 BTS 命令，居然是神器，所以今天放在这里总结一下。
+
+## mbox/neomutt/mutt
+
+之前，我总找不到如何直接回复 Debian bug, 举个例子：
+
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1055279#5
+
+如果我想直接回复这个issue，之前的做法是 找到  [mbox](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1055279;mbox=yes;msg=5)的下载链接，然后使用 `wget` 保存为一个 mbox 的文件，然后使用 `neomutt -f xx.mbox`的方式回复。
+
+不过今天在IRC里看到一个 DD的方案，简直太爽了:
+
+```bash
+bts --mbox show NUMBER
+```
+
+这里因为我使用的是 `neomutt`，所以需要我先 `ln` 一下到 mutt(BTS默认使用 mutt)
