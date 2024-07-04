@@ -426,3 +426,19 @@ bts --mbox show NUMBER
 ```
 
 这里因为我使用的是 `neomutt`，所以需要我先 `ln` 一下到 mutt(BTS默认使用 mutt)
+
+## num@bugs.debian.org
+
+直接回复此类的tag时，需要打上 `Control`指令才会生效
+
+```bash
+# to: 1071098@bugs.debian.org
+
+Control: tags -1 patch
+
+Hi,
+On Mon, Jun 24, 2024 at 01:55:39PM -0400, Jeremy Bícha wrote:
+>Control: retitle -1 onboard: failing build tests
+>Control: severity -1 serious
+>Control: tags -1 -patch
+```
