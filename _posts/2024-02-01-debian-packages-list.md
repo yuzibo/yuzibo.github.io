@@ -20,6 +20,24 @@ category: debian
 
 * python-whey https://tracker.debian.org/pkg/python-whey
 
+total: 14
+
 ## 03
 
+* https://salsa.debian.org/python-team/packages/pytermgui 
+
+由 BoYuan 大佬帮忙上传。 
+
+learn: examples 可以不作为单独的包提供。
+
+## 04
+
+linenoise, ppx-bisect, and omd for ocaml package
+
+## 06
+* accessible-pygments https://salsa.debian.org/python-team/packages/accessible-pygments
+
+
+# total
+22
 
