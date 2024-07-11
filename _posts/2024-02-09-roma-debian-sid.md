@@ -4,12 +4,12 @@ title: "DC ROMA port to debian sid"
 category: debian-riscv
 ---
 
-Some days(2024/06) I got one ROMA from DC donated for Debian Community. This weeks I have some time so to try run Debian sid on it.
+Some days(2024/06) ago I got one ROMA from DC donated for Debian Community. This week I have some time so to try run Debian sid on it.
 
 The system on ROMA was Debian 11 with fixed version riscv64 Debian packages from debian-ports. Until now, we have no debian-ports any more, so this is a very interesting chanllenge.
 
 # Refer to
-The DC github is here[0](https://github.com/DC-DeepComputing), especially for [docs](https://github.com/DC-DeepComputing/ROMA_LAPTOP_JH7110_RV-L1B/tree/main/Docs) which tells you how to flash image to ROMA.
+The DC github is here [0](https://github.com/DC-DeepComputing), especially for [docs](https://github.com/DC-DeepComputing/ROMA_LAPTOP_JH7110_RV-L1B/tree/main/Docs) which tells you how to flash image to ROMA.
 
 From my observation, there is there image boot mode: emmc, sd and nvme. The default system from emmc(/dev/mmcblk0).
 
