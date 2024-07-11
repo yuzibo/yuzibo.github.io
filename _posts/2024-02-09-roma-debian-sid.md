@@ -4,7 +4,7 @@ title: "DC ROMA port to debian sid"
 category: debian-riscv
 ---
 
-Some days I got one ROMA from DC. This weeks I have some time so to try run Debian sid on it.
+Some days(2024/06) I got one ROMA from DC donated for Debian Community. This weeks I have some time so to try run Debian sid on it.
 
 The system on ROMA was Debian 11 with fixed version riscv64 Debian packages from debian-ports. Until now, we have no debian-ports any more, so this is a very interesting chanllenge.
 
@@ -56,3 +56,10 @@ sudo apt-mark hold libegl-mesa0 libgbm1 libglapi-mesa mesa-vulkan-drivers
 # partial
 
 ```
+
+# graphic 
+
+1 [wiki](https://blog.csdn.net/qq_23662505/article/details/130341569)
+
+# Thanks
+Many thanks for DeepComputing which offer the hardware and help from Songsong and RevysOS.
