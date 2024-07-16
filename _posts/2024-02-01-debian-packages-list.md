@@ -37,7 +37,17 @@ linenoise, ppx-bisect, and omd for ocaml package
 ## 06
 * accessible-pygments https://salsa.debian.org/python-team/packages/accessible-pygments
 
-
-# total
+### total
 22
+
+## 07
+* lem https://salsa.debian.org/ocaml-team/lem/-/blob/debian/master/debian/rules?ref_type=heads
+
+TIL:
+
+```shell
+include /usr/share/dpkg/pkg-info.mk
+export DEB_VERSION_UPSTREAM
+
+```
 
