@@ -12,5 +12,6 @@ category: debian
 
 multi arch 的 case
 
-[gl4es]
+[gl4es](https://salsa.debian.org/vimerbf-guest/gl4es/-/tree/debian/main/debian?ref_type=heads)
 
+[qtrvsim](https://salsa.debian.org/vimerbf-guest/qtrvsim/-/tree/debian/main?ref_type=heads)
