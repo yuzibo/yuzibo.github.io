@@ -361,6 +361,22 @@ Once this once, I will close the [0] also. thanks.
 ```
 其实文件内容说说理由就行。
 
+另一个 example:
+
+```bash
+Package: ftp.debian.org
+Severity: normal
+X-Debbugs-Cc: coco-cs@packages.debian.org
+Control: affects -1 + src:coco-cs
+User: ftp.debian.org@packages.debian.org
+Usertags: remove
+
+Upstream sources from 2011, last maintainer upload 2012, last upstream version
+2018, popcon 4.
+```
+
+See [#1079893](https://bugs.debian.org/1079893)
+
 ##  close bug
 
 ### done
