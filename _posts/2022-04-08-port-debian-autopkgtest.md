@@ -34,12 +34,21 @@ sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
 [here](https://ci.debian.net/doc/file.MAINTAINERS.html#label-How+can+I+reproduce+the+test+run+locally-3F)
 
 ```bash
-1. $ sudo apt install debci autopkgtest lxc
+1. $ sudo apt install debci autopkgtest lxc lxc-templates
 2. sudo adduser YOUR_USERNAME debci
 3. sudo debci setup   或者
 sudo env debci_mirror=https://mirror.iscas.ac.cn/debian debci setup(可选)
 # 更新源，加速
 
+```
+
+其中， `lxc-templates` 尤为关键，否则会报找不到 `debian` template的错误。
+
+还有一个快速验证 autopkgtest 的 命令:
+
+```python
+sudo autopkgtest-build-lxc debian testing riscv64
+sudo autopkgtest file_5.38-4.dsc -- lxc autopkgtest-unstable-riscv64
 ```
 running:
 
