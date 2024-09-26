@@ -10,6 +10,8 @@ layout: post
 
 还可以参考[这个](https://www.mankier.com/1/bts). [control-server](https://www.debian.org/Bugs/server-control)
 
+简而言之就是， 给 `control@bugs.debian.org` 可以直接使用各种`tag`, 给具体的 bug 发送指令时，需要 `Control: ` 
+
 当我们比如说，在FTBFS(https://udd.debian.org/cgi-bin/ftbfs.cgi?arch=riscv64)发现一个build fail时，我们想进一步跟进这个fix。那么，可以首先看一下这个 issue number(以[yubiserver](https://buildd.debian.org/status/package.php?p=yubiserver&suite=sid)为例):
 
 我们单击链接进去之后，会在 [Debian Package Auto-Building](https://buildd.debian.org/status/package.php?p=yubiserver&suite=sid)这个页面上看到顶层有这个几个链接:
@@ -122,6 +124,20 @@ Contact owner@bugs.debian.org with problems
 Owner recorded as vimer <tsu.yubo@gmail.com>. Request was from vimer <tsu.yubo@gmail.com> to control@bugs.debian.org. (Thu, 03 Mar 2022 09:54:03 GMT) (full text, mbox, link).
 ```
 ## tags
+
+### severity 
+
+```python
+severity 1082784 serious
+```
+
+### reassign
+
+```bash
+reassign 1082784 emscripten
+```
+
+
 tags是一类很重要的归属标签，我们应该仔细对待这个。比如说我使用了一个`reportbug --from-buildd=<package>_<version>`报告了一个ftbfs的error：
 
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009969.
@@ -191,7 +207,7 @@ From: Nicolas Mora <nicolas@babelouest.org>
 To: 1007884@bugs.debian.org
 Subject: Bug#1007884: bullseye-pu: package glewlwyd/2.5.2-2+deb11u2
 ----------------
-tags -1 - moreinfo
+Control: tag -1 - moreinfo
 
 ```
 
