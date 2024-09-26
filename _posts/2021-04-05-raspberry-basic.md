@@ -1,5 +1,5 @@
 ---
-title: 树莓派相关实验记录
+title: 串口对应信息 -- serial map
 category: tools
 layout: post
 ---
@@ -19,4 +19,15 @@ below for details
 The black lead to GND (3rd pin down)
 The white lead to TXD on the Pi (4th pin down)
 The green lead to RXD on the pI (5th pin down)
+```
+
+
+# riscv64
+
+## licheepi4a
+
+```python
+3  - GND
+9  - TXD
+10 - RXD
 ```
