@@ -17,7 +17,7 @@ layout: post
 ### gbp import-dsc .dsc
 最好使用dsc 这个选项:
 ```bash
-gbp import-dsc --upstream-branch=upstream/latest --debian-branch=debian/main --verbose ../libunwind_1.3.2-2.dsc
+gbp import-dsc --upstream-branch=upstream/latest --debian-branch=debian/main --verbose ../libunwind_1.3.2-2.dsc --pristine-tar
 ```
 
 ### gbp import-orig
