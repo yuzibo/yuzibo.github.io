@@ -124,6 +124,19 @@ Contact owner@bugs.debian.org with problems
 Owner recorded as vimer <tsu.yubo@gmail.com>. Request was from vimer <tsu.yubo@gmail.com> to control@bugs.debian.org. (Thu, 03 Mar 2022 09:54:03 GMT) (full text, mbox, link).
 ```
 ## tags
+tags是一类很重要的归属标签，我们应该仔细对待这个。比如说我使用了一个`reportbug --from-buildd=<package>_<version>`报告了一个ftbfs的error：
+
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009969.
+但是呢，第一次我使用reportbug上报时出现了几个错误:其中最明显的就是没有tags。下面急需补充tags
+
+```bash
+bts --mutt tags 1009969 ftbfs
+```
+实质性的内容是:
+```bash
+tags 1009969 + ftbfs
+```
+
 
 ### severity 
 
@@ -137,20 +150,25 @@ severity 1082784 serious
 reassign 1082784 emscripten
 ```
 
+一般的`reassign`的tag和 `affects` 配合使用，来看 #1082976
 
-tags是一类很重要的归属标签，我们应该仔细对待这个。比如说我使用了一个`reportbug --from-buildd=<package>_<version>`报告了一个ftbfs的error：
+这个 bug 首先针对的是 `opam`, 但是探究之后就会发现，不是这样的, 是它依赖的 `mccs` 的一个库文件出现了问题，那就重新分配 packages:
 
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009969.
+```python
 
-但是呢，第一次我使用reportbug上报时出现了几个错误:其中最明显的就是没有tags。下面急需补充tags
+reassign 1082976 libmccs-ocaml-dev
 
-```bash
-bts --mutt tags 1009969 ftbfs
 ```
-实质性的内容是:
-```bash
-tags 1009969 + ftbfs
+
+这里的 包名 可以是 binary files，紧接着的是，就是 `affects`：
+
+### affects
+
+```python
+affects 1082976 src:opam
 ```
+
+然后将新建立的包重新指定影响这个包，这就是 Debian 的一般做法.
 
 官方的wiki是下面的case:
 
