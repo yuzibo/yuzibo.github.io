@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "reportbug template"
-category: tools
+category: debian 
 ---
 
 * content
