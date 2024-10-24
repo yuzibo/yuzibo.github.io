@@ -52,6 +52,10 @@ Andrius
 
 1. 升级SONAME，然后把包上传到 `exp`;
 2. 等到在[ben](https://release.debian.org/transitions/) 页面上看到 `auto-yourpackage`  时，你最好使用`ratt`这个package把所有依赖你的包的包都使用你上传到`exp`的package进行构建，如果没有问题，则可以向release team发送请求了:
+
+补充说明: 1 步应该是可以这样的， 如果依赖你这个包比较少的情况下， 甚至可以提前自己在本地local build， 然后分别性的针对每一个反向依赖进行rebuild， 有问题的话发 issue 通知 maintainer; 没有问题的话最好。  
+
+直接上传到 exp也好， 有问题的话可以让对应的 maintainer 随时查看.
  
 ```bash
 如上文所示即可
@@ -82,4 +86,9 @@ in Debian's testing distribution has changed.
 1. 确保你的 新版本在 exp build ok
 2. reverse deps build ok
 3. 发送一个类似 1011630 的bug，或者 像 [#1050987](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050987)也可以； 在得到 ack 后，再将新版本的 package upload to sid
+
+接下来不用管， 等一两天的话， 他的反向依赖会自动 rebuild, 等一切ok， 要注意跟踪构建结果。
 4. 完成之后，可以给 release team 反应?  什么时间给他 ack  呢？
+
+我觉得是得你的包 transate into  testing后， 就可以告诉 release team
+
