@@ -36,7 +36,7 @@ category: debian
 
 libhx [可以参考 symsbols 怎么生成的]
 lib 的test如何使用
-[test](https://git.jff.email/cgit/libhx.git/tree/debian/tests/build)
+[libhx test](https://git.jff.email/cgit/libhx.git/tree/debian/tests/build)
 [libgav1](https://tracker.debian.org/pkg/libgav1) 还有看这个，但是明显不应该这么做， 在 包名后加1，原因是 upstream 自带的
 
 ```bash
