@@ -191,6 +191,24 @@ affects 1082976 src:opam
 	  # remove the moreinfo tag and add a patch tag
 	  tags 123456 - moreinfo + patch
 ```
+
+### noowner bugnumber
+
+如果是 drop 自己, 针对于 num@b.d.o
+
+```bash
+Control: retitle -1 RFP:coredns -- pluggable DNS server in Go
+Control: noowner -1
+```
+如果是onwer 别人， 则可以后接邮箱,  针对于 control:
+```bash
+retitle 880676 ITP: coredns -- pluggable DNS server in Go
+owner 880676 Bo YU <tsu.yubo@gmail.com>
+
+```
+
+See #880676
+
 ## found bugnum version
 found的作用是指定版本号。
 ```bash
