@@ -462,6 +462,16 @@ thanks
 1018685-close@bugs.debian.org
 Subject: Bug#1018685: fixed
 ```
+
+还有一种是 close + '版本号' to `control@`
+
+```bash
+close 1022540 12.11
+thanks
+```
+
+see the [comment](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1022540#66)
+
 ## 关联影响
 
 ```bash
