@@ -33,6 +33,8 @@ sudo pbuilder --create \
 
 其实上面创建`sid-amd64-base.tgz`意义不大，我们直接简单创建一个base chroot。
 
+还可以在chroot很久没更新之后， 执行  `pbuilder update` 来更新下  chroot
+
 ```bash
 sudo pbuilder create
 ```
