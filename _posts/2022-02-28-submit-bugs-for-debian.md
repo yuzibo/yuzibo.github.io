@@ -123,6 +123,16 @@ Contact owner@bugs.debian.org with problems
 ```bash
 Owner recorded as vimer <tsu.yubo@gmail.com>. Request was from vimer <tsu.yubo@gmail.com> to control@bugs.debian.org. (Thu, 03 Mar 2022 09:54:03 GMT) (full text, mbox, link).
 ```
+
+# nums@d.b.o
+其实在真实的 debian 项目沟通中， 大部分是针对的nums@d.b.o 的这种形式， 所以还是学习类似的控制 `bts` 的命令。
+
+```bash
+control: found -1 jpeg-xl/0.9.2-10
+```
+
+See [jpeg-xl](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1077336#10),这个命令可以更新发现问题包的版本。
+
 ## tags
 tags是一类很重要的归属标签，我们应该仔细对待这个。比如说我使用了一个`reportbug --from-buildd=<package>_<version>`报告了一个ftbfs的error：
 
