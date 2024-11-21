@@ -239,7 +239,7 @@ thanks
 Cc: 1002553@bugs.debian.org
 Subject: Re: firmware-amd-graphics: Memory clock always at 100% (thinkpads w/ryzen 3XXXu)
 Date: Fri, 10 Jun 2022 17:57:18 +0200
-Control: tag -1 moreinfo
+Control: tags -1 +moreinfo
 ```
 这一个用法比较灵活，直接发  `num@b.d.o` 使用 `control`指令，这个指令是添加moreinfo的意思哈。如果想取消的话：
 
@@ -256,6 +256,8 @@ Subject: Bug#1007884: bullseye-pu: package glewlwyd/2.5.2-2+deb11u2
 Control: tag -1 - moreinfo
 
 ```
+
+还可以参考[这个](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1087945)
 
 # control@g.d.o
 通过上面我们也发现，除了给特定num@bugs.debian.org发送指令外，还可以给`control@bugs.debian.org`邮箱发送指令，比如，我发现一个RFP,
