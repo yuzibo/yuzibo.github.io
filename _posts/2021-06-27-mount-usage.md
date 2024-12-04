@@ -6,6 +6,8 @@ layout: post
 * content
 {:toc}
 
+# mount 一整块img然后 copy 出一个分区 
+
 使用mount挂载img到一个目录上，需要先知道img的文件类型。
 
 ```bash
@@ -41,4 +43,7 @@ sudo mkdir /mnt/rootfs && sudo mount -o loop,offset=445644800 sd-blob.img /mnt/r
 
 https://www.linuxquestions.org/questions/linux-software-2/how-to-mount-dos-img-file-4175430554/
 
+# mount 一个外挂盘
 
+这里需要配合 `/etc/fstab` 去实现开机自动挂载的功能， 同时，由于 `fstab` 的改动会影响正常的启动， 所以需要要有一个 mount 的检查过程， 如这个链接说明的这样:
+https://blog.csdn.net/bandaoyu/article/details/123806859
