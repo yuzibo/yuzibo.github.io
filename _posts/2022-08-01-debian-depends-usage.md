@@ -1,5 +1,5 @@
 ---
-title: debian depends的用法
+title: debian depends 依赖的用法
 category: debian-riscv
 layout: post
 ---
@@ -40,3 +40,15 @@ Reverse-Depends
 * autokey-gtk
 ...
 ```
+
+# build-rdeps 
+
+该包是 `devscripts` 工具包的一部分， 具体的用法为:
+
+```bash
+build-rdeps glyphspkg
+Reverse Build-depends in testing/main:
+``` 
+
+
+See [#1095519](https://bugs.debian.org/1095519)
