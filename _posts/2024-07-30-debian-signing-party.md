@@ -38,7 +38,7 @@ $CONFIG{'email'} = 'xx@xx';
 # your fingerprint.
 #
 # Example:
-$CONFIG{'keyid'} = [ qw{954E6A70100598A2} ];
+$CONFIG{'keyid'} = [ qw{12345678} ];
 #  or, if you have more than one key:
 #   $CONFIG{'keyid'} = [ qw{0123456789ABCDEF 89ABCDEF76543210} ];
 #$CONFIG{'keyid'} = [ qw{0123456789ABCDEF 89ABCDEF76543210} ];
@@ -82,3 +82,7 @@ Regards,
 {$owner}
 EOM
 ```
+
+## usgae
+
+See the [detail](https://wiki.debian.org/caff)
