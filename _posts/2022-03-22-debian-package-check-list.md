@@ -37,9 +37,19 @@ or set up .lintianrc file with these option enabled
 
 Two kinds of lintian:
 
-1. 
+1.
 
 iirc the format was d/<bin-name>.lintian-overrides for binary packages
 
-2. source
+2.
+
+source
+
+```bash
 d/source/xx.lintian-overrides
+```
+
+Correctly format:
+```bash
+bisect-ppx source: source-contains-prebuilt-javascript-object [src/vendor/highlight.js/highlight.pack.js]
+```
