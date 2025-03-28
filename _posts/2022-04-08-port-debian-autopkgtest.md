@@ -37,7 +37,7 @@ sudo autopkgtest --apt-upgrade ./xx.dsc -- schroot sid-riscv64-sbuild
 1. $ sudo apt install debci autopkgtest lxc lxc-templates
 2. sudo adduser YOUR_USERNAME debci
 3. sudo debci setup   或者
-sudo env debci_mirror=https://mirror.iscas.ac.cn/debian debci setup(可选)
+sudo env debci_mirror=https://mirrors.tuna.tsinghua.edu.cn/debian debci setup(可选)
 # 更新源，加速
 
 ```
@@ -75,6 +75,14 @@ autopkgtest --user debci --output-dir /tmp/output-dir \
 ```bash
 sudo lxc-destory autopkgtest-unstable-riscv64
 ```
+
+4. 查看目前的 lxc chroot： 
+
+```bash
+ls /var/lib/lxc/ 
+autopkgtest-unstable-riscv64
+```
+
 # debci riscv64 status
 
 [britney's Job History ](https://ci.debian.net/user/britney/jobs?package=&trigger=&suite%5B%5D=unstable&arch%5B%5D=riscv64)
@@ -91,3 +99,9 @@ Restrictions: allow-stderr
 ## autopkgtest for experimential 
 这里有一个页面展示了 experimential 的 autopkgtest 的情况 ：
 https://release.debian.org/britney/pseudo-excuses-experimental.html
+
+## delete lxc chroot
+
+```python
+sudo lxc-destroy -n autopkgtest-unstable-riscv64
+```
