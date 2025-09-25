@@ -75,3 +75,5 @@ I want to request binNMU to support python3.11.
 ```
 
 [wiki](https://release.debian.org/wanna-build.html)
+
+[mentor](https://lists.debian.org/debian-mentors/2006/09/msg00230.html)
