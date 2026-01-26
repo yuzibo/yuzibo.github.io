@@ -91,7 +91,22 @@ ID has undefined validity. Do you really want to use the key? ([no]/yes)
 
 输入 `yes` 并且 附带 签名的密码就可以发送了.
 
+# issue
+
+如果你的环境没有对方的 pubkey 怎么办呢？ 首先找到， 可以从 Ubuntu keying server[4]
+```bash
+gpg --keyserver keyring.debian.org --recv-keys 0x2404C9546E145360
+```
+
+但是怎么退出当前要求输入 `keyid` 的循环呢？
+
+```bash
+Enter keyID for xx@debian.org:
+```
+
+答案是 使用 `Ctrl + g` 退出。
 # 参考资料
 [1](https://wooledge.org/~greg/crypto/node44.html)
 [2](https://kb.wisc.edu/iam/page.php?id=4091)
 [3](https://blog.sanctum.geek.nz/gnu-linux-crypto-email/)
+[4](https://keyserver.ubuntu.com/)
