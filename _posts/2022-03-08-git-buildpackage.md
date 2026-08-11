@@ -6,7 +6,6 @@ layout: post
 * content
 {:toc}
 
-
 根据Debian社区大佬的要求，如果想成为一个package maintainer的话，仅仅修改这个field是不够的，还必须有其他的改动。
 一开始还确实不太理解，觉得对方是在双标，然而等自己真正实践起来才发现，大佬的想法没错。如果连最基本的都操作不了，如果出了问题怎么解决？
 
@@ -264,7 +263,13 @@ sudo gbp buildpackage  --git-submodules  --git-no-pristine-tar --git-upstream-tr
 ```bash
 sudo dpkg-deb -x libjim0.81_0.81+dfsg0-1_amd64.deb /tmp/jimctl  # 解包
 sudo dpkg-gensymbols -v0.81 -plibjim -P/tmp/jimctl/ -Olibjim.symbols  # 得到符号表
-
 ```
 
+上面的信息不全, 正确的做法: 以升级 0.84 为例, 首先把原来的 `libjim0.83.symbols` 重命名为 `libjim0.84.symbols`, 接着把对应libfoo 包解析出来, 例如上面的命令, 然后使用下面的命令:
+
+```bash
+ dpkg-gensymbols -plibjim0.84-1 -P/tmp/jimtcl -Odebian/libjim0.84.symbols 
+```
+
+这样就会形成新的 symbols diff 文件了.
 https://wiki.debian.org/UsingSymbolsFiles
