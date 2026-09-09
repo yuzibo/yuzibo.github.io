@@ -219,11 +219,23 @@ owner 880676 Bo YU <tsu.yubo@gmail.com>
 
 See #880676
 
-## found bugnum version
+###  found bugnum version
 found的作用是指定版本号。
 ```bash
 bts --mutt found 1009969 2.15.0+ds1-10
 ```
+
+### notfound bugnum version
+delete one wrong version
+
+```bash
+# to control@d.b.o
+
+notfound 1147168 0.0.1904.20250204-1
+found 1147168 0.0.1971.20260904-1
+thanks
+```
+
 ## 删除某tag
 To: debian-riscv@lists.debian.org, control <control@bugs.debian.org>
 ```bash
