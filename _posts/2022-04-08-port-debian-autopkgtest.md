@@ -12,18 +12,68 @@ autopkgtest 是根据[DEP8](https://salsa.debian.org/ci-team/autopkgtest/raw/mas
 
 # debci 环境搭建
 为了与线上的环境一致，推荐使用 `debci`的方式。
-## autopkgtest-build-qemu
-使用qemu创建相关的镜像:
-```bash
-sudo autopkgtest-build-qemu unstable autopkgtest-unstable.img --mirror=https://mirror.iscas.ac.cn/debian/
-```
-`--mirror`是根据自己的情况指定相关的mirror,加快速度。那么使用的时候：
-```bash
-autopkgtest gdk-pixbuf -- qemu autopkgtest-unstable.img
-```
-其中，gdk-pixbuf是你想测试的package。
 
-[根据这个wiki](https://wiki.debian.org/ContinuousIntegration/autopkgtest)
+## incus backend
+
+从 forky , debci 开始使用 `incus-lxc` 作为 backend 了, 初次创建模板如下:
+
+```bash
+sudo debci setup --backend incus-lxc --suite unstable   
+...
+I: creating tarball...
+I: skipping output/dev as requested
+I: done
+I: removing tempdir /tmp/mmdebstrap.8O1lJ9EjHC...
+I: success in 546.2675 seconds
+Image imported with fingerprint: 51038313f0aee575616ae1919633e9fa97c0347431e44b3e52790629b105d44d
+I: testbed setup [unstable/amd64/incus-lxc]: finished at Wed Sep  9 23:43:42 HKT 2026
+```
+
+通过 id 也能找到, 然而这个 模板的名字就叫 `unstable/amd64/incus-lxc`
+
+创建完成后, 使用如下命令可以查看:
+
+```bash
+vimer@njlab144:~/debci/mia/mia-2.4.7$ sudo incus image list
++-----------------------------------+--------------+--------+----------------------------------------+--------------+-----------+-----------+----------------------+
+|               ALIAS               | FINGERPRINT  | PUBLIC |              DESCRIPTION               | ARCHITECTURE |   TYPE    |   SIZE    |     UPLOAD DATE      |
++-----------------------------------+--------------+--------+----------------------------------------+--------------+-----------+-----------+----------------------+
+| autopkgtest/debian/unstable/amd64 | 07bfb4db1bc4 | no     | Debian unstable amd64 (20260909_12:05) | x86_64       | CONTAINER | 229.90MiB | 2026/09/09 12:11 HKT |
++-----------------------------------+--------------+--------+----------------------------------------+--------------+-----------+-----------+----------------------+
+
+```
+
+删除
+
+```bash
+ sudo incus  image delete autopkgtest/debian/unstable/amd64
+
+vimer@njlab144:~/debci/mia/mia-2.4.7$ sudo incus image list
++-------+-------------+--------+-------------+--------------+------+------+-------------+
+| ALIAS | FINGERPRINT | PUBLIC | DESCRIPTION | ARCHITECTURE | TYPE | SIZE | UPLOAD DATE |
++-------+-------------+--------+-------------+--------------+------+------+-------------+
+```
+
+一般来说, 刚刚删除的 incus 模板, 假设想再次并不会立即生效, 需要 -f 
+
+```bash
+vimer@njlab144:~/debci/mia/mia-2.4.7$ sudo debci setup --backend incus-lxc --suite unstable -f 
+```
+
+running the debci:
+
+```bash
+ sudo autopkgtest   --no-built-binaries   --timeout=30600   --timeout-factor=2   --apt-upgrade   --pin-packages=unstable=src
+:libxml2   '--add-apt-source=deb-src http://mirrors.tuna.tsinghua.edu.cn/debian unstable main contrib non-free non-free-firmware d
+eb http://mirrors.tuna.tsinghua.edu.cn/debian unstable main contrib non-free non-free-firmware'   --output-dir=/tmp/mia-autopkgtes
+t   .   --   incus autopkgtest/debian/unstable/amd64 
+```
+
+
+以下信息有些过时了, 可以忽略了.
+## autopkgtest-build-qemu
+
+[wiki](https://wiki.debian.org/ContinuousIntegration/autopkgtest)
 
 ## 使用chroot
 ```bash
